@@ -22,7 +22,7 @@ const jornadas = [
     numero: '01',
     titulo: 'Experiência do cliente',
     texto:
-      'Um site com a identidade da barbearia e um agendamento direto: unidade, profissional, serviço, data, horário e confirmação.',
+      'Um site com a identidade da barbearia e um agendamento direto, sem criação de conta: unidade, profissional, serviço, data, horário e confirmação.',
     imagem: '/projects/barbearia/screenshots/03-agendamento-horarios.png',
     alt: 'Seleção de data e horário no agendamento online da plataforma para barbearias.',
   },
@@ -132,6 +132,10 @@ export default function BarbeariaPage() {
               <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
                 Site institucional, agendamento online e gestão reunidos em uma plataforma preparada
                 para receber a identidade e as regras de uma barbearia real.
+              </p>
+              <p className="tecnica mt-6 inline-flex items-center gap-3 rounded-full border border-line-strong px-4 py-2 text-paper">
+                <span aria-hidden="true" className="size-1.5 rounded-full bg-signal" />
+                O cliente agenda sem criar conta
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link

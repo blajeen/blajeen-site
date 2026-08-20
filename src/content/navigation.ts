@@ -14,7 +14,7 @@ export const barraDeNavegacao = [
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
   { rotulo: 'Produtos', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Novidades', tipo: 'link', href: ROTAS.novidades },
-  { rotulo: 'Falar com a Blajeen', tipo: 'link', href: ROTAS.contato, destaque: true },
+  { rotulo: 'Entre em contato', tipo: 'link', href: ROTAS.contato, destaque: true },
 ] as const;
 
 /** Índice da gaveta usada no mobile. */

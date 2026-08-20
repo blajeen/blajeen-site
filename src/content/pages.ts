@@ -81,7 +81,7 @@ export const contato = {
   ],
   metaTitulo: 'Contato — Blajeen Labs',
   metaDescricao:
-    'Fale com a Blajeen Labs sobre plataformas digitais, parceria, imprensa ou o laboratório.',
+    'Entre em contato com a Blajeen Labs sobre produtos digitais, parcerias, imprensa ou o laboratório.',
 } as const;
 
 export const naoEncontrado = {

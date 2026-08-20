@@ -1,14 +1,3 @@
-/*
- * Camada fixa dos adereços do laboratório.
- *
- * O mascote e o frasco acompanham a rolagem em todas as páginas: um preso no alto à direita, o
- * outro no pé à esquerda. São decoração de ambiente, então ficam atrás do conteúdo, não recebem
- * ponteiro e não entram na árvore de acessibilidade.
- *
- * Tamanhos e margens saem das mesmas variáveis, para os dois manterem proporção e alinhamento
- * iguais em qualquer largura de tela.
- */
-
 .camada {
   position: fixed;
   inset: 0;
@@ -20,15 +9,6 @@
   --adereco-base: clamp(6rem, 11vw, 11rem);
 }
 
-/*
- * Sem máscara nas figuras.
- *
- * O desvanecimento radial que havia aqui apagava a cabeça do mascote e a base do frasco, e o
- * resultado lia como recorte malfeito. As duas artes já vêm com transparência, então não existe
- * aresta dura a esconder: a discrição fica por conta da opacidade.
- */
-
-/* O alto à direita é do mascote; o header fixo ocupa a faixa acima dele. */
 .mascote {
   position: absolute;
   inset-inline-end: var(--adereco-margem);
@@ -37,70 +17,258 @@
   aspect-ratio: 801 / 900;
   opacity: 0.32;
   filter: saturate(0.8);
-  /* Espelhado para encarar o conteúdo, e não a borda da tela. */
   transform: scaleX(-1);
 }
 
-/* O frasco é a metade do mascote: mesma família, peso menor. */
-.frasco {
-  position: absolute;
-  inset-inline-start: var(--adereco-margem);
-  inset-block-end: var(--adereco-margem);
-  width: calc(var(--adereco-base) * 0.5);
-  aspect-ratio: 1224 / 1285;
-  opacity: 0.32;
-  filter: saturate(0.82);
-}
-
-.pose,
-.arte {
+.pose {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-.pose {
-  transition: opacity 110ms ease-out;
   opacity: 0;
+  transition: opacity 110ms ease-out;
 }
 
 .pose[data-visivel='true'] {
   opacity: 1;
 }
 
-.frasco[data-flutua='true'] {
-  animation: flutuar 9s ease-in-out infinite;
+/*
+ * O frasco é um easter egg funcional, então fica acima do conteúdo e oferece uma área de toque
+ * confortável. A aura e a oscilação dão vida sem disputar atenção com a navegação.
+ */
+.frasco {
+  position: fixed;
+  z-index: 45;
+  inset-inline-start: clamp(0.6rem, 1.8vw, 1.5rem);
+  inset-block-end: clamp(0.6rem, 1.8vw, 1.5rem);
+  width: clamp(4.5rem, 6.8vw, 6.5rem);
+  aspect-ratio: 560 / 613;
+  border: 0;
+  border-radius: 45%;
+  padding: 0.25rem;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 0.5rem rgb(157 255 20 / 28%));
+  transform-origin: 47% 82%;
+  transition:
+    opacity 180ms ease,
+    filter 180ms ease,
+    scale 180ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@keyframes flutuar {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1.5deg);
-  }
-  50% {
-    transform: translateY(-5%) rotate(1.5deg);
-  }
+.frasco::before {
+  content: '';
+  position: absolute;
+  inset: 21% 12% 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(162 255 19 / 23%), transparent 69%);
+  transform: scale(0.88);
+  animation: pulsoFrasco 2.8s ease-in-out infinite;
+}
+
+.frasco:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 0.85rem rgb(166 255 23 / 55%));
+  scale: 1.07;
+}
+
+.frasco:active {
+  scale: 0.93;
+}
+
+.frasco:focus-visible {
+  outline: 2px solid var(--verde-acido, #b7ff19);
+  outline-offset: 0.3rem;
+}
+
+.frasco:disabled {
+  cursor: default;
+}
+
+.arte {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.frasco[data-flutua='true'] .arte {
+  animation: frascoVivo 5.8s ease-in-out infinite;
+}
+
+.frasco[data-explodindo='true'] {
+  animation: romperFrasco 360ms cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
 }
 
 /*
- * Em telas estreitas a coluna de leitura ocupa a largura toda: os adereços encolhem e recuam
- * para não disputar espaço com o texto.
+ * A gosma nasce no canto do frasco, cresce como uma onda e cobre a viewport. As texturas são
+ * gradientes leves: não carregam outro arquivo e continuam nítidas em qualquer resolução.
  */
+.gosmaOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 76%, rgb(239 255 177 / 70%) 0 1.2%, transparent 1.8%),
+    radial-gradient(circle at 72% 32%, rgb(34 82 8 / 35%) 0 2.8%, transparent 3.5%),
+    radial-gradient(circle at 45% 64%, rgb(236 255 171 / 46%) 0 1.8%, transparent 2.5%),
+    radial-gradient(circle at 88% 82%, rgb(40 94 7 / 34%) 0 4%, transparent 4.8%),
+    linear-gradient(128deg, #9ef219 0%, #6fd20d 47%, #baff27 100%);
+  transform-origin: 5rem calc(100% - 5rem);
+  animation: inundarTela 3s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+}
+
+.gosmaOverlay::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(ellipse at 12% 18%, transparent 0 8%, rgb(47 115 8 / 34%) 8.5% 12%, transparent 12.5%),
+    radial-gradient(ellipse at 81% 24%, rgb(229 255 145 / 48%) 0 4%, transparent 4.7%),
+    radial-gradient(ellipse at 63% 83%, transparent 0 5%, rgb(49 120 8 / 30%) 5.5% 9%, transparent 9.6%);
+  mix-blend-mode: multiply;
+  animation: moverTextura 1.25s ease-in-out infinite alternate;
+}
+
+.bolhas,
+.reflexo {
+  position: absolute;
+  inset: 0;
+}
+
+.bolhas {
+  background:
+    radial-gradient(circle at 9% 55%, transparent 0 1.2rem, rgb(37 91 7 / 42%) 1.25rem 1.45rem, transparent 1.5rem),
+    radial-gradient(circle at 34% 21%, transparent 0 0.65rem, rgb(230 255 153 / 68%) 0.7rem 0.84rem, transparent 0.9rem),
+    radial-gradient(circle at 59% 58%, transparent 0 1.7rem, rgb(54 123 10 / 38%) 1.75rem 2rem, transparent 2.05rem),
+    radial-gradient(circle at 91% 37%, transparent 0 0.9rem, rgb(239 255 190 / 62%) 0.95rem 1.12rem, transparent 1.18rem);
+  animation: subirBolhas 2.4s ease-in-out both;
+}
+
+.reflexo {
+  opacity: 0.42;
+  background: linear-gradient(104deg, transparent 0 18%, rgb(255 255 255 / 55%) 22%, transparent 27% 68%, rgb(244 255 197 / 40%) 72%, transparent 77%);
+  transform: translateX(-25%);
+  animation: varrerReflexo 1.35s 400ms ease-in-out both;
+}
+
+@keyframes frascoVivo {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  35% {
+    transform: translateY(-7%) rotate(1.5deg);
+  }
+  68% {
+    transform: translateY(-3%) rotate(-0.5deg);
+  }
+}
+
+@keyframes pulsoFrasco {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes romperFrasco {
+  0% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+  42% {
+    transform: rotate(-8deg) scale(1.22);
+    filter: brightness(1.8) drop-shadow(0 0 1.2rem #baff22);
+  }
+  100% {
+    transform: rotate(14deg) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes inundarTela {
+  0% {
+    clip-path: circle(0 at 5rem calc(100% - 5rem));
+    opacity: 0;
+  }
+  9% {
+    opacity: 1;
+  }
+  24%,
+  80% {
+    clip-path: circle(165vmax at 5rem calc(100% - 5rem));
+    opacity: 0.96;
+  }
+  100% {
+    clip-path: circle(165vmax at 5rem calc(100% - 5rem));
+    opacity: 0;
+  }
+}
+
+@keyframes moverTextura {
+  to {
+    transform: translate3d(2%, -1.5%, 0) rotate(1deg);
+  }
+}
+
+@keyframes subirBolhas {
+  from {
+    transform: translateY(12%);
+  }
+  to {
+    transform: translateY(-8%);
+  }
+}
+
+@keyframes varrerReflexo {
+  to {
+    transform: translateX(28%);
+  }
+}
+
+/* Movimento desligado mantém a resposta visual, mas sem expansão ou deslocamentos bruscos. */
+.gosmaOverlay[data-movimento='false'] {
+  clip-path: none;
+  opacity: 0.9;
+  animation: none;
+}
+
+.gosmaOverlay[data-movimento='false']::before,
+.gosmaOverlay[data-movimento='false'] .bolhas,
+.gosmaOverlay[data-movimento='false'] .reflexo {
+  animation: none;
+}
+
 @media (max-width: 48rem) {
   .camada {
     --adereco-margem: 0.5rem;
     --adereco-base: 5.5rem;
   }
 
-  .mascote,
-  .frasco {
+  .mascote {
+    inset-block-start: calc(4rem + var(--adereco-margem));
     opacity: 0.18;
   }
 
-  .mascote {
-    inset-block-start: calc(4rem + var(--adereco-margem));
+  .frasco {
+    width: 4.75rem;
+    inset-inline-start: 0.4rem;
+    inset-block-end: 0.45rem;
   }
 }
 
@@ -109,7 +277,10 @@
     transition: none;
   }
 
-  .frasco[data-flutua='true'] {
+  .frasco,
+  .frasco::before,
+  .frasco[data-flutua='true'] .arte,
+  .frasco[data-explodindo='true'] {
     animation: none;
   }
 }

@@ -467,8 +467,8 @@ const navegador = await chromium.launch();
     const ler = (seletor) => {
       const no = document.querySelector(seletor);
       if (!no) return null;
-      const camada = no.parentElement;
-      const estilo = getComputedStyle(camada);
+      const alvoDoEstilo = seletor.includes('mascote') ? no.parentElement : no;
+      const estilo = getComputedStyle(alvoDoEstilo);
       const caixa = no.getBoundingClientRect();
       return {
         posicao: estilo.position,
@@ -482,12 +482,21 @@ const navegador = await chromium.launch();
     return { mascote: ler('[data-adereco="mascote"]'), frasco: ler('[data-adereco="frasco"]') };
   });
 
-  for (const [nome, dados] of Object.entries(adereços)) {
-    conferir(dados !== null, `o ${nome} não está na página`);
-    conferir(dados?.posicao === 'fixed', `o ${nome} deveria ser fixo (${dados?.posicao})`);
-    conferir(dados?.eventos === 'none', `o ${nome} não pode capturar ponteiro`);
-    conferir(dados?.z === '0', `o ${nome} deveria ficar atrás do conteúdo (z ${dados?.z})`);
-  }
+  conferir(adereços.mascote !== null, 'o mascote não está na página');
+  conferir(adereços.mascote?.posicao === 'fixed', 'a camada do mascote deveria ser fixa');
+  conferir(adereços.mascote?.eventos === 'none', 'o mascote não pode capturar ponteiro');
+  conferir(
+    adereços.mascote?.z === '0',
+    `o mascote deveria ficar atrás do conteúdo (z ${adereços.mascote?.z})`,
+  );
+
+  conferir(adereços.frasco !== null, 'o frasco não está na página');
+  conferir(adereços.frasco?.posicao === 'fixed', 'o frasco deveria ser fixo');
+  conferir(adereços.frasco?.eventos === 'auto', 'o frasco precisa aceitar clique e toque');
+  conferir(
+    adereços.frasco?.z === '45',
+    `o frasco deveria ficar acessível acima do conteúdo (z ${adereços.frasco?.z})`,
+  );
 
   // Mascote no alto à direita; frasco no pé à esquerda.
   const tela = await pagina.evaluate(() => ({ w: window.innerWidth, h: window.innerHeight }));
@@ -518,6 +527,43 @@ const navegador = await chromium.launch();
 
   await contexto.close();
   console.log('home em rolagem: quatro seções, âncora do hero e adereços fixos nos cantos certos');
+}
+
+// ---------------------------------------------------- explosão de gosma
+
+{
+  const contexto = await navegador.newContext({ viewport: { width: 1440, height: 900 } });
+  const pagina = await contexto.newPage();
+  await pagina.goto(BASE, { waitUntil: 'networkidle' });
+
+  const frasco = pagina.getByRole('button', { name: /Explodir o frasco de gosma/i });
+  conferir(await frasco.isVisible(), 'o frasco interativo não está visível');
+  await frasco.click();
+
+  const gosma = pagina.locator('[data-gosma-overlay="true"]');
+  await gosma.waitFor({ state: 'visible' });
+  conferir((await frasco.getAttribute('aria-pressed')) === 'true', 'o frasco não informou a explosão');
+
+  await pagina.waitForTimeout(900);
+  const estado = await gosma.evaluate((no) => {
+    const estilo = getComputedStyle(no);
+    const caixa = no.getBoundingClientRect();
+    return {
+      largura: Math.round(caixa.width),
+      altura: Math.round(caixa.height),
+      opacidade: Number.parseFloat(estilo.opacity),
+      ponteiro: estilo.pointerEvents,
+    };
+  });
+  conferir(estado.largura === 1440 && estado.altura === 900, 'a gosma não cobriu a viewport inteira');
+  conferir(estado.opacidade > 0.8, `a gosma ficou transparente demais (${estado.opacidade})`);
+  conferir(estado.ponteiro === 'none', 'a gosma não pode prender a interação da página');
+
+  await gosma.waitFor({ state: 'detached', timeout: 4000 });
+  conferir((await frasco.getAttribute('aria-pressed')) === 'false', 'o frasco não voltou ao repouso');
+
+  await contexto.close();
+  console.log('frasco mecânico: explode, cobre a viewport de gosma e volta após 3 segundos');
 }
 
 // -------------------------------------------------------------- skip link

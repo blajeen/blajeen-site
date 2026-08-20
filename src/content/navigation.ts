@@ -45,7 +45,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   },
   {
     indice: '05',
-    rotulo: 'Contato',
+    rotulo: 'Entre em contato',
     descricao: 'Produtos, parcerias e conversa com o estúdio.',
     href: ROTAS.contato,
   },

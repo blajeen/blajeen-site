@@ -94,6 +94,17 @@ export function SiteNav() {
                   data-destaque={'destaque' in destino ? destino.destaque : undefined}
                   aria-current={rotaAtiva(caminho, destino.href) ? 'page' : undefined}
                 >
+                  {'destaque' in destino && destino.destaque ? (
+                    <Image
+                      src="/brand/contact-envelope.png"
+                      alt=""
+                      width={384}
+                      height={288}
+                      sizes="42px"
+                      aria-hidden="true"
+                      className={styles.iconeContato}
+                    />
+                  ) : null}
                   {destino.rotulo}
                 </Link>
               </li>

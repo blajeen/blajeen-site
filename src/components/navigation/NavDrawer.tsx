@@ -53,6 +53,17 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
                       {link.descricao}
                     </span>
                   </span>
+                  {link.href === ROTAS.contato ? (
+                    <Image
+                      src="/brand/contact-envelope.png"
+                      alt=""
+                      width={384}
+                      height={288}
+                      sizes="56px"
+                      aria-hidden="true"
+                      className="ml-auto h-auto w-14 flex-none self-center drop-shadow-[0_0_8px_rgba(185,255,53,0.2)]"
+                    />
+                  ) : null}
                   {ativo ? (
                     <span className="tecnica ml-auto flex-none self-center text-signal">AQUI</span>
                   ) : null}

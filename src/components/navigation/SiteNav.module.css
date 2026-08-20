@@ -68,6 +68,22 @@
   color: var(--color-signal);
 }
 
+.iconeContato {
+  width: 2.6rem;
+  height: 1.95rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-signal) 22%, transparent));
+  transform: rotate(-3deg);
+  transition:
+    transform 180ms var(--ease-lab),
+    filter 180ms var(--ease-lab);
+}
+
+.destino[data-destaque='true']:hover .iconeContato {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-signal) 45%, transparent));
+  transform: translateY(-1px) rotate(2deg);
+}
+
 /* Sinal verde discreto sob a rota atual. */
 .destino[aria-current='page']::after {
   content: '';
@@ -183,7 +199,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .destino,
-  .seta {
+  .seta,
+  .iconeContato {
     transition: none;
   }
 }

@@ -22,8 +22,8 @@ const projetos = [
   {
     id: 'personal-estudio',
     indice: 'PROJETO 02',
-    titulo: 'Personal Studio.',
-    texto: 'Plataforma white-label para personal trainers autônomos e estúdios de treinamento.',
+    titulo: 'Plataforma para personal trainers e estúdios.',
+    texto: 'Site e aplicativo para organizar presença digital, rotina e acompanhamento.',
     href: ROTAS.personalStudio,
   },
   {

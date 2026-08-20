@@ -99,7 +99,7 @@ export const rodape = {
   ],
   projetos: [
     { rotulo: 'Barbearias — em breve', href: `${ROTAS.projetos}#barbearia` },
-    { rotulo: 'Personal Studio', href: ROTAS.personalStudio },
+    { rotulo: 'Personal trainers e estúdios — em breve', href: ROTAS.personalStudio },
     { rotulo: 'Salões de beleza — em breve', href: `${ROTAS.projetos}#salao-beleza` },
     { rotulo: 'Pet shops e banho & tosa — em breve', href: `${ROTAS.projetos}#pet-shop-tosa` },
   ],

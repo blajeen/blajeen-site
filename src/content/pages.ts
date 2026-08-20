@@ -58,7 +58,7 @@ export const contato = {
   eyebrow: 'TRANSMISSÃO',
   titulo: 'Tem algo estranho em mente?',
   introducao:
-    'Esta página é para falar com o estúdio: parceria, imprensa, uma ideia ou só curiosidade. O contato acontece por e-mail — o site não tem formulário, então nada é enviado a um servidor nem armazenado por aqui.',
+    'Esta página é para falar com o estúdio sobre um projeto, parceria, imprensa ou uma ideia. O formulário prepara a mensagem no seu aplicativo de e-mail: nada é enviado a um servidor nem armazenado pelo site.',
   /*
    * Contato e Suporte deixaram de dizer a mesma coisa.
    *
@@ -81,7 +81,7 @@ export const contato = {
   ],
   metaTitulo: 'Contato — Blajeen Labs',
   metaDescricao:
-    'Fale com a Blajeen Labs sobre parceria, imprensa ou o laboratório. Suporte de produto tem página própria.',
+    'Fale com a Blajeen Labs sobre plataformas digitais, parceria, imprensa ou o laboratório.',
 } as const;
 
 export const naoEncontrado = {

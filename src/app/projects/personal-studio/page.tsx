@@ -123,7 +123,7 @@ export default function PersonalStudioPage() {
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link
-                  href={ROTAS.contato}
+                  href={`${ROTAS.contato}?produto=personal-studio#interesse`}
                   className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
                 >
                   Quero uma versão para meu negócio
@@ -139,6 +139,10 @@ export default function PersonalStudioPage() {
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>
+              <p className="medida-texto mt-5 max-w-[58ch] text-sm leading-relaxed text-mineral">
+                <strong className="text-paper">7 dias de garantia.</strong> Dentro desse prazo, você
+                pode cancelar a contratação e solicitar a devolução do valor pago.
+              </p>
             </div>
 
             <Reveal className="lg:col-span-7">
@@ -248,7 +252,7 @@ export default function PersonalStudioPage() {
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
-                href={ROTAS.contato}
+                href={`${ROTAS.contato}?produto=personal-studio#interesse`}
                 className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
               >
                 Solicitar personalização

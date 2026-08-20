@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
+import { InterestForm } from '@/components/contact/InterestForm';
 import { Container } from '@/components/layout/Section';
 import { contato } from '@/content/pages';
 import { site } from '@/content/site';
@@ -31,6 +33,14 @@ export default function Page() {
         <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
           {contato.introducao}
         </p>
+
+        <Suspense
+          fallback={
+            <div className="mt-14 min-h-96 rounded-[var(--radius-panel)] border border-line-strong bg-raised/70" />
+          }
+        >
+          <InterestForm />
+        </Suspense>
 
         <div className="mt-16 grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">

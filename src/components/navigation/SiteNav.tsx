@@ -4,18 +4,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
+import { atalhosDeJogo, barraDeNavegacao } from '@/content/navigation';
 import { rotaAtiva } from '@/lib/routes';
 import styles from './SiteNav.module.css';
 
-const ID_SUBMENU = 'submenu-projetos';
+const ID_SUBMENU = 'submenu-jogos';
 /** Pequena espera ao sair com o ponteiro, para atravessar o vão entre botão e submenu. */
 const ATRASO_FECHAR = 140;
 
 /**
  * Barra de navegação do desktop.
  *
- * Os cinco destinos ficam à vista; "Projetos" abre os dois jogos num submenu, seguindo o padrão
+ * Os destinos ficam à vista; "Jogos" abre a lista dos jogos num submenu, seguindo o padrão
  * de menu de divulgação do WAI-ARIA. Abrir por ponteiro é conveniência: clique, teclado e `Esc`
  * fazem tudo o que o hover faz, porque nenhuma navegação do site pode depender de passar o mouse.
  */
@@ -149,7 +149,7 @@ export function SiteNav() {
               </button>
 
               <div id={ID_SUBMENU} className={styles.submenu} hidden={!aberto}>
-                {atalhosDeProjeto.map((jogo) => (
+                {atalhosDeJogo.map((jogo) => (
                   <Link
                     key={jogo.href}
                     href={jogo.href}

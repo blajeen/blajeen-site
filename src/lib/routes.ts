@@ -6,6 +6,7 @@
  */
 export const ROTAS = {
   home: '/',
+  projetos: '/projects',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { Drawer } from '@/components/overlays/Drawer';
-import { atalhosDeProjeto, navegacaoPrincipal } from '@/content/navigation';
+import { atalhosDeJogo, navegacaoPrincipal } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rotaAtiva, ROTAS } from '@/lib/routes';
 
@@ -61,9 +61,9 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
           })}
         </ul>
 
-        <p className="tecnica mt-10 text-mineral-dim">Experimentos</p>
+        <p className="tecnica mt-10 text-mineral-dim">Jogos</p>
         <ul className="mt-4 flex flex-col gap-2">
-          {atalhosDeProjeto.map((atalho) => (
+          {atalhosDeJogo.map((atalho) => (
             <li key={atalho.href}>
               <Link
                 href={atalho.href}

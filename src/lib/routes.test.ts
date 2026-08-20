@@ -26,7 +26,8 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` (18/08/2026) + as 5 do Gramelio (19/08/2026).
-    expect(TODAS_AS_ROTAS).toHaveLength(22);
+    expect(TODAS_AS_ROTAS).toHaveLength(23);
+    expect(TODAS_AS_ROTAS).toContain('/projects');
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
   });

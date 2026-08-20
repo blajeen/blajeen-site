@@ -4,7 +4,7 @@
  * Aparece a partir de 64rem, onde os cinco destinos cabem sem apertar. Abaixo disso quem navega
  * é a gaveta — cinco links mais um submenu não entram em 360 px sem virar uma fila ilegível.
  *
- * "Projetos" segue o padrão de menu de divulgação do WAI-ARIA: um botão com `aria-expanded` que
+ * "Jogos" segue o padrão de menu de divulgação do WAI-ARIA: um botão com `aria-expanded` que
  * revela a lista dos dois jogos. O ponteiro é atalho, não requisito: clique, `Enter`, `Espaço` e
  * setas abrem igual, e `Esc` fecha devolvendo o foco — o plano proíbe navegação presa ao hover.
  */

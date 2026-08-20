@@ -6,6 +6,7 @@ import { site } from '@/content/site';
 import { rodapeCopy } from '@/content/home';
 
 const grupos = [
+  { titulo: 'Jogos', links: rodape.jogos },
   { titulo: 'Projetos', links: rodape.projetos },
   { titulo: 'Estúdio', links: rodape.estudio },
   // "Excluir dados" é subgrupo de Legal: um destino por produto, sem repetir o nome do jogo.
@@ -27,7 +28,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3">
+          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
             {grupos.map((grupo) => (
               <div key={grupo.titulo}>
                 <h2 className="tecnica text-mineral-dim">{grupo.titulo}</h2>

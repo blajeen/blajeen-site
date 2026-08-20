@@ -14,7 +14,7 @@ import {
   rodapeCopy,
 } from './home';
 import { documentosLegais } from './legal';
-import { atalhosDeProjeto, rodape } from './navigation';
+import { atalhosDeJogo, rodape } from './navigation';
 import { contato, sobre } from './pages';
 import { docalio, gramelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
@@ -133,12 +133,12 @@ describe('projetos', () => {
   });
 
   it('deriva os atalhos de escolha de jogo da mesma fonte tipada dos projetos', () => {
-    expect(atalhosDeProjeto.map((atalho) => atalho.rotulo)).toEqual([
+    expect(atalhosDeJogo.map((atalho) => atalho.rotulo)).toEqual([
       'Revalio',
       'Docalio',
       'Gramelio',
     ]);
-    for (const atalho of atalhosDeProjeto) {
+    for (const atalho of atalhosDeJogo) {
       const projeto = projetos.find((item) => item.nome === atalho.rotulo);
       expect(atalho.estado).toBe(projeto?.status);
       expect(atalho.icone.src).toBe(projeto?.icone.src);

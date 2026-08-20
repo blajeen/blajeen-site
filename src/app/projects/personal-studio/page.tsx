@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
+import { ProductGallery } from '@/components/projects/ProductGallery';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -40,16 +41,36 @@ const demonstracoes = [
     imagem: '/projects/personal-studio/tela-real-area-aluno.png',
     alt: 'Captura da visão geral da área do aluno com próxima sessão, objetivo e plano.',
     legenda: 'Visão mobile real da experiência demonstrativa do aluno.',
+    largura: 430,
+    altura: 900,
   },
   {
     imagem: '/projects/personal-studio/tela-real-area-personal.png',
     alt: 'Captura do portal do personal com indicadores, agenda e alertas de alunos.',
     legenda: 'Visão desktop real do portal demonstrativo do personal.',
+    largura: 1440,
+    altura: 960,
   },
   {
     imagem: '/projects/personal-studio/tela-real-painel-gestor.png',
     alt: 'Captura do painel do gestor com sessões, alunos, profissionais, ocupação e retenção.',
     legenda: 'Visão desktop real da gestão demonstrativa do studio.',
+    largura: 1440,
+    altura: 960,
+  },
+  {
+    imagem: '/projects/personal-studio/mockup-area-aluno.png',
+    alt: 'Área do aluno do Personal Studio exibida em um smartphone.',
+    legenda: 'Área do aluno: agenda, treino, plano e evolução em uma experiência mobile.',
+    largura: 1536,
+    altura: 1024,
+  },
+  {
+    imagem: '/projects/personal-studio/mockup-area-personal.png',
+    alt: 'Portal do personal do Personal Studio exibido em um notebook.',
+    legenda: 'Portal do personal: agenda, alunos e acompanhamento reunidos em um único painel.',
+    largura: 1536,
+    altura: 1024,
   },
 ] as const;
 
@@ -188,23 +209,7 @@ export default function PersonalStudioPage() {
 
       <Section indice="04 / DEMONSTRAÇÃO" rotuladaPor="demonstracao-titulo">
         <TituloSecao id="demonstracao-titulo">Uma demonstração para explorar antes de personalizar.</TituloSecao>
-        <div className="mt-12 grid gap-5 lg:grid-cols-3 sm:mt-16">
-          {demonstracoes.map((demonstracao) => (
-            <figure key={demonstracao.imagem} className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-              <Image
-                src={demonstracao.imagem}
-                alt={demonstracao.alt}
-                width={demonstracao.imagem.includes('aluno') ? 430 : 1440}
-                height={demonstracao.imagem.includes('aluno') ? 900 : 960}
-                sizes="(min-width: 1024px) 33vw, 100vw"
-                className="h-auto w-full"
-              />
-              <figcaption className="medida-texto border-t border-line px-5 py-4 text-sm leading-relaxed text-mineral">
-                {demonstracao.legenda}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <ProductGallery slides={demonstracoes} />
         <p className="medida-texto mt-8 max-w-[68ch] text-sm leading-relaxed text-mineral-dim">
           Os dados, nomes e indicadores mostrados na demonstração são fictícios e existem apenas para apresentar o potencial da plataforma. Eles serão substituídos por informações autorizadas na versão personalizada.
         </p>

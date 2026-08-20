@@ -15,26 +15,26 @@ const projetos = [
   {
     id: 'barbearia',
     indice: 'PROJETO 01',
-    titulo: 'Site + app para barbearia.',
-    texto: 'Uma experiência digital para aproximar barbearias, agenda e clientes.',
+    titulo: 'Plataforma para barbearias.',
+    texto: 'Site e aplicativo para organizar presença digital, agenda e relacionamento com clientes.',
   },
   {
     id: 'personal-estudio',
     indice: 'PROJETO 02',
-    titulo: 'Site + app para personal ou estúdio.',
-    texto: 'Uma base digital para organizar presença, rotina e acompanhamento.',
+    titulo: 'Plataforma para personal trainers e estúdios.',
+    texto: 'Site e aplicativo para organizar presença digital, rotina e acompanhamento.',
   },
   {
     id: 'salao-beleza',
     indice: 'PROJETO 03',
-    titulo: 'Site + app para salão de beleza.',
-    texto: 'Uma experiência digital para aproximar serviços, agenda e clientes.',
+    titulo: 'Plataforma para salões de beleza.',
+    texto: 'Site e aplicativo para apresentar serviços, organizar agenda e cuidar do relacionamento com clientes.',
   },
   {
     id: 'pet-shop-tosa',
     indice: 'PROJETO 04',
-    titulo: 'Site + app para pet shop e tosa.',
-    texto: 'Uma base digital para organizar cuidados, horários e clientes de quatro patas.',
+    titulo: 'Plataforma para pet shops e banho & tosa.',
+    texto: 'Site e aplicativo para organizar serviços, horários e cuidados de cada pet.',
   },
 ] as const;
 

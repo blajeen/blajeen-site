@@ -98,10 +98,10 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
   ],
   projetos: [
-    { rotulo: 'Barbearia — em breve', href: `${ROTAS.projetos}#barbearia` },
-    { rotulo: 'Personal / Estúdio — em breve', href: `${ROTAS.projetos}#personal-estudio` },
-    { rotulo: 'Salão de beleza — em breve', href: `${ROTAS.projetos}#salao-beleza` },
-    { rotulo: 'Pet shop e tosa — em breve', href: `${ROTAS.projetos}#pet-shop-tosa` },
+    { rotulo: 'Barbearias — em breve', href: `${ROTAS.projetos}#barbearia` },
+    { rotulo: 'Personal trainers e estúdios — em breve', href: `${ROTAS.projetos}#personal-estudio` },
+    { rotulo: 'Salões de beleza — em breve', href: `${ROTAS.projetos}#salao-beleza` },
+    { rotulo: 'Pet shops e banho & tosa — em breve', href: `${ROTAS.projetos}#pet-shop-tosa` },
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },

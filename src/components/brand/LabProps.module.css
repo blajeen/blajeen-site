@@ -117,17 +117,24 @@
   z-index: 200;
   pointer-events: none;
   overflow: hidden;
+  animation: inundarTela 4.5s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+}
+
+.gosmaSuperficie {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.78;
   background:
     radial-gradient(circle at 18% 76%, rgb(239 255 177 / 70%) 0 1.2%, transparent 1.8%),
     radial-gradient(circle at 72% 32%, rgb(34 82 8 / 35%) 0 2.8%, transparent 3.5%),
     radial-gradient(circle at 45% 64%, rgb(236 255 171 / 46%) 0 1.8%, transparent 2.5%),
     radial-gradient(circle at 88% 82%, rgb(40 94 7 / 34%) 0 4%, transparent 4.8%),
     linear-gradient(128deg, #9ef219 0%, #6fd20d 47%, #baff27 100%);
-  transform-origin: 5rem calc(100% - 5rem);
-  animation: inundarTela 3s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+  animation: limparGosma 4.5s linear both;
 }
 
-.gosmaOverlay::before {
+.gosmaSuperficie::before {
   content: '';
   position: absolute;
   inset: -12%;
@@ -150,8 +157,14 @@
     radial-gradient(circle at 9% 55%, transparent 0 1.2rem, rgb(37 91 7 / 42%) 1.25rem 1.45rem, transparent 1.5rem),
     radial-gradient(circle at 34% 21%, transparent 0 0.65rem, rgb(230 255 153 / 68%) 0.7rem 0.84rem, transparent 0.9rem),
     radial-gradient(circle at 59% 58%, transparent 0 1.7rem, rgb(54 123 10 / 38%) 1.75rem 2rem, transparent 2.05rem),
-    radial-gradient(circle at 91% 37%, transparent 0 0.9rem, rgb(239 255 190 / 62%) 0.95rem 1.12rem, transparent 1.18rem);
-  animation: subirBolhas 2.4s ease-in-out both;
+    radial-gradient(circle at 91% 37%, transparent 0 0.9rem, rgb(239 255 190 / 62%) 0.95rem 1.12rem, transparent 1.18rem),
+    radial-gradient(circle at 17% 14%, transparent 0 0.42rem, rgb(42 105 7 / 48%) 0.48rem 0.62rem, transparent 0.68rem),
+    radial-gradient(circle at 25% 83%, transparent 0 0.78rem, rgb(238 255 180 / 66%) 0.84rem 1rem, transparent 1.06rem),
+    radial-gradient(circle at 47% 39%, transparent 0 0.34rem, rgb(43 104 8 / 50%) 0.4rem 0.55rem, transparent 0.61rem),
+    radial-gradient(circle at 68% 12%, transparent 0 1rem, rgb(235 255 169 / 58%) 1.06rem 1.25rem, transparent 1.31rem),
+    radial-gradient(circle at 76% 72%, transparent 0 0.52rem, rgb(42 98 8 / 45%) 0.58rem 0.73rem, transparent 0.79rem),
+    radial-gradient(circle at 96% 91%, transparent 0 1.35rem, rgb(230 255 147 / 56%) 1.42rem 1.64rem, transparent 1.71rem);
+  animation: subirBolhas 3.6s ease-in-out both;
 }
 
 .reflexo {
@@ -204,19 +217,20 @@
 @keyframes inundarTela {
   0% {
     clip-path: circle(0 at 5rem calc(100% - 5rem));
-    opacity: 0;
   }
-  9% {
-    opacity: 1;
-  }
-  24%,
-  80% {
-    clip-path: circle(165vmax at 5rem calc(100% - 5rem));
-    opacity: 0.96;
-  }
+  13.333%,
   100% {
     clip-path: circle(165vmax at 5rem calc(100% - 5rem));
-    opacity: 0;
+  }
+}
+
+@keyframes limparGosma {
+  0%,
+  80% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(100% 0 0 0);
   }
 }
 
@@ -244,11 +258,11 @@
 /* Movimento desligado mantém a resposta visual, mas sem expansão ou deslocamentos bruscos. */
 .gosmaOverlay[data-movimento='false'] {
   clip-path: none;
-  opacity: 0.9;
   animation: none;
 }
 
-.gosmaOverlay[data-movimento='false']::before,
+.gosmaOverlay[data-movimento='false'] .gosmaSuperficie,
+.gosmaOverlay[data-movimento='false'] .gosmaSuperficie::before,
 .gosmaOverlay[data-movimento='false'] .bolhas,
 .gosmaOverlay[data-movimento='false'] .reflexo {
   animation: none;

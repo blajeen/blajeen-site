@@ -547,23 +547,36 @@ const navegador = await chromium.launch();
   await pagina.waitForTimeout(900);
   const estado = await gosma.evaluate((no) => {
     const estilo = getComputedStyle(no);
+    const superficie = no.querySelector('[data-gosma-superficie="true"]');
     const caixa = no.getBoundingClientRect();
     return {
       largura: Math.round(caixa.width),
       altura: Math.round(caixa.height),
-      opacidade: Number.parseFloat(estilo.opacity),
+      opacidade: superficie ? Number.parseFloat(getComputedStyle(superficie).opacity) : 0,
       ponteiro: estilo.pointerEvents,
     };
   });
   conferir(estado.largura === 1440 && estado.altura === 900, 'a gosma não cobriu a viewport inteira');
-  conferir(estado.opacidade > 0.8, `a gosma ficou transparente demais (${estado.opacidade})`);
+  conferir(
+    estado.opacidade >= 0.7 && estado.opacidade <= 0.85,
+    `a transparência da gosma saiu da faixa planejada (${estado.opacidade})`,
+  );
   conferir(estado.ponteiro === 'none', 'a gosma não pode prender a interação da página');
 
-  await gosma.waitFor({ state: 'detached', timeout: 4000 });
+  await pagina.waitForTimeout(3000);
+  const recorteFinal = await pagina.locator('[data-gosma-superficie="true"]').evaluate((no) =>
+    getComputedStyle(no).clipPath,
+  );
+  conferir(
+    recorteFinal.startsWith('inset(') && recorteFinal !== 'inset(0px)',
+    `a gosma não começou a desaparecer de cima para baixo (${recorteFinal})`,
+  );
+
+  await gosma.waitFor({ state: 'detached', timeout: 2000 });
   conferir((await frasco.getAttribute('aria-pressed')) === 'false', 'o frasco não voltou ao repouso');
 
   await contexto.close();
-  console.log('frasco mecânico: explode, cobre a viewport de gosma e volta após 3 segundos');
+  console.log('frasco mecânico: explode, segura a gosma por 3 segundos e limpa de cima para baixo');
 }
 
 // -------------------------------------------------------------- skip link

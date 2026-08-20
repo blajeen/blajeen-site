@@ -1,0 +1,290 @@
+/*
+ * Logo viva BLAJEEN.
+ *
+ * Toda a geometria é expressa em `em`, então a marca inteira escala pelo `font-size` do
+ * contêiner. O SVG de cada `E` mantém a proporção da letra independentemente do carregamento
+ * da fonte, o que evita deslocamento de layout e preserva a leitura de "BLAJEEN".
+ *
+ * Limites obrigatórios (docs/PLANO_MESTRE_DO_SITE.md §3):
+ * - pupila com deslocamento percebido <= 6 px, amortecido;
+ * - gosma entre 8% e 12% da altura visual da marca;
+ * - pingos não se desprendem, não espirram e não escorrem pela página;
+ * - com movimento reduzido, olhos e gosma ficam completamente estáticos.
+ */
+
+.marca {
+  display: inline-block;
+  color: var(--color-paper);
+  line-height: 1;
+}
+
+/*
+ * Alinhamento.
+ *
+ * Os olhos são ancorados na linha de base, não na caixa de linha: a base do SVG é a baseline
+ * do item flex, e sua altura é exatamente `1cap`. Assim o topo do `E` coincide com o topo das
+ * maiúsculas e a base coincide com o pé das letras, sem depender de ascent/descent da fonte.
+ * Com `line-height: 0.7` quem define a baseline da linha é o SVG, então ela fica a `1cap` do
+ * topo — é dessa constante que a gosma se pendura.
+ */
+.linhaMarca {
+  position: relative;
+  padding-bottom: 0.11em;
+  /* A gosma fica atrás das letras: elas se apoiam nela, não o contrário. */
+  isolation: isolate;
+}
+
+.letras {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 0.7;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+/* Compensa o tracking negativo na última letra para o bloco não ficar deslocado. */
+.letras > span:last-child {
+  margin-right: -0.045em;
+}
+
+.olho {
+  display: block;
+  height: 1cap;
+  width: calc(1cap * 57 / 73);
+  /* Aproxima o E do vizinho como o tracking faria com texto real. */
+  margin-inline: 0.014em -0.03em;
+  overflow: visible;
+  flex: none;
+}
+
+/* Navegadores sem a unidade `cap` usam a cap height medida da Inter vendorizada. */
+@supports not (height: 1cap) {
+  .olho {
+    height: 0.734em;
+    width: calc(0.734em * 57 / 73);
+  }
+}
+
+.corpo {
+  fill: currentColor;
+}
+
+.pupila {
+  fill: var(--color-signal);
+  /* Deslocamento definido em JS, já amortecido, em unidades do viewBox (1000 = 1em). */
+  transform: translate(var(--olho-x, 0px), var(--olho-y, 0px));
+  transition: transform 120ms linear;
+}
+
+.brilhoPupila {
+  fill: var(--color-glow);
+  opacity: 0.55;
+  transform: translate(var(--olho-x, 0px), var(--olho-y, 0px));
+  transition: transform 120ms linear;
+}
+
+/*
+ * A pálpebra fecha sobre o alvéolo sem mover nenhuma haste do `E`:
+ * a letra nunca se deforma, e o piscar continua legível como piscar.
+ */
+.palpebra {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 130ms var(--ease-lab);
+}
+
+.olho[data-piscando='true'] .palpebra {
+  transform: scaleY(1);
+  transition-duration: 90ms;
+}
+
+/* ---------------------------------------------------------------- gosma */
+
+/*
+ * Gosma.
+ *
+ * Pendurada na linha de base (`1cap` a partir do topo da linha da marca) e limitada a ~12% da
+ * cap height, contando corpo e o pingo mais longo. Fica no plano de trás: as letras se apoiam
+ * nela. O verde é tratado como material molhado — claro no topo, escuro por baixo — e não como
+ * néon chapado.
+ */
+.gosma {
+  position: absolute;
+  z-index: 1;
+  left: 1%;
+  right: 1%;
+  top: calc(1cap - 0.012em);
+  height: 0.09em;
+  pointer-events: none;
+  filter: drop-shadow(0 0.01em 0.014em rgba(0, 0, 0, 0.8))
+    drop-shadow(0 0.004em 0.024em rgba(140, 200, 30, 0.2));
+}
+
+@supports not (top: 1cap) {
+  .gosma {
+    top: 0.722em;
+  }
+}
+
+.gosmaCorpo {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.058em;
+  background:
+    linear-gradient(180deg, #eeffae 0%, #cffb55 22%, #a9e526 48%, #6d9a12 82%, #47660a 100%);
+  border-radius: 0.034em 0.034em 0.014em 0.014em / 0.018em 0.018em 0.034em 0.034em;
+  /*
+   * Poucas ondulações, mas profundas: a massa acumula em alguns pontos e afina em outros.
+   * Muitas ondulações rasas voltariam a parecer uma barra com serrilha.
+   */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 52%,
+    93% 96%,
+    85% 58%,
+    76% 100%,
+    66% 62%,
+    56% 92%,
+    46% 44%,
+    36% 88%,
+    26% 54%,
+    16% 100%,
+    8% 62%,
+    0 84%
+  );
+}
+
+/* Reflexo úmido logo abaixo do pé das letras. */
+.gosmaBrilho {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 0.007em;
+  height: 0.009em;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(250, 255, 226, 0.82) 18%,
+    rgba(250, 255, 226, 0.5) 54%,
+    rgba(250, 255, 226, 0.78) 82%,
+    transparent
+  );
+  filter: blur(0.003em);
+}
+
+.pingo {
+  position: absolute;
+  top: 0.042em;
+  width: 0.034em;
+  background: linear-gradient(180deg, #c2f43a 0%, #a9e024 45%, #7cae13 100%);
+  border-radius: 0 0 40% 40%;
+  transform-origin: 50% 0;
+  animation: escorrer 7.4s ease-in-out infinite;
+}
+
+/* A ponta arredondada faz parte do pingo: nada se desprende, espirra ou escorre pela página. */
+.pingo::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -0.009em;
+  width: 0.034em;
+  height: 0.034em;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #e2ff8c 0%, #a9e024 46%, #6f9c11 100%);
+  transform: translateX(-50%);
+}
+
+/*
+ * Poucos pingos, de comprimentos diferentes.
+ * `nth-of-type` e não `nth-child`: o corpo e o brilho da gosma são os dois primeiros filhos.
+ */
+.pingo:nth-of-type(1) {
+  left: 13%;
+  height: 0.018em;
+  animation-delay: -1.6s;
+}
+.pingo:nth-of-type(2) {
+  left: 37%;
+  height: 0.044em;
+  animation-delay: -4.4s;
+}
+.pingo:nth-of-type(3) {
+  left: 62%;
+  height: 0.014em;
+  animation-delay: -2.9s;
+}
+.pingo:nth-of-type(4) {
+  left: 84%;
+  height: 0.031em;
+  animation-delay: -6.1s;
+}
+
+@keyframes escorrer {
+  0%,
+  100% {
+    transform: scaleY(0.86);
+  }
+  46% {
+    transform: scaleY(1.08);
+  }
+  70% {
+    transform: scaleY(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pingo {
+    animation: none;
+    transform: scaleY(1);
+  }
+  .palpebra,
+  .pupila,
+  .brilhoPupila {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------- LABS */
+
+.qualificador {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.4rem);
+  margin: 0.19em auto 0;
+  width: min(22em, 58%);
+}
+
+.qualificador span {
+  flex: 1;
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.qualificador strong {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.075em;
+  letter-spacing: 0.62em;
+  text-indent: 0.62em;
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------- variação reduzida */
+
+.marca[data-variante='reduzida'] .linhaMarca {
+  padding-bottom: 0;
+}
+
+.marca[data-variante='reduzida'] .letras {
+  letter-spacing: -0.03em;
+}

@@ -1,0 +1,17 @@
+# Perfis de Chrome deixados por renderizações antigas do protótipo.
+.chrome-logo-render/
+.chrome-simple-render/
+
+# Saídas de QA local: capturas e recortes de conferência.
+.qa-shots/
+.qa-banner/
+
+# Masters do mascote e dos ícones. O build não os lê: `npm run build:assets` já gerou
+# as versões servidas em `public/`. Reprocessar é tarefa local, não de deploy.
+Icones/
+
+# Protótipo estático de referência na raiz — preservado no repositório, fora do deploy.
+index.html
+styles.css
+script.js
+favicon.svg

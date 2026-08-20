@@ -1,0 +1,63 @@
+/*
+ * Logo BLAJEEN LABS renderizada.
+ *
+ * A arte já traz os dois `E` como lentes acesas e a gosma escorrendo pela base. O que o site
+ * acrescenta é a vida: as lentes apagam por um instante, no mesmo ritmo do mascote, como quem
+ * pisca. É uma sobreposição — a arte nunca é alterada.
+ */
+
+.logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+
+.arte {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+ * Posição das lentes, medida na própria arte (2164 × 727) e expressa em percentual, para
+ * acompanhar qualquer largura de exibição. Ver `tools/check-logo.mjs`.
+ */
+.lente {
+  position: absolute;
+  top: 37%;
+  width: 6.1%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  /* Apaga a lente sem virar um disco preto chapado: o miolo escurece e a borda some. */
+  background: radial-gradient(
+    circle,
+    #0c1105 0%,
+    #121a07 52%,
+    rgba(18, 26, 7, 0.55) 78%,
+    rgba(18, 26, 7, 0) 100%
+  );
+  transition: opacity 90ms ease-out;
+}
+
+.lente[data-lado='esquerda'] {
+  left: 66.4%;
+}
+
+.lente[data-lado='direita'] {
+  left: 78.95%;
+}
+
+.logo[data-piscando='true'] .lente {
+  opacity: 0.92;
+  transition-duration: 60ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lente {
+    transition: none;
+  }
+}

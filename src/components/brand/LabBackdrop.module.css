@@ -1,0 +1,50 @@
+/*
+ * Camada de fundo do laboratório.
+ *
+ * A arte fica atrás dos textos descritivos para dar personalidade — e por isso é ela que precisa
+ * ceder, nunca a leitura.
+ *
+ * Antes ela usava `contain` e ficava encostada numa das bordas: o resultado era uma ilustração
+ * solta ao lado do texto, não um fundo. Agora ela cobre a seção inteira e passa por trás do
+ * texto, que é o que se espera de um fundo. Como isso coloca pixels claros sob as linhas, a
+ * segurança vem de outro lugar: `brightness` derruba os verdes acesos, a opacidade é baixa e o
+ * limite foi calibrado por medição, não por gosto.
+ *
+ * `tools/check-contraste.mjs` mede o pixel mais claro atrás de cada linha e reprova abaixo de AA.
+ * Mexer nos números abaixo sem rodar `npm run qa:contraste` é como o texto vira ilegível.
+ */
+
+.fundo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.arte {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  opacity: 0.14;
+  filter: brightness(0.42) saturate(0.8) contrast(0.9);
+  /* Desvanece no alto e no pé para a arte não cortar seco na emenda entre seções. */
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+/* À esquerda a arte é espelhada, para as seções não repetirem a mesma silhueta. */
+.fundo[data-lado='esquerda'] .arte {
+  object-position: center left;
+  transform: scaleX(-1);
+}
+
+@media (max-width: 48rem) {
+  .arte {
+    /* No mobile o texto ocupa a largura toda, então a arte recua mais. */
+    opacity: 0.1;
+  }
+}

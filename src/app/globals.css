@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+/*
+ * Tokens do sistema premium — docs/PLANO_MESTRE_DO_SITE.md §3.
+ * O verde ácido é sinal, não superfície: ele fica limitado a 5–8% da composição.
+ */
+@theme {
+  --color-ink: #090a08;
+  --color-surface: #11130f;
+  --color-raised: #171a15;
+  --color-paper: #e7e7df;
+  --color-mineral: #9a9d93;
+  /*
+   * A linha técnica usa 11 px, então precisa de 4,5:1. Este valor entrega 5,6:1 sobre `ink`,
+   * 5,3:1 sobre `surface` e 4,9:1 sobre `raised` — AA em todas as superfícies do sistema.
+   */
+  --color-mineral-dim: #85897e;
+  --color-signal: #c9ff3d;
+  --color-glow: #e6ff9a;
+  --color-steel: #30352d;
+
+  --color-line: rgba(231, 231, 223, 0.08);
+  --color-line-strong: rgba(231, 231, 223, 0.16);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-tech), ui-monospace, monospace;
+
+  --radius-panel: 28px;
+  --radius-control: 16px;
+
+  --ease-lab: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-panel: 0 40px 90px -50px rgba(0, 0, 0, 0.9), 0 0 60px -40px rgba(201, 255, 61, 0.18);
+  --shadow-raised: 0 24px 60px -40px rgba(0, 0, 0, 0.85);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    /* Posição do ponteiro, usada por halo ambiental e pupilas. */
+    --pointer-x: 50vw;
+    --pointer-y: 40vh;
+    /* Margem lateral editorial: 20–24 px no mobile, 48–96 px no desktop. */
+    --gutter: clamp(1.25rem, 5vw, 6rem);
+    /*
+     * Ritmo vertical entre seções.
+     *
+     * Compactado a pedido do titular: a home ficara longa demais. O espaço editorial continua,
+     * mas em 56–104 px no mobile e até 112 px no desktop, em vez de 180.
+     */
+    --section-gap: clamp(2.75rem, 5.5vw, 5.5rem);
+  }
+
+  html {
+    background-color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Foco sempre visível, inclusive sobre superfícies claras. */
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.035em;
+    font-weight: 500;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /*
+   * Os adereços fixos ficam em `z-index: 0`, acima do fundo da página e abaixo de tudo o que se
+   * lê. Sem esta regra, o header, o conteúdo e o rodapé disputariam a mesma camada com eles.
+   */
+  body > header,
+  body > main,
+  body > footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Bloqueio de scroll sem salto de layout enquanto uma camada modal está aberta. */
+  body[data-scroll-locked='true'] {
+    overflow: hidden;
+    padding-right: var(--scrollbar-gap, 0px);
+  }
+
+  [inert] {
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .tecnica {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .medida-texto {
+    max-width: 34rem; /* ~60–70 caracteres por linha */
+  }
+
+  /* Linha técnica que termina antes da borda — sensação de objeto projetado. */
+  .regua::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-line-strong), transparent 82%);
+  }
+
+  .alvo-toque {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/*
+ * Movimento.
+ *
+ * Duas chaves independentes desligam animação: a preferência do sistema
+ * (`prefers-reduced-motion`) e o botão MOTION do rodapé (`data-motion="off"` no <html>).
+ * Nenhuma animação é essencial à compreensão do conteúdo.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion='off'] *,
+html[data-motion='off'] *::before,
+html[data-motion='off'] *::after {
+  animation-play-state: paused !important;
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}

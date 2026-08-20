@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 210" role="img" aria-labelledby="title desc">
+  <title id="title">Blajeen Labs</title>
+  <desc id="desc">Lockup para banners com os dois E representados como olhos.</desc>
+  <g fill="#f2f2eb">
+    <text x="18" y="126" font-family="Inter, Arial, sans-serif" font-size="132" font-weight="700" letter-spacing="-10">BLAJ</text>
+    <g transform="translate(360 27)">
+      <rect x="0" y="0" width="15" height="104" rx="2"/>
+      <rect x="0" y="0" width="82" height="14" rx="2"/>
+      <rect x="0" y="45" width="70" height="14" rx="2"/>
+      <rect x="0" y="90" width="82" height="14" rx="2"/>
+      <circle cx="47" cy="36" r="14" fill="#c9ff3d"/>
+      <circle cx="47" cy="36" r="4.5" fill="#f7ffe4"/>
+    </g>
+    <g transform="translate(462 27)">
+      <rect x="0" y="0" width="15" height="104" rx="2"/>
+      <rect x="0" y="0" width="82" height="14" rx="2"/>
+      <rect x="0" y="45" width="70" height="14" rx="2"/>
+      <rect x="0" y="90" width="82" height="14" rx="2"/>
+      <circle cx="47" cy="36" r="14" fill="#c9ff3d"/>
+      <circle cx="47" cy="36" r="4.5" fill="#f7ffe4"/>
+    </g>
+    <text x="557" y="126" font-family="Inter, Arial, sans-serif" font-size="132" font-weight="700" letter-spacing="-8">N</text>
+  </g>
+  <line x1="22" y1="165" x2="335" y2="165" stroke="#e7e7df" stroke-opacity=".9" stroke-width="8"/>
+  <line x1="585" y1="165" x2="898" y2="165" stroke="#e7e7df" stroke-opacity=".9" stroke-width="8"/>
+  <text x="460" y="181" fill="#f2f2eb" font-family="DM Mono, Consolas, monospace" font-size="34" font-weight="600" text-anchor="middle" letter-spacing="18">LABS</text>
+</svg>

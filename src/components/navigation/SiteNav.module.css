@@ -1,0 +1,166 @@
+/*
+ * Barra de navegação do desktop.
+ *
+ * Aparece a partir de 64rem, onde os cinco destinos cabem sem apertar. Abaixo disso quem navega
+ * é a gaveta — cinco links mais um submenu não entram em 360 px sem virar uma fila ilegível.
+ *
+ * "Projetos" segue o padrão de menu de divulgação do WAI-ARIA: um botão com `aria-expanded` que
+ * revela a lista dos dois jogos. O ponteiro é atalho, não requisito: clique, `Enter`, `Espaço` e
+ * setas abrem igual, e `Esc` fecha devolvendo o foco — o plano proíbe navegação presa ao hover.
+ */
+
+.barra {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .barra {
+    display: block;
+  }
+}
+
+.lista {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.item {
+  position: relative;
+}
+
+.destino {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding-inline: 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-mineral);
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 150ms var(--ease-lab), background-color 150ms var(--ease-lab);
+}
+
+.destino:hover {
+  color: var(--color-paper);
+  background: color-mix(in srgb, var(--color-raised) 75%, transparent);
+}
+
+.destino[aria-current='page'] {
+  color: var(--color-paper);
+}
+
+/* Sinal verde discreto sob a rota atual. */
+.destino[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0.9rem;
+  bottom: 0.35rem;
+  height: 1px;
+  background: var(--color-signal);
+}
+
+.seta {
+  font-size: 0.6rem;
+  color: var(--color-mineral-dim);
+  transition: transform 200ms var(--ease-lab);
+}
+
+.destino[aria-expanded='true'] {
+  color: var(--color-paper);
+  background: color-mix(in srgb, var(--color-raised) 75%, transparent);
+}
+
+.destino[aria-expanded='true'] .seta {
+  transform: rotate(180deg);
+}
+
+/* ------------------------------------------------------------- submenu */
+
+.submenu {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 0.6rem);
+  inset-inline-start: 0;
+  width: 20rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-panel);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.submenu[hidden] {
+  display: none;
+}
+
+.jogo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.6rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 150ms var(--ease-lab);
+}
+
+.jogo:hover {
+  background: var(--color-raised);
+}
+
+.icone {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-line);
+}
+
+.nome {
+  display: block;
+  color: var(--color-paper);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.estado {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: var(--color-mineral);
+}
+
+.ponto {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-signal);
+  box-shadow: 0 0 8px var(--color-signal);
+}
+
+.avanco {
+  margin-inline-start: auto;
+  color: var(--color-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destino,
+  .seta {
+    transition: none;
+  }
+}

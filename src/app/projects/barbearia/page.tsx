@@ -130,8 +130,8 @@ export default function BarbeariaPage() {
                 Sua barbearia. Sua marca. Uma operação conectada.
               </h1>
               <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
-                Site institucional, agendamento online e gestão reunidos em uma plataforma preparada
-                para receber a identidade e as regras de uma barbearia real.
+                Site institucional, agendamento online e gestão reunidos em uma plataforma adaptada
+                às necessidades, à identidade e às regras de uma barbearia real.
               </p>
               <p className="tecnica mt-6 inline-flex items-center gap-3 rounded-full border border-line-strong px-4 py-2 text-paper">
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-signal" />

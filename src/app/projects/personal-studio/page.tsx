@@ -119,7 +119,8 @@ export default function PersonalStudioPage() {
                 Seu negócio fitness. Sua marca. Uma plataforma completa.
               </h1>
               <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
-                O Personal Studio reúne presença digital, experiência do aluno e gestão da operação em um produto pronto para receber a identidade e as regras do seu negócio.
+                O Personal Studio reúne presença digital, experiência do aluno e gestão da operação
+                em um produto adaptado às necessidades, à identidade e às regras do seu negócio.
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link

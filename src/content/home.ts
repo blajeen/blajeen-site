@@ -16,7 +16,7 @@ export const laboratorio = {
   titulo: 'Ideias autorais, construídas até virarem produto.',
   paragrafos: [
     'A Blajeen Labs é um estúdio independente de software. Criamos jogos e produtos digitais próprios, da primeira pergunta à experiência que chega às pessoas.',
-    'Cada projeto nasce pequeno, é testado no mundo real e evolui com aquilo que aprendemos no caminho.',
+    'Cada projeto nasce pequeno, é testado no mundo real e evolui com aquilo que aprendemos no caminho. Nos produtos para negócios, essa evolução também considera as necessidades, a identidade e as regras de cada operação.',
   ],
   linhaTecnica: 'PERGUNTA → PROTÓTIPO → PRODUTO → APRENDIZADO',
 } as const;

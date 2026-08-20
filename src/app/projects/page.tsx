@@ -74,8 +74,8 @@ export default function ProjetosPage() {
               Produtos digitais para negócios que vivem de agenda.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Bases funcionais criadas pela Blajeen Labs e adaptadas à identidade, às regras e à
-              rotina de cada operação.
+              Bases funcionais criadas pela Blajeen Labs e adaptadas às necessidades, à identidade,
+              às regras e à rotina de cada operação.
             </p>
           </div>
         </Container>

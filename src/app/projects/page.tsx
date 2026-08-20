@@ -24,6 +24,18 @@ const projetos = [
     titulo: 'Site + app para personal ou estúdio.',
     texto: 'Uma base digital para organizar presença, rotina e acompanhamento.',
   },
+  {
+    id: 'salao-beleza',
+    indice: 'PROJETO 03',
+    titulo: 'Site + app para salão de beleza.',
+    texto: 'Uma experiência digital para aproximar serviços, agenda e clientes.',
+  },
+  {
+    id: 'pet-shop-tosa',
+    indice: 'PROJETO 04',
+    titulo: 'Site + app para pet shop e tosa.',
+    texto: 'Uma base digital para organizar cuidados, horários e clientes de quatro patas.',
+  },
 ] as const;
 
 export default function ProjetosPage() {

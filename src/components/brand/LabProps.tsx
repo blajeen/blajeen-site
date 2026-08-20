@@ -8,13 +8,13 @@ import styles from './LabProps.module.css';
 
 const MASCOTE = { largura: 801, altura: 900 };
 const FRASCO = { largura: 560, altura: 613 };
-const DURACAO_DA_GOSMA = 4500;
+const DURACAO_DA_GOSMA = 5000;
 
 /**
  * Adereços fixos do laboratório.
  *
  * O mascote continua sendo apenas ambientação. O frasco, por outro lado, é um pequeno segredo
- * interativo da marca: ao ser acionado, rompe, cobre a tela de gosma por três segundos e escorre.
+ * interativo da marca: ao ser acionado, rompe, cobre a tela e depois puxa a gosma de volta.
  */
 export function LabProps() {
   const { ativo } = useMotion();
@@ -104,6 +104,7 @@ export function LabProps() {
           aria-hidden="true"
         >
           <div className={styles.gosmaSuperficie} data-gosma-superficie="true">
+            <span className={styles.formasIrregulares} />
             <span className={styles.bolhas} />
             <span className={styles.reflexo} />
           </div>

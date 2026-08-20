@@ -564,19 +564,26 @@ const navegador = await chromium.launch();
   conferir(estado.ponteiro === 'none', 'a gosma não pode prender a interação da página');
 
   await pagina.waitForTimeout(3000);
-  const recorteFinal = await pagina.locator('[data-gosma-superficie="true"]').evaluate((no) =>
-    getComputedStyle(no).clipPath,
-  );
+  const retorno = await gosma.evaluate((no) => {
+    const estilo = getComputedStyle(no);
+    return {
+      mascara: estilo.maskImage,
+      massaNoVial: Number.parseFloat(estilo.getPropertyValue('--massa-1')),
+      massaDistante: Number.parseFloat(estilo.getPropertyValue('--massa-6')),
+    };
+  });
   conferir(
-    recorteFinal.startsWith('inset(') && recorteFinal !== 'inset(0px)',
-    `a gosma não começou a desaparecer de cima para baixo (${recorteFinal})`,
+    retorno.mascara.includes('radial-gradient') &&
+      retorno.massaNoVial > retorno.massaDistante &&
+      retorno.massaDistante > 0,
+    `as massas de gosma não estão convergindo em direção ao frasco (${JSON.stringify(retorno)})`,
   );
 
   await gosma.waitFor({ state: 'detached', timeout: 2000 });
   conferir((await frasco.getAttribute('aria-pressed')) === 'false', 'o frasco não voltou ao repouso');
 
   await contexto.close();
-  console.log('frasco mecânico: explode, segura a gosma por 3 segundos e limpa de cima para baixo');
+  console.log('frasco mecânico: espalha a gosma, segura por 3 segundos e puxa de volta ao vial');
 }
 
 // -------------------------------------------------------------- skip link

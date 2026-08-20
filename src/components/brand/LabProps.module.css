@@ -107,6 +107,42 @@
   animation: romperFrasco 360ms cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
 }
 
+@property --massa-1 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
+@property --massa-2 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
+@property --massa-3 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
+@property --massa-4 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
+@property --massa-5 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
+@property --massa-6 {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0vmax;
+}
+
 /*
  * A gosma nasce no canto do frasco, cresce como uma onda e cobre a viewport. As texturas são
  * gradientes leves: não carregam outro arquivo e continuam nítidas em qualquer resolução.
@@ -117,7 +153,17 @@
   z-index: 200;
   pointer-events: none;
   overflow: hidden;
-  animation: inundarTela 4.5s cubic-bezier(0.22, 0.8, 0.25, 1) both;
+  --origem-x: 4.7rem;
+  --origem-y: calc(100% - 4.7rem);
+  mask-image:
+    radial-gradient(circle at var(--origem-x) var(--origem-y), #000 0 var(--massa-1), transparent calc(var(--massa-1) + 2px)),
+    radial-gradient(circle at calc(var(--origem-x) + 18vw) calc(var(--origem-y) - 12vh), #000 0 var(--massa-2), transparent calc(var(--massa-2) + 2px)),
+    radial-gradient(circle at calc(var(--origem-x) + 42vw) calc(var(--origem-y) - 35vh), #000 0 var(--massa-3), transparent calc(var(--massa-3) + 2px)),
+    radial-gradient(circle at calc(var(--origem-x) + 70vw) calc(var(--origem-y) - 55vh), #000 0 var(--massa-4), transparent calc(var(--massa-4) + 2px)),
+    radial-gradient(circle at calc(var(--origem-x) + 48vw) calc(var(--origem-y) - 78vh), #000 0 var(--massa-5), transparent calc(var(--massa-5) + 2px)),
+    radial-gradient(circle at calc(var(--origem-x) + 90vw) calc(var(--origem-y) - 82vh), #000 0 var(--massa-6), transparent calc(var(--massa-6) + 2px));
+  mask-repeat: no-repeat;
+  animation: cicloGosmaOrganica 5s linear both;
 }
 
 .gosmaSuperficie {
@@ -131,7 +177,6 @@
     radial-gradient(circle at 45% 64%, rgb(236 255 171 / 46%) 0 1.8%, transparent 2.5%),
     radial-gradient(circle at 88% 82%, rgb(40 94 7 / 34%) 0 4%, transparent 4.8%),
     linear-gradient(128deg, #9ef219 0%, #6fd20d 47%, #baff27 100%);
-  animation: limparGosma 4.5s linear both;
 }
 
 .gosmaSuperficie::before {
@@ -146,10 +191,22 @@
   animation: moverTextura 1.25s ease-in-out infinite alternate;
 }
 
+.formasIrregulares,
 .bolhas,
 .reflexo {
   position: absolute;
   inset: 0;
+}
+
+.formasIrregulares {
+  opacity: 0.7;
+  background:
+    radial-gradient(ellipse 9rem 5rem at 14% 31%, rgb(43 113 7 / 48%) 0 42%, transparent 47%),
+    radial-gradient(ellipse 5rem 11rem at 38% 76%, rgb(232 255 149 / 36%) 0 38%, transparent 45%),
+    radial-gradient(ellipse 13rem 6rem at 67% 24%, rgb(48 124 7 / 38%) 0 41%, transparent 47%),
+    radial-gradient(ellipse 7rem 12rem at 86% 69%, rgb(232 255 158 / 32%) 0 40%, transparent 46%);
+  filter: blur(1px);
+  animation: deformarManchas 2.2s ease-in-out infinite alternate;
 }
 
 .bolhas {
@@ -214,23 +271,101 @@
   }
 }
 
-@keyframes inundarTela {
+@keyframes cicloGosmaOrganica {
   0% {
-    clip-path: circle(0 at 5rem calc(100% - 5rem));
+    --massa-1: 0vmax;
+    --massa-2: 0vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
   }
-  13.333%,
+  3% {
+    --massa-1: 20vmax;
+    --massa-2: 0vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
+  6% {
+    --massa-1: 42vmax;
+    --massa-2: 24vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
+  9% {
+    --massa-1: 75vmax;
+    --massa-2: 60vmax;
+    --massa-3: 38vmax;
+    --massa-4: 18vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
+  12% {
+    --massa-1: 130vmax;
+    --massa-2: 115vmax;
+    --massa-3: 90vmax;
+    --massa-4: 65vmax;
+    --massa-5: 40vmax;
+    --massa-6: 18vmax;
+  }
+  14%,
+  74% {
+    --massa-1: 190vmax;
+    --massa-2: 170vmax;
+    --massa-3: 155vmax;
+    --massa-4: 145vmax;
+    --massa-5: 140vmax;
+    --massa-6: 135vmax;
+  }
+  80% {
+    --massa-1: 82vmax;
+    --massa-2: 60vmax;
+    --massa-3: 42vmax;
+    --massa-4: 26vmax;
+    --massa-5: 14vmax;
+    --massa-6: 6vmax;
+  }
+  86% {
+    --massa-1: 48vmax;
+    --massa-2: 24vmax;
+    --massa-3: 8vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
+  90% {
+    --massa-1: 32vmax;
+    --massa-2: 0vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
+  96% {
+    --massa-1: 14vmax;
+    --massa-2: 0vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
+  }
   100% {
-    clip-path: circle(165vmax at 5rem calc(100% - 5rem));
+    --massa-1: 0vmax;
+    --massa-2: 0vmax;
+    --massa-3: 0vmax;
+    --massa-4: 0vmax;
+    --massa-5: 0vmax;
+    --massa-6: 0vmax;
   }
 }
 
-@keyframes limparGosma {
-  0%,
-  80% {
-    clip-path: inset(0 0 0 0);
-  }
-  100% {
-    clip-path: inset(100% 0 0 0);
+@keyframes deformarManchas {
+  to {
+    transform: translate3d(2%, -2%, 0) scale(1.05) rotate(-1deg);
   }
 }
 
@@ -258,11 +393,13 @@
 /* Movimento desligado mantém a resposta visual, mas sem expansão ou deslocamentos bruscos. */
 .gosmaOverlay[data-movimento='false'] {
   clip-path: none;
+  mask-image: none;
   animation: none;
 }
 
 .gosmaOverlay[data-movimento='false'] .gosmaSuperficie,
 .gosmaOverlay[data-movimento='false'] .gosmaSuperficie::before,
+.gosmaOverlay[data-movimento='false'] .formasIrregulares,
 .gosmaOverlay[data-movimento='false'] .bolhas,
 .gosmaOverlay[data-movimento='false'] .reflexo {
   animation: none;
@@ -283,6 +420,11 @@
     width: 4.75rem;
     inset-inline-start: 0.4rem;
     inset-block-end: 0.45rem;
+  }
+
+  .gosmaOverlay {
+    --origem-x: 2.8rem;
+    --origem-y: calc(100% - 3rem);
   }
 }
 

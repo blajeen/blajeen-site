@@ -14,6 +14,7 @@ next-env.d.ts
 
 # QA local
 .qa-shots/
+.qa-banner/
 .chrome-logo-render/
 .chrome-simple-render/
 

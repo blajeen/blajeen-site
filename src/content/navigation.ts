@@ -11,8 +11,8 @@ import type { NavLink } from './types';
  */
 export const barraDeNavegacao = [
   { rotulo: 'Sobre', tipo: 'link', href: ROTAS.sobre },
-  { rotulo: 'Jogos', tipo: 'submenu' },
-  { rotulo: 'Projetos', tipo: 'link', href: ROTAS.projetos },
+  { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
+  { rotulo: 'Projetos', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Novidades', tipo: 'link', href: ROTAS.novidades },
   { rotulo: 'Suporte', tipo: 'link', href: ROTAS.suporte },
   { rotulo: 'Contato', tipo: 'link', href: ROTAS.contato },
@@ -79,6 +79,34 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
   icone: projeto.icone,
   href: rotasDoProjeto[projeto.id].pagina,
 }));
+
+/** Projetos de software apresentados no menu do estúdio. */
+export const atalhosDeProjeto = [
+  {
+    rotulo: 'Barbearias',
+    estado: 'EM BREVE',
+    sigla: 'BR',
+    href: `${ROTAS.projetos}#barbearia`,
+  },
+  {
+    rotulo: 'Personal Studio',
+    estado: 'EM BREVE',
+    sigla: 'PS',
+    href: ROTAS.personalStudio,
+  },
+  {
+    rotulo: 'Salões de beleza',
+    estado: 'EM BREVE',
+    sigla: 'SB',
+    href: `${ROTAS.projetos}#salao-beleza`,
+  },
+  {
+    rotulo: 'Pet shops e banho & tosa',
+    estado: 'EM BREVE',
+    sigla: 'PET',
+    href: `${ROTAS.projetos}#pet-shop-tosa`,
+  },
+] as const;
 
 /**
  * Links do rodapé, agrupados por responsabilidade.

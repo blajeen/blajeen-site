@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { Drawer } from '@/components/overlays/Drawer';
-import { atalhosDeJogo, navegacaoPrincipal } from '@/content/navigation';
+import { atalhosDeJogo, atalhosDeProjeto, navegacaoPrincipal } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rotaAtiva, ROTAS } from '@/lib/routes';
 
@@ -80,6 +80,40 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
                   loading="lazy"
                   className="size-12 flex-none rounded-[12px] border border-line"
                 />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-base leading-tight text-paper">{atalho.rotulo}</span>
+                  <span className="tecnica mt-1 flex items-center gap-2 text-mineral">
+                    <span
+                      aria-hidden="true"
+                      className="inline-block size-[5px] flex-none rounded-full bg-signal shadow-[0_0_8px_var(--color-signal)]"
+                    />
+                    {atalho.estado}
+                  </span>
+                </span>
+                <span aria-hidden="true" className="flex-none text-signal">
+                  →
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <p className="tecnica mt-10 text-mineral-dim">Projetos</p>
+        <ul className="mt-4 flex flex-col gap-2">
+          {atalhosDeProjeto.map((atalho) => (
+            <li key={atalho.href}>
+              <Link
+                href={atalho.href}
+                onClick={aoFechar}
+                aria-current={rotaAtiva(caminho, atalho.href) ? 'page' : undefined}
+                className="alvo-toque flex items-center gap-4 rounded-[var(--radius-control)] border border-line bg-raised/60 p-3 transition-colors duration-150 hover:border-signal/35"
+              >
+                <span
+                  aria-hidden="true"
+                  className="tecnica grid size-12 flex-none place-items-center rounded-[12px] border border-line bg-raised text-signal"
+                >
+                  {atalho.sigla}
+                </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-base leading-tight text-paper">{atalho.rotulo}</span>
                   <span className="tecnica mt-1 flex items-center gap-2 text-mineral">

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
@@ -21,8 +22,9 @@ const projetos = [
   {
     id: 'personal-estudio',
     indice: 'PROJETO 02',
-    titulo: 'Plataforma para personal trainers e estúdios.',
-    texto: 'Site e aplicativo para organizar presença digital, rotina e acompanhamento.',
+    titulo: 'Personal Studio.',
+    texto: 'Plataforma white-label para personal trainers autônomos e estúdios de treinamento.',
+    href: ROTAS.personalStudio,
   },
   {
     id: 'salao-beleza',
@@ -70,6 +72,15 @@ export default function ProjetosPage() {
                   {projeto.titulo}
                 </h2>
                 <p className="medida-texto mt-6 text-[1rem] leading-relaxed text-mineral">{projeto.texto}</p>
+                {'href' in projeto ? (
+                  <Link
+                    href={projeto.href}
+                    className="alvo-toque tecnica mt-8 inline-flex items-center gap-3 border-b border-signal pb-2 text-paper transition-colors duration-150 hover:text-signal"
+                  >
+                    Conhecer o produto
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                ) : null}
               </article>
             </Reveal>
           ))}

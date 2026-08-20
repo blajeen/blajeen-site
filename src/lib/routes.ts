@@ -7,6 +7,7 @@
 export const ROTAS = {
   home: '/',
   projetos: '/projects',
+  personalStudio: '/projects/personal-studio',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
@@ -57,7 +58,12 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
 export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.home) return 1;
-  if (rota === ROTAS.projetoRevalio || rota === ROTAS.projetoDocalio || rota === ROTAS.projetoGramelio)
+  if (
+    rota === ROTAS.projetoRevalio ||
+    rota === ROTAS.projetoDocalio ||
+    rota === ROTAS.projetoGramelio ||
+    rota === ROTAS.personalStudio
+  )
     return 0.9;
   if (rota === ROTAS.novidades) return 0.8;
   if (rota === ROTAS.sobre || rota === ROTAS.contato || rota === ROTAS.suporte) return 0.7;

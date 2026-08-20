@@ -89,12 +89,10 @@ function variavel(valor: string | undefined): string | undefined {
 }
 
 /**
- * Domínio definitivo, escolhido pelo titular em 17 de agosto de 2026.
- *
- * É o host canônico: o ápice `blajeen-labs.com.br` deve redirecionar para `www`, para o site ter
- * um endereço só. `NEXT_PUBLIC_SITE_URL` continua podendo sobrescrever, para ambientes de teste.
+ * Domínio público ativo, com HTTPS e deploy verificados em 20 de agosto de 2026.
+ * `NEXT_PUBLIC_SITE_URL` continua podendo sobrescrever, para ambientes de teste.
  */
-const DOMINIO = 'https://www.blajeen-labs.com.br';
+const DOMINIO = 'https://blajeen.com.br';
 
 const dominioProprio = variavel(process.env.NEXT_PUBLIC_SITE_URL) ?? DOMINIO;
 

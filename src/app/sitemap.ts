@@ -7,7 +7,7 @@ import { prioridadeSitemap, TODAS_AS_ROTAS } from '@/lib/routes';
  * Uma rota nova entra aqui automaticamente; uma rota removida some daqui automaticamente.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const atualizacao = new Date('2026-08-16');
+  const atualizacao = new Date();
 
   return TODAS_AS_ROTAS.map((rota) => ({
     url: urlAbsoluta(rota),

@@ -6,49 +6,49 @@ import { ROTAS } from '@/lib/routes';
  */
 
 export const sobre = {
-  eyebrow: 'O LABORATÓRIO / ORIGEM',
-  titulo: 'Algumas ideias precisam de um laboratório.',
+  eyebrow: 'BLAJEEN LABS / O ESTÚDIO',
+  titulo: 'Pequeno por escolha. Ambicioso por natureza.',
   introducao:
-    'A Blajeen Labs desenvolve software próprio, com foco em jogos. O laboratório existe para testar ideias que talvez não funcionem — porque é justamente aí que coisas interessantes começam.',
+    'A Blajeen Labs existe para transformar perguntas em produtos próprios — jogos, plataformas digitais e experiências construídas com atenção ao que realmente importa.',
   secoes: [
     {
-      id: 'metodo',
-      indice: '01 / MÉTODO',
-      titulo: 'Experimentamos. Construímos. Quebramos. Aprendemos. Construímos de novo.',
+      id: 'origem',
+      indice: '01 / ORIGEM',
+      titulo: 'Uma mudança de carreira que ganhou forma de estúdio.',
       paragrafos: [
-        'Não somos uma agência. Desenvolvemos software autoral — jogos, principalmente — e criamos as experiências que gostaríamos que já existissem.',
-        'Cada projeto começa como uma pergunta e só vira produto quando sobrevive ao teste. É por isso que este site mostra três projetos, e não um catálogo.',
+        'A Blajeen Labs nasceu de uma trajetória entre operações, dados, qualidade e tecnologia. A vontade de construir software próprio transformou aprendizado técnico em um espaço permanente para experimentar.',
+        'O laboratório é esse espaço: compacto o bastante para preservar intenção e livre o bastante para seguir uma boa pergunta até onde ela levar.',
       ],
     },
     {
-      id: 'origem',
-      indice: '02 / ORIGEM',
-      titulo: 'A curiosidade virou uma mudança de carreira. A mudança virou um estúdio.',
+      id: 'principios',
+      indice: '02 / PRINCÍPIOS',
+      titulo: 'Produto antes de volume. Clareza antes de ruído.',
       paragrafos: [
-        'A Blajeen Labs nasceu de uma trajetória entre operações, dados, qualidade e tecnologia. O que começou como uma mudança deliberada em direção à engenharia de software se transformou na vontade de criar produtos próprios — e mundos em que ideias possam ser testadas de verdade.',
+        'Escolhemos poucos projetos e damos a cada um uma razão clara para existir. Não construímos um catálogo de entregas; construímos produtos que carregam uma visão.',
+        'Isso significa mostrar o que já é real, assumir o que ainda está em formação e deixar que a qualidade da experiência fale mais alto que a quantidade de promessas.',
+      ],
+    },
+    {
+      id: 'metodo',
+      indice: '03 / MÉTODO',
+      titulo: 'Perguntar. Prototipar. Provar. Aprender.',
+      paragrafos: [
+        'Cada projeto começa com uma hipótese e avança por versões pequenas que podem ser avaliadas de verdade. O processo não protege uma ideia do teste; usa o teste para torná-la melhor.',
+        'O que funciona ganha profundidade. O que não funciona vira aprendizado para o próximo ciclo.',
       ],
     },
     {
       id: 'instrumentos',
-      indice: '03 / INSTRUMENTOS',
-      titulo: 'A IA não substituiu a ideia. Ela abriu espaço para ela.',
+      indice: '04 / INSTRUMENTOS',
+      titulo: 'Tecnologia amplifica intenção.',
       paragrafos: [
         'Engenharia de software, desenvolvimento de jogos, 3D, sistemas interativos e inteligência artificial fazem parte do laboratório.',
-        'A IA mudou o custo de tentar: o que antes exigia uma equipe inteira para sair do papel hoje cabe em um protótipo, e o gargalo voltou a ser a ideia. É essa folga que um estúdio pequeno usa para arriscar.',
-        'As ferramentas mudam; a intenção, não. A tecnologia é instrumento, a experiência é o produto.',
-      ],
-    },
-    {
-      id: 'hipotese',
-      indice: '04 / HIPÓTESE',
-      titulo: 'Aprender não precisa parecer estudar.',
-      paragrafos: [
-        'Assuntos importantes costumam chegar cercados de peso, repetição e distância. Queremos explorar outra possibilidade: aprender tomando decisões, percebendo consequências e querendo descobrir o que acontece depois.',
-        'E se aprender pudesse ser uma aventura?',
+        'As ferramentas reduzem a distância entre uma ideia e uma experiência testável. Mas continuam sendo instrumentos: o produto é aquilo que a pessoa entende, sente e consegue fazer.',
       ],
     },
   ],
-  linhaTecnica: 'JOGOS × TECNOLOGIA × APRENDIZAGEM → RESULTADOS DESCONHECIDOS',
+  linhaTecnica: 'INTENÇÃO × TECNOLOGIA × ITERAÇÃO → PRODUTOS AUTORAIS',
   metaTitulo: 'Sobre — Blajeen Labs',
   metaDescricao:
     'A Blajeen Labs é um estúdio independente de desenvolvimento de software e jogos, inovando na interseção entre tecnologia, aprendizagem e imaginação.',

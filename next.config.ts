@@ -7,8 +7,9 @@ import type { NextConfig } from 'next';
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
-  // O Next injeta estilos críticos inline; scripts inline do App Router usam nonce/hash próprios.
-  "script-src 'self' 'unsafe-inline'",
+  // O React usa eval apenas para reconstruir stack traces no servidor de desenvolvimento.
+  // A política publicada continua sem `unsafe-eval`.
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",

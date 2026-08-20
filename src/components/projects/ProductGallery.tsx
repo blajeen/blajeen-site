@@ -19,7 +19,7 @@ export function ProductGallery({ slides }: { slides: readonly Slide[] }) {
   const proximo = () => setAtual((indice) => (indice + 1) % slides.length);
 
   return (
-    <div className="mx-auto mt-12 max-w-[980px] sm:mt-16">
+    <div className="mx-auto mt-12 max-w-[1180px] sm:mt-16">
       <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line-strong bg-raised shadow-[var(--shadow-panel)]">
         <div className="grid h-[min(56vh,34rem)] min-h-[18rem] place-items-center bg-[#0b0d0a] p-4 sm:min-h-[22rem] sm:p-7">
           <div className="relative size-full overflow-hidden rounded-[clamp(0.75rem,2vw,1.25rem)]">

@@ -33,6 +33,7 @@ export function InterestForm() {
       `Nome: ${String(dados.get('nome')).trim()}`,
       `E-mail: ${String(dados.get('email')).trim()}`,
       `Telefone: ${String(dados.get('telefone')).trim()}`,
+      'Garantia informada: 7 dias para cancelamento e solicitação de devolução do valor pago.',
       '',
       'Mensagem:',
       String(dados.get('mensagem')).trim() || 'Gostaria de conversar sobre este projeto.',
@@ -60,6 +61,10 @@ export function InterestForm() {
       <p className="medida-texto mt-4 max-w-[68ch] text-sm leading-relaxed text-mineral">
         Ao continuar, seu aplicativo de e-mail abrirá com a mensagem pronta para{' '}
         <span className="text-paper">{EMAIL_DESTINO}</span>. Revise os dados e confirme o envio por lá.
+      </p>
+      <p className="medida-texto mt-4 max-w-[68ch] border-l border-signal pl-4 text-sm leading-relaxed text-mineral">
+        Projetos comerciais incluem <strong className="text-paper">7 dias de garantia</strong>. Nesse
+        prazo, você pode cancelar a contratação e solicitar a devolução do valor pago.
       </p>
 
       <form onSubmit={prepararEmail} className="mt-8 grid gap-5 sm:grid-cols-2">

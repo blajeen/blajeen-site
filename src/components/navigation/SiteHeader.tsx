@@ -43,7 +43,7 @@ export function SiteHeader() {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-signal/35 to-transparent opacity-0 transition-opacity duration-500 data-[rolado=true]:opacity-100"
         />
 
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-[var(--gutter)] sm:h-[4.5rem]">
+        <div className="mx-auto flex h-16 max-w-[var(--layout-max)] items-center justify-between gap-4 px-[var(--gutter)] sm:h-[4.5rem]">
           {/*
             O nome acessível do link vem da própria marca (`role="img"`), sem `aria-label` por
             cima: um rótulo diferente do conteúdo visível quebraria o critério "Label in Name".

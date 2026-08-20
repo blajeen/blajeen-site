@@ -40,8 +40,9 @@
     /* Posição do ponteiro, usada por halo ambiental e pupilas. */
     --pointer-x: 50vw;
     --pointer-y: 40vh;
-    /* Margem lateral editorial: 20–24 px no mobile, 48–96 px no desktop. */
-    --gutter: clamp(1.25rem, 5vw, 6rem);
+    /* Canvas amplo: texto continua medido, mas mídia e grids respiram no desktop. */
+    --layout-max: 110rem;
+    --gutter: clamp(1.25rem, 3.2vw, 4rem);
     /*
      * Ritmo vertical entre seções.
      *

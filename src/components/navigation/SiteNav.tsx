@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { ProductIcon } from '@/components/projects/ProductIcon';
 import { atalhosDeJogo, atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
 import { rotaAtiva } from '@/lib/routes';
 import styles from './SiteNav.module.css';
@@ -90,6 +91,7 @@ export function SiteNav() {
                 <Link
                   href={destino.href}
                   className={styles.destino}
+                  data-destaque={'destaque' in destino ? destino.destaque : undefined}
                   aria-current={rotaAtiva(caminho, destino.href) ? 'page' : undefined}
                 >
                   {destino.rotulo}
@@ -164,7 +166,9 @@ export function SiteNav() {
                         className={styles.icone}
                       />
                     ) : (
-                      <span aria-hidden="true" className={styles.sigla}>{atalho.sigla}</span>
+                      <span aria-hidden="true" className={styles.sigla}>
+                        <ProductIcon id={atalho.simbolo} className="size-7" />
+                      </span>
                     )}
                     <span>
                       <span className={styles.nome}>{atalho.rotulo}</span>

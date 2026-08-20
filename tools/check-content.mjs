@@ -119,8 +119,7 @@ const idsDeBloqueador = [...blockers.matchAll(/^ {2}([a-zA-Z]+): \{$/gm)].map((a
  * que ninguém referencia é um bloqueador que o site esconde.
  */
 const abertos = idsDeBloqueador;
-// Verificado em infraestrutura (DNS e certificado), não referenciado por nenhuma tela.
-const usados = new Set(['dominioAtivo']);
+const usados = new Set();
 
 for (const arquivo of fontes) {
   if (path.basename(arquivo) === 'blockers.ts') continue;

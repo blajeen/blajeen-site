@@ -19,6 +19,9 @@ const SAIDA = path.resolve('.qa-shots');
 
 const ROTAS_PADRAO = [
   '/',
+  '/projects',
+  '/projects/barbearia',
+  '/projects/personal-studio',
   '/projects/revalio',
   '/projects/docalio',
   '/projects/gramelio',

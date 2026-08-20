@@ -76,7 +76,14 @@ export default function Page() {
             href={ROTAS.projetoRevalio}
             className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
           >
-            Ver os projetos
+            Explorar os jogos
+            <span aria-hidden="true">→</span>
+          </Link>
+          <Link
+            href={ROTAS.projetos}
+            className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
+          >
+            Conhecer os produtos
             <span aria-hidden="true">→</span>
           </Link>
           <Link

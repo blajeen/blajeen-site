@@ -34,7 +34,7 @@ export function Section({ id, indice, children, className, rotulo, rotuladaPor }
 
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={['mx-auto w-full max-w-[1440px] px-[var(--gutter)]', className].filter(Boolean).join(' ')}>
+    <div className={['mx-auto w-full max-w-[var(--layout-max)] px-[var(--gutter)]', className].filter(Boolean).join(' ')}>
       {children}
     </div>
   );

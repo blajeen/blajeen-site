@@ -15,7 +15,7 @@ async function carregarSite() {
   return import('./site');
 }
 
-const DOMINIO = 'https://www.blajeen-labs.com.br';
+const DOMINIO = 'https://blajeen.com.br';
 
 describe('portão de indexação', () => {
   beforeEach(() => {

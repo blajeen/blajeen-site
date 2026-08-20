@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { Drawer } from '@/components/overlays/Drawer';
+import { ProductIcon } from '@/components/projects/ProductIcon';
 import { atalhosDeJogo, atalhosDeProjeto, navegacaoPrincipal } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rotaAtiva, ROTAS } from '@/lib/routes';
@@ -98,7 +99,7 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
           ))}
         </ul>
 
-        <p className="tecnica mt-10 text-mineral-dim">Projetos</p>
+        <p className="tecnica mt-10 text-mineral-dim">Produtos</p>
         <ul className="mt-4 flex flex-col gap-2">
           {atalhosDeProjeto.map((atalho) => (
             <li key={atalho.href}>
@@ -112,7 +113,7 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
                   aria-hidden="true"
                   className="tecnica grid size-12 flex-none place-items-center rounded-[12px] border border-line bg-raised text-signal"
                 >
-                  {atalho.sigla}
+                  <ProductIcon id={atalho.simbolo} className="size-7" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-base leading-tight text-paper">{atalho.rotulo}</span>
@@ -134,6 +135,8 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
 
         <div className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-6">
           {[
+            { href: ROTAS.suporte, rotulo: 'Suporte' },
+            { href: ROTAS.privacidade, rotulo: 'Privacidade' },
             { href: ROTAS.termos, rotulo: 'Termos' },
             { href: ROTAS.revalioExclusao, rotulo: 'Excluir conta — Revalio' },
             { href: ROTAS.docalioExclusao, rotulo: 'Excluir conta — Docalio' },

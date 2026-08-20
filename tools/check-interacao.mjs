@@ -120,55 +120,66 @@ const navegador = await chromium.launch();
     'o acionador da gaveta não deveria aparecer junto da barra',
   );
 
-  // Sobre, Novidades, Suporte, Contato e Privacidade — Projetos é botão de submenu.
+  // Estúdio, Novidades e Contato são links; Jogos e Produtos são menus de escolha.
   const destinos = barra.getByRole('link');
   conferir(
-    (await destinos.count()) === 5,
-    `a barra deveria ter cinco links diretos além de Projetos (${await destinos.count()})`,
+    (await destinos.count()) === 3,
+    `a barra deveria ter três links diretos além dos dois menus (${await destinos.count()})`,
   );
 
-  const projetos = pagina.getByRole('button', { name: /Projetos/ });
-  const submenu = pagina.locator('#submenu-projetos');
+  const produtos = pagina.getByRole('button', { name: /Produtos/ });
+  const submenuProdutos = pagina.locator('#submenu-projetos');
   conferir(
-    (await projetos.getAttribute('aria-expanded')) === 'false',
-    'Projetos deveria começar recolhido',
+    (await produtos.getAttribute('aria-expanded')) === 'false',
+    'Produtos deveria começar recolhido',
   );
-  conferir(!(await submenu.isVisible()), 'o submenu deveria começar oculto');
+  conferir(!(await submenuProdutos.isVisible()), 'o submenu de Produtos deveria começar oculto');
 
   // Abre por clique — nenhuma navegação do site pode exigir hover.
-  await projetos.click();
+  await produtos.click();
   await pagina.waitForTimeout(150);
-  conferir((await projetos.getAttribute('aria-expanded')) === 'true', 'o clique não abriu Projetos');
-  conferir(await submenu.isVisible(), 'o submenu não apareceu ao clicar');
+  conferir((await produtos.getAttribute('aria-expanded')) === 'true', 'o clique não abriu Produtos');
+  conferir(await submenuProdutos.isVisible(), 'o submenu de Produtos não apareceu ao clicar');
 
-  const jogos = submenu.getByRole('link');
-  conferir((await jogos.count()) === 3, `o submenu deveria listar os três jogos (${await jogos.count()})`);
-  const icones = await submenu.locator('img').count();
-  conferir(icones === 3, `cada jogo precisa do seu ícone (${icones})`);
+  const atalhosDeProduto = submenuProdutos.getByRole('link');
+  conferir(
+    (await atalhosDeProduto.count()) === 4,
+    `o submenu deveria listar os quatro produtos (${await atalhosDeProduto.count()})`,
+  );
+  const iconesDeProduto = await submenuProdutos.locator('svg').count();
+  conferir(iconesDeProduto === 4, `cada produto precisa do seu ícone (${iconesDeProduto})`);
 
   // `Esc` fecha e devolve o foco ao acionador.
   await pagina.keyboard.press('Escape');
   await pagina.waitForTimeout(150);
-  conferir(!(await submenu.isVisible()), '`Esc` não fechou o submenu');
+  conferir(!(await submenuProdutos.isVisible()), '`Esc` não fechou o submenu');
   conferir(
-    await pagina.evaluate(() => document.activeElement?.textContent?.includes('Projetos') ?? false),
-    'o foco não voltou para Projetos após `Esc`',
+    await pagina.evaluate(() => document.activeElement?.textContent?.includes('Produtos') ?? false),
+    'o foco não voltou para Produtos após `Esc`',
   );
 
-  // Seta para baixo abre e leva o foco ao primeiro jogo.
-  await projetos.focus();
+  // Seta para baixo abre e leva o foco ao primeiro produto.
+  await produtos.focus();
   await pagina.keyboard.press('ArrowDown');
   await pagina.waitForTimeout(200);
-  conferir(await submenu.isVisible(), 'a seta para baixo não abriu o submenu');
+  conferir(await submenuProdutos.isVisible(), 'a seta para baixo não abriu o submenu');
   conferir(
     await pagina.evaluate(() =>
       Boolean(document.querySelector('#submenu-projetos')?.contains(document.activeElement)),
     ),
-    'a seta para baixo não levou o foco ao submenu',
+    'a seta para baixo não levou o foco ao submenu de Produtos',
   );
+  await pagina.keyboard.press('Escape');
+
+  const jogos = pagina.getByRole('button', { name: /^Jogos/ });
+  const submenuJogos = pagina.locator('#submenu-jogos');
+  await jogos.click();
+  await pagina.waitForTimeout(150);
+  conferir((await submenuJogos.getByRole('link').count()) === 3, 'Jogos deveria listar três títulos');
+  conferir((await submenuJogos.locator('img').count()) === 3, 'cada jogo precisa do seu ícone');
 
   await contexto.close();
-  console.log('barra do desktop: seis destinos, submenu por clique e teclado, Esc devolve o foco');
+  console.log('barra do desktop: Jogos e Produtos com ícones, clique, teclado e retorno de foco');
 }
 
 // ----------------------------------------- gaveta de prévia, bottom sheet
@@ -431,8 +442,8 @@ const navegador = await chromium.launch();
     'a home voltou a ser de rolagem: não deveria haver abas',
   );
 
-  // As sete seções existem como âncoras reais.
-  const ancoras = ['laboratorio', 'experimentos', 'estado', 'hipotese', 'origem', 'proximo'];
+  // As quatro seções editoriais existem como âncoras reais.
+  const ancoras = ['laboratorio', 'jogos', 'produtos', 'proximo'];
   for (const ancora of ancoras) {
     conferir(
       (await pagina.locator(`#${ancora}`).count()) === 1,
@@ -506,7 +517,7 @@ const navegador = await chromium.launch();
   );
 
   await contexto.close();
-  console.log('home em rolagem: sete seções, âncora do hero e adereços fixos nos cantos certos');
+  console.log('home em rolagem: quatro seções, âncora do hero e adereços fixos nos cantos certos');
 }
 
 // -------------------------------------------------------------- skip link

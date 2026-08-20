@@ -30,7 +30,7 @@ const experiencias = [
   },
   {
     titulo: 'Painel do gestor',
-    texto: 'Agenda, equipe, alunos e alertas operacionais em uma visão centralizada para a gestão do studio.',
+    texto: 'Agenda, equipe, alunos e alertas operacionais em uma visão centralizada para a gestão do estúdio.',
     imagem: '/projects/personal-studio/mockup-painel-gestor.png',
     alt: 'Painel de gestão do Personal Studio exibido em um monitor.',
   },
@@ -110,11 +110,11 @@ export default function PersonalStudioPage() {
         <LabBackdrop />
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-6">
               <p className="tecnica text-signal">PRODUTO DIGITAL WHITE-LABEL / FITNESS</p>
               <h1
                 id="personal-studio-titulo"
-                className="mt-8 max-w-[12ch] text-[clamp(2.4rem,6vw,5rem)] leading-[0.98] tracking-[-0.05em]"
+                className="mt-8 max-w-[14ch] text-[clamp(2.4rem,5.2vw,4.6rem)] leading-[0.98] tracking-[-0.05em]"
               >
                 Seu negócio fitness. Sua marca. Uma plataforma completa.
               </h1>
@@ -126,7 +126,7 @@ export default function PersonalStudioPage() {
                   href={`${ROTAS.contato}?produto=personal-studio#interesse`}
                   className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
                 >
-                  Quero uma versão para meu negócio
+                  Quero meu Personal Studio
                   <span aria-hidden="true">→</span>
                 </Link>
                 <a
@@ -139,13 +139,13 @@ export default function PersonalStudioPage() {
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>
-              <p className="medida-texto mt-5 max-w-[58ch] text-sm leading-relaxed text-mineral">
-                <strong className="text-paper">7 dias de garantia.</strong> Dentro desse prazo, você
+              <p className="medida-texto mt-5 max-w-[58ch] rounded-2xl bg-ink px-4 py-3 text-sm leading-relaxed text-paper">
+                <strong>7 dias de garantia.</strong> Dentro desse prazo, você
                 pode cancelar a contratação e solicitar a devolução do valor pago.
               </p>
             </div>
 
-            <Reveal className="lg:col-span-7">
+            <Reveal className="lg:col-span-6">
               <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
                 <Image
                   src="/projects/personal-studio/mockup-painel-gestor.png"
@@ -165,23 +165,7 @@ export default function PersonalStudioPage() {
         </Container>
       </section>
 
-      <Section indice="01 / A BASE" rotuladaPor="base-titulo">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <TituloSecao id="base-titulo" className="lg:col-span-5">
-            Uma base pronta para diferentes operações.
-          </TituloSecao>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-              O Personal Studio é uma plataforma demonstrativa criada para personal trainers autônomos e studios de treinamento que desejam profissionalizar a presença digital, organizar o atendimento e oferecer uma experiência mais completa aos alunos.
-            </p>
-            <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
-              Em vez de começar um sistema do zero, cada negócio parte de uma estrutura funcional que é adaptada à sua operação.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      <Section indice="02 / TRÊS EXPERIÊNCIAS" rotuladaPor="experiencias-titulo" className="relative isolate overflow-hidden">
+      <Section indice="01 / TRÊS EXPERIÊNCIAS" rotuladaPor="experiencias-titulo" className="relative isolate overflow-hidden">
         <LabBackdrop lado="esquerda" />
         <TituloSecao id="experiencias-titulo" className="max-w-[18ch]">
           Aluno, personal e gestor conectados.
@@ -211,14 +195,16 @@ export default function PersonalStudioPage() {
         </div>
       </Section>
 
-      <Section indice="03 / PERSONALIZAÇÃO" rotuladaPor="personalizacao-titulo">
+      <Section indice="02 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="personalizacao-titulo" className="lg:col-span-5">
-            A estrutura é demonstrativa. A versão final é do seu negócio.
+            Uma base funcional, adaptada ao seu negócio.
           </TituloSecao>
           <div className="lg:col-span-6 lg:col-start-7">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-              Nome, identidade, conteúdo, equipes, unidades, serviços, planos, horários e regras são ajustados com os dados fornecidos pelo contratante.
+              O Personal Studio evita começar do zero: a estrutura demonstrativa já conecta presença
+              digital, atendimento e gestão. Nome, identidade, conteúdo, equipe, serviços, planos,
+              horários e regras são ajustados com os dados autorizados pelo contratante.
             </p>
             <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line">
               {personalizacoes.map((item) => (
@@ -232,7 +218,7 @@ export default function PersonalStudioPage() {
         </div>
       </Section>
 
-      <Section indice="04 / DEMONSTRAÇÃO" rotuladaPor="demonstracao-titulo">
+      <Section indice="03 / PRODUTO REAL" rotuladaPor="demonstracao-titulo">
         <TituloSecao id="demonstracao-titulo">Uma demonstração para explorar antes de personalizar.</TituloSecao>
         <ProductGallery slides={demonstracoes} />
         <p className="medida-texto mt-8 max-w-[68ch] text-sm leading-relaxed text-mineral-dim">

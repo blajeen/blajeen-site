@@ -121,11 +121,11 @@ export default function BarbeariaPage() {
         <LabBackdrop />
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-6">
               <p className="tecnica text-signal">PRODUTO DIGITAL WHITE-LABEL / BARBEARIAS</p>
               <h1
                 id="barbearia-titulo"
-                className="mt-8 max-w-[12ch] text-[clamp(2.4rem,6vw,5rem)] leading-[0.98] tracking-[-0.05em]"
+                className="mt-8 max-w-[14ch] text-[clamp(2.4rem,5.2vw,4.6rem)] leading-[0.98] tracking-[-0.05em]"
               >
                 Sua barbearia. Sua marca. Uma operação conectada.
               </h1>
@@ -142,7 +142,7 @@ export default function BarbeariaPage() {
                   href={`${ROTAS.contato}?produto=barbearia#interesse`}
                   className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
                 >
-                  Quero uma versão para minha barbearia
+                  Quero para minha barbearia
                   <span aria-hidden="true">→</span>
                 </Link>
                 <a
@@ -155,13 +155,13 @@ export default function BarbeariaPage() {
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>
-              <p className="medida-texto mt-5 max-w-[58ch] text-sm leading-relaxed text-mineral">
-                <strong className="text-paper">7 dias de garantia.</strong> Dentro desse prazo, você
+              <p className="medida-texto mt-5 max-w-[58ch] rounded-2xl bg-ink px-4 py-3 text-sm leading-relaxed text-paper">
+                <strong>7 dias de garantia.</strong> Dentro desse prazo, você
                 pode cancelar a contratação e solicitar a devolução do valor pago.
               </p>
             </div>
 
-            <Reveal className="lg:col-span-7">
+            <Reveal className="lg:col-span-6">
               <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
                 <Image
                   src="/projects/barbearia/screenshots/04-gestao-resumo.png"
@@ -181,26 +181,8 @@ export default function BarbeariaPage() {
         </Container>
       </section>
 
-      <Section indice="01 / A BASE" rotuladaPor="base-barbearia-titulo">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <TituloSecao id="base-barbearia-titulo" className="lg:col-span-5">
-            Uma instalação feita para representar um único negócio.
-          </TituloSecao>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-              A plataforma não é um catálogo de várias barbearias. Cada versão é uma experiência
-              própria, com domínio, identidade, conteúdo, equipe e regras do estabelecimento.
-            </p>
-            <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
-              A base já conecta a descoberta do serviço ao agendamento e à rotina interna, reduzindo
-              a distância entre o que o cliente vê e o que a equipe precisa administrar.
-            </p>
-          </div>
-        </div>
-      </Section>
-
       <Section
-        indice="02 / JORNADAS"
+        indice="01 / JORNADAS"
         rotuladaPor="jornadas-titulo"
         className="relative isolate overflow-hidden"
       >
@@ -235,15 +217,16 @@ export default function BarbeariaPage() {
         </div>
       </Section>
 
-      <Section indice="03 / PERSONALIZAÇÃO" rotuladaPor="personalizacao-barbearia-titulo">
+      <Section indice="02 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-barbearia-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="personalizacao-barbearia-titulo" className="lg:col-span-5">
-            A mesma base. A identidade e a operação da sua barbearia.
+            Uma base própria para a identidade e a operação da sua barbearia.
           </TituloSecao>
           <div className="lg:col-span-6 lg:col-start-7">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-              A demonstração mostra o alcance do produto. Na implantação, cada elemento é ajustado
-              com informações fornecidas e autorizadas pelo negócio.
+              Cada versão representa um único negócio, com domínio, marca, conteúdo, equipe e regras
+              próprias. A demonstração mostra o alcance do produto; na implantação, cada elemento é
+              ajustado com informações fornecidas e autorizadas pela barbearia.
             </p>
             <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line">
               {personalizacoes.map((item) => (
@@ -257,7 +240,7 @@ export default function BarbeariaPage() {
         </div>
       </Section>
 
-      <Section indice="04 / PRODUTO REAL" rotuladaPor="demonstracao-barbearia-titulo">
+      <Section indice="03 / PRODUTO REAL" rotuladaPor="demonstracao-barbearia-titulo">
         <TituloSecao id="demonstracao-barbearia-titulo">
           Oito telas reais para conhecer o produto por dentro.
         </TituloSecao>

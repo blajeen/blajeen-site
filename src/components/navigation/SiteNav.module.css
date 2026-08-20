@@ -57,6 +57,17 @@
   color: var(--color-paper);
 }
 
+.destino[data-destaque='true'] {
+  margin-inline-start: 0.35rem;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-paper);
+}
+
+.destino[data-destaque='true']:hover {
+  border-color: color-mix(in srgb, var(--color-signal) 60%, transparent);
+  color: var(--color-signal);
+}
+
 /* Sinal verde discreto sob a rota atual. */
 .destino[aria-current='page']::after {
   content: '';
@@ -137,9 +148,6 @@
   border-radius: 10px;
   background: var(--color-raised);
   color: var(--color-signal);
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
 }
 
 .nome {

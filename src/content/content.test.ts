@@ -2,14 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { BLOQUEADORES } from './blockers';
 import { disponibilidadeVisivel, statusVisivel } from './estado-do-projeto';
 import {
-  estado,
   experimentos,
   hero,
-  hipotese,
-  instrumentos,
   laboratorio,
   metadados,
-  origem,
+  produtosComerciais,
   proximo,
   rodapeCopy,
 } from './home';
@@ -200,8 +197,8 @@ describe('projetos', () => {
   });
 });
 
-/** As sete seções da home, na ordem em que a página as apresenta. */
-const secoesDaHome = [laboratorio, experimentos, estado, hipotese, origem, instrumentos, proximo];
+/** As quatro seções da home, na ordem em que a página as apresenta. */
+const secoesDaHome = [laboratorio, experimentos, produtosComerciais, proximo];
 
 describe('idioma da interface', () => {
   /*
@@ -264,7 +261,7 @@ describe('idioma da interface', () => {
 describe('seções da home', () => {
   it('segue a ordem numerada do plano mestre', () => {
     const indices = secoesDaHome.map((secao) => secao.indice.split(' / ')[0]);
-    expect(indices).toEqual(['01', '02', '03', '04', '05', '06', '07']);
+    expect(indices).toEqual(['01', '02', '03', '04']);
   });
 
   it('não repete âncora entre seções', () => {

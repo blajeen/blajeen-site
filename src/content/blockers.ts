@@ -27,14 +27,6 @@ export const BLOQUEADORES = {
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Identidade e infraestrutura',
     // TODO(bloqueador): exigido por Apple, Google e LGPD nos documentos públicos.
   },
-  dominioAtivo: {
-    titulo: 'Domínio registrado, com HTTPS válido e apontado para o deploy',
-    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Identidade e infraestrutura',
-    // TODO(bloqueador): o nome já foi escolhido — `www.blajeen-labs.com.br`, gravado em
-    // `site.ts` — mas escolher não é registrar. Antes de informar qualquer URL às lojas é preciso
-    // confirmar: registro no titular certo, certificado válido, `www` respondendo e o ápice
-    // redirecionando para ele. Uma URL de loja que não resolve reprova a revisão.
-  },
   prazoExclusao: {
     titulo: 'Prazo operacional para concluir pedidos de titulares',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Privacidade e jurídico',

@@ -10,20 +10,18 @@ import type { NavLink } from './types';
  * submenu. Os demais levam direto à sua rota.
  */
 export const barraDeNavegacao = [
-  { rotulo: 'Sobre', tipo: 'link', href: ROTAS.sobre },
+  { rotulo: 'Estúdio', tipo: 'link', href: ROTAS.sobre },
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
-  { rotulo: 'Projetos', tipo: 'submenu', menu: 'projetos' },
+  { rotulo: 'Produtos', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Novidades', tipo: 'link', href: ROTAS.novidades },
-  { rotulo: 'Suporte', tipo: 'link', href: ROTAS.suporte },
-  { rotulo: 'Contato', tipo: 'link', href: ROTAS.contato },
-  { rotulo: 'Privacidade', tipo: 'link', href: ROTAS.privacidade },
+  { rotulo: 'Falar com a Blajeen', tipo: 'link', href: ROTAS.contato, destaque: true },
 ] as const;
 
 /** Índice da gaveta usada no mobile. */
 export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '01',
-    rotulo: 'Sobre',
+    rotulo: 'Estúdio',
     descricao: 'De onde vem o laboratório e o que ele procura.',
     href: ROTAS.sobre,
   },
@@ -35,8 +33,8 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   },
   {
     indice: '03',
-    rotulo: 'Projetos',
-    descricao: 'Sites e aplicativos em construção.',
+    rotulo: 'Produtos',
+    descricao: 'Plataformas próprias para negócios reais.',
     href: ROTAS.projetos,
   },
   {
@@ -47,21 +45,9 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   },
   {
     indice: '05',
-    rotulo: 'Suporte',
-    descricao: 'Problema no app, dúvida de uso ou reportar um bug.',
-    href: ROTAS.suporte,
-  },
-  {
-    indice: '06',
     rotulo: 'Contato',
-    descricao: 'Assuntos do estúdio: parcerias, imprensa e conversa.',
+    descricao: 'Produtos, parcerias e conversa com o estúdio.',
     href: ROTAS.contato,
-  },
-  {
-    indice: '07',
-    rotulo: 'Privacidade',
-    descricao: 'Como os dados são tratados em cada produto.',
-    href: ROTAS.privacidade,
   },
 ] as const;
 
@@ -84,26 +70,26 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
 export const atalhosDeProjeto = [
   {
     rotulo: 'Barbearias',
-    estado: 'DEMONSTRAÇÃO',
-    sigla: 'BR',
+    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
+    simbolo: 'barbearia',
     href: ROTAS.barbearia,
   },
   {
     rotulo: 'Personal Studio',
-    estado: 'EM BREVE',
-    sigla: 'PS',
+    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
+    simbolo: 'personal',
     href: ROTAS.personalStudio,
   },
   {
     rotulo: 'Salões de beleza',
-    estado: 'EM BREVE',
-    sigla: 'SB',
+    estado: 'EM DESENVOLVIMENTO',
+    simbolo: 'salao',
     href: `${ROTAS.projetos}#salao-beleza`,
   },
   {
     rotulo: 'Pet shops e banho & tosa',
-    estado: 'EM BREVE',
-    sigla: 'PET',
+    estado: 'EM DESENVOLVIMENTO',
+    simbolo: 'pet',
     href: `${ROTAS.projetos}#pet-shop-tosa`,
   },
 ] as const;
@@ -126,10 +112,10 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
   ],
   projetos: [
-    { rotulo: 'Plataforma para barbearias', href: ROTAS.barbearia },
-    { rotulo: 'Personal trainers e estúdios — em breve', href: ROTAS.personalStudio },
-    { rotulo: 'Salões de beleza — em breve', href: `${ROTAS.projetos}#salao-beleza` },
-    { rotulo: 'Pet shops e banho & tosa — em breve', href: `${ROTAS.projetos}#pet-shop-tosa` },
+    { rotulo: 'Barbearias', href: ROTAS.barbearia },
+    { rotulo: 'Personal Studio', href: ROTAS.personalStudio },
+    { rotulo: 'Salões — em desenvolvimento', href: `${ROTAS.projetos}#salao-beleza` },
+    { rotulo: 'Pet — em desenvolvimento', href: `${ROTAS.projetos}#pet-shop-tosa` },
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },

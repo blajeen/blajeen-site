@@ -9,10 +9,8 @@ Nenhuma página jurídica deve ir ao ar com colchetes ou informação inventada.
 - [ ] informar nome civil/razão social e CPF/CNPJ aplicável;
 - [ ] informar endereço legal publicável;
 - [ ] confirmar nome público do desenvolvedor nas duas lojas;
-- [x] escolher o domínio — `www.blajeen-labs.com.br`, definido pelo titular em 17/08/2026 e
+- [x] domínio público ativo — `blajeen.com.br`, com HTTPS e deploy verificados em 20/08/2026 e
       gravado em `src/content/site.ts`;
-- [ ] **registrar** o domínio no titular correto, emitir o certificado e apontar o DNS para o
-      deploy, com o ápice redirecionando para `www` — escolher o nome não é o mesmo que tê-lo no ar;
 - [x] criar e confirmar e-mails de marca, suporte e privacidade — confirmados pelo titular em
       17/08/2026: estúdio `brg.ftw@gmail.com`, Revalio `contato.revalio@gmail.com`,
       Docalio `contato.docalio@gmail.com`. Falta apenas testar o recebimento em cada caixa;
@@ -142,7 +140,6 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 | `foroJuridico` | lei aplicável e resolução de conflitos | `/terms`, `/revalio/terms`, `/docalio/terms` |
 | `hospedagemLogs` | retenção dos registros de acesso e acordo de dados da Vercel | `/privacy` |
 | `contaDocalio` | se o Docalio terá conta, nuvem, compras ou telemetria | `/docalio/privacy`, `/docalio/terms`, `/docalio/delete-account` |
-| `dominioAtivo` | domínio no ar: registro, certificado e DNS | não é texto de tela; o nome já está em `site.ts` |
 | `screenshotsRevalio` | capturas reais aprovadas | a galeria de `/projects/revalio` não é renderizada |
 | `conceptArtDocalio` | concept art autorizada | a galeria de `/projects/docalio` não é renderizada |
 | `lojasRevalio` | URLs das fichas na App Store e no Google Play | os selos de loja de `/projects/revalio` ficam sem link |
@@ -205,14 +202,13 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 ## Sequência recomendada para publicar
 
 1. decidir titularidade e registrar nome, documento e endereço;
-2. registrar `www.blajeen-labs.com.br`, emitir o certificado e apontar o DNS para o deploy;
-3. testar o recebimento nas três caixas de e-mail já confirmadas;
-4. definir prazos de retenção e de resposta a titulares;
-5. escolher hospedagem e declarar os logs de acesso em `/privacy`;
-6. obter revisão jurídica dos seis documentos;
-7. remover de `src/content/blockers.ts` cada item resolvido e preencher o valor com `definido(...)`,
+2. testar o recebimento nas três caixas de e-mail já confirmadas;
+3. definir prazos de retenção e de resposta a titulares;
+4. escolher hospedagem e declarar os logs de acesso em `/privacy`;
+5. obter revisão jurídica dos seis documentos;
+6. remover de `src/content/blockers.ts` cada item resolvido e preencher o valor com `definido(...)`,
    registrando a fonte da confirmação;
-8. rodar `SITE_PUBLICACAO=1 npm run check:content` — ele precisa passar;
-9. rodar `npm run verify` e o QA visual;
-10. só então preencher App Store Connect e Google Play Console com as URLs publicadas.
+7. rodar `SITE_PUBLICACAO=1 npm run check:content` — ele precisa passar;
+8. rodar `npm run verify` e o QA visual;
+9. só então preencher App Store Connect e Google Play Console com as URLs publicadas.
 

@@ -70,7 +70,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10 [background:radial-gradient(circle_at_var(--halo-x)_var(--halo-y),rgba(201,255,61,0.07),transparent_24%)]"
       />
 
-      <div className="mx-auto w-full max-w-[1440px]">
+      <div className="mx-auto w-full max-w-[var(--layout-max)]">
         <p className="tecnica text-mineral-dim">{hero.eyebrow}</p>
 
         {/* A logo renderizada é o LCP da home: entra com prioridade e sem carregamento preguiçoso. */}

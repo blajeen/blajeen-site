@@ -1,4 +1,5 @@
 import type { ProjectId } from './types';
+import { ROTAS } from '@/lib/routes';
 
 /**
  * Novidades do laboratório.
@@ -16,10 +17,49 @@ export type Novidade = {
   readonly titulo: string;
   readonly texto: readonly string[];
   readonly projeto?: ProjectId;
+  /** Destino editorial para novidades que não pertencem aos três jogos. */
+  readonly href?: string;
+  readonly cta?: string;
   readonly rotulo: string;
 };
 
 export const novidades: readonly Novidade[] = [
+  {
+    id: 'barbearia-em-demonstracao',
+    data: '2026-08-20',
+    rotulo: 'Demonstração disponível',
+    titulo: 'A plataforma para barbearias já pode ser explorada',
+    texto: [
+      'A nova linha de produtos da Blajeen Labs começa com uma plataforma web para barbearias. Ela reúne site institucional, agendamento online sem criação de conta e uma área de gestão para acompanhar equipe, agenda e operação.',
+      'A demonstração apresenta a base funcionando por dentro. Em cada implantação, identidade, conteúdo, serviços, horários e regras são adaptados às necessidades da barbearia.',
+    ],
+    href: ROTAS.barbearia,
+    cta: 'Conhecer a plataforma',
+  },
+  {
+    id: 'personal-studio-em-demonstracao',
+    data: '2026-08-20',
+    rotulo: 'Demonstração disponível',
+    titulo: 'Personal Studio conecta aluno, personal e gestão',
+    texto: [
+      'O Personal Studio ganhou uma página completa e uma demonstração navegável. A plataforma reúne agenda, treinos, evolução e gestão em experiências próprias para aluno, profissional e gestor.',
+      'O produto parte de uma base funcional e é adaptado às necessidades, à identidade e às regras de personal trainers e estúdios de treinamento.',
+    ],
+    href: ROTAS.personalStudio,
+    cta: 'Explorar o Personal Studio',
+  },
+  {
+    id: 'novas-verticais-em-desenvolvimento',
+    data: '2026-08-20',
+    rotulo: 'Em desenvolvimento',
+    titulo: 'Salões e cuidados pet entram na bancada',
+    texto: [
+      'Duas novas verticais estão em desenvolvimento no laboratório: uma plataforma para salões de beleza e outra para pet shops e operações de banho & tosa.',
+      'Ainda não há demonstração pública dessas linhas. Elas serão apresentadas quando houver produto real para explorar, seguindo a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
+    ],
+    href: `${ROTAS.projetos}#salao-beleza`,
+    cta: 'Ver produtos em desenvolvimento',
+  },
   {
     id: 'gramelio-entra-no-laboratorio',
     data: '2026-08-19',
@@ -65,7 +105,7 @@ export const paginaDeNovidades = {
   vazio: 'Ainda não há novidades publicadas.',
   metaTitulo: 'Novidades — Blajeen Labs',
   metaDescricao:
-    'Lançamentos e andamento dos projetos da Blajeen Labs: Revalio, Docalio e o que vem depois.',
+    'Lançamentos e andamento dos jogos e produtos digitais da Blajeen Labs.',
 } as const;
 
 /**

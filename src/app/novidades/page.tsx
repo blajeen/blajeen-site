@@ -80,6 +80,14 @@ export default function Page() {
                         Ver {projeto.nome}
                         <span aria-hidden="true">→</span>
                       </Link>
+                    ) : item.href && item.cta ? (
+                      <Link
+                        href={item.href}
+                        className="alvo-toque tecnica mt-6 inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
+                      >
+                        {item.cta}
+                        <span aria-hidden="true">→</span>
+                      </Link>
                     ) : null}
                   </div>
                 </li>

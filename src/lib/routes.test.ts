@@ -26,8 +26,9 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` (18/08/2026) + as 5 do Gramelio (19/08/2026).
-    expect(TODAS_AS_ROTAS).toHaveLength(24);
+    expect(TODAS_AS_ROTAS).toHaveLength(25);
     expect(TODAS_AS_ROTAS).toContain('/projects');
+    expect(TODAS_AS_ROTAS).toContain('/projects/barbearia');
     expect(TODAS_AS_ROTAS).toContain('/projects/personal-studio');
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
@@ -66,6 +67,7 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.home)).toBe(1);
     expect(prioridadeSitemap(ROTAS.projetoRevalio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.barbearia)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.revalioExclusao)).toBe(0.5);
   });
 });

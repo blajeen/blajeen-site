@@ -84,9 +84,9 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
 export const atalhosDeProjeto = [
   {
     rotulo: 'Barbearias',
-    estado: 'EM BREVE',
+    estado: 'DEMONSTRAÇÃO',
     sigla: 'BR',
-    href: `${ROTAS.projetos}#barbearia`,
+    href: ROTAS.barbearia,
   },
   {
     rotulo: 'Personal Studio',
@@ -126,7 +126,7 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
   ],
   projetos: [
-    { rotulo: 'Barbearias — em breve', href: `${ROTAS.projetos}#barbearia` },
+    { rotulo: 'Plataforma para barbearias', href: ROTAS.barbearia },
     { rotulo: 'Personal trainers e estúdios — em breve', href: ROTAS.personalStudio },
     { rotulo: 'Salões de beleza — em breve', href: `${ROTAS.projetos}#salao-beleza` },
     { rotulo: 'Pet shops e banho & tosa — em breve', href: `${ROTAS.projetos}#pet-shop-tosa` },

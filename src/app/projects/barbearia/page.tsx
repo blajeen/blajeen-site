@@ -1,0 +1,301 @@
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { LabBackdrop } from '@/components/brand/LabBackdrop';
+import { Container, Section, TituloSecao } from '@/components/layout/Section';
+import { Reveal } from '@/components/motion/Reveal';
+import { ProductGallery } from '@/components/projects/ProductGallery';
+import { metadadosDaRota } from '@/lib/metadata';
+import { ROTAS } from '@/lib/routes';
+
+const DEMONSTRACAO = 'https://site-barbearia-blajeen-labs.vercel.app';
+
+export const metadata: Metadata = metadadosDaRota({
+  titulo: 'Plataforma para barbearias',
+  descricao:
+    'Plataforma white-label para barbearias com site institucional, agendamento online e gestão da operação.',
+  rota: ROTAS.barbearia,
+});
+
+const jornadas = [
+  {
+    numero: '01',
+    titulo: 'Experiência do cliente',
+    texto:
+      'Um site com a identidade da barbearia e um agendamento direto: unidade, profissional, serviço, data, horário e confirmação.',
+    imagem: '/projects/barbearia/screenshots/03-agendamento-horarios.png',
+    alt: 'Seleção de data e horário no agendamento online da plataforma para barbearias.',
+  },
+  {
+    numero: '02',
+    titulo: 'Rotina da equipe',
+    texto:
+      'Agenda centralizada por unidade e profissional para acompanhar os atendimentos e manter a operação organizada.',
+    imagem: '/projects/barbearia/screenshots/05-gestao-agenda.png',
+    alt: 'Agenda geral da plataforma com filtros por unidade e profissional.',
+  },
+  {
+    numero: '03',
+    titulo: 'Controle do produto',
+    texto:
+      'Marca, conteúdo, imagens, cores, tipografia e regras de agendamento configurados em uma área própria de gestão.',
+    imagem: '/projects/barbearia/screenshots/06-produto-marca.png',
+    alt: 'Painel de personalização da marca e das imagens da plataforma para barbearias.',
+  },
+] as const;
+
+const demonstracoes = [
+  {
+    imagem: '/projects/barbearia/screenshots/01-site-institucional.png',
+    alt: 'Página inicial pública da demonstração, com identidade visual e chamada para agendamento.',
+    legenda: 'Site público: marca, serviços, equipe, unidades e acesso direto ao agendamento.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/02-agendamento-profissionais.png',
+    alt: 'Etapa de escolha de profissional no fluxo de agendamento.',
+    legenda: 'Agendamento: escolha de profissional ou opção pelo primeiro horário disponível.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/03-agendamento-horarios.png',
+    alt: 'Etapa de escolha de data e horário no fluxo de agendamento.',
+    legenda: 'Agendamento: datas e horários disponíveis apresentados em uma jornada objetiva.',
+    largura: 1912,
+    altura: 914,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/04-gestao-resumo.png',
+    alt: 'Resumo diário da gestão da barbearia.',
+    legenda: 'Gestão: resumo do dia, ocupação por profissional e próximos atendimentos.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/05-gestao-agenda.png',
+    alt: 'Agenda geral da gestão com filtros operacionais.',
+    legenda: 'Gestão: agenda geral com filtros por data, unidade e profissional.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/06-produto-marca.png',
+    alt: 'Configuração da marca, logotipo e imagens da plataforma.',
+    legenda: 'Produto: nome, assinatura visual, logotipo, capa e galeria configuráveis.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/07-produto-cores-tipografia.png',
+    alt: 'Configuração de cores e tipografia da plataforma.',
+    legenda: 'Produto: cores e tipografia ajustadas à identidade de cada barbearia.',
+    largura: 1897,
+    altura: 907,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots/08-produto-regras-agenda.png',
+    alt: 'Configuração das regras de agendamento da plataforma.',
+    legenda: 'Produto: antecedência, intervalo, cancelamento e demais regras de agenda.',
+    largura: 1897,
+    altura: 907,
+  },
+] as const;
+
+const personalizacoes = [
+  'Nome, logotipo, cores, tipografia e imagens.',
+  'Textos, seções do site público e contato pelo WhatsApp.',
+  'Unidades, profissionais, serviços, valores e durações.',
+  'Horários, antecedência, intervalos e regras de cancelamento.',
+  'Dados iniciais autorizados pela barbearia contratante.',
+] as const;
+
+export default function BarbeariaPage() {
+  return (
+    <>
+      <section
+        className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,6rem)]"
+        aria-labelledby="barbearia-titulo"
+      >
+        <LabBackdrop />
+        <Container>
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <p className="tecnica text-signal">PRODUTO DIGITAL WHITE-LABEL / BARBEARIAS</p>
+              <h1
+                id="barbearia-titulo"
+                className="mt-8 max-w-[12ch] text-[clamp(2.4rem,6vw,5rem)] leading-[0.98] tracking-[-0.05em]"
+              >
+                Sua barbearia. Sua marca. Uma operação conectada.
+              </h1>
+              <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
+                Site institucional, agendamento online e gestão reunidos em uma plataforma preparada
+                para receber a identidade e as regras de uma barbearia real.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link
+                  href={ROTAS.contato}
+                  className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
+                >
+                  Quero uma versão para minha barbearia
+                  <span aria-hidden="true">→</span>
+                </Link>
+                <a
+                  href={DEMONSTRACAO}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
+                >
+                  Ver demonstração
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <Reveal className="lg:col-span-7">
+              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
+                <Image
+                  src="/projects/barbearia/screenshots/04-gestao-resumo.png"
+                  alt="Resumo diário da gestão na plataforma para barbearias."
+                  width={1897}
+                  height={907}
+                  priority
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="h-auto w-full"
+                />
+                <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
+                  Gestão diária: operação, equipe e próximos atendimentos em uma única visão.
+                </figcaption>
+              </figure>
+            </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      <Section indice="01 / A BASE" rotuladaPor="base-barbearia-titulo">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <TituloSecao id="base-barbearia-titulo" className="lg:col-span-5">
+            Uma instalação feita para representar um único negócio.
+          </TituloSecao>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
+              A plataforma não é um catálogo de várias barbearias. Cada versão é uma experiência
+              própria, com domínio, identidade, conteúdo, equipe e regras do estabelecimento.
+            </p>
+            <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
+              A base já conecta a descoberta do serviço ao agendamento e à rotina interna, reduzindo
+              a distância entre o que o cliente vê e o que a equipe precisa administrar.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        indice="02 / JORNADAS"
+        rotuladaPor="jornadas-titulo"
+        className="relative isolate overflow-hidden"
+      >
+        <LabBackdrop lado="esquerda" />
+        <TituloSecao id="jornadas-titulo" className="max-w-[18ch]">
+          Cliente, equipe e produto no mesmo ecossistema.
+        </TituloSecao>
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {jornadas.map((jornada) => (
+            <Reveal key={jornada.titulo}>
+              <article className="h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/60">
+                <div className="aspect-[16/9] overflow-hidden border-b border-line bg-surface">
+                  <Image
+                    src={jornada.imagem}
+                    alt={jornada.alt}
+                    width={1897}
+                    height={907}
+                    sizes="(min-width: 1024px) 32vw, 100vw"
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="tecnica text-signal">{jornada.numero}</p>
+                  <h2 className="mt-5 text-[1.65rem] leading-[1.05] tracking-[-0.04em]">
+                    {jornada.titulo}
+                  </h2>
+                  <p className="mt-5 text-sm leading-relaxed text-mineral">{jornada.texto}</p>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section indice="03 / PERSONALIZAÇÃO" rotuladaPor="personalizacao-barbearia-titulo">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <TituloSecao id="personalizacao-barbearia-titulo" className="lg:col-span-5">
+            A mesma base. A identidade e a operação da sua barbearia.
+          </TituloSecao>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
+              A demonstração mostra o alcance do produto. Na implantação, cada elemento é ajustado
+              com informações fornecidas e autorizadas pelo negócio.
+            </p>
+            <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line">
+              {personalizacoes.map((item) => (
+                <li key={item} className="flex gap-3 bg-surface px-5 py-4 text-sm leading-relaxed text-mineral">
+                  <span aria-hidden="true" className="mt-[0.55em] size-1 flex-none rounded-full bg-signal" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      <Section indice="04 / PRODUTO REAL" rotuladaPor="demonstracao-barbearia-titulo">
+        <TituloSecao id="demonstracao-barbearia-titulo">
+          Oito telas reais para conhecer o produto por dentro.
+        </TituloSecao>
+        <ProductGallery slides={demonstracoes} />
+        <p className="medida-texto mt-8 max-w-[70ch] text-sm leading-relaxed text-mineral-dim">
+          Os nomes, números, horários e demais dados exibidos pertencem ao ambiente demonstrativo e
+          são fictícios. A plataforma organiza o agendamento; pagamentos são realizados diretamente
+          no estabelecimento.
+        </p>
+      </Section>
+
+      <Section className="pb-[clamp(4rem,10vw,10rem)]" rotuladaPor="cta-barbearia-titulo">
+        <Reveal>
+          <div className="rounded-[var(--radius-panel)] border border-line-strong bg-raised px-6 py-10 sm:px-10 sm:py-14">
+            <p className="tecnica text-signal">PLATAFORMA PARA BARBEARIAS / BLAJEEN LABS</p>
+            <h2
+              id="cta-barbearia-titulo"
+              className="mt-6 max-w-[17ch] text-[clamp(2rem,4.5vw,3.8rem)] leading-[1.02] tracking-[-0.05em]"
+            >
+              Sua presença digital pode trabalhar junto com a sua agenda.
+            </h2>
+            <p className="medida-texto mt-6 max-w-[62ch] text-[1rem] leading-relaxed text-mineral">
+              Conte à Blajeen Labs como sua barbearia funciona. A plataforma será preparada para
+              representar sua marca, seus serviços, sua equipe e sua rotina.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link
+                href={ROTAS.contato}
+                className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
+              >
+                Solicitar personalização
+                <span aria-hidden="true">→</span>
+              </Link>
+              <a
+                href={DEMONSTRACAO}
+                target="_blank"
+                rel="noreferrer"
+                className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
+              >
+                Abrir demonstração
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </Section>
+    </>
+  );
+}

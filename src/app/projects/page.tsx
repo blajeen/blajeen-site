@@ -8,7 +8,7 @@ import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Projetos',
-  descricao: 'Sites e aplicativos em construção na Blajeen Labs.',
+  descricao: 'Plataformas digitais em demonstração e desenvolvimento na Blajeen Labs.',
   rota: ROTAS.projetos,
 });
 
@@ -18,6 +18,8 @@ const projetos = [
     indice: 'PROJETO 01',
     titulo: 'Plataforma para barbearias.',
     texto: 'Site e aplicativo para organizar presença digital, agenda e relacionamento com clientes.',
+    href: ROTAS.barbearia,
+    estado: 'DEMONSTRAÇÃO',
   },
   {
     id: 'personal-estudio',
@@ -25,18 +27,21 @@ const projetos = [
     titulo: 'Plataforma para personal trainers e estúdios.',
     texto: 'Site e aplicativo para organizar presença digital, rotina e acompanhamento.',
     href: ROTAS.personalStudio,
+    estado: 'EM BREVE',
   },
   {
     id: 'salao-beleza',
     indice: 'PROJETO 03',
     titulo: 'Plataforma para salões de beleza.',
     texto: 'Site e aplicativo para apresentar serviços, organizar agenda e cuidar do relacionamento com clientes.',
+    estado: 'EM BREVE',
   },
   {
     id: 'pet-shop-tosa',
     indice: 'PROJETO 04',
     titulo: 'Plataforma para pet shops e banho & tosa.',
     texto: 'Site e aplicativo para organizar serviços, horários e cuidados de cada pet.',
+    estado: 'EM BREVE',
   },
 ] as const;
 
@@ -46,7 +51,7 @@ export default function ProjetosPage() {
       <section className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,6rem)]" aria-labelledby="projetos-titulo">
         <LabBackdrop />
         <Container>
-          <p className="tecnica text-signal">PROJETOS EM CONSTRUÇÃO</p>
+          <p className="tecnica text-signal">PRODUTOS DIGITAIS</p>
           <h1
             id="projetos-titulo"
             className="mt-8 max-w-[14ch] text-[clamp(2.4rem,7vw,5rem)] leading-[0.98] tracking-[-0.05em]"
@@ -54,19 +59,19 @@ export default function ProjetosPage() {
             Novas ferramentas para negócios reais.
           </h1>
           <p className="medida-texto mt-8 text-[1.15rem] leading-relaxed text-mineral">
-            Dois novos produtos estão saindo do laboratório. Ambos ainda estão em definição.
+            Uma demonstração já está disponível. Outros produtos seguem em desenvolvimento no laboratório.
           </p>
         </Container>
       </section>
 
-      <Section className="pb-[clamp(4rem,10vw,10rem)]" rotulo="Projetos em breve">
+      <Section className="pb-[clamp(4rem,10vw,10rem)]" rotulo="Portfólio de projetos">
         <div className="grid gap-5 lg:grid-cols-2">
           {projetos.map((projeto) => (
             <Reveal key={projeto.id}>
               <article id={projeto.id} className="h-full rounded-[var(--radius-panel)] border border-line bg-raised/50 p-7 sm:p-9">
                 <p className="tecnica flex items-center justify-between gap-4 text-signal">
                   {projeto.indice}
-                  <span className="rounded-full border border-signal/40 px-3 py-1 text-[0.56rem]">EM BREVE</span>
+                  <span className="rounded-full border border-signal/40 px-3 py-1 text-[0.56rem]">{projeto.estado}</span>
                 </p>
                 <h2 className="mt-12 max-w-[14ch] text-[clamp(1.8rem,3.5vw,2.7rem)] leading-[1.03] tracking-[-0.045em]">
                   {projeto.titulo}

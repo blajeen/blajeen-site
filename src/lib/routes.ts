@@ -7,6 +7,7 @@
 export const ROTAS = {
   home: '/',
   projetos: '/projects',
+  barbearia: '/projects/barbearia',
   personalStudio: '/projects/personal-studio',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
@@ -62,6 +63,7 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.projetoRevalio ||
     rota === ROTAS.projetoDocalio ||
     rota === ROTAS.projetoGramelio ||
+    rota === ROTAS.barbearia ||
     rota === ROTAS.personalStudio
   )
     return 0.9;

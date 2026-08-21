@@ -71,7 +71,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pr-24 pt-5 xl:pr-0">
           <p className="tecnica text-mineral-dim">
             © {site.ano} {site.nome.toUpperCase()}
           </p>

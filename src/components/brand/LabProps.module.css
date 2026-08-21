@@ -428,6 +428,29 @@
   }
 }
 
+/*
+ * A barra lateral ocupa a esquerda até 80rem. Nessa faixa o frasco muda para a direita para não
+ * encobrir Contato nem interceptar o toque dos itens finais. A máscara acompanha a nova origem.
+ */
+@media (max-width: 79.999rem) {
+  .frasco {
+    inset-inline-start: auto;
+    inset-inline-end: clamp(0.55rem, 1.8vw, 1.25rem);
+  }
+
+  .gosmaOverlay {
+    --origem-x: calc(100% - 3.2rem);
+    --origem-y: calc(100% - 3.2rem);
+    mask-image:
+      radial-gradient(circle at var(--origem-x) var(--origem-y), #000 0 var(--massa-1), transparent calc(var(--massa-1) + 2px)),
+      radial-gradient(circle at calc(var(--origem-x) - 18vw) calc(var(--origem-y) - 12vh), #000 0 var(--massa-2), transparent calc(var(--massa-2) + 2px)),
+      radial-gradient(circle at calc(var(--origem-x) - 42vw) calc(var(--origem-y) - 35vh), #000 0 var(--massa-3), transparent calc(var(--massa-3) + 2px)),
+      radial-gradient(circle at calc(var(--origem-x) - 70vw) calc(var(--origem-y) - 55vh), #000 0 var(--massa-4), transparent calc(var(--massa-4) + 2px)),
+      radial-gradient(circle at calc(var(--origem-x) - 48vw) calc(var(--origem-y) - 78vh), #000 0 var(--massa-5), transparent calc(var(--massa-5) + 2px)),
+      radial-gradient(circle at calc(var(--origem-x) - 90vw) calc(var(--origem-y) - 82vh), #000 0 var(--massa-6), transparent calc(var(--massa-6) + 2px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pose {
     transition: none;

@@ -32,7 +32,7 @@ export function OnboardingAccessGate() {
   return (
     <form onSubmit={open} className="mt-8">
       <label htmlFor="onboarding-access" className="tecnica block text-paper">
-        LINK OU CÓDIGO DE ACESSO
+        JÁ RECEBEU SEU LINK OU CÓDIGO?
       </label>
       <div className="mt-3 flex flex-col gap-3 sm:flex-row">
         <input
@@ -40,7 +40,7 @@ export function OnboardingAccessGate() {
           name="access"
           required
           autoComplete="off"
-          placeholder="Cole aqui o acesso recebido"
+          placeholder="Cole o link individual enviado pela Blajeen"
           className="min-h-12 min-w-0 flex-1 rounded-2xl border border-line-strong bg-ink px-4 text-paper outline-none transition-colors placeholder:text-mineral-dim focus:border-signal"
         />
         <button className="alvo-toque tecnica rounded-full border border-signal bg-signal px-6 text-ink transition-colors hover:bg-signal-pale">

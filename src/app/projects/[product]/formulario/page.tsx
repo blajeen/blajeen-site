@@ -49,18 +49,30 @@ export default async function ProjectFormPage({ params }: Context) {
             <ProjectFormCard slug={product} showAction={false} />
             <div className="mt-9 border-t border-line pt-8">
               <h1 className="max-w-[16ch] text-[clamp(2.2rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.05em]">
-                Vamos reunir tudo o que o projeto precisa.
+                Cada cliente recebe um acesso exclusivo.
               </h1>
               <p className="medida-texto mt-6 text-[1rem] leading-relaxed text-mineral">
-                O acesso é individual e protegido. Ao concluir, as respostas e os arquivos ficam
-                registrados no painel da Blajeen Labs para revisão. Nunca informe senhas no
-                formulário.
+                Não existe um código geral. A equipe Blajeen Labs cadastra o cliente no painel e
+                envia um link individual. Ao abrir esse link, o formulário completo aparece sem
+                precisar procurar ou criar outra senha.
               </p>
               <div className="mt-6 rounded-2xl border border-amber-300/30 bg-amber-300/5 p-4 text-sm leading-relaxed text-amber-100">
                 <strong>Importante:</strong> preencha somente se a equipe Blajeen Labs solicitou e
-                enviou seu acesso privado.
+                enviou seu acesso privado. Nunca informe senhas pessoais no formulário.
               </div>
               <OnboardingAccessGate />
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
+                <p className="max-w-[58ch] text-sm leading-relaxed text-mineral">
+                  É da equipe Blajeen? Cadastre o cliente, escolha o produto e clique em “Criar
+                  link”. Depois, envie o link gerado ao cliente.
+                </p>
+                <Link
+                  href="/admin/onboardings"
+                  className="alvo-toque tecnica inline-flex items-center rounded-full border border-line-strong px-5 text-paper transition-colors hover:border-signal hover:text-signal"
+                >
+                  GERAR ACESSO NO PAINEL →
+                </Link>
+              </div>
             </div>
           </div>
         </div>

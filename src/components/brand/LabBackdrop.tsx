@@ -29,8 +29,8 @@ export function LabBackdrop({ lado = 'direita', className }: Props) {
         width={1536}
         height={1024}
         sizes="(min-width: 64rem) 900px, 100vw"
-        loading="lazy"
-        fetchPriority="low"
+        loading="eager"
+        fetchPriority="high"
         className={styles.arte}
       />
     </div>

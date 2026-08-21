@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container } from '@/components/layout/Section';
-import { dataPorExtenso, novidadesPublicadas, paginaDeNovidades } from '@/content/news';
+import { dataPorExtenso, novidadesPublicadas, paginaDeNovidades, type Novidade } from '@/content/news';
 import { projetoPorId, rotasDoProjeto } from '@/content/projects';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
+import { listManagedNews } from '@/lib/news/repository';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: paginaDeNovidades.metaTitulo,
@@ -19,10 +20,17 @@ export const metadata: Metadata = metadadosDaRota({
  * É o que faz um item datado para o futuro aparecer sozinho no dia certo, sem alguém precisar
  * republicar o site. Sem isso a lista congelaria no momento do build.
  */
-export const revalidate = 3600;
+export const revalidate = 60;
 
-export default function Page() {
-  const itens = novidadesPublicadas();
+export default async function Page() {
+  const manuais = await listManagedNews(true).catch(() => []);
+  const itens: readonly Novidade[] = [
+    ...manuais.map(({ slug, data, rotulo, titulo, texto, href, cta }) => ({
+      id: slug, data, rotulo, titulo, texto,
+      ...(href && cta ? { href, cta } : {}),
+    })),
+    ...novidadesPublicadas(),
+  ].sort((a, b) => b.data.localeCompare(a.data));
 
   return (
     <article className="relative isolate overflow-hidden pb-[clamp(4rem,10vw,9rem)] pt-[clamp(3rem,7vw,6rem)]">

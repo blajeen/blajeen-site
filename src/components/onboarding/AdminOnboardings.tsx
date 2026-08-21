@@ -39,7 +39,7 @@ export function AdminOnboardings() {
 
   return (
     <div className="mx-auto w-full max-w-[110rem] px-[var(--gutter)] py-12">
-      <header className="flex flex-wrap items-end justify-between gap-6"><div><p className="tecnica text-signal">PAINEL BLAJEEN</p><h1 className="mt-4 text-[clamp(2.5rem,7vw,5.5rem)] leading-none">Onboardings.</h1><p className="mt-4 text-mineral">Crie acessos, acompanhe pendências e revise cada projeto.</p></div><button type="button" onClick={() => void fetch('/api/admin/logout', { method: 'POST' }).then(() => router.push('/admin/login'))} className="alvo-toque rounded-full border border-line-strong px-4 text-sm text-mineral">Sair</button></header>
+      <header className="flex flex-wrap items-end justify-between gap-6"><div><p className="tecnica text-signal">PAINEL BLAJEEN</p><h1 className="mt-4 text-[clamp(2.5rem,7vw,5.5rem)] leading-none">Formulários.</h1><p className="mt-4 text-mineral">Crie acessos, acompanhe pendências e revise cada projeto.</p></div><nav className="flex flex-wrap gap-3" aria-label="Área administrativa"><Link href="/admin/novidades" className="alvo-toque inline-flex items-center rounded-full border border-signal px-4 text-sm text-signal">Postar novidade</Link><button type="button" onClick={() => void fetch('/api/admin/logout', { method: 'POST' }).then(() => router.push('/admin/login'))} className="alvo-toque rounded-full border border-line-strong px-4 text-sm text-mineral">Sair</button></nav></header>
 
       <section aria-labelledby="novo-titulo" className="mt-10 rounded-[var(--radius-panel)] border border-line-strong bg-surface p-6 lg:p-8">
         <h2 id="novo-titulo" className="text-2xl">Criar novo onboarding</h2>

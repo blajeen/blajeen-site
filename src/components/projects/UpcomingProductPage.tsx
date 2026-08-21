@@ -3,6 +3,7 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
+import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { ROTAS } from '@/lib/routes';
 
 export type UpcomingProduct = {
@@ -13,6 +14,7 @@ export type UpcomingProduct = {
   readonly introduction: string;
   readonly contactId: string;
   readonly contactLabel: string;
+  readonly slug: string;
   readonly directions: readonly {
     readonly title: string;
     readonly text: string;
@@ -134,7 +136,6 @@ export function UpcomingProductPage({ product }: { product: UpcomingProduct }) {
       <Section
         indice={`${product.services?.length ? '03' : '02'} / IDENTIDADE E ADAPTAÇÃO`}
         rotuladaPor="adaptacao-produto-titulo"
-        className="pb-[clamp(4rem,10vw,10rem)]"
       >
         <Reveal>
           <div className="rounded-[var(--radius-panel)] border border-line bg-raised/70 p-7 sm:p-10 lg:p-14">
@@ -158,6 +159,10 @@ export function UpcomingProductPage({ product }: { product: UpcomingProduct }) {
             </Link>
           </div>
         </Reveal>
+      </Section>
+
+      <Section indice={`${product.services?.length ? '04' : '03'} / FORMULÁRIO`} rotuladaPor="formulario-produto-titulo" className="pb-[clamp(4rem,10vw,10rem)]">
+        <ProjectFormCard slug={product.slug} />
       </Section>
     </>
   );

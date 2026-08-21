@@ -12,6 +12,7 @@ export const metadata: Metadata = metadadosDaRota({
 });
 
 const product: UpcomingProduct = {
+  slug: 'salao-feminino',
   icon: 'cabelo',
   eyebrow: 'PRODUTO 03 / CABELO FEMININO',
   title: 'Plataforma para salões de cabelo feminino',

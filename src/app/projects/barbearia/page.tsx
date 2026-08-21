@@ -5,6 +5,7 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
+import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -250,6 +251,10 @@ export default function BarbeariaPage() {
           são fictícios. A plataforma organiza o agendamento; pagamentos são realizados diretamente
           no estabelecimento.
         </p>
+      </Section>
+
+      <Section indice="04 / FORMULÁRIO" rotuladaPor="formulario-barbearia-titulo">
+        <ProjectFormCard slug="barbearia" />
       </Section>
 
       <Section className="pb-[clamp(4rem,10vw,10rem)]" rotuladaPor="cta-barbearia-titulo">

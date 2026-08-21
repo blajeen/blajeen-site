@@ -5,6 +5,7 @@ import { assertTransition, isCustomerEditable } from './state-machine';
 import { createCustomerToken, decryptCustomerToken, encryptCustomerToken, hashCustomerToken } from './security';
 import { exportConfiguration } from './exporters';
 import { sanitizeAnswer, validateAnswers } from './validation';
+import { notifyOnboardingSubmission } from './notifications';
 import {
   addAssetRecord, addEventRecord, addReviewRecord, createProjectRecord, deleteAssetRecord,
   findProjectBySourceItem, findProjectByTokenHash, getProjectBundle, replaceProjectToken,
@@ -95,6 +96,12 @@ export async function submitCustomerOnboarding(token: string, termsAccepted: boo
   await event(bundle.project.id, 'SUBMITTED', 'customer', { consentAccepted: true });
   const updated = await getProjectBundle(bundle.project.id);
   if (!updated) throw new Error('Não foi possível recarregar o onboarding.');
+  try {
+    const delivery = await notifyOnboardingSubmission(updated);
+    await event(bundle.project.id, `EMAIL_${delivery}`, 'system', { recipient: process.env.ONBOARDING_NOTIFICATION_EMAIL?.trim() || 'brg.ftw@gmail.com' });
+  } catch (error) {
+    await event(bundle.project.id, 'EMAIL_FAILED', 'system', { reason: error instanceof Error ? error.message.slice(0, 300) : 'Falha desconhecida' });
+  }
   return updated;
 }
 

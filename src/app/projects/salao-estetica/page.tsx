@@ -12,6 +12,7 @@ export const metadata: Metadata = metadadosDaRota({
 });
 
 const product: UpcomingProduct = {
+  slug: 'salao-estetica',
   icon: 'salao',
   eyebrow: 'PRODUTO 04 / ESTÉTICA E BELEZA',
   title: 'Plataforma para estética e beleza',

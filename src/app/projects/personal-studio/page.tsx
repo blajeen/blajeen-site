@@ -5,6 +5,7 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
+import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -225,6 +226,10 @@ export default function PersonalStudioPage() {
         <p className="medida-texto mt-8 max-w-[68ch] text-sm leading-relaxed text-mineral-dim">
           Os dados, nomes e indicadores mostrados na demonstração são fictícios e existem apenas para apresentar o potencial da plataforma. Eles serão substituídos por informações autorizadas na versão personalizada.
         </p>
+      </Section>
+
+      <Section indice="04 / FORMULÁRIO" rotuladaPor="formulario-personal-titulo">
+        <ProjectFormCard slug="personal-studio" />
       </Section>
 
       <Section className="pb-[clamp(4rem,10vw,10rem)]" rotuladaPor="cta-titulo">

@@ -25,6 +25,18 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'ecommerce-em-demonstracao',
+    data: '2026-08-21',
+    rotulo: 'Demonstração disponível',
+    titulo: 'O e-commerce white-label já pode ser explorado',
+    texto: [
+      'A nova demonstração reúne vitrine, categorias, busca com sugestões, páginas de produto, carrinho e um checkout assistido que leva o pedido ao atendimento pelo WhatsApp.',
+      'A operação também possui um painel para produtos, ofertas, estoque, categorias, catálogo em PDF e dados públicos da loja. Marca, catálogo, conteúdo e jornada de fechamento são adaptados a cada contratante.',
+    ],
+    href: ROTAS.ecommerce,
+    cta: 'Explorar o e-commerce',
+  },
+  {
     id: 'barbearia-em-demonstracao',
     data: '2026-08-20',
     rotulo: 'Demonstração disponível',

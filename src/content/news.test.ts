@@ -29,6 +29,7 @@ describe('novidades', () => {
     const ids = novidades.map((item) => item.id);
     expect(ids).toContain('barbearia-em-demonstracao');
     expect(ids).toContain('personal-studio-em-demonstracao');
+    expect(ids).toContain('ecommerce-em-demonstracao');
     expect(ids).toContain('novas-verticais-em-desenvolvimento');
 
     const emDesenvolvimento = novidades.find(

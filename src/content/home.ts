@@ -32,7 +32,7 @@ export const produtosComerciais = {
   indice: '03 / PRODUTOS',
   titulo: 'Tecnologia própria para rotinas reais.',
   texto:
-    'Plataformas funcionais para negócios que vivem de agenda, prontas para receber a identidade e as regras de cada operação.',
+    'Plataformas funcionais para negócios reais, prontas para receber a identidade, o conteúdo e as regras de cada operação.',
   cta: { rotulo: 'EXPLORAR OS PRODUTOS', href: ROTAS.projetos },
 } as const;
 

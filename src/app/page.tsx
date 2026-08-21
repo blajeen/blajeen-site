@@ -31,6 +31,15 @@ const produtos = [
     imagem: '/projects/personal-studio/mockup-painel-gestor.png',
     alt: 'Painel de gestão da plataforma Personal Studio.',
   },
+  {
+    id: 'ecommerce' as const,
+    categoria: 'E-COMMERCE',
+    titulo: 'Vitrine, catálogo e operação conectados.',
+    texto: 'Busca, carrinho, atendimento e gestão em uma loja pronta para receber outra marca.',
+    href: ROTAS.ecommerce,
+    imagem: '/projects/ecommerce/social-ecommerce.jpg',
+    alt: 'Identidade visual da demonstração E-Commerce.',
+  },
 ] as const;
 
 export default function Home() {

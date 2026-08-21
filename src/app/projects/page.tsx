@@ -39,6 +39,18 @@ const produtosEmDemonstracao = [
     imagem: '/projects/personal-studio/mockup-painel-gestor.png',
     alt: 'Painel de gestão da plataforma Personal Studio exibido em um monitor.',
   },
+  {
+    id: 'ecommerce' as ProductIconId,
+    indice: 'PRODUTO 05',
+    categoria: 'LOJAS E MARCAS',
+    titulo: 'Vitrine, catálogo e atendimento em uma loja própria.',
+    texto:
+      'Um e-commerce white-label com busca, carrinho, checkout assistido e painel para organizar a operação.',
+    href: ROTAS.ecommerce,
+    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
+    imagem: '/projects/ecommerce/social-ecommerce.jpg',
+    alt: 'Identidade visual da demonstração de e-commerce da Blajeen Labs.',
+  },
 ] as const;
 
 const proximasVerticais = [
@@ -59,15 +71,6 @@ const proximasVerticais = [
     texto: 'Uma vertical separada para estética, unhas, sobrancelhas, cílios, maquiagem, noivas e serviços combinados.',
     estado: 'EM BREVE',
     href: ROTAS.salaoEstetica,
-  },
-  {
-    id: 'ecommerce' as ProductIconId,
-    ancora: 'ecommerce',
-    indice: 'PRODUTO 05',
-    titulo: 'E-commerce sob medida',
-    texto: 'Vitrine, catálogo e jornada de compra construídos ao redor da marca e do negócio real.',
-    estado: 'EM BREVE',
-    href: ROTAS.ecommerce,
   },
   {
     id: 'pet' as ProductIconId,

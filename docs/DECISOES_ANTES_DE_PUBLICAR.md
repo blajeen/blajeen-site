@@ -139,6 +139,7 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 | `revisaoJuridica` | revisão jurídica dos textos | `/terms`, `/revalio/privacy`; mantém todo documento como “versão de trabalho” |
 | `foroJuridico` | lei aplicável e resolução de conflitos | `/terms`, `/revalio/terms`, `/docalio/terms` |
 | `hospedagemLogs` | retenção dos registros de acesso e acordo de dados da Vercel | `/privacy` |
+| `onboardingRetencao` | retenção das respostas, arquivos, revisões e auditoria depois da entrega | `/privacy` |
 | `contaDocalio` | se o Docalio terá conta, nuvem, compras ou telemetria | `/docalio/privacy`, `/docalio/terms`, `/docalio/delete-account` |
 | `screenshotsRevalio` | capturas reais aprovadas | a galeria de `/projects/revalio` não é renderizada |
 | `conceptArtDocalio` | concept art autorizada | a galeria de `/projects/docalio` não é renderizada |

@@ -2,7 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { site } from '../site';
 import type { LegalDocument } from '../types';
 
-const VERSAO = '16 de agosto de 2026';
+const VERSAO = '20 de agosto de 2026';
 const FONTE_DATA = 'Data de redação desta versão de trabalho.';
 
 const relacionadosEstudio = [
@@ -28,7 +28,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Esta política descreve o site institucional da Blajeen Labs: as páginas públicas do estúdio e as páginas de apoio de Revalio, Docalio e Gramelio. Ela não descreve o funcionamento dos aplicativos.',
+            'Esta política descreve o site institucional da Blajeen Labs, o portal usado para personalizar projetos adquiridos e as páginas de apoio de Revalio, Docalio e Gramelio. Ela não descreve o funcionamento dos aplicativos.',
         },
         {
           tipo: 'paragrafo',
@@ -39,27 +39,79 @@ export const privacidadeEstudio: LegalDocument = {
     },
     {
       id: 'coleta',
-      titulo: 'O que este site não faz',
+      titulo: 'Navegação pública',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Nesta primeira versão, o site é publicado sem qualquer camada de medição ou identificação de visitantes.',
+            'As páginas públicas continuam sem qualquer camada de medição ou identificação adicional de visitantes.',
         },
         {
           tipo: 'lista',
           itens: [
             'não usa analytics, pixels de rastreamento ou identificadores publicitários;',
             'não grava cookies não essenciais nem exibe banner de consentimento, porque não há o que consentir;',
-            'não possui login, cadastro, área restrita ou perfil de visitante;',
-            'não possui formulário com envio para servidor — o contato acontece pelo aplicativo de e-mail do seu aparelho;',
-            'não carrega fontes, scripts, imagens ou vídeos hospedados por terceiros: as fontes são servidas pelo próprio site e as imagens vêm do próprio domínio.',
+            'não cria perfil para visitantes das páginas institucionais;',
+            'o formulário público de contato não envia dados ao servidor — ele prepara uma mensagem no aplicativo de e-mail do seu aparelho;',
+            'fontes, scripts e imagens das páginas públicas são entregues pelo próprio domínio.',
           ],
         },
         {
           tipo: 'destaque',
           texto:
-            'Se qualquer um desses itens mudar, esta política, as declarações das lojas e os avisos do site precisam ser atualizados antes da publicação da mudança.',
+            'A central de onboarding é uma área separada, acessada por link exclusivo por clientes que adquiriram um projeto. O tratamento feito nessa área está explicado abaixo.',
+        },
+      ],
+    },
+    {
+      id: 'onboarding',
+      titulo: 'Central de onboarding de projetos',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Depois da contratação, a Blajeen pode criar um link exclusivo para o cliente enviar as informações necessárias à personalização do projeto. Não é preciso criar senha: o próprio link funciona como credencial temporária e pode expirar, ser revogado ou regenerado.',
+        },
+        {
+          tipo: 'lista',
+          itens: [
+            'dados de contato e identificação do responsável e do negócio;',
+            'dados comerciais, endereços, domínio desejado e usuários que receberão convites de acesso;',
+            'textos, identidade visual, logos, fotos, documentos não sensíveis e informações específicas do produto adquirido;',
+            'progresso de preenchimento, revisões, aprovações e histórico de ações necessárias à implantação.',
+          ],
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Esses dados são usados para preparar, revisar, implantar e documentar o projeto contratado, manter contato sobre pendências e gerar um pacote de configuração aprovado. O portal não pede senha de domínio, registrador, e-mail, banco ou gateway; acessos devem ser concedidos por convite em canal apropriado.',
+        },
+        {
+          tipo: 'destaque',
+          texto:
+            'O cliente só deve enviar imagens, marcas, depoimentos e outros materiais que esteja autorizado a usar. O envio final registra a confirmação dessa autorização para utilização no próprio projeto.',
+        },
+      ],
+    },
+    {
+      id: 'onboarding-seguranca',
+      titulo: 'Segurança, fornecedores e retenção do onboarding',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'O token do cliente é armazenado em forma de hash, e a cópia necessária ao painel interno fica criptografada. O painel administrativo usa sessão protegida; alterações de estado, salvamentos, revisões e exportações geram histórico de auditoria.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Em produção, os registros e arquivos são armazenados de forma privada em PostgreSQL hospedado na Neon. A Vercel hospeda a aplicação e pode ser usada como armazenamento adicional. Esses fornecedores processam os dados técnicos necessários para armazenar e entregar o conteúdo do projeto. Arquivos são acessados pelo próprio portal e não são publicados automaticamente.',
+        },
+        {
+          tipo: 'pendente',
+          bloqueador: 'onboardingRetencao',
+          explicacao:
+            'Ainda precisa ser definido por quanto tempo respostas, arquivos, revisões e histórico serão mantidos depois da publicação ou do arquivamento do projeto. Até essa decisão, nenhum prazo é prometido nesta política.',
         },
       ],
     },
@@ -80,7 +132,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'destaque',
           texto:
-            'Esse processamento é da hospedagem, não do site. O site em si não acrescenta nenhuma camada de medição: a versão publicada não carrega analytics, não grava cookies e não solicita nada a servidores de terceiros.',
+            'Esse processamento é da hospedagem. O site não acrescenta camada de medição: a versão publicada não carrega analytics nem grava cookies publicitários. A área administrativa usa apenas um cookie essencial de sessão, e o portal do cliente usa o link exclusivo como credencial.',
         },
         {
           tipo: 'pendente',
@@ -140,7 +192,7 @@ export const privacidadeEstudio: LegalDocument = {
   ],
   metaTitulo: 'Privacidade — Blajeen Labs',
   metaDescricao:
-    'Política de privacidade do site da Blajeen Labs: sem analytics, sem cookies não essenciais e sem formulários com backend.',
+    'Política de privacidade da Blajeen Labs: navegação pública, central de onboarding, arquivos e segurança dos projetos.',
 };
 
 export const termosEstudio: LegalDocument = {
@@ -222,6 +274,22 @@ export const termosEstudio: LegalDocument = {
             'não automatizar coleta em massa nem degradar a disponibilidade do site;',
             'não republicar as páginas como se fossem canal oficial de terceiros.',
           ],
+        },
+      ],
+    },
+    {
+      id: 'materiais-cliente',
+      titulo: 'Materiais enviados para personalização',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Quem usa a central de onboarding declara que as informações fornecidas são corretas e que possui autorização para utilizar as marcas, textos, imagens, depoimentos e demais arquivos enviados.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'A autorização dada no envio final permite que a Blajeen use esses materiais somente para analisar, desenvolver, revisar, publicar e manter o projeto contratado. O conteúdo não é publicado automaticamente: ele passa por revisão e aprovação.',
         },
       ],
     },

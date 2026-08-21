@@ -57,6 +57,12 @@ export const BLOQUEADORES = {
     // ficam guardados no plano contratado e a confirmação do acordo de tratamento de dados da
     // Vercel. Sem isso a política não pode declarar prazo de retenção.
   },
+  onboardingRetencao: {
+    titulo: 'Prazo de retenção dos dados e arquivos de onboarding',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Portal de onboarding',
+    // TODO(bloqueador): definir por quanto tempo respostas, arquivos, revisões e histórico serão
+    // mantidos depois da publicação ou do arquivamento do projeto. Não estimar prazo jurídico.
+  },
   lojasRevalio: {
     titulo: 'URLs das fichas do Revalio na App Store e no Google Play',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Revalio',

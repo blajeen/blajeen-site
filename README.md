@@ -31,6 +31,7 @@ npm run start
 | `npm run lint` | ESLint com as regras do Next e do React Compiler |
 | `npm run typecheck` | TypeScript estrito, sem emitir |
 | `npm run test` | testes de conteúdo, rotas, marca e acessibilidade das gavetas |
+| `npm run db:migrate` | aplica as migrations versionadas do portal de onboarding no PostgreSQL |
 | `npm run check:content` | portão de conteúdo: bloqueadores humanos, campos entre colchetes, projetos fictícios |
 | `npm run verify` | lint + typecheck + test + check:content + build |
 | `npm run build:assets` | regenera ícones e imagens Open Graph a partir dos masters |
@@ -134,8 +135,18 @@ docs/                  plano mestre, copy, requisitos legais e bloqueadores
 ```
 
 Server Components por padrão. Client Components apenas onde há interação real: marca viva, header,
-gavetas, controle de movimento e revelação por scroll. Sem CMS, analytics, pixels, cookies não
-essenciais ou formulário com backend.
+gavetas, controle de movimento, revelação por scroll e os formulários do portal. As páginas públicas
+continuam sem CMS, analytics, pixels ou cookies não essenciais.
+
+## Portal de onboarding
+
+Clientes de E-commerce, Barbearia, Personal Trainer / Studio e Estética / Beauty Studio recebem um
+link exclusivo para enviar conteúdo e arquivos, salvar o progresso e revisar a personalização. A
+equipe acompanha tudo em `/admin/onboardings`, solicita correções, aprova e exporta o pacote de
+configuração versionado.
+
+Instalação, variáveis, banco, armazenamento, segurança, rotas e integração futura com checkout estão
+documentados em [`docs/PORTAL_ONBOARDING.md`](docs/PORTAL_ONBOARDING.md).
 
 As páginas jurídicas e de suporte funcionam sem JavaScript — `npm run qa:shots` verifica isso a
 cada execução.

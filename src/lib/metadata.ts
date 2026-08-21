@@ -31,7 +31,7 @@ export function metadadosDaRota({
   descricao,
   rota,
   imagem = OG.estudio,
-  imagemAlt = 'BLAJEEN LABS — Build strange things. Make them matter.',
+  imagemAlt = 'Blajeen Labs — engenharia de software aplicada.',
   ogTitulo,
   ogDescricao,
   semImagem = false,
@@ -64,8 +64,9 @@ export function metadadosDaRota({
 /**
  * Schema `Organization` com dados verdadeiros apenas.
  *
- * Sem endereço, CNPJ, fundador nomeado, redes sociais, telefone ou logo de terceiros: nada disso
- * está confirmado. `SoftwareApplication`/`VideoGame` só entram quando existirem URLs de loja.
+ * Sem endereço, CNPJ, fundador nomeado ou telefone: nada disso está confirmado. A única rede
+ * publicada é o Instagram oficial informado pelo titular. `SoftwareApplication`/`VideoGame` só
+ * entram quando existirem URLs de loja.
  */
 export function schemaOrganizacao() {
   return {
@@ -75,5 +76,6 @@ export function schemaOrganizacao() {
     url: SITE_URL,
     description: site.descricao,
     logo: urlAbsoluta(OG.estudio),
+    sameAs: [site.instagram.url],
   };
 }

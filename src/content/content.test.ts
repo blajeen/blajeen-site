@@ -9,6 +9,8 @@ import {
   produtosComerciais,
   proximo,
   rodapeCopy,
+  servicoPrincipal,
+  trabalhosHome,
 } from './home';
 import { documentosLegais } from './legal';
 import { atalhosDeJogo, rodape } from './navigation';
@@ -198,7 +200,14 @@ describe('projetos', () => {
 });
 
 /** As quatro seções da home, na ordem em que a página as apresenta. */
-const secoesDaHome = [laboratorio, experimentos, produtosComerciais, proximo];
+const secoesDaHome = [
+  servicoPrincipal,
+  trabalhosHome,
+  laboratorio,
+  experimentos,
+  produtosComerciais,
+  proximo,
+];
 
 describe('idioma da interface', () => {
   /*
@@ -261,7 +270,7 @@ describe('idioma da interface', () => {
 describe('seções da home', () => {
   it('segue a ordem numerada do plano mestre', () => {
     const indices = secoesDaHome.map((secao) => secao.indice.split(' / ')[0]);
-    expect(indices).toEqual(['01', '02', '03', '04']);
+    expect(indices).toEqual(['01', '02', '03', '04', '05', '06']);
   });
 
   it('não repete âncora entre seções', () => {

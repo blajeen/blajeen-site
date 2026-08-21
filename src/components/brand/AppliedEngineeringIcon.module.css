@@ -1,0 +1,96 @@
+.orbita {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 10rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, #55bfff 34%, transparent);
+  border-radius: 28%;
+  background:
+    radial-gradient(circle at 55% 45%, rgb(85 191 255 / 14%), transparent 48%),
+    color-mix(in srgb, var(--color-raised) 82%, transparent);
+  box-shadow: 0 0 70px -32px rgb(85 191 255 / 70%);
+  transform: rotate(3deg);
+}
+
+.orbita::before,
+.orbita::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: #8bddff;
+  box-shadow: 0 0 16px #55bfff;
+  animation: pulso 2.8s ease-in-out infinite;
+}
+
+.orbita::before {
+  top: 13%;
+  left: 10%;
+}
+
+.orbita::after {
+  right: 9%;
+  bottom: 17%;
+  animation-delay: -1.2s;
+}
+
+.icone {
+  width: 88%;
+  overflow: visible;
+  transform: rotate(-3deg);
+  filter: drop-shadow(0 0 14px rgb(85 191 255 / 35%));
+}
+
+.modulo,
+.circuito,
+.risco {
+  stroke: #8bddff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.liquido {
+  fill: rgb(85 191 255 / 16%);
+  stroke: #55bfff;
+  stroke-width: 3;
+}
+
+.circuito {
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
+.acido {
+  fill: var(--color-signal);
+  filter: drop-shadow(0 0 7px var(--color-signal));
+}
+
+.faisca {
+  fill: #8bddff;
+  filter: drop-shadow(0 0 9px #55bfff);
+  transform-origin: 124px 37px;
+  animation: faiscar 1.9s ease-in-out infinite;
+}
+
+@keyframes pulso {
+  0%, 100% { opacity: 0.35; transform: scale(0.72) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(45deg); }
+}
+
+@keyframes faiscar {
+  0%, 72%, 100% { opacity: 0.45; transform: scale(0.9); }
+  78% { opacity: 1; transform: scale(1.08); }
+  84% { opacity: 0.7; transform: scale(0.97); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbita::before,
+  .orbita::after,
+  .faisca {
+    animation: none;
+  }
+}
+

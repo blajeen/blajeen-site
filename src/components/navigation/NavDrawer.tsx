@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { Drawer } from '@/components/overlays/Drawer';
+import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { ProductIcon } from '@/components/projects/ProductIcon';
 import { atalhosDeJogo, atalhosDeProjeto, navegacaoPrincipal } from '@/content/navigation';
 import { site } from '@/content/site';
@@ -53,6 +54,9 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
                       {link.descricao}
                     </span>
                   </span>
+                  {link.href === ROTAS.crieSeuProjeto ? (
+                    <AppliedEngineeringIcon decorativo className="ml-auto !size-12 !flex-none !rounded-xl" />
+                  ) : null}
                   {link.href === ROTAS.contato ? (
                     <Image
                       src="/brand/contact-envelope.png"

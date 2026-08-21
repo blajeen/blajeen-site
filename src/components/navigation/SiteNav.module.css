@@ -1,8 +1,8 @@
 /*
  * Barra de navegação do desktop.
  *
- * Aparece a partir de 64rem, onde os cinco destinos cabem sem apertar. Abaixo disso quem navega
- * é a gaveta — cinco links mais um submenu não entram em 360 px sem virar uma fila ilegível.
+ * Aparece a partir de 80rem, onde os destinos cabem sem apertar. Abaixo disso quem navega
+ * é a gaveta — serviço, trabalhos, produtos e jogos precisam de hierarquia, não de uma fila.
  *
  * "Jogos" segue o padrão de menu de divulgação do WAI-ARIA: um botão com `aria-expanded` que
  * revela a lista dos dois jogos. O ponteiro é atalho, não requisito: clique, `Enter`, `Espaço` e
@@ -13,7 +13,7 @@
   display: none;
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 80rem) {
   .barra {
     display: block;
   }
@@ -57,13 +57,13 @@
   color: var(--color-paper);
 }
 
-.destino[data-destaque='true'] {
+.destino[data-destaque='contato'] {
   margin-inline-start: 0.35rem;
   border: 1px solid var(--color-line-strong);
   color: var(--color-paper);
 }
 
-.destino[data-destaque='true']:hover {
+.destino[data-destaque='contato']:hover {
   border-color: color-mix(in srgb, var(--color-signal) 60%, transparent);
   color: var(--color-signal);
 }
@@ -79,9 +79,32 @@
     filter 180ms var(--ease-lab);
 }
 
-.destino[data-destaque='true']:hover .iconeContato {
+.destino[data-destaque='contato']:hover .iconeContato {
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-signal) 45%, transparent));
   transform: translateY(-1px) rotate(2deg);
+}
+
+.destino[data-destaque='servico'] {
+  margin-inline-end: 0.2rem;
+  border: 1px solid color-mix(in srgb, #55bfff 38%, transparent);
+  color: #8bddff;
+  background: color-mix(in srgb, #55bfff 7%, transparent);
+}
+
+.destino[data-destaque='servico']:hover {
+  border-color: color-mix(in srgb, #55bfff 72%, transparent);
+  color: #bdeaff;
+  background: color-mix(in srgb, #55bfff 13%, transparent);
+}
+
+.iconeServico {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  flex: none;
 }
 
 /* Sinal verde discreto sob a rota atual. */

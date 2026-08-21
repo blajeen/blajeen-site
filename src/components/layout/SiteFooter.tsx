@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Container } from '@/components/layout/Section';
 import { MotionToggle } from '@/components/motion/MotionToggle';
+import { InstagramIcon } from '@/components/brand/InstagramIcon';
 import { rodape } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rodapeCopy } from '@/content/home';
@@ -9,6 +10,7 @@ const grupos = [
   { titulo: 'Jogos', links: rodape.jogos },
   { titulo: 'Produtos', links: rodape.projetos },
   { titulo: 'Estúdio', links: rodape.estudio },
+  { titulo: 'Social', links: rodape.social },
   // "Excluir dados" é subgrupo de Legal: um destino por produto, sem repetir o nome do jogo.
   { titulo: 'Legal', links: rodape.legal, subgrupo: rodape.dados },
 ] as const;
@@ -28,7 +30,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
+          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 xl:grid-cols-5">
             {grupos.map((grupo) => (
               <div key={grupo.titulo}>
                 <h2 className="tecnica text-mineral-dim">{grupo.titulo}</h2>
@@ -37,8 +39,10 @@ export function SiteFooter() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
+                        {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                         className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
                       >
+                        {grupo.titulo === 'Social' ? <InstagramIcon className="mr-2 size-4" /> : null}
                         {link.rotulo}
                       </Link>
                     </li>

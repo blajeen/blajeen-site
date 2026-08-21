@@ -26,7 +26,11 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` + as 5 do Gramelio + Clínica Médica.
-    expect(TODAS_AS_ROTAS).toHaveLength(28);
+    expect(TODAS_AS_ROTAS).toHaveLength(32);
+    expect(TODAS_AS_ROTAS).toContain('/crie-seu-projeto');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos/lina-art-pet');
     expect(TODAS_AS_ROTAS).toContain('/projects');
     expect(TODAS_AS_ROTAS).toContain('/projects/barbearia');
     expect(TODAS_AS_ROTAS).toContain('/projects/personal-studio');
@@ -68,6 +72,9 @@ describe('rotas públicas', () => {
 
   it('dá prioridade máxima à home e alta aos produtos', () => {
     expect(prioridadeSitemap(ROTAS.home)).toBe(1);
+    expect(prioridadeSitemap(ROTAS.crieSeuProjeto)).toBe(0.95);
+    expect(prioridadeSitemap(ROTAS.trabalhos)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.trabalhoDomGuima)).toBe(0.85);
     expect(prioridadeSitemap(ROTAS.projetoRevalio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.barbearia)).toBe(0.9);

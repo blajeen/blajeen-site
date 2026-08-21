@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProductIcon } from '@/components/projects/ProductIcon';
+import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { atalhosDeJogo, atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
 import { rotaAtiva } from '@/lib/routes';
 import styles from './SiteNav.module.css';
@@ -94,7 +95,10 @@ export function SiteNav() {
                   data-destaque={'destaque' in destino ? destino.destaque : undefined}
                   aria-current={rotaAtiva(caminho, destino.href) ? 'page' : undefined}
                 >
-                  {'destaque' in destino && destino.destaque ? (
+                  {'destaque' in destino && destino.destaque === 'servico' ? (
+                    <AppliedEngineeringIcon decorativo className={styles.iconeServico ?? ''} />
+                  ) : null}
+                  {'destaque' in destino && destino.destaque === 'contato' ? (
                     <Image
                       src="/brand/contact-envelope.png"
                       alt=""

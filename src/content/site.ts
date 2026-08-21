@@ -13,10 +13,14 @@ export const site = {
   posicionamento: 'DESENVOLVIMENTO DE SOFTWARE / JOGOS / LABORATÓRIO DE IDEIAS',
   assinatura: 'Build strange things. Make them matter.',
   descricao:
-    'Estúdio independente de desenvolvimento de software e jogos, inovando na interseção entre tecnologia, aprendizagem e imaginação.',
-  footerLinha: 'Estúdio independente de desenvolvimento de software e jogos.',
+    'Estúdio independente de engenharia de software aplicada, produtos digitais e jogos.',
+  footerLinha: 'Engenharia de software aplicada a ideias, negócios e produtos digitais.',
   ano: 2026,
   idioma: 'pt-BR',
+  instagram: {
+    rotulo: '@blajeenlab',
+    url: 'https://www.instagram.com/blajeenlab/',
+  },
 
   /**
    * Titularidade dos elementos originais confirmada em

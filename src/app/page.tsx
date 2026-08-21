@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
+import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { Hero } from '@/components/layout/Hero';
 import { Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase';
 import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
-import { experimentos, laboratorio, produtosComerciais, proximo } from '@/content/home';
+import { WorkCard } from '@/components/portfolio/WorkCard';
+import { experimentos, laboratorio, produtosComerciais, proximo, servicoPrincipal, trabalhosHome } from '@/content/home';
+import { trabalhos } from '@/content/portfolio';
 import { projetos } from '@/content/projects';
 import { ROTAS } from '@/lib/routes';
 
@@ -29,7 +32,7 @@ const produtos: readonly ProdutoHome[] = [
     id: 'barbearia' as const,
     categoria: 'BARBEARIA',
     titulo: 'Agendamento sem conta e gestão da operação.',
-    texto: 'Site, agenda e rotina da equipe em uma plataforma pronta para receber a marca do negócio.',
+    texto: 'Para barbearias que querem facilitar o agendamento do cliente e organizar agenda, equipe e atendimento.',
     href: ROTAS.barbearia,
     estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
@@ -39,7 +42,7 @@ const produtos: readonly ProdutoHome[] = [
     id: 'personal' as const,
     categoria: 'PERSONAL',
     titulo: 'Aluno, personal e gestor conectados.',
-    texto: 'Agenda, treinos e acompanhamento em uma experiência adaptável a estúdios e profissionais.',
+    texto: 'Para personal trainers e estúdios que precisam conectar agenda, treinos, alunos e acompanhamento.',
     href: ROTAS.personalStudio,
     estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
@@ -49,7 +52,7 @@ const produtos: readonly ProdutoHome[] = [
     id: 'salao' as const,
     categoria: 'STUDIO BEAUTY',
     titulo: 'Cliente, profissional e gestão conectadas.',
-    texto: 'Site, agenda, portfólio e histórico em uma experiência própria para estética e beleza.',
+    texto: 'Para estúdios de estética e beleza que querem reunir divulgação, agenda, portfólio e histórico.',
     href: ROTAS.salaoEstetica,
     estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
@@ -59,7 +62,7 @@ const produtos: readonly ProdutoHome[] = [
     id: 'ecommerce' as const,
     categoria: 'E-COMMERCE',
     titulo: 'Vitrine, catálogo e operação conectados.',
-    texto: 'Busca, carrinho, atendimento e gestão em uma loja pronta para receber outra marca.',
+    texto: 'Para lojas e marcas que precisam vender com catálogo, busca, carrinho, atendimento e gestão.',
     href: ROTAS.ecommerce,
     estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
@@ -69,7 +72,7 @@ const produtos: readonly ProdutoHome[] = [
     id: 'medico' as const,
     categoria: 'CLÍNICA MÉDICA',
     titulo: 'Presença profissional e rotina clínica conectadas.',
-    texto: 'Site, agenda, pacientes, prontuário e documentos em uma base pensada para o médico individual.',
+    texto: 'Para médicos que atendem de forma independente e querem organizar presença digital, agenda, pacientes e documentos.',
     href: ROTAS.clinicaMedica,
     estado: 'EM BREVE',
   },
@@ -79,6 +82,43 @@ export default function Home() {
   return (
     <>
       <Hero />
+
+      <Section
+        id={servicoPrincipal.id}
+        indice={servicoPrincipal.indice}
+        rotuladaPor="servico-principal-titulo"
+        className="relative isolate overflow-hidden"
+      >
+        <LabBackdrop lado="esquerda" />
+        <div className="grid gap-10 rounded-[var(--radius-panel)] border border-[#55bfff]/25 bg-raised/65 p-7 sm:p-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-7">
+            <p className="tecnica text-[#8bddff]">{servicoPrincipal.eyebrow}</p>
+            <TituloSecao id="servico-principal-titulo" className="mt-6 max-w-[15ch] text-[clamp(2.4rem,5vw,4.8rem)]">
+              {servicoPrincipal.titulo}
+            </TituloSecao>
+            <p className="medida-texto mt-6 text-[1.02rem] leading-relaxed text-mineral">{servicoPrincipal.texto}</p>
+            <Link href={servicoPrincipal.cta.href} className="alvo-toque tecnica mt-8 inline-flex items-center gap-3 rounded-full bg-[#55bfff] px-5 text-ink transition-colors hover:bg-[#8bddff]">
+              {servicoPrincipal.cta.rotulo} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="flex justify-center lg:col-span-4 lg:col-start-9 lg:justify-end">
+            <AppliedEngineeringIcon className="!w-[clamp(10rem,20vw,16rem)]" />
+          </div>
+        </div>
+      </Section>
+
+      <Section id={trabalhosHome.id} indice={trabalhosHome.indice} rotuladaPor="trabalhos-home-titulo">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <TituloSecao id="trabalhos-home-titulo" className="max-w-[20ch] lg:col-span-8">{trabalhosHome.titulo}</TituloSecao>
+          <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10">{trabalhosHome.texto}</p>
+        </div>
+        <div className="mt-12 grid gap-5 lg:grid-cols-2">
+          {trabalhos.map((trabalho) => <WorkCard key={trabalho.id} trabalho={trabalho} />)}
+        </div>
+        <Link href={trabalhosHome.cta.href} className="alvo-toque tecnica mt-10 inline-flex items-center gap-3 border-b border-signal pb-2 text-paper transition-colors hover:text-signal">
+          {trabalhosHome.cta.rotulo} <span aria-hidden="true">→</span>
+        </Link>
+      </Section>
 
       <Section
         id={laboratorio.id}

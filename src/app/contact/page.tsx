@@ -7,6 +7,7 @@ import { contato } from '@/content/pages';
 import { site } from '@/content/site';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
+import { InstagramIcon } from '@/components/brand/InstagramIcon';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: contato.metaTitulo,
@@ -42,7 +43,7 @@ export default function Page() {
           <InterestForm />
         </Suspense>
 
-        <div className="mt-10 grid overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line sm:grid-cols-3">
+        <div className="mt-10 grid overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {site.emailEstudio.definido ? (
             <a
               href={`mailto:${site.emailEstudio.valor}?subject=${encodeURIComponent('Contato — Blajeen Labs')}`}
@@ -62,6 +63,15 @@ export default function Page() {
               <span className="text-sm leading-snug text-paper">{atalho.descricao} →</span>
             </Link>
           ))}
+          <a
+            href={site.instagram.url}
+            target="_blank"
+            rel="noreferrer"
+            className="flex min-h-28 flex-col justify-between bg-surface p-5 transition-colors duration-150 hover:bg-raised"
+          >
+            <span className="tecnica flex items-center gap-2 text-mineral-dim"><InstagramIcon className="size-4" /> SOCIAL</span>
+            <span className="text-sm leading-snug text-paper">Acompanhe o que está saindo do laboratório. ↗</span>
+          </a>
         </div>
 
         <ul className="mt-8">

@@ -9,7 +9,7 @@ export const sobre = {
   eyebrow: 'BLAJEEN LABS / O ESTÚDIO',
   titulo: 'Pequeno por escolha. Ambicioso por natureza.',
   introducao:
-    'A Blajeen Labs existe para transformar perguntas em produtos próprios — jogos, plataformas digitais e experiências construídas com atenção ao que realmente importa.',
+    'A Blajeen Labs existe para transformar perguntas, ideias e necessidades em produtos digitais — próprios ou criados para clientes — construídos com atenção ao que realmente importa.',
   secoes: [
     {
       id: 'origem',
@@ -25,7 +25,7 @@ export const sobre = {
       indice: '02 / PRINCÍPIOS',
       titulo: 'Produto antes de volume. Clareza antes de ruído.',
       paragrafos: [
-        'Escolhemos poucos projetos e damos a cada um uma razão clara para existir. Não construímos um catálogo de entregas; construímos produtos que carregam uma visão.',
+        'Escolhemos os projetos com cuidado e damos a cada um uma razão clara para existir. Não repetimos soluções sem contexto; construímos produtos que carregam uma visão e respondem a uma necessidade.',
         'Isso significa mostrar o que já é real, assumir o que ainda está em formação e deixar que a qualidade da experiência fale mais alto que a quantidade de promessas.',
       ],
     },
@@ -51,14 +51,14 @@ export const sobre = {
   linhaTecnica: 'INTENÇÃO × TECNOLOGIA × ITERAÇÃO → PRODUTOS AUTORAIS',
   metaTitulo: 'Sobre — Blajeen Labs',
   metaDescricao:
-    'A Blajeen Labs é um estúdio independente de desenvolvimento de software e jogos, inovando na interseção entre tecnologia, aprendizagem e imaginação.',
+    'A Blajeen Labs é um estúdio independente de engenharia de software aplicada, produtos digitais e jogos.',
 } as const;
 
 export const contato = {
-  eyebrow: 'TRANSMISSÃO',
-  titulo: 'Tem algo estranho em mente?',
+  eyebrow: 'CONTATO / TRANSMISSÃO',
+  titulo: 'Vamos conversar sobre o que você quer construir.',
   introducao:
-    'Esta página é para falar com o estúdio sobre um projeto, parceria, imprensa ou uma ideia. O formulário prepara a mensagem no seu aplicativo de e-mail: nada é enviado a um servidor nem armazenado pelo site.',
+    'Fale com o estúdio sobre um projeto, parceria, imprensa ou uma ideia. O formulário prepara a mensagem no seu aplicativo de e-mail: nada é enviado a um servidor nem armazenado pelo site.',
   /*
    * Contato e Suporte deixaram de dizer a mesma coisa.
    *

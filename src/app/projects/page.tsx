@@ -34,7 +34,7 @@ const produtos: readonly ProdutoCatalogo[] = [
     categoria: 'BARBEARIA',
     titulo: 'Agenda simples para o cliente. Operação organizada para a equipe.',
     texto:
-      'Uma plataforma web com site institucional, agendamento sem conta e gestão da rotina — pronta para receber a identidade da barbearia.',
+      'Para barbearias que querem oferecer agendamento sem conta e organizar equipe, serviços e rotina em uma plataforma com sua identidade.',
     href: ROTAS.barbearia,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
@@ -46,7 +46,7 @@ const produtos: readonly ProdutoCatalogo[] = [
     categoria: 'PERSONAL',
     titulo: 'Aluno, personal e gestão no mesmo produto.',
     texto:
-      'Uma plataforma web para presença digital, agenda, treinos e acompanhamento, adaptável à marca e à rotina de cada operação.',
+      'Para personal trainers e estúdios que querem reunir presença digital, agenda, treinos e acompanhamento em uma experiência própria.',
     href: ROTAS.personalStudio,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
@@ -58,7 +58,7 @@ const produtos: readonly ProdutoCatalogo[] = [
     categoria: 'STUDIO BEAUTY',
     titulo: 'Cliente, profissional e gestão conectadas à mesma experiência.',
     texto:
-      'Uma plataforma white-label com site, agendamento, portfólio, histórico e gestão para estúdios de beleza.',
+      'Para estúdios de estética e beleza que precisam conectar site, agendamento, portfólio, histórico e gestão.',
     href: ROTAS.salaoEstetica,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
@@ -70,7 +70,7 @@ const produtos: readonly ProdutoCatalogo[] = [
     categoria: 'LOJAS E MARCAS',
     titulo: 'Vitrine, catálogo e atendimento em uma loja própria.',
     texto:
-      'Um e-commerce white-label com busca, carrinho, checkout assistido e painel para organizar a operação.',
+      'Para lojas e marcas que querem vender em uma vitrine própria, com busca, carrinho, atendimento assistido e painel de gestão.',
     href: ROTAS.ecommerce,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
@@ -82,7 +82,7 @@ const produtos: readonly ProdutoCatalogo[] = [
     categoria: 'CLÍNICA MÉDICA',
     titulo: 'Site, agenda e rotina clínica no mesmo lugar.',
     texto:
-      'Uma base em desenvolvimento para médicos que atendem de forma independente organizarem pacientes, prontuário e documentos clínicos.',
+      'Para médicos que atendem de forma independente e querem organizar site, agenda, pacientes, prontuário e documentos clínicos.',
     href: ROTAS.clinicaMedica,
     estado: 'EM BREVE',
   },
@@ -173,6 +173,16 @@ export default function ProjetosPage() {
               </article>
             </Reveal>
           ))}
+        </div>
+        <div className="mt-[clamp(3rem,7vw,7rem)] grid gap-7 rounded-[var(--radius-panel)] border border-[#55bfff]/25 bg-raised/70 p-7 sm:p-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <p className="tecnica text-[#8bddff]">PRECISA DE OUTRA COISA?</p>
+            <h2 className="mt-5 max-w-[15ch] text-[clamp(2rem,4vw,3.8rem)] leading-[0.98] tracking-[-0.05em]">Criamos uma solução do zero para a sua necessidade.</h2>
+          </div>
+          <div className="lg:col-span-3 lg:col-start-10">
+            <p className="text-sm leading-relaxed text-mineral">Do logo ao produto final, sua ideia ganha forma com identidade, engenharia e suporte.</p>
+            <Link href={ROTAS.crieSeuProjeto} className="alvo-toque tecnica mt-6 inline-flex items-center rounded-full bg-[#55bfff] px-5 text-ink hover:bg-[#8bddff]">CRIE SEU PROJETO →</Link>
+          </div>
         </div>
       </Section>
 

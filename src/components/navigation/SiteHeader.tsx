@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LiveWordmark } from '@/components/brand/LiveWordmark';
 import { NavDrawer } from '@/components/navigation/NavDrawer';
 import { SiteNav } from '@/components/navigation/SiteNav';
 import { ROTAS } from '@/lib/routes';
@@ -50,12 +50,18 @@ export function SiteHeader() {
           */}
           <Link
             href={ROTAS.home}
-            className="alvo-toque -ml-1 flex items-center rounded-sm px-1 text-[1.25rem] leading-none sm:text-[1.4rem]"
+            aria-label="Início — Blajeen Labs"
+            className="alvo-toque group -ml-1 flex items-center rounded-full px-1"
           >
-            <LiveWordmark variante="reduzida" comGosma={false} comQualificador={false} />
-            <span aria-hidden="true" className="tecnica ml-3 hidden text-mineral-dim sm:inline">
-              LABS
-            </span>
+            <Image
+              src="/brand/blajeen-crest-header.webp"
+              alt=""
+              width={320}
+              height={320}
+              priority
+              sizes="56px"
+              className="size-12 rounded-full object-cover drop-shadow-[0_0_8px_rgba(201,255,61,0.16)] transition-[filter,transform] duration-200 group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_12px_rgba(201,255,61,0.42)] sm:size-14"
+            />
           </Link>
 
           <SiteNav />
@@ -70,7 +76,7 @@ export function SiteHeader() {
             onClick={() => setAberto((valor) => !valor)}
             aria-expanded={aberto}
             aria-controls={ID_GAVETA}
-            className="alvo-toque tecnica -mr-1 inline-flex items-center gap-2 rounded-full border border-line-strong px-4 text-paper transition-colors duration-150 hover:border-signal/60 hover:text-signal lg:hidden"
+            className="alvo-toque tecnica -mr-1 inline-flex items-center gap-2 rounded-full border border-line-strong px-4 text-paper transition-colors duration-150 hover:border-signal/60 hover:text-signal xl:hidden"
           >
             MENU
             <span aria-hidden="true" className="flex flex-col gap-[3px]">

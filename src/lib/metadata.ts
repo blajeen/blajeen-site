@@ -16,6 +16,8 @@ type Entrada = {
   imagemAlt?: string;
   ogTitulo?: string;
   ogDescricao?: string;
+  /** Evita herdar uma arte genérica em páginas de produto que ainda não possuem imagem própria. */
+  semImagem?: boolean;
 };
 
 /**
@@ -32,6 +34,7 @@ export function metadadosDaRota({
   imagemAlt = 'BLAJEEN LABS — Build strange things. Make them matter.',
   ogTitulo,
   ogDescricao,
+  semImagem = false,
 }: Entrada): Metadata {
   const url = urlAbsoluta(rota);
 
@@ -47,13 +50,13 @@ export function metadadosDaRota({
       url,
       title: ogTitulo ?? titulo,
       description: ogDescricao ?? descricao,
-      images: [{ url: urlAbsoluta(imagem), width: 1200, height: 630, alt: imagemAlt }],
+      images: semImagem ? [] : [{ url: urlAbsoluta(imagem), width: 1200, height: 630, alt: imagemAlt }],
     },
     twitter: {
       card: 'summary_large_image',
       title: ogTitulo ?? titulo,
       description: ogDescricao ?? descricao,
-      images: [urlAbsoluta(imagem)],
+      images: semImagem ? [] : [urlAbsoluta(imagem)],
     },
   };
 }

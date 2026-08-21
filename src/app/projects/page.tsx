@@ -10,7 +10,7 @@ import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Produtos',
-  descricao: 'Plataformas próprias da Blajeen Labs para negócios que vivem de agenda.',
+  descricao: 'Produtos digitais próprios da Blajeen Labs, adaptados a negócios reais.',
   rota: ROTAS.projetos,
 });
 
@@ -45,14 +45,28 @@ const proximasVerticais = [
   {
     id: 'salao' as ProductIconId,
     ancora: 'salao-beleza',
-    titulo: 'Salões de beleza',
-    texto: 'Presença digital, serviços e agenda em uma experiência própria para salões.',
+    indice: 'PRODUTO 03',
+    titulo: 'Salões e estética',
+    texto: 'Presença digital e jornada de atendimento pensadas para a identidade e a rotina de cada operação.',
+    estado: 'EM BREVE',
+    href: ROTAS.salaoEstetica,
+  },
+  {
+    id: 'ecommerce' as ProductIconId,
+    ancora: 'ecommerce',
+    indice: 'PRODUTO 04',
+    titulo: 'E-commerce sob medida',
+    texto: 'Vitrine, catálogo e jornada de compra construídos ao redor da marca e do negócio real.',
+    estado: 'EM BREVE',
+    href: ROTAS.ecommerce,
   },
   {
     id: 'pet' as ProductIconId,
     ancora: 'pet-shop-tosa',
+    indice: 'PRODUTO 05',
     titulo: 'Pet shops e banho & tosa',
     texto: 'Serviços, horários e histórico de cuidados organizados ao redor de cada pet.',
+    estado: 'EM DESENVOLVIMENTO',
   },
 ] as const;
 
@@ -71,7 +85,7 @@ export default function ProjetosPage() {
               id="produtos-titulo"
               className="max-w-[14ch] text-[clamp(2.55rem,6.5vw,6rem)] leading-[0.94] tracking-[-0.055em] lg:col-span-8"
             >
-              Produtos digitais para negócios que vivem de agenda.
+              Produtos digitais para negócios reais.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
               Bases funcionais criadas pela Blajeen Labs e adaptadas às necessidades, à identidade,
@@ -144,7 +158,7 @@ export default function ProjetosPage() {
             id="proximas-verticais-titulo"
             className="max-w-[14ch] text-[clamp(2rem,4.5vw,4rem)] leading-[0.98] tracking-[-0.05em] lg:col-span-7"
           >
-            A mesma lógica, em novas rotinas.
+            A mesma lógica, em novos negócios.
           </h2>
           <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-4 lg:col-start-9">
             Estas linhas ainda estão em desenvolvimento. Serão apresentadas quando houver produto
@@ -162,15 +176,25 @@ export default function ProjetosPage() {
               <div className="flex items-start justify-between gap-5">
                 <ProductIcon id={produto.id} className="size-11 text-signal" />
                 <span className="tecnica rounded-full border border-line-strong px-3 py-2 text-mineral">
-                  EM DESENVOLVIMENTO
+                  {produto.estado}
                 </span>
               </div>
-              <h3 className="mt-10 text-[clamp(1.6rem,3vw,2.5rem)] tracking-[-0.04em]">
+              <p className="tecnica mt-10 text-mineral-dim">{produto.indice}</p>
+              <h3 className="mt-4 text-[clamp(1.6rem,3vw,2.5rem)] tracking-[-0.04em]">
                 {produto.titulo}
               </h3>
               <p className="medida-texto mt-4 max-w-[58ch] text-[0.95rem] leading-relaxed text-mineral">
                 {produto.texto}
               </p>
+              {'href' in produto ? (
+                <Link
+                  href={produto.href}
+                  className="alvo-toque tecnica mt-8 inline-flex w-fit items-center gap-3 border-b border-signal pb-2 text-paper transition-colors duration-150 hover:text-signal"
+                >
+                  Conhecer a proposta
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ) : null}
             </article>
           ))}
         </div>

@@ -72,7 +72,22 @@ export function SiteFooter() {
             © {site.ano} {site.nome.toUpperCase()}
           </p>
           <p className="tecnica hidden text-mineral-dim sm:block">{rodapeCopy.base}</p>
-          <MotionToggle />
+          <div className="flex items-center gap-1">
+            <Link
+              href="/admin/login"
+              aria-label="Abrir painel administrativo"
+              title="Painel"
+              className="group grid size-11 place-items-center text-mineral-dim opacity-35 transition-all duration-200 hover:text-signal hover:opacity-100 focus-visible:text-signal focus-visible:opacity-100"
+            >
+              <span
+                aria-hidden="true"
+                className="relative h-4 w-3 rounded-[1px] border border-current transition-transform duration-200 group-hover:-translate-y-px"
+              >
+                <span className="absolute right-[2px] top-1/2 size-0.5 -translate-y-1/2 rounded-full bg-current" />
+              </span>
+            </Link>
+            <MotionToggle />
+          </div>
         </div>
       </Container>
     </footer>

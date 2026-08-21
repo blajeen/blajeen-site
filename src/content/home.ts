@@ -71,7 +71,7 @@ export const rodapeCopy = {
 } as const;
 
 export const metadados = {
-  titulo: 'Blajeen Labs — Engenharia de Software com IA aplicada',
+  titulo: 'Blajeen Labs - Eng. de Software',
   descricao:
     'Sites, aplicativos, sistemas, produtos digitais e jogos construídos com Engenharia de Software com IA aplicada.',
   ogTitulo: 'BLAJEEN LABS',

@@ -92,6 +92,12 @@ export const atalhosDeProjeto = [
     simbolo: 'ecommerce',
     href: ROTAS.ecommerce,
   },
+  {
+    rotulo: 'Clínica Médica',
+    estado: 'EM BREVE',
+    simbolo: 'medico',
+    href: ROTAS.clinicaMedica,
+  },
 ] as const;
 
 /**
@@ -116,6 +122,7 @@ export const rodape = {
     { rotulo: 'Personal', href: ROTAS.personalStudio },
     { rotulo: 'Studio Beauty', href: ROTAS.salaoEstetica },
     { rotulo: 'E-commerce', href: ROTAS.ecommerce },
+    { rotulo: 'Clínica Médica', href: ROTAS.clinicaMedica },
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },

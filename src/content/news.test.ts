@@ -33,6 +33,14 @@ describe('novidades', () => {
     expect(ids).toContain('studio-beauty-em-demonstracao');
   });
 
+  it('registra a Clínica Médica sem prometer demonstração ou lançamento', () => {
+    const item = novidades.find((novidade) => novidade.id === 'clinica-medica-em-desenvolvimento');
+    const texto = item?.texto.join(' ') ?? '';
+    expect(item?.rotulo).toBe('Em desenvolvimento');
+    expect(texto).toMatch(/ainda não possui demonstração pública/i);
+    expect(texto).toMatch(/data de lançamento/i);
+  });
+
   it('não promete data de lançamento dos jogos sem build', () => {
     for (const id of ['docalio', 'gramelio'] as const) {
       const item = novidades.find((novidade) => novidade.projeto === id);

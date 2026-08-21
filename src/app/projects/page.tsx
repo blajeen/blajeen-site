@@ -5,6 +5,7 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
+import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -14,7 +15,19 @@ export const metadata: Metadata = metadadosDaRota({
   rota: ROTAS.projetos,
 });
 
-const produtosEmDemonstracao = [
+type ProdutoCatalogo = {
+  readonly id: ProductIconId;
+  readonly indice: string;
+  readonly categoria: string;
+  readonly titulo: string;
+  readonly texto: string;
+  readonly href: string;
+  readonly estado: string;
+  readonly imagem?: string;
+  readonly alt?: string;
+};
+
+const produtos: readonly ProdutoCatalogo[] = [
   {
     id: 'barbearia' as ProductIconId,
     indice: 'PRODUTO 01',
@@ -41,7 +54,7 @@ const produtosEmDemonstracao = [
   },
   {
     id: 'salao' as ProductIconId,
-    indice: 'PRODUTO 04',
+    indice: 'PRODUTO 03',
     categoria: 'STUDIO BEAUTY',
     titulo: 'Cliente, profissional e gestão conectadas à mesma experiência.',
     texto:
@@ -53,7 +66,7 @@ const produtosEmDemonstracao = [
   },
   {
     id: 'ecommerce' as ProductIconId,
-    indice: 'PRODUTO 05',
+    indice: 'PRODUTO 04',
     categoria: 'LOJAS E MARCAS',
     titulo: 'Vitrine, catálogo e atendimento em uma loja própria.',
     texto:
@@ -63,7 +76,17 @@ const produtosEmDemonstracao = [
     imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
     alt: 'Vitrine demonstrativa do E-commerce da Blajeen Labs.',
   },
-] as const;
+  {
+    id: 'medico' as ProductIconId,
+    indice: 'PRODUTO 05',
+    categoria: 'CLÍNICA MÉDICA',
+    titulo: 'Site, agenda e rotina clínica no mesmo lugar.',
+    texto:
+      'Uma base em desenvolvimento para médicos que atendem de forma independente organizarem pacientes, prontuário e documentos clínicos.',
+    href: ROTAS.clinicaMedica,
+    estado: 'EM BREVE',
+  },
+];
 
 export default function ProjetosPage() {
   return (
@@ -90,9 +113,9 @@ export default function ProjetosPage() {
         </Container>
       </section>
 
-      <Section className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Produtos em demonstração">
+      <Section className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Produtos digitais">
         <div className="flex flex-col gap-[clamp(3rem,7vw,7rem)]">
-          {produtosEmDemonstracao.map((produto, posicao) => (
+          {produtos.map((produto, posicao) => (
             <Reveal key={produto.id}>
               <article className="grid overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 lg:grid-cols-12">
                 <div
@@ -100,14 +123,20 @@ export default function ProjetosPage() {
                     posicao % 2 === 1 ? 'lg:col-start-6 lg:row-start-1' : ''
                   }`}
                 >
-                  <Image
-                    src={produto.imagem}
-                    alt={produto.alt}
-                    fill
-                    sizes="(min-width: 1024px) 58vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 hover:scale-[1.015]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
+                  {produto.imagem && produto.alt ? (
+                    <>
+                      <Image
+                        src={produto.imagem}
+                        alt={produto.alt}
+                        fill
+                        sizes="(min-width: 1024px) 58vw, 100vw"
+                        className="object-cover object-top transition-transform duration-500 hover:scale-[1.015]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
+                    </>
+                  ) : (
+                    <UpcomingMedicalVisual />
+                  )}
                 </div>
 
                 <div

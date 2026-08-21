@@ -4,21 +4,34 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Hero } from '@/components/layout/Hero';
 import { Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
-import { ProductIcon } from '@/components/projects/ProductIcon';
+import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase';
+import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
 import { experimentos, laboratorio, produtosComerciais, proximo } from '@/content/home';
 import { projetos } from '@/content/projects';
 import { ROTAS } from '@/lib/routes';
 
 export const revalidate = 3600;
 
-const produtos = [
+type ProdutoHome = {
+  readonly id: ProductIconId;
+  readonly categoria: string;
+  readonly titulo: string;
+  readonly texto: string;
+  readonly href: string;
+  readonly estado: string;
+  readonly imagem?: string;
+  readonly alt?: string;
+};
+
+const produtos: readonly ProdutoHome[] = [
   {
     id: 'barbearia' as const,
     categoria: 'BARBEARIA',
     titulo: 'Agendamento sem conta e gestão da operação.',
     texto: 'Site, agenda e rotina da equipe em uma plataforma pronta para receber a marca do negócio.',
     href: ROTAS.barbearia,
+    estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
     alt: 'Página inicial da plataforma demonstrativa para barbearias.',
   },
@@ -28,6 +41,7 @@ const produtos = [
     titulo: 'Aluno, personal e gestor conectados.',
     texto: 'Agenda, treinos e acompanhamento em uma experiência adaptável a estúdios e profissionais.',
     href: ROTAS.personalStudio,
+    estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
     alt: 'Painel de gestão da plataforma Personal.',
   },
@@ -37,6 +51,7 @@ const produtos = [
     titulo: 'Cliente, profissional e gestão conectadas.',
     texto: 'Site, agenda, portfólio e histórico em uma experiência própria para estética e beleza.',
     href: ROTAS.salaoEstetica,
+    estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
     alt: 'Site público da plataforma Studio Beauty.',
   },
@@ -46,10 +61,19 @@ const produtos = [
     titulo: 'Vitrine, catálogo e operação conectados.',
     texto: 'Busca, carrinho, atendimento e gestão em uma loja pronta para receber outra marca.',
     href: ROTAS.ecommerce,
+    estado: 'DEMONSTRAÇÃO',
     imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
     alt: 'Vitrine da demonstração de E-commerce.',
   },
-] as const;
+  {
+    id: 'medico' as const,
+    categoria: 'CLÍNICA MÉDICA',
+    titulo: 'Presença profissional e rotina clínica conectadas.',
+    texto: 'Site, agenda, pacientes, prontuário e documentos em uma base pensada para o médico individual.',
+    href: ROTAS.clinicaMedica,
+    estado: 'EM BREVE',
+  },
+];
 
 export default function Home() {
   return (
@@ -112,24 +136,31 @@ export default function Home() {
 
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
           {produtos.map((produto) => (
-            <Reveal key={produto.id}>
+            <Reveal key={produto.id} className={produto.id === 'medico' ? 'lg:col-span-2' : ''}>
               <Link
                 href={produto.href}
                 className="group grid h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 transition-colors duration-200 hover:border-signal/50 sm:grid-cols-[0.95fr_1.05fr]"
               >
                 <div className="relative min-h-60 overflow-hidden bg-surface">
-                  <Image
-                    src={produto.imagem}
-                    alt={produto.alt}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
-                  />
+                  {produto.imagem && produto.alt ? (
+                    <Image
+                      src={produto.imagem}
+                      alt={produto.alt}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 100vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+                    />
+                  ) : (
+                    <UpcomingMedicalVisual compact />
+                  )}
                 </div>
                 <div className="flex flex-col p-6 sm:p-7">
                   <div className="flex items-center justify-between gap-4">
                     <ProductIcon id={produto.id} className="size-9 text-signal" />
-                    <span className="tecnica text-mineral-dim">{produto.categoria}</span>
+                    <span className="text-right">
+                      <span className="tecnica block text-mineral-dim">{produto.categoria}</span>
+                      <span className="tecnica mt-2 block text-[9px] text-signal">{produto.estado}</span>
+                    </span>
                   </div>
                   <h3 className="mt-9 text-[clamp(1.45rem,2.6vw,2.2rem)] leading-[1.02] tracking-[-0.045em]">
                     {produto.titulo}

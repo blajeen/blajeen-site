@@ -11,6 +11,7 @@ export const ROTAS = {
   personalStudio: '/projects/personal-studio',
   salaoEstetica: '/projects/salao-estetica',
   ecommerce: '/projects/ecommerce',
+  clinicaMedica: '/projects/clinica-medica',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
@@ -68,7 +69,8 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.barbearia ||
     rota === ROTAS.personalStudio ||
     rota === ROTAS.salaoEstetica ||
-    rota === ROTAS.ecommerce
+    rota === ROTAS.ecommerce ||
+    rota === ROTAS.clinicaMedica
   )
     return 0.9;
   if (rota === ROTAS.novidades) return 0.8;

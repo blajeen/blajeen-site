@@ -25,6 +25,18 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'clinica-medica-em-desenvolvimento',
+    data: '2026-08-21',
+    rotulo: 'Em desenvolvimento',
+    titulo: 'Clínica Médica entra na bancada da Blajeen Labs',
+    texto: [
+      'A nova direção de produto é pensada principalmente para médicos que atendem de forma independente e precisam unir presença profissional, agendamento, agenda e organização dos pacientes.',
+      'Prontuário, histórico clínico e modelos para receitas, encaminhamentos, atestados e solicitações de exames fazem parte do escopo inicial. O produto ainda não possui demonstração pública, integrações ou data de lançamento anunciada.',
+    ],
+    href: ROTAS.clinicaMedica,
+    cta: 'Conhecer a Clínica Médica',
+  },
+  {
     id: 'studio-beauty-em-demonstracao',
     data: '2026-08-21',
     rotulo: 'Demonstração disponível',

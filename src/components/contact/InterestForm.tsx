@@ -10,6 +10,7 @@ const produtos = {
   'personal-studio': 'Personal',
   'salao-estetica': 'Studio Beauty',
   ecommerce: 'E-commerce',
+  'clinica-medica': 'Clínica Médica',
   outro: 'Outro projeto',
 } as const;
 

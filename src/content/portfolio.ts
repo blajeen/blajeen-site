@@ -82,20 +82,20 @@ export const trabalhos: readonly Trabalho[] = [
     siteRotulo: 'VISITAR LINA ART PET',
     imagens: [
       {
-        src: '/trabalhos/lina-art-pet/gato-foto.webp',
-        alt: 'Fotografia de referência de um gato enviada para personalização.',
+        src: '/trabalhos/lina-art-pet/lina-foto.webp',
+        alt: 'Fotografia de referência da cadela Lina enviada para a criação da miniatura personalizada.',
       },
       {
-        src: '/trabalhos/lina-art-pet/gato-peca.webp',
-        alt: 'Miniatura 3D do gato criada a partir da fotografia de referência.',
+        src: '/trabalhos/lina-art-pet/lina-peca.webp',
+        alt: 'Miniatura 3D da cadela Lina criada a partir da fotografia de referência.',
       },
       {
-        src: '/trabalhos/lina-art-pet/luna-foto.webp',
-        alt: 'Fotografia de referência da cadela Luna.',
+        src: '/trabalhos/lina-art-pet/pomada-foto.webp',
+        alt: 'Fotografia de referência da cadela Pomada enviada para a criação da miniatura personalizada.',
       },
       {
-        src: '/trabalhos/lina-art-pet/luna-peca.webp',
-        alt: 'Miniatura 3D da cadela Luna criada pela Lina Art Pet.',
+        src: '/trabalhos/lina-art-pet/pomada-peca.webp',
+        alt: 'Miniatura 3D da cadela Pomada criada a partir da fotografia de referência.',
       },
     ],
   },

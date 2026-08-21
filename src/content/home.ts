@@ -5,7 +5,7 @@ export const hero = {
   eyebrow: 'DESENVOLVIMENTO DE SOFTWARE / JOGOS / LABORATÓRIO DE IDEIAS',
   titulo: ['Criamos coisas estranhas.', 'E fazemos com que importem.'],
   texto:
-    'Engenharia de software aplicada a ideias próprias e projetos de clientes — de sites e aplicativos a jogos e sistemas completos.',
+    'Engenharia de Software com IA aplicada a ideias próprias e projetos de clientes — de sites e aplicativos a jogos e sistemas completos.',
   cta: { rotulo: 'ENTRAR NO LABORATÓRIO', href: '#laboratorio' },
   estado: 'SISTEMA ATIVO',
 } as const;
@@ -49,7 +49,7 @@ export const proximo = {
 export const servicoPrincipal = {
   id: 'crie-seu-projeto',
   indice: '01 / SERVIÇO PRINCIPAL',
-  eyebrow: 'ENGENHARIA DE SOFTWARE APLICADA',
+  eyebrow: 'ENGENHARIA DE SOFTWARE COM IA APLICADA',
   titulo: 'Sua ideia pode virar um produto com identidade própria.',
   texto:
     'Criamos sites, aplicativos, sistemas e experiências digitais do primeiro rascunho à publicação. Ajudamos a organizar a ideia, sugerimos caminhos e personalizamos cada detalhe para a sua necessidade.',
@@ -66,14 +66,14 @@ export const trabalhosHome = {
 } as const;
 
 export const rodapeCopy = {
-  linha: 'Engenharia de software aplicada a ideias, negócios e produtos digitais.',
+  linha: 'Engenharia de Software com IA aplicada a ideias, negócios e produtos digitais.',
   base: 'TODOS OS SISTEMAS NORMAIS',
 } as const;
 
 export const metadados = {
-  titulo: 'Blajeen Labs — Engenharia de software aplicada',
+  titulo: 'Blajeen Labs — Engenharia de Software com IA aplicada',
   descricao:
-    'Sites, aplicativos, sistemas, produtos digitais e jogos construídos com engenharia de software aplicada.',
+    'Sites, aplicativos, sistemas, produtos digitais e jogos construídos com Engenharia de Software com IA aplicada.',
   ogTitulo: 'BLAJEEN LABS',
   ogDescricao: 'Criamos coisas estranhas. E fazemos com que importem.',
 } as const;

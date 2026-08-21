@@ -40,7 +40,7 @@ export default function TrabalhosPage() {
       <Section indice="02 / SUA IDEIA" className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Crie seu projeto">
         <div className="grid gap-8 rounded-[var(--radius-panel)] border border-[#55bfff]/25 bg-raised/70 p-7 sm:p-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="tecnica text-[#8bddff]">ENGENHARIA DE SOFTWARE APLICADA</p>
+            <p className="tecnica text-[#8bddff]">ENGENHARIA DE SOFTWARE COM IA APLICADA</p>
             <h2 className="mt-5 max-w-[15ch] text-[clamp(2.2rem,5vw,4.5rem)] leading-[0.96] tracking-[-0.055em]">O próximo trabalho pode começar com a sua ideia.</h2>
           </div>
           <div className="lg:col-span-3 lg:col-start-10">

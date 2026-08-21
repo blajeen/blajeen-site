@@ -10,7 +10,7 @@ import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Crie seu projeto — Blajeen Labs',
-  descricao: 'Sites, aplicativos, sistemas e identidades digitais criados para a sua necessidade com engenharia de software aplicada.',
+  descricao: 'Sites, aplicativos, sistemas e identidades digitais criados para a sua necessidade com Engenharia de Software com IA aplicada.',
   rota: ROTAS.crieSeuProjeto,
 });
 

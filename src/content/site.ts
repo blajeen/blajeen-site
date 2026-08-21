@@ -13,8 +13,8 @@ export const site = {
   posicionamento: 'DESENVOLVIMENTO DE SOFTWARE / JOGOS / LABORATÓRIO DE IDEIAS',
   assinatura: 'Build strange things. Make them matter.',
   descricao:
-    'Estúdio independente de engenharia de software aplicada, produtos digitais e jogos.',
-  footerLinha: 'Engenharia de software aplicada a ideias, negócios e produtos digitais.',
+    'Estúdio independente de Engenharia de Software com IA aplicada, produtos digitais e jogos.',
+  footerLinha: 'Engenharia de Software com IA aplicada a ideias, negócios e produtos digitais.',
   ano: 2026,
   idioma: 'pt-BR',
   instagram: {

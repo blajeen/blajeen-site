@@ -31,7 +31,7 @@ export function metadadosDaRota({
   descricao,
   rota,
   imagem = OG.estudio,
-  imagemAlt = 'Blajeen Labs — engenharia de software aplicada.',
+  imagemAlt = 'Blajeen Labs — Engenharia de Software com IA aplicada.',
   ogTitulo,
   ogDescricao,
   semImagem = false,

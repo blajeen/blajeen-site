@@ -1,10 +1,10 @@
 import { ROTAS } from '@/lib/routes';
 
 export const projetoPersonalizado = {
-  eyebrow: 'ENGENHARIA DE SOFTWARE APLICADA',
+  eyebrow: 'ENGENHARIA DE SOFTWARE COM IA APLICADA',
   titulo: 'Crie seu projeto.',
   descricao:
-    'Coloque seu projeto — ou até uma ideia ainda no começo — em prática com a engenharia de software aplicada da Blajeen Labs. Da criação da identidade ao desenvolvimento do site, aplicativo ou sistema, cuidamos de cada etapa para construir uma solução com a sua cara e as funcionalidades que você realmente precisa.',
+    'Coloque seu projeto — ou até uma ideia ainda no começo — em prática com a Engenharia de Software com IA aplicada da Blajeen Labs. Da criação da identidade ao desenvolvimento do site, aplicativo ou sistema, cuidamos de cada etapa para construir uma solução com a sua cara e as funcionalidades que você realmente precisa.',
   complemento:
     'Você não precisa chegar com tudo definido. Ajudamos a organizar a ideia, identificar oportunidades, sugerir funcionalidades e transformar sua necessidade em um produto digital completo.',
   entregas: [

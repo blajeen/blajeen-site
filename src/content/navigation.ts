@@ -10,7 +10,7 @@ import type { NavLink } from './types';
  * submenu. Os demais levam direto à sua rota.
  */
 export const barraDeNavegacao = [
-  { rotulo: 'Crie seu projeto', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
+  { rotulo: 'Eng. de Software', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
   { rotulo: 'Trabalhos', tipo: 'link', href: ROTAS.trabalhos },
   { rotulo: 'Produtos', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
@@ -23,7 +23,7 @@ export const barraDeNavegacao = [
 export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '01',
-    rotulo: 'Crie seu projeto',
+    rotulo: 'Eng. de Software',
     descricao: 'Sua ideia transformada em site, aplicativo, sistema ou produto digital.',
     href: ROTAS.crieSeuProjeto,
   },
@@ -140,7 +140,7 @@ export const rodape = {
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
-    { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },
+    { rotulo: 'Eng. de Software', href: ROTAS.crieSeuProjeto },
     { rotulo: 'Trabalhos', href: ROTAS.trabalhos },
     { rotulo: 'Novidades', href: ROTAS.novidades },
     { rotulo: 'Contato', href: ROTAS.contato },

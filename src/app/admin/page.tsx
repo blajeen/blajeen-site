@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default function AdminOnboardingDetailPage() {
+export default function AdminPage() {
   redirect('/admin/novidades');
 }

@@ -27,13 +27,13 @@ export function ProjectFormCard({ slug, showAction = true }: { slug: string; sho
           <FormIcon />
         </span>
         <div>
-          <p className="tecnica text-signal">BRIEFING PRIVADO</p>
+          <p className="tecnica text-signal">PARA QUEM VAI CONTRATAR</p>
           <h2 className="mt-3 text-[clamp(1.45rem,3vw,2.15rem)] leading-tight tracking-[-0.035em]">
             Preencher formulário para criação do site
           </h2>
           <p className="mt-3 max-w-[67ch] text-sm leading-relaxed text-mineral">
-            Este formulário deve ser preenchido somente depois da solicitação da equipe Blajeen
-            Labs. Para entrar, use o link ou o código de acesso privado que você recebeu.
+            Decidiu contratar? Preencha o briefing para reunir as informações que orientarão a
+            criação e a personalização do seu projeto.
           </p>
         </div>
         {showAction ? (
@@ -41,7 +41,7 @@ export function ProjectFormCard({ slug, showAction = true }: { slug: string; sho
             href={`/projects/${slug}/formulario`}
             className="alvo-toque tecnica inline-flex w-fit items-center gap-3 rounded-full border border-signal px-5 text-signal transition-colors hover:bg-signal hover:text-ink"
           >
-            ACESSAR
+            PREENCHER
             <span aria-hidden="true">→</span>
           </Link>
         ) : null}

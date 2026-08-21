@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import type { ManagedNews } from '@/lib/news/repository';
@@ -55,7 +54,6 @@ export function AdminNews() {
       <header className="flex flex-wrap items-end justify-between gap-6 border-b border-line pb-8">
         <div><p className="tecnica text-signal">PAINEL BLAJEEN</p><h1 className="mt-4 text-[clamp(2.5rem,7vw,5.5rem)] leading-none">Novidades.</h1><p className="mt-4 text-mineral">Escreva, revise e publique atualizações no site.</p></div>
         <nav className="flex flex-wrap gap-3" aria-label="Área administrativa">
-          <Link href="/admin/onboardings" className="alvo-toque inline-flex items-center rounded-full border border-line-strong px-4 text-sm text-mineral hover:text-paper">Formulários</Link>
           <a href="/novidades" target="_blank" rel="noreferrer" className="alvo-toque inline-flex items-center rounded-full border border-line-strong px-4 text-sm text-mineral hover:text-paper">Ver página ↗</a>
           <button type="button" onClick={() => void fetch('/api/admin/logout', { method: 'POST' }).then(() => router.push('/admin/login'))} className="alvo-toque rounded-full border border-line-strong px-4 text-sm text-mineral">Sair</button>
         </nav>

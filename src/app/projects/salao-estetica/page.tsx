@@ -4,35 +4,58 @@ import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Plataforma para salões e estética — Blajeen Labs',
+  titulo: 'Plataforma para estética e beleza — Blajeen Labs',
   descricao:
-    'Produto digital em desenvolvimento para salões de beleza e negócios de estética, adaptado à identidade e à rotina de cada operação.',
+    'Produto digital em desenvolvimento para estética, unhas, sobrancelhas, cílios, maquiagem e produção de beleza.',
   rota: ROTAS.salaoEstetica,
   semImagem: true,
 });
 
 const product: UpcomingProduct = {
   icon: 'salao',
-  eyebrow: 'PRODUTO 03 / SALÕES E ESTÉTICA',
-  title: 'Plataforma para salões e estética',
-  headline: 'Sua marca e sua rotina em uma experiência própria.',
+  eyebrow: 'PRODUTO 04 / ESTÉTICA E BELEZA',
+  title: 'Plataforma para estética e beleza',
+  headline: 'Todos os seus serviços de beleza em uma experiência própria.',
   introduction:
-    'Uma linha de produto para salões de beleza e negócios de estética apresentarem seu trabalho e construírem uma jornada de atendimento coerente com a operação.',
+    'Uma linha separada dos salões de cabelo, pensada para espaços de estética, unhas, olhar, maquiagem e produção de beleza.',
   contactId: 'salao-estetica',
-  contactLabel: 'Quero conversar sobre meu salão',
+  contactLabel: 'Quero conversar sobre meu espaço de beleza',
   directions: [
     {
       title: 'Presença com identidade',
-      text: 'A marca, os serviços, a equipe e o ambiente orientam a experiência, sem transformar o negócio em mais um template genérico.',
+      text: 'A marca, os serviços, os profissionais e o ambiente orientam a experiência, sem transformar o negócio em mais um template genérico.',
     },
     {
       title: 'Jornada de atendimento',
-      text: 'Descoberta, contato e organização da agenda serão desenhados de acordo com a forma real de atender de cada operação.',
+      text: 'Descoberta, contato e organização do atendimento serão desenhados de acordo com a forma real de trabalhar de cada operação.',
     },
     {
       title: 'Regras respeitadas',
-      text: 'Horários, serviços, profissionais e prioridades entram no escopo somente depois de entender como o salão ou espaço de estética funciona.',
+      text: 'Duração, combinações, profissionais e prioridades entram no escopo somente depois de entender como o espaço de beleza funciona.',
     },
+  ],
+  servicesTitle: 'Estética, unhas, olhar e produção de beleza sem misturar com cabelo.',
+  servicesIntroduction:
+    'A estrutura será preparada para organizar serviços individuais, produções completas e combinações definidas pelo negócio.',
+  services: [
+    'Estética facial',
+    'Estética corporal',
+    'Manicure',
+    'Pedicure',
+    'Nail Art',
+    'Alongamento de unhas',
+    'Sobrancelhas',
+    'Brow Design',
+    'Brow Lamination',
+    'Extensão de cílios',
+    'Lash Lifting',
+    'Maquiagem',
+    'Maquiagem social',
+    'Maquiagem para eventos',
+    'Noivas',
+    'Produção de beleza',
+    'Pacotes de beleza',
+    'Serviços combinados',
   ],
 };
 

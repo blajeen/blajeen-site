@@ -22,6 +22,7 @@ const ROTAS_PADRAO = [
   '/projects',
   '/projects/barbearia',
   '/projects/personal-studio',
+  '/projects/salao-feminino',
   '/projects/salao-estetica',
   '/projects/ecommerce',
   '/projects/revalio',

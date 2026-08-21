@@ -17,6 +17,9 @@ export type UpcomingProduct = {
     readonly title: string;
     readonly text: string;
   }[];
+  readonly services?: readonly string[];
+  readonly servicesTitle?: string;
+  readonly servicesIntroduction?: string;
 };
 
 /** Página honesta para uma linha de produto que ainda não possui demonstração pública. */
@@ -98,8 +101,38 @@ export function UpcomingProductPage({ product }: { product: UpcomingProduct }) {
         </ol>
       </Section>
 
+      {product.services?.length ? (
+        <Section indice="02 / SERVIÇOS" rotuladaPor="servicos-produto-titulo">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+            <h2
+              id="servicos-produto-titulo"
+              className="max-w-[16ch] text-[clamp(2rem,4.5vw,4rem)] leading-[0.98] tracking-[-0.05em] lg:col-span-7"
+            >
+              {product.servicesTitle ?? 'Serviços contemplados nesta vertical.'}
+            </h2>
+            {product.servicesIntroduction ? (
+              <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-4 lg:col-start-9">
+                {product.servicesIntroduction}
+              </p>
+            ) : null}
+          </div>
+
+          <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {product.services.map((service) => (
+              <li
+                key={service}
+                className="flex min-h-16 items-center gap-3 rounded-[var(--radius-control)] border border-line bg-surface/60 px-5 py-4 text-paper"
+              >
+                <span aria-hidden="true" className="size-1.5 flex-none rounded-full bg-signal" />
+                {service}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
       <Section
-        indice="02 / IDENTIDADE E ADAPTAÇÃO"
+        indice={`${product.services?.length ? '03' : '02'} / IDENTIDADE E ADAPTAÇÃO`}
         rotuladaPor="adaptacao-produto-titulo"
         className="pb-[clamp(4rem,10vw,10rem)]"
       >

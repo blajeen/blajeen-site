@@ -43,18 +43,27 @@ const produtosEmDemonstracao = [
 
 const proximasVerticais = [
   {
-    id: 'salao' as ProductIconId,
-    ancora: 'salao-beleza',
+    id: 'cabelo' as ProductIconId,
+    ancora: 'salao-feminino',
     indice: 'PRODUTO 03',
-    titulo: 'Salões e estética',
-    texto: 'Presença digital e jornada de atendimento pensadas para a identidade e a rotina de cada operação.',
+    titulo: 'Salões de cabelo feminino',
+    texto: 'Presença digital e jornada de atendimento próprias para serviços de cabelo e para a rotina do salão.',
+    estado: 'EM BREVE',
+    href: ROTAS.salaoFeminino,
+  },
+  {
+    id: 'salao' as ProductIconId,
+    ancora: 'salao-estetica',
+    indice: 'PRODUTO 04',
+    titulo: 'Estética e beleza',
+    texto: 'Uma vertical separada para estética, unhas, sobrancelhas, cílios, maquiagem, noivas e serviços combinados.',
     estado: 'EM BREVE',
     href: ROTAS.salaoEstetica,
   },
   {
     id: 'ecommerce' as ProductIconId,
     ancora: 'ecommerce',
-    indice: 'PRODUTO 04',
+    indice: 'PRODUTO 05',
     titulo: 'E-commerce sob medida',
     texto: 'Vitrine, catálogo e jornada de compra construídos ao redor da marca e do negócio real.',
     estado: 'EM BREVE',
@@ -63,7 +72,7 @@ const proximasVerticais = [
   {
     id: 'pet' as ProductIconId,
     ancora: 'pet-shop-tosa',
-    indice: 'PRODUTO 05',
+    indice: 'PRODUTO 06',
     titulo: 'Pet shops e banho & tosa',
     texto: 'Serviços, horários e histórico de cuidados organizados ao redor de cada pet.',
     estado: 'EM DESENVOLVIMENTO',

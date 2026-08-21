@@ -1,4 +1,4 @@
-export type ProductIconId = 'barbearia' | 'personal' | 'salao' | 'ecommerce' | 'pet';
+export type ProductIconId = 'barbearia' | 'personal' | 'cabelo' | 'salao' | 'ecommerce' | 'pet';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -35,6 +35,16 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <path d="M24 8c2.2 7.8 6.2 11.8 14 14-7.8 2.2-11.8 6.2-14 14-2.2-7.8-6.2-11.8-14-14 7.8-2.2 11.8-6.2 14-14Z" />
         <path d="M38 7v8M34 11h8M10 34v6M7 37h6" />
+      </svg>
+    );
+  }
+
+  if (id === 'cabelo') {
+    return (
+      <svg {...comum}>
+        <circle cx="16" cy="14" r="5" />
+        <circle cx="16" cy="34" r="5" />
+        <path d="m20 18 20 20M20 30 40 10M21 24h9" />
       </svg>
     );
   }

@@ -13,7 +13,7 @@ export const metadata: Metadata = metadadosDaRota({
 
 const product: UpcomingProduct = {
   icon: 'ecommerce',
-  eyebrow: 'PRODUTO 04 / E-COMMERCE',
+  eyebrow: 'PRODUTO 05 / E-COMMERCE',
   title: 'E-commerce sob medida',
   headline: 'Uma loja digital com a identidade da sua marca.',
   introduction:

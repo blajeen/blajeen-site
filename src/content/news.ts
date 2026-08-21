@@ -52,12 +52,12 @@ export const novidades: readonly Novidade[] = [
     id: 'novas-verticais-em-desenvolvimento',
     data: '2026-08-20',
     rotulo: 'Em desenvolvimento',
-    titulo: 'Salões, e-commerce e cuidados pet entram na bancada',
+    titulo: 'Cabelo, estética, e-commerce e cuidados pet entram na bancada',
     texto: [
-      'Três novas verticais estão na bancada do laboratório: uma plataforma para salões e negócios de estética, um e-commerce sob medida e uma linha para pet shops e operações de banho & tosa.',
-      'Salões e e-commerce já possuem páginas de proposta, mas ainda não há demonstração pública dessas linhas. Elas evoluem com a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
+      'As próximas verticais agora estão separadas pela operação: uma plataforma para salões de cabelo feminino, outra para estética e beleza, um e-commerce sob medida e uma linha para pet shops e banho & tosa.',
+      'Cabelo, estética e e-commerce já possuem páginas de proposta, mas ainda não há demonstração pública dessas linhas. Elas evoluem com a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
     ],
-    href: ROTAS.salaoEstetica,
+    href: ROTAS.salaoFeminino,
     cta: 'Conhecer a próxima linha de produto',
   },
   {

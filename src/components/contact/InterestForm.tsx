@@ -8,7 +8,8 @@ const EMAIL_DESTINO = 'brg.ftw@gmail.com';
 const produtos = {
   barbearia: 'Plataforma para barbearias',
   'personal-studio': 'Personal Studio',
-  'salao-estetica': 'Plataforma para salões e estética',
+  'salao-feminino': 'Plataforma para salões de cabelo feminino',
+  'salao-estetica': 'Plataforma para estética e beleza',
   ecommerce: 'E-commerce sob medida',
   outro: 'Outro projeto',
 } as const;

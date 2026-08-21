@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
+import { ProductAudience } from '@/components/projects/ProductAudience';
+import { ProductGallery } from '@/components/projects/ProductGallery';
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -11,32 +13,20 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-ecommerce-bay.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'E-commerce sob medida',
+  titulo: 'E-commerce',
   descricao:
     'E-commerce white-label com vitrine, catálogo, busca, carrinho, checkout assistido e painel administrativo.',
   rota: ROTAS.ecommerce,
 });
 
-const produtosDemonstrativos = [
+const publicos = [
   {
-    nome: 'Kit Starlink Mini',
-    imagem: '/projects/ecommerce/produto-starlink.jpg',
-    alt: 'Kit para Starlink Mini usado no catálogo demonstrativo do e-commerce.',
+    title: 'Loja física ou negócio local',
+    text: 'Para quem quer apresentar o catálogo online, receber pedidos organizados e concluir condições, disponibilidade e entrega pelo WhatsApp.',
   },
   {
-    nome: 'Smart TV Samsung',
-    imagem: '/projects/ecommerce/produto-smart-tv.jpg',
-    alt: 'Smart TV Samsung usada no catálogo demonstrativo do e-commerce.',
-  },
-  {
-    nome: 'Air Fryer Britânia',
-    imagem: '/projects/ecommerce/produto-air-fryer.jpg',
-    alt: 'Air Fryer Britânia usada no catálogo demonstrativo do e-commerce.',
-  },
-  {
-    nome: 'Esmerilhadeira Bosch',
-    imagem: '/projects/ecommerce/produto-esmerilhadeira.jpg',
-    alt: 'Esmerilhadeira Bosch usada no catálogo demonstrativo do e-commerce.',
+    title: 'Marca com catálogo próprio',
+    text: 'Para fabricantes, revendedores e operações que precisam de uma vitrine com identidade própria, categorias, ofertas e controle de estoque.',
   },
 ] as const;
 
@@ -80,55 +70,24 @@ const personalizacoes = [
   'Forma de entrega e jornada de fechamento definidas com cada operação.',
 ] as const;
 
-function CatalogPreview() {
-  return (
-    <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#f7f8fb] text-[#0b1d2b] shadow-panel">
-      <div className="flex items-center justify-between gap-4 border-b border-black/10 bg-white px-5 py-4 sm:px-7">
-        <span className="flex items-center gap-2.5">
-          <Image
-            src="/projects/ecommerce/logo-ecommerce.png"
-            alt=""
-            width={40}
-            height={40}
-            className="size-9 rounded-lg object-cover"
-          />
-          <strong className="text-sm tracking-[-0.02em]">E-Commerce</strong>
-        </span>
-        <span className="hidden min-h-9 min-w-48 rounded-full border border-black/10 bg-[#f5f7f9] px-4 py-2 text-xs text-black/45 sm:block">
-          Buscar produtos…
-        </span>
-        <span aria-hidden="true" className="text-lg">⌑</span>
-      </div>
-      <div className="bg-gradient-to-br from-[#001528] via-[#00344a] to-[#008f93] px-6 py-8 text-white sm:px-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#48e5dc]">VITRINE DEMONSTRATIVA</p>
-        <p className="mt-3 max-w-[18ch] text-2xl font-extrabold leading-tight sm:text-3xl">
-          Tudo o que você procura em uma loja organizada.
-        </p>
-      </div>
-      <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-4 sm:p-6">
-        {produtosDemonstrativos.map((produto) => (
-          <div key={produto.nome} className="overflow-hidden rounded-xl border border-black/10 bg-white">
-            <div className="relative aspect-square">
-              <Image
-                src={produto.imagem}
-                alt={produto.alt}
-                fill
-                sizes="(min-width: 1024px) 12vw, 40vw"
-                className="object-contain p-3"
-              />
-            </div>
-            <p className="border-t border-black/5 px-3 py-3 text-xs font-bold leading-tight">
-              {produto.nome}
-            </p>
-          </div>
-        ))}
-      </div>
-      <figcaption className="border-t border-black/10 bg-white px-5 py-4 text-xs text-black/55 sm:px-7">
-        Produtos e imagens presentes na base demonstrativa do repositório oficial.
-      </figcaption>
-    </figure>
-  );
-}
+const demonstracoes = ([
+  ['01-vitrine.png', 'Vitrine principal da demonstração de e-commerce.', 'Vitrine: marca, busca, categorias, campanhas e produtos em destaque.'],
+  ['02-ofertas.png', 'Página de ofertas do e-commerce.', 'Ofertas: produtos promocionais reunidos em uma página própria.'],
+  ['03-mais-vendidos.png', 'Página de produtos mais vendidos.', 'Mais vendidos: uma coleção comercial para facilitar a descoberta.'],
+  ['04-categoria-smart-tvs.png', 'Categoria de Smart TVs no catálogo.', 'Categorias: filtros e ordenação ajudam o cliente a percorrer o catálogo.'],
+  ['05-produto-smart-tv.png', 'Página detalhada de uma Smart TV.', 'Produto: imagens, informações, condições e disponibilidade em uma única tela.'],
+  ['06-produto-starlink.png', 'Página detalhada de um kit para Starlink.', 'Produto: outra categoria real da base demonstrativa e suas informações.'],
+  ['07-sobre-loja.png', 'Página institucional sobre a loja.', 'Institucional: história, posicionamento e informações públicas da empresa.'],
+  ['08-frete-entrega.png', 'Página sobre frete e entrega.', 'Entrega: áreas atendidas, prazos e regras apresentados com transparência.'],
+  ['09-trocas-devolucoes.png', 'Página de trocas e devoluções.', 'Pós-venda: política de troca e devolução acessível ao cliente.'],
+  ['10-area-do-cliente.png', 'Área de acompanhamento e ajuda para pedidos.', 'Atendimento: pedido, troca, entrega e suporte direcionados para o canal humano.'],
+] as const).map(([arquivo, alt, legenda]) => ({
+  imagem: `/projects/ecommerce/screenshots/${arquivo}`,
+  alt,
+  legenda,
+  largura: 1600,
+  altura: 900,
+}));
 
 export default function EcommercePage() {
   return (
@@ -179,16 +138,16 @@ export default function EcommercePage() {
             <Reveal className="lg:col-span-6">
               <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
                 <Image
-                  src="/projects/ecommerce/social-ecommerce.jpg"
-                  alt="Identidade visual da demonstração E-Commerce."
-                  width={1200}
-                  height={630}
+                  src="/projects/ecommerce/screenshots/01-vitrine.png"
+                  alt="Vitrine principal da demonstração de E-commerce."
+                  width={1600}
+                  height={900}
                   priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="h-auto w-full"
+                  className="aspect-video h-auto w-full object-cover object-top"
                 />
                 <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
-                  Uma base neutra, pronta para receber outra marca e outro catálogo.
+                  Vitrine real da base demonstrativa, pronta para receber outra marca e outro catálogo.
                 </figcaption>
               </figure>
             </Reveal>
@@ -196,17 +155,13 @@ export default function EcommercePage() {
         </Container>
       </section>
 
-      <Section indice="01 / PRODUTO REAL" rotuladaPor="produto-real-ecommerce-titulo">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <TituloSecao id="produto-real-ecommerce-titulo" className="lg:col-span-7">
-            Uma vitrine para o cliente. Um painel para a operação.
-          </TituloSecao>
-          <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-4 lg:col-start-9">
-            A demonstração usa um catálogo funcional para apresentar as principais jornadas. Os
-            dados são substituídos pelos conteúdos autorizados de cada contratante.
-          </p>
-        </div>
-        <div className="mt-12"><CatalogPreview /></div>
+      <Section indice="01 / PARA QUEM É" rotuladaPor="publico-ecommerce-titulo">
+        <ProductAudience
+          id="publico-ecommerce-titulo"
+          title="Para negócios que precisam vender com a própria marca e manter o atendimento próximo."
+          introduction="O produto atende operações que querem organizar a vitrine e o pedido sem prometer automações de pagamento ou frete que ainda não fazem parte da base."
+          audiences={publicos}
+        />
       </Section>
 
       <Section indice="02 / JORNADA DE COMPRA" rotuladaPor="jornada-ecommerce-titulo">
@@ -254,7 +209,18 @@ export default function EcommercePage() {
         </div>
       </Section>
 
-      <Section indice="04 / IDENTIDADE E ADAPTAÇÃO" rotuladaPor="adaptacao-ecommerce-titulo">
+      <Section indice="04 / PRODUTO REAL" rotuladaPor="demonstracao-ecommerce-titulo">
+        <TituloSecao id="demonstracao-ecommerce-titulo">
+          Dez telas reais para percorrer a experiência de compra.
+        </TituloSecao>
+        <ProductGallery slides={demonstracoes} />
+        <p className="medida-texto mt-8 max-w-[72ch] text-sm leading-relaxed text-mineral-dim">
+          A marca, os produtos, os preços e os dados desta demonstração são fictícios. A base mostra
+          a jornada funcional e recebe o catálogo autorizado de cada contratante.
+        </p>
+      </Section>
+
+      <Section indice="05 / IDENTIDADE E ADAPTAÇÃO" rotuladaPor="adaptacao-ecommerce-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="adaptacao-ecommerce-titulo" className="lg:col-span-5">
             Uma base funcional, adaptada à identidade e à operação da loja.
@@ -276,7 +242,7 @@ export default function EcommercePage() {
         </div>
       </Section>
 
-      <Section indice="05 / FORMULÁRIO" rotuladaPor="formulario-ecommerce-titulo">
+      <Section indice="06 / FORMULÁRIO" rotuladaPor="formulario-ecommerce-titulo">
         <ProjectFormCard slug="ecommerce" />
       </Section>
 

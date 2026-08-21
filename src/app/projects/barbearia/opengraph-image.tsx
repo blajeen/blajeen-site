@@ -1,6 +1,6 @@
 import { criarOgProduto, tamanhoOgProduto } from '@/lib/product-og';
 
-export const alt = 'Plataforma para barbearias — Blajeen Labs';
+export const alt = 'Barbearia — Blajeen Labs';
 export const size = tamanhoOgProduto;
 export const contentType = 'image/png';
 

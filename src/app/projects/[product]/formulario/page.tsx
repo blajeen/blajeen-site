@@ -7,11 +7,10 @@ import { BuyerOnboardingStart } from '@/components/onboarding/BuyerOnboardingSta
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 
 const products = {
-  barbearia: 'plataforma para barbearias',
-  'personal-studio': 'Personal Studio',
-  'salao-feminino': 'plataforma para salões de cabelo feminino',
-  'salao-estetica': 'plataforma para estética e beleza',
-  ecommerce: 'e-commerce sob medida',
+  barbearia: 'Barbearia',
+  'personal-studio': 'Personal',
+  'salao-estetica': 'Studio Beauty',
+  ecommerce: 'E-commerce',
 } as const;
 
 type ProductSlug = keyof typeof products;
@@ -52,9 +51,9 @@ export default async function ProjectFormPage({ params }: Context) {
                 Vamos preparar seu projeto.
               </h1>
               <p className="medida-texto mt-6 text-[1rem] leading-relaxed text-mineral">
-                Este formulário é destinado a quem decidiu contratar. Comece informando seus dados
-                de contato; na etapa seguinte, você poderá explicar a marca, a operação, o conteúdo
-                e tudo o que precisamos para personalizar o projeto.
+                Este briefing é destinado a quem decidiu contratar. Ele reúne apenas contato,
+                direção da marca, informações essenciais da operação e os materiais que você já
+                possui. Detalhes complementares podem ser alinhados depois com a equipe.
               </p>
               <div className="mt-6 rounded-2xl border border-signal/25 bg-signal/5 p-4 text-sm leading-relaxed text-mineral">
                 <strong className="text-paper">Sem código e sem conta.</strong> Suas respostas ficam

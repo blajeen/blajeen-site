@@ -15,21 +15,21 @@ export const revalidate = 3600;
 const produtos = [
   {
     id: 'barbearia' as const,
-    categoria: 'BARBEARIAS',
+    categoria: 'BARBEARIA',
     titulo: 'Agendamento sem conta e gestão da operação.',
     texto: 'Site, agenda e rotina da equipe em uma plataforma pronta para receber a marca do negócio.',
     href: ROTAS.barbearia,
-    imagem: '/projects/barbearia/screenshots/01-site-institucional.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
     alt: 'Página inicial da plataforma demonstrativa para barbearias.',
   },
   {
     id: 'personal' as const,
-    categoria: 'PERSONAL STUDIO',
+    categoria: 'PERSONAL',
     titulo: 'Aluno, personal e gestor conectados.',
     texto: 'Agenda, treinos e acompanhamento em uma experiência adaptável a estúdios e profissionais.',
     href: ROTAS.personalStudio,
-    imagem: '/projects/personal-studio/mockup-painel-gestor.png',
-    alt: 'Painel de gestão da plataforma Personal Studio.',
+    imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
+    alt: 'Painel de gestão da plataforma Personal.',
   },
   {
     id: 'salao' as const,
@@ -37,8 +37,8 @@ const produtos = [
     titulo: 'Cliente, profissional e gestão conectadas.',
     texto: 'Site, agenda, portfólio e histórico em uma experiência própria para estética e beleza.',
     href: ROTAS.salaoEstetica,
-    imagem: '/projects/salao-estetica/hero-home.jpg',
-    alt: 'Demonstração da plataforma Studio Beauty para estética e beleza.',
+    imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
+    alt: 'Site público da plataforma Studio Beauty.',
   },
   {
     id: 'ecommerce' as const,
@@ -46,8 +46,8 @@ const produtos = [
     titulo: 'Vitrine, catálogo e operação conectados.',
     texto: 'Busca, carrinho, atendimento e gestão em uma loja pronta para receber outra marca.',
     href: ROTAS.ecommerce,
-    imagem: '/projects/ecommerce/social-ecommerce.jpg',
-    alt: 'Identidade visual da demonstração E-Commerce.',
+    imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
+    alt: 'Vitrine da demonstração de E-commerce.',
   },
 ] as const;
 

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
+import { ProductAudience } from '@/components/projects/ProductAudience';
+import { ProductGallery } from '@/components/projects/ProductGallery';
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -11,7 +13,7 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-estetica-kappa.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Studio Beauty — plataforma para estética e beleza',
+  titulo: 'Studio Beauty',
   descricao:
     'Plataforma white-label para estúdios de beleza com site, agendamento, portfólio, área da cliente e gestão da operação.',
   rota: ROTAS.salaoEstetica,
@@ -22,6 +24,17 @@ const especialidades = [
   ['Unhas', 'Manicure, pedicure, nail art e alongamentos com portfólio por profissional.'],
   ['Olhar', 'Sobrancelhas, brow design, brow lamination, cílios e lash lifting.'],
   ['Maquiagem', 'Produções sociais, eventos, noivas, pacotes e serviços combinados.'],
+] as const;
+
+const publicos = [
+  {
+    title: 'Profissional ou estúdio especializado',
+    text: 'Para nail designers, lash designers, esteticistas, maquiadoras e espaços que querem profissionalizar a própria presença e agenda.',
+  },
+  {
+    title: 'Operação com equipe ou unidades',
+    text: 'Para proprietárias e gestoras que precisam conectar profissionais, especialidades, portfólio, pacotes, clientes e eventos.',
+  },
 ] as const;
 
 const experiencias = [
@@ -61,6 +74,25 @@ const personalizacoes = [
   'Módulos de pacotes, eventos, portfólio, inspirações e avaliações.',
   'Conteúdo público e jornada de atendimento do próprio negócio.',
 ] as const;
+
+const demonstracoes = ([
+  ['01-inicio.png', 'Site público do Studio Beauty com identidade, proposta e acesso ao agendamento.', 'Site público: apresentação da marca, especialidades e chamada principal.'],
+  ['02-servicos.png', 'Catálogo de serviços do Studio Beauty.', 'Serviços: categorias, valores, durações e caminhos para reservar.'],
+  ['03-categoria-unhas.png', 'Categoria de unhas com serviços disponíveis.', 'Categoria: serviços de unhas organizados para facilitar a escolha.'],
+  ['04-profissionais.png', 'Equipe de profissionais do Studio Beauty.', 'Profissionais: especialidades, perfis e acesso ao agendamento.'],
+  ['05-portfolio.png', 'Portfólio de trabalhos do Studio Beauty.', 'Portfólio: trabalhos reais organizados por especialidade e autorização.'],
+  ['06-pacotes.png', 'Pacotes e serviços combinados do Studio Beauty.', 'Pacotes: combinações de serviços apresentadas com clareza.'],
+  ['07-beauty-club.png', 'Área de apresentação do Beauty Club.', 'Beauty Club: recorrência e benefícios configuráveis para o estúdio.'],
+  ['08-noivas-eventos.png', 'Jornada para noivas e eventos.', 'Noivas e eventos: produção de beleza e cronograma dedicado.'],
+  ['09-agendamento.png', 'Início do fluxo de agendamento do Studio Beauty.', 'Agendamento: início por serviço, profissional ou ocasião.'],
+  ['10-sobre-estudio.png', 'Página institucional sobre o Studio Beauty.', 'Institucional: história, unidades, políticas e perguntas frequentes.'],
+] as const).map(([arquivo, alt, legenda]) => ({
+  imagem: `/projects/salao-estetica/screenshots/${arquivo}`,
+  alt,
+  legenda,
+  largura: 1600,
+  altura: 900,
+}));
 
 function BeautyStudioPreview() {
   const categorias = [
@@ -183,16 +215,13 @@ export default function SalaoEsteticaPage() {
         </Container>
       </section>
 
-      <Section indice="01 / PRODUTO REAL" rotuladaPor="produto-real-beauty-titulo">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <TituloSecao id="produto-real-beauty-titulo" className="lg:col-span-7">
-            Um aplicativo oficial do estúdio, não uma vitrine de concorrentes.
-          </TituloSecao>
-          <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-4 lg:col-start-9">
-            Cada implantação pertence a uma única operação. A cliente encontra a marca, a equipe,
-            os serviços e as regras daquele negócio em uma experiência própria.
-          </p>
-        </div>
+      <Section indice="01 / PARA QUEM É" rotuladaPor="publico-beauty-titulo">
+        <ProductAudience
+          id="publico-beauty-titulo"
+          title="Para negócios de beleza que precisam de uma experiência própria, não de um marketplace."
+          introduction="Cada implantação representa um único estúdio e pode começar pequena ou acompanhar uma operação com equipe, unidades e diferentes especialidades."
+          audiences={publicos}
+        />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {especialidades.map(([titulo, texto], index) => (
             <Reveal key={titulo}>
@@ -221,7 +250,18 @@ export default function SalaoEsteticaPage() {
         </div>
       </Section>
 
-      <Section indice="03 / AGENDAMENTO" rotuladaPor="agendamento-beauty-titulo">
+      <Section indice="03 / PRODUTO REAL" rotuladaPor="demonstracao-beauty-titulo">
+        <TituloSecao id="demonstracao-beauty-titulo">
+          Dez telas reais para conhecer a experiência do sistema.
+        </TituloSecao>
+        <ProductGallery slides={demonstracoes} />
+        <p className="medida-texto mt-8 max-w-[72ch] text-sm leading-relaxed text-mineral-dim">
+          Lumi Beauty Studio é a marca fictícia da demonstração. Nomes, números, profissionais e
+          demais dados servem apenas para apresentar o produto e são substituídos na implantação.
+        </p>
+      </Section>
+
+      <Section indice="04 / AGENDAMENTO" rotuladaPor="agendamento-beauty-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <TituloSecao id="agendamento-beauty-titulo">
@@ -250,7 +290,7 @@ export default function SalaoEsteticaPage() {
         </p>
       </Section>
 
-      <Section indice="04 / IDENTIDADE E ADAPTAÇÃO" rotuladaPor="adaptacao-beauty-titulo">
+      <Section indice="05 / IDENTIDADE E ADAPTAÇÃO" rotuladaPor="adaptacao-beauty-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="adaptacao-beauty-titulo" className="lg:col-span-5">
             A base se adapta à identidade e ao jeito de atender do seu estúdio.
@@ -272,7 +312,7 @@ export default function SalaoEsteticaPage() {
         </div>
       </Section>
 
-      <Section indice="05 / FORMULÁRIO" rotuladaPor="formulario-beauty-titulo">
+      <Section indice="06 / FORMULÁRIO" rotuladaPor="formulario-beauty-titulo">
         <ProjectFormCard slug="salao-estetica" />
       </Section>
 

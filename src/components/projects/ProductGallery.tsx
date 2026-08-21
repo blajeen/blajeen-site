@@ -19,23 +19,23 @@ export function ProductGallery({ slides }: { slides: readonly Slide[] }) {
   const proximo = () => setAtual((indice) => (indice + 1) % slides.length);
 
   return (
-    <div className="mx-auto mt-12 max-w-[1180px] sm:mt-16">
+    <div className="mx-auto mt-12 max-w-[1280px] sm:mt-16">
       <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line-strong bg-raised shadow-[var(--shadow-panel)]">
-        <div className="grid h-[min(56vh,34rem)] min-h-[18rem] place-items-center bg-[#0b0d0a] p-4 sm:min-h-[22rem] sm:p-7">
-          <div className="relative size-full overflow-hidden rounded-[clamp(0.75rem,2vw,1.25rem)]">
+        <div className="grid aspect-video w-full place-items-center bg-[#0b0d0a] p-2 sm:p-4">
+          <div className="relative size-full overflow-hidden rounded-[clamp(0.65rem,1.4vw,1rem)]">
             <Image
               key={slide.imagem}
               src={slide.imagem}
               alt={slide.alt}
               fill
-              sizes="(min-width: 1024px) 900px, 92vw"
+              sizes="(min-width: 1280px) 1248px, 96vw"
               className="object-contain"
             />
           </div>
         </div>
         <figcaption className="border-t border-line px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex flex-wrap items-center justify-between gap-5">
-            <p className="medida-texto text-sm leading-relaxed text-mineral" aria-live="polite">
+            <p className="medida-texto min-h-11 max-w-[78ch] text-sm leading-relaxed text-mineral" aria-live="polite">
               <span className="tecnica mr-3 text-signal">
                 {String(atual + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
               </span>
@@ -60,7 +60,7 @@ export function ProductGallery({ slides }: { slides: readonly Slide[] }) {
               </button>
             </div>
           </div>
-          <div className="mt-4 flex gap-2" aria-label="Selecionar tela do produto">
+          <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-10" aria-label="Selecionar tela do produto">
             {slides.map((item, indice) => (
               <button
                 key={item.imagem}
@@ -68,8 +68,10 @@ export function ProductGallery({ slides }: { slides: readonly Slide[] }) {
                 onClick={() => setAtual(indice)}
                 aria-label={`Ver tela ${indice + 1}: ${item.legenda}`}
                 aria-current={indice === atual ? 'true' : undefined}
-                className="h-1.5 flex-1 rounded-full bg-line-strong transition-colors duration-150 hover:bg-mineral-dim aria-[current=true]:bg-signal"
-              />
+                className="tecnica h-8 rounded-lg border border-line bg-surface text-[10px] text-mineral transition-colors duration-150 hover:border-signal hover:text-paper aria-[current=true]:border-signal aria-[current=true]:bg-signal aria-[current=true]:text-ink"
+              >
+                {String(indice + 1).padStart(2, '0')}
+              </button>
             ))}
           </div>
         </figcaption>

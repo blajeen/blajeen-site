@@ -1,6 +1,6 @@
 import { criarOgProduto, tamanhoOgProduto } from '@/lib/product-og';
 
-export const alt = 'Personal Studio — Blajeen Labs';
+export const alt = 'Personal — Blajeen Labs';
 export const size = tamanhoOgProduto;
 export const contentType = 'image/png';
 

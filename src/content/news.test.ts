@@ -25,20 +25,12 @@ describe('novidades', () => {
     expect([...datas].sort().reverse()).toEqual(datas);
   });
 
-  it('registra os produtos novos e as verticais em desenvolvimento', () => {
+  it('registra os quatro produtos em demonstração', () => {
     const ids = novidades.map((item) => item.id);
     expect(ids).toContain('barbearia-em-demonstracao');
     expect(ids).toContain('personal-studio-em-demonstracao');
     expect(ids).toContain('ecommerce-em-demonstracao');
     expect(ids).toContain('studio-beauty-em-demonstracao');
-    expect(ids).toContain('novas-verticais-em-desenvolvimento');
-
-    const emDesenvolvimento = novidades.find(
-      (item) => item.id === 'novas-verticais-em-desenvolvimento',
-    );
-    expect(emDesenvolvimento?.texto.join(' ')).toMatch(
-      /cabelo e cuidados pet permanecem em desenvolvimento/i,
-    );
   });
 
   it('não promete data de lançamento dos jogos sem build', () => {

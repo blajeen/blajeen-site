@@ -75,34 +75,22 @@ export const atalhosDeProjeto = [
     href: ROTAS.barbearia,
   },
   {
-    rotulo: 'Personal Studio',
+    rotulo: 'Personal',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'personal',
     href: ROTAS.personalStudio,
   },
   {
-    rotulo: 'Salões de cabelo feminino',
-    estado: 'EM BREVE',
-    simbolo: 'cabelo',
-    href: ROTAS.salaoFeminino,
-  },
-  {
-    rotulo: 'Estética e beleza',
+    rotulo: 'Studio Beauty',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'salao',
     href: ROTAS.salaoEstetica,
   },
   {
-    rotulo: 'E-commerce sob medida',
+    rotulo: 'E-commerce',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'ecommerce',
     href: ROTAS.ecommerce,
-  },
-  {
-    rotulo: 'Pet shops e banho & tosa',
-    estado: 'EM DESENVOLVIMENTO',
-    simbolo: 'pet',
-    href: `${ROTAS.projetos}#pet-shop-tosa`,
   },
 ] as const;
 
@@ -125,11 +113,9 @@ export const rodape = {
   ],
   projetos: [
     { rotulo: 'Barbearias', href: ROTAS.barbearia },
-    { rotulo: 'Personal Studio', href: ROTAS.personalStudio },
-    { rotulo: 'Salões de cabelo — em breve', href: ROTAS.salaoFeminino },
+    { rotulo: 'Personal', href: ROTAS.personalStudio },
     { rotulo: 'Studio Beauty', href: ROTAS.salaoEstetica },
     { rotulo: 'E-commerce', href: ROTAS.ecommerce },
-    { rotulo: 'Pet — em desenvolvimento', href: `${ROTAS.projetos}#pet-shop-tosa` },
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },

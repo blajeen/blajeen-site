@@ -29,11 +29,11 @@ export function ProjectFormCard({ slug, showAction = true }: { slug: string; sho
         <div>
           <p className="tecnica text-signal">PARA QUEM VAI CONTRATAR</p>
           <h2 className="mt-3 text-[clamp(1.45rem,3vw,2.15rem)] leading-tight tracking-[-0.035em]">
-            Preencher formulário para criação do site
+            Preencher briefing do projeto
           </h2>
           <p className="mt-3 max-w-[67ch] text-sm leading-relaxed text-mineral">
-            Decidiu contratar? Preencha o briefing para reunir as informações que orientarão a
-            criação e a personalização do seu projeto.
+            Decidiu contratar? São quatro etapas curtas com as informações essenciais para adaptar
+            o produto. O que faltar pode ser alinhado depois com a equipe.
           </p>
         </div>
         {showAction ? (

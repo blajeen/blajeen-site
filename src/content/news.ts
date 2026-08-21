@@ -64,25 +64,13 @@ export const novidades: readonly Novidade[] = [
     id: 'personal-studio-em-demonstracao',
     data: '2026-08-20',
     rotulo: 'Demonstração disponível',
-    titulo: 'Personal Studio conecta aluno, personal e gestão',
+    titulo: 'Personal conecta aluno, profissional e gestão',
     texto: [
-      'O Personal Studio ganhou uma página completa e uma demonstração navegável. A plataforma reúne agenda, treinos, evolução e gestão em experiências próprias para aluno, profissional e gestor.',
+      'O Personal ganhou uma página completa e uma demonstração navegável. A plataforma reúne agenda, treinos, evolução e gestão em experiências próprias para aluno, profissional e gestor.',
       'O produto parte de uma base funcional e é adaptado às necessidades, à identidade e às regras de personal trainers e estúdios de treinamento.',
     ],
     href: ROTAS.personalStudio,
-    cta: 'Explorar o Personal Studio',
-  },
-  {
-    id: 'novas-verticais-em-desenvolvimento',
-    data: '2026-08-20',
-    rotulo: 'Em desenvolvimento',
-    titulo: 'Cabelo e cuidados pet seguem na bancada',
-    texto: [
-      'As próximas verticais continuam separadas pela operação: uma plataforma para salões de cabelo feminino e outra para pet shops e banho & tosa.',
-      'Enquanto Studio Beauty e e-commerce já podem ser explorados, cabelo e cuidados pet permanecem em desenvolvimento com a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
-    ],
-    href: ROTAS.salaoFeminino,
-    cta: 'Conhecer a próxima linha de produto',
+    cta: 'Explorar o Personal',
   },
   {
     id: 'gramelio-entra-no-laboratorio',

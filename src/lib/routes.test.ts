@@ -26,11 +26,10 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` (18/08/2026) + as 5 do Gramelio (19/08/2026).
-    expect(TODAS_AS_ROTAS).toHaveLength(28);
+    expect(TODAS_AS_ROTAS).toHaveLength(27);
     expect(TODAS_AS_ROTAS).toContain('/projects');
     expect(TODAS_AS_ROTAS).toContain('/projects/barbearia');
     expect(TODAS_AS_ROTAS).toContain('/projects/personal-studio');
-    expect(TODAS_AS_ROTAS).toContain('/projects/salao-feminino');
     expect(TODAS_AS_ROTAS).toContain('/projects/salao-estetica');
     expect(TODAS_AS_ROTAS).toContain('/projects/ecommerce');
     expect(TODAS_AS_ROTAS).toContain('/novidades');
@@ -71,7 +70,6 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.projetoRevalio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.barbearia)).toBe(0.9);
-    expect(prioridadeSitemap(ROTAS.salaoFeminino)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.salaoEstetica)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.ecommerce)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.revalioExclusao)).toBe(0.5);

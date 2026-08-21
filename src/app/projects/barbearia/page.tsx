@@ -5,6 +5,7 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
+import { ProductAudience } from '@/components/projects/ProductAudience';
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -12,7 +13,7 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-barbearia-blajeen-labs.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Plataforma para barbearias',
+  titulo: 'Barbearia',
   descricao:
     'Plataforma white-label para barbearias com site institucional, agendamento online e gestão da operação.',
   rota: ROTAS.barbearia,
@@ -24,7 +25,7 @@ const jornadas = [
     titulo: 'Experiência do cliente',
     texto:
       'Um site com a identidade da barbearia e um agendamento direto, sem criação de conta: unidade, profissional, serviço, data, horário e confirmação.',
-    imagem: '/projects/barbearia/screenshots/03-agendamento-horarios.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/03-escolha-profissional.png',
     alt: 'Seleção de data e horário no agendamento online da plataforma para barbearias.',
   },
   {
@@ -32,7 +33,7 @@ const jornadas = [
     titulo: 'Rotina da equipe',
     texto:
       'Agenda centralizada por unidade e profissional para acompanhar os atendimentos e manter a operação organizada.',
-    imagem: '/projects/barbearia/screenshots/05-gestao-agenda.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/05-gestao-agenda.png',
     alt: 'Agenda geral da plataforma com filtros por unidade e profissional.',
   },
   {
@@ -40,67 +41,92 @@ const jornadas = [
     titulo: 'Controle do produto',
     texto:
       'Marca, conteúdo, imagens, cores, tipografia e regras de agendamento configurados em uma área própria de gestão.',
-    imagem: '/projects/barbearia/screenshots/06-produto-marca.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/10-configuracao-produto.png',
     alt: 'Painel de personalização da marca e das imagens da plataforma para barbearias.',
   },
 ] as const;
 
 const demonstracoes = [
   {
-    imagem: '/projects/barbearia/screenshots/01-site-institucional.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
     alt: 'Página inicial pública da demonstração, com identidade visual e chamada para agendamento.',
     legenda: 'Site público: marca, serviços, equipe, unidades e acesso direto ao agendamento.',
-    largura: 1897,
-    altura: 907,
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/02-agendamento-profissionais.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/02-agendamento.png',
     alt: 'Etapa de escolha de profissional no fluxo de agendamento.',
     legenda: 'Agendamento: escolha de profissional ou opção pelo primeiro horário disponível.',
-    largura: 1897,
-    altura: 907,
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/03-agendamento-horarios.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/03-escolha-profissional.png',
     alt: 'Etapa de escolha de data e horário no fluxo de agendamento.',
     legenda: 'Agendamento: datas e horários disponíveis apresentados em uma jornada objetiva.',
-    largura: 1912,
-    altura: 914,
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/04-gestao-resumo.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/04-gestao-resumo.png',
     alt: 'Resumo diário da gestão da barbearia.',
     legenda: 'Gestão: resumo do dia, ocupação por profissional e próximos atendimentos.',
-    largura: 1897,
-    altura: 907,
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/05-gestao-agenda.png',
+    imagem: '/projects/barbearia/screenshots-padronizados/05-gestao-agenda.png',
     alt: 'Agenda geral da gestão com filtros operacionais.',
     legenda: 'Gestão: agenda geral com filtros por data, unidade e profissional.',
-    largura: 1897,
-    altura: 907,
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/06-produto-marca.png',
-    alt: 'Configuração da marca, logotipo e imagens da plataforma.',
-    legenda: 'Produto: nome, assinatura visual, logotipo, capa e galeria configuráveis.',
-    largura: 1897,
-    altura: 907,
+    imagem: '/projects/barbearia/screenshots-padronizados/06-gestao-clientes.png',
+    alt: 'Gestão da carteira de clientes da barbearia.',
+    legenda: 'Gestão: clientes, contatos e histórico reunidos para a equipe.',
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/07-produto-cores-tipografia.png',
-    alt: 'Configuração de cores e tipografia da plataforma.',
-    legenda: 'Produto: cores e tipografia ajustadas à identidade de cada barbearia.',
-    largura: 1897,
-    altura: 907,
+    imagem: '/projects/barbearia/screenshots-padronizados/07-gestao-profissionais.png',
+    alt: 'Gestão dos profissionais da barbearia.',
+    legenda: 'Gestão: equipe, especialidades e disponibilidade por profissional.',
+    largura: 1600,
+    altura: 900,
   },
   {
-    imagem: '/projects/barbearia/screenshots/08-produto-regras-agenda.png',
-    alt: 'Configuração das regras de agendamento da plataforma.',
-    legenda: 'Produto: antecedência, intervalo, cancelamento e demais regras de agenda.',
-    largura: 1897,
-    altura: 907,
+    imagem: '/projects/barbearia/screenshots-padronizados/08-gestao-servicos.png',
+    alt: 'Gestão dos serviços oferecidos pela barbearia.',
+    legenda: 'Gestão: serviços, valores, durações e disponibilidade para agendamento.',
+    largura: 1600,
+    altura: 900,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots-padronizados/09-gestao-unidades.png',
+    alt: 'Gestão das unidades da barbearia.',
+    legenda: 'Gestão: unidades, endereços, horários e canais de contato.',
+    largura: 1600,
+    altura: 900,
+  },
+  {
+    imagem: '/projects/barbearia/screenshots-padronizados/10-configuracao-produto.png',
+    alt: 'Configuração white-label do produto para a barbearia.',
+    legenda: 'Produto: marca, conteúdo, WhatsApp e regras ajustados para cada implantação.',
+    largura: 1600,
+    altura: 900,
+  },
+] as const;
+
+const publicos = [
+  {
+    title: 'Barbeiro proprietário',
+    text: 'Para quem atende e também administra o negócio, precisa reduzir mensagens manuais e quer uma presença digital profissional.',
+  },
+  {
+    title: 'Barbearia com equipe ou unidades',
+    text: 'Para donos e gestores que precisam centralizar profissionais, serviços, horários, clientes e diferentes locais de atendimento.',
   },
 ] as const;
 
@@ -140,7 +166,7 @@ export default function BarbeariaPage() {
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link
-                  href={`${ROTAS.contato}?produto=barbearia#interesse`}
+                  href="/projects/barbearia/formulario"
                   className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
                 >
                   Quero para minha barbearia
@@ -165,10 +191,10 @@ export default function BarbeariaPage() {
             <Reveal className="lg:col-span-6">
               <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
                 <Image
-                  src="/projects/barbearia/screenshots/04-gestao-resumo.png"
+                  src="/projects/barbearia/screenshots-padronizados/04-gestao-resumo.png"
                   alt="Resumo diário da gestão na plataforma para barbearias."
-                  width={1897}
-                  height={907}
+                  width={1600}
+                  height={900}
                   priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   className="h-auto w-full"
@@ -182,8 +208,17 @@ export default function BarbeariaPage() {
         </Container>
       </section>
 
+      <Section indice="01 / PARA QUEM É" rotuladaPor="publico-barbearia-titulo">
+        <ProductAudience
+          id="publico-barbearia-titulo"
+          title="Para barbearias que querem atender melhor sem perder a própria identidade."
+          introduction="O produto se adapta tanto ao profissional que trabalha sozinho quanto a operações com equipe e mais de uma unidade."
+          audiences={publicos}
+        />
+      </Section>
+
       <Section
-        indice="01 / JORNADAS"
+        indice="02 / JORNADAS"
         rotuladaPor="jornadas-titulo"
         className="relative isolate overflow-hidden"
       >
@@ -199,8 +234,8 @@ export default function BarbeariaPage() {
                   <Image
                     src={jornada.imagem}
                     alt={jornada.alt}
-                    width={1897}
-                    height={907}
+                    width={1600}
+                    height={900}
                     sizes="(min-width: 1024px) 32vw, 100vw"
                     className="h-full w-full object-cover object-top"
                   />
@@ -218,7 +253,7 @@ export default function BarbeariaPage() {
         </div>
       </Section>
 
-      <Section indice="02 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-barbearia-titulo">
+      <Section indice="03 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-barbearia-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="personalizacao-barbearia-titulo" className="lg:col-span-5">
             Uma base própria para a identidade e a operação da sua barbearia.
@@ -241,9 +276,9 @@ export default function BarbeariaPage() {
         </div>
       </Section>
 
-      <Section indice="03 / PRODUTO REAL" rotuladaPor="demonstracao-barbearia-titulo">
+      <Section indice="04 / PRODUTO REAL" rotuladaPor="demonstracao-barbearia-titulo">
         <TituloSecao id="demonstracao-barbearia-titulo">
-          Oito telas reais para conhecer o produto por dentro.
+          Dez telas reais para conhecer o produto por dentro.
         </TituloSecao>
         <ProductGallery slides={demonstracoes} />
         <p className="medida-texto mt-8 max-w-[70ch] text-sm leading-relaxed text-mineral-dim">
@@ -253,7 +288,7 @@ export default function BarbeariaPage() {
         </p>
       </Section>
 
-      <Section indice="04 / FORMULÁRIO" rotuladaPor="formulario-barbearia-titulo">
+      <Section indice="05 / FORMULÁRIO" rotuladaPor="formulario-barbearia-titulo">
         <ProjectFormCard slug="barbearia" />
       </Section>
 
@@ -273,7 +308,7 @@ export default function BarbeariaPage() {
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
-                href={`${ROTAS.contato}?produto=barbearia#interesse`}
+                href="/projects/barbearia/formulario"
                 className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
               >
                 Solicitar personalização

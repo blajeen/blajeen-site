@@ -1,24 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { getOnboardingSchema, isFieldVisible } from './schema';
+import { getOnboardingSchema } from './schema';
 import { calculateProgress } from './progress';
 
 describe('schemas de onboarding', () => {
   it.each([
     ['ECOMMERCE', 'E-commerce'],
     ['BARBERSHOP', 'Barbearia'],
-    ['PERSONAL_TRAINER', 'Personal Trainer / Studio'],
-    ['BEAUTY_STUDIO', 'Estética / Beauty Studio'],
+    ['PERSONAL_TRAINER', 'Personal'],
+    ['BEAUTY_STUDIO', 'Studio Beauty'],
   ] as const)('seleciona o formulário correto para %s', (type, title) => {
     expect(getOnboardingSchema(type).title).toBe(title);
-    expect(getOnboardingSchema(type).sections.length).toBeGreaterThan(5);
+    expect(getOnboardingSchema(type).sections).toHaveLength(4);
   });
 
-  it('aplica perguntas condicionais do personal autônomo', () => {
-    const schema = getOnboardingSchema('PERSONAL_TRAINER');
-    const field = schema.sections.find((section) => section.key === 'modeloPersonal')?.fields.find((entry) => entry.key === 'habilitarRecursosStudio');
-    expect(field).toBeDefined();
-    expect(isFieldVisible(field!, { 'modeloPersonal.modelo': 'Personal autônomo' })).toBe(true);
-    expect(isFieldVisible(field!, { 'modeloPersonal.modelo': 'Studio com equipe' })).toBe(false);
+  it('mantém todos os briefings curtos e focados', () => {
+    for (const type of ['ECOMMERCE', 'BARBERSHOP', 'PERSONAL_TRAINER', 'BEAUTY_STUDIO'] as const) {
+      const fields = getOnboardingSchema(type).sections.flatMap((section) => section.fields);
+      expect(fields.length).toBeLessThanOrEqual(30);
+      expect(fields.filter((field) => field.required).length).toBeLessThanOrEqual(13);
+    }
   });
 
   it('calcula progresso e pendências somente sobre campos obrigatórios visíveis', () => {
@@ -33,4 +33,3 @@ describe('schemas de onboarding', () => {
     expect(partial.progress).toBeGreaterThan(0);
   });
 });
-

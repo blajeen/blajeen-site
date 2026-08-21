@@ -5,7 +5,6 @@ import type { ProjectType } from '@/lib/onboarding/types';
 const productTypes: Record<string, ProjectType> = {
   barbearia: 'BARBERSHOP',
   'personal-studio': 'PERSONAL_TRAINER',
-  'salao-feminino': 'BEAUTY_STUDIO',
   'salao-estetica': 'BEAUTY_STUDIO',
   ecommerce: 'ECOMMERCE',
 };

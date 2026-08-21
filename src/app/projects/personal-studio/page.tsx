@@ -5,12 +5,13 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
+import { ProductAudience } from '@/components/projects/ProductAudience';
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Personal Studio',
+  titulo: 'Personal',
   descricao:
     'Plataforma white-label demonstrativa para personal trainers autônomos e estúdios de treinamento.',
   rota: ROTAS.personalStudio,
@@ -94,6 +95,31 @@ const demonstracoes = [
     largura: 1897,
     altura: 907,
   },
+  {
+    imagem: '/projects/personal-studio/tela-real-area-personal.png',
+    alt: 'Visão real do portal do personal com agenda, alunos e alertas.',
+    legenda: 'Personal: visão geral da agenda, carteira de alunos e pontos de atenção.',
+    largura: 1440,
+    altura: 960,
+  },
+  {
+    imagem: '/projects/personal-studio/tela-real-painel-gestor.png',
+    alt: 'Visão real do painel do gestor com indicadores da operação.',
+    legenda: 'Gestão: sessões, alunos, profissionais, ocupação e retenção em uma visão central.',
+    largura: 1440,
+    altura: 960,
+  },
+] as const;
+
+const publicos = [
+  {
+    title: 'Personal trainer autônomo',
+    text: 'Para quem vende acompanhamento individual e quer reunir site, agenda, prescrição e evolução sem parecer uma operação genérica.',
+  },
+  {
+    title: 'Estúdio de treinamento',
+    text: 'Para proprietários e gestores que trabalham com equipe, alunos, planos, unidades e uma agenda compartilhada.',
+  },
 ] as const;
 
 const personalizacoes = [
@@ -120,15 +146,15 @@ export default function PersonalStudioPage() {
                 Seu negócio fitness. Sua marca. Uma plataforma completa.
               </h1>
               <p className="medida-texto mt-8 text-[1.1rem] leading-relaxed text-mineral">
-                O Personal Studio reúne presença digital, experiência do aluno e gestão da operação
+                O Personal reúne presença digital, experiência do aluno e gestão da operação
                 em um produto adaptado às necessidades, à identidade e às regras do seu negócio.
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link
-                  href={`${ROTAS.contato}?produto=personal-studio#interesse`}
+                  href="/projects/personal-studio/formulario"
                   className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
                 >
-                  Quero meu Personal Studio
+                  Quero meu Personal
                   <span aria-hidden="true">→</span>
                 </Link>
                 <a
@@ -148,15 +174,15 @@ export default function PersonalStudioPage() {
             </div>
 
             <Reveal className="lg:col-span-6">
-              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
+              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#0b0d0a]">
                 <Image
-                  src="/projects/personal-studio/mockup-painel-gestor.png"
-                  alt="Painel de gestão do Personal Studio exibido em um monitor."
-                  width={1536}
-                  height={1024}
+                  src="/projects/personal-studio/screenshots-v2/07-gestor-alunos.png"
+                  alt="Painel de gestão do Personal com a carteira de alunos."
+                  width={1897}
+                  height={907}
                   priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="h-auto w-full"
+                  className="aspect-video h-auto w-full object-contain"
                 />
                 <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
                   Painel do gestor: uma visão centralizada da operação.
@@ -167,7 +193,16 @@ export default function PersonalStudioPage() {
         </Container>
       </section>
 
-      <Section indice="01 / TRÊS EXPERIÊNCIAS" rotuladaPor="experiencias-titulo" className="relative isolate overflow-hidden">
+      <Section indice="01 / PARA QUEM É" rotuladaPor="publico-personal-titulo">
+        <ProductAudience
+          id="publico-personal-titulo"
+          title="Para quem acompanha alunos de perto e precisa organizar o negócio por inteiro."
+          introduction="A estrutura muda conforme o tamanho da operação: direta para o profissional autônomo e mais ampla para estúdios com equipe."
+          audiences={publicos}
+        />
+      </Section>
+
+      <Section indice="02 / TRÊS EXPERIÊNCIAS" rotuladaPor="experiencias-titulo" className="relative isolate overflow-hidden">
         <LabBackdrop lado="esquerda" />
         <TituloSecao id="experiencias-titulo" className="max-w-[18ch]">
           Aluno, personal e gestor conectados.
@@ -181,14 +216,14 @@ export default function PersonalStudioPage() {
                   <h2 className="mt-5 text-[clamp(1.7rem,3.6vw,3rem)] leading-[1.04] tracking-[-0.045em]">{experiencia.titulo}</h2>
                   <p className="medida-texto mt-5 text-[1rem] leading-relaxed text-mineral">{experiencia.texto}</p>
                 </div>
-                <figure className={indice % 2 === 0 ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'}>
+                <figure className={`${indice % 2 === 0 ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'} aspect-video overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#0b0d0a]`}>
                   <Image
                     src={experiencia.imagem}
                     alt={experiencia.alt}
                     width={1536}
                     height={1024}
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="h-auto w-full rounded-[var(--radius-panel)] border border-line bg-raised"
+                    className="size-full object-contain"
                   />
                 </figure>
               </article>
@@ -197,14 +232,14 @@ export default function PersonalStudioPage() {
         </div>
       </Section>
 
-      <Section indice="02 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-titulo">
+      <Section indice="03 / BASE E PERSONALIZAÇÃO" rotuladaPor="personalizacao-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
           <TituloSecao id="personalizacao-titulo" className="lg:col-span-5">
             Uma base funcional, adaptada ao seu negócio.
           </TituloSecao>
           <div className="lg:col-span-6 lg:col-start-7">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-              O Personal Studio evita começar do zero: a estrutura demonstrativa já conecta presença
+              O Personal evita começar do zero: a estrutura demonstrativa já conecta presença
               digital, atendimento e gestão. Nome, identidade, conteúdo, equipe, serviços, planos,
               horários e regras são ajustados com os dados autorizados pelo contratante.
             </p>
@@ -220,22 +255,22 @@ export default function PersonalStudioPage() {
         </div>
       </Section>
 
-      <Section indice="03 / PRODUTO REAL" rotuladaPor="demonstracao-titulo">
-        <TituloSecao id="demonstracao-titulo">Uma demonstração para explorar antes de personalizar.</TituloSecao>
+      <Section indice="04 / PRODUTO REAL" rotuladaPor="demonstracao-titulo">
+        <TituloSecao id="demonstracao-titulo">Dez telas do sistema para explorar antes de personalizar.</TituloSecao>
         <ProductGallery slides={demonstracoes} />
         <p className="medida-texto mt-8 max-w-[68ch] text-sm leading-relaxed text-mineral-dim">
           Os dados, nomes e indicadores mostrados na demonstração são fictícios e existem apenas para apresentar o potencial da plataforma. Eles serão substituídos por informações autorizadas na versão personalizada.
         </p>
       </Section>
 
-      <Section indice="04 / FORMULÁRIO" rotuladaPor="formulario-personal-titulo">
+      <Section indice="05 / FORMULÁRIO" rotuladaPor="formulario-personal-titulo">
         <ProjectFormCard slug="personal-studio" />
       </Section>
 
       <Section className="pb-[clamp(4rem,10vw,10rem)]" rotuladaPor="cta-titulo">
         <Reveal>
           <div className="rounded-[var(--radius-panel)] border border-line-strong bg-raised px-6 py-10 sm:px-10 sm:py-14">
-            <p className="tecnica text-signal">PERSONAL STUDIO / BLAJEEN LABS</p>
+            <p className="tecnica text-signal">PERSONAL / BLAJEEN LABS</p>
             <h2 id="cta-titulo" className="mt-6 max-w-[16ch] text-[clamp(2rem,4.5vw,3.8rem)] leading-[1.02] tracking-[-0.05em]">
               Uma base pronta. Uma experiência com a identidade do seu negócio.
             </h2>
@@ -244,7 +279,7 @@ export default function PersonalStudioPage() {
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
-                href={`${ROTAS.contato}?produto=personal-studio#interesse`}
+                href="/projects/personal-studio/formulario"
                 className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-signal bg-signal px-5 text-ink transition-colors duration-150 hover:bg-signal-pale"
               >
                 Solicitar personalização

@@ -11,7 +11,7 @@ export function WorkCard({ trabalho, destaque = false }: { trabalho: Trabalho; d
           destaque ? 'lg:grid-cols-[1.2fr_0.8fr]' : ''
         }`}
       >
-        <div className={`relative overflow-hidden bg-surface ${destaque ? 'min-h-72 lg:min-h-[30rem]' : 'min-h-72 sm:min-h-80'}`}>
+        <div className={`relative overflow-hidden bg-surface ${destaque ? 'min-h-72 lg:min-h-[30rem]' : 'min-h-52 sm:aspect-[16/7] sm:min-h-0'}`}>
           <Image
             src={trabalho.capa}
             alt={trabalho.capaAlt}

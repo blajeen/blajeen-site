@@ -88,7 +88,7 @@ export const atalhosDeProjeto = [
   },
   {
     rotulo: 'Estética e beleza',
-    estado: 'EM BREVE',
+    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'salao',
     href: ROTAS.salaoEstetica,
   },
@@ -127,7 +127,7 @@ export const rodape = {
     { rotulo: 'Barbearias', href: ROTAS.barbearia },
     { rotulo: 'Personal Studio', href: ROTAS.personalStudio },
     { rotulo: 'Salões de cabelo — em breve', href: ROTAS.salaoFeminino },
-    { rotulo: 'Estética e beleza — em breve', href: ROTAS.salaoEstetica },
+    { rotulo: 'Studio Beauty', href: ROTAS.salaoEstetica },
     { rotulo: 'E-commerce', href: ROTAS.ecommerce },
     { rotulo: 'Pet — em desenvolvimento', href: `${ROTAS.projetos}#pet-shop-tosa` },
   ],

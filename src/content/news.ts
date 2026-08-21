@@ -25,6 +25,18 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'studio-beauty-em-demonstracao',
+    data: '2026-08-21',
+    rotulo: 'Demonstração disponível',
+    titulo: 'Studio Beauty reúne atendimento, agenda e gestão',
+    texto: [
+      'A plataforma para estúdios de beleza já pode ser explorada. A experiência pública reúne serviços, profissionais, portfólio, pacotes e um agendamento capaz de combinar atendimentos e organizar eventos.',
+      'Cliente, profissional e gestão possuem áreas próprias. Marca, conteúdo, módulos, serviços, equipe e regras de agenda são adaptados à identidade e à rotina de cada operação.',
+    ],
+    href: ROTAS.salaoEstetica,
+    cta: 'Explorar o Studio Beauty',
+  },
+  {
     id: 'ecommerce-em-demonstracao',
     data: '2026-08-21',
     rotulo: 'Demonstração disponível',
@@ -64,10 +76,10 @@ export const novidades: readonly Novidade[] = [
     id: 'novas-verticais-em-desenvolvimento',
     data: '2026-08-20',
     rotulo: 'Em desenvolvimento',
-    titulo: 'Cabelo, estética, e-commerce e cuidados pet entram na bancada',
+    titulo: 'Cabelo e cuidados pet seguem na bancada',
     texto: [
-      'As próximas verticais agora estão separadas pela operação: uma plataforma para salões de cabelo feminino, outra para estética e beleza, um e-commerce sob medida e uma linha para pet shops e banho & tosa.',
-      'Cabelo, estética e e-commerce já possuem páginas de proposta, mas ainda não há demonstração pública dessas linhas. Elas evoluem com a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
+      'As próximas verticais continuam separadas pela operação: uma plataforma para salões de cabelo feminino e outra para pet shops e banho & tosa.',
+      'Enquanto Studio Beauty e e-commerce já podem ser explorados, cabelo e cuidados pet permanecem em desenvolvimento com a mesma lógica de adaptação às necessidades e à identidade de cada negócio.',
     ],
     href: ROTAS.salaoFeminino,
     cta: 'Conhecer a próxima linha de produto',

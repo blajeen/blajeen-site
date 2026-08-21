@@ -32,6 +32,15 @@ const produtos = [
     alt: 'Painel de gestão da plataforma Personal Studio.',
   },
   {
+    id: 'salao' as const,
+    categoria: 'STUDIO BEAUTY',
+    titulo: 'Cliente, profissional e gestão conectadas.',
+    texto: 'Site, agenda, portfólio e histórico em uma experiência própria para estética e beleza.',
+    href: ROTAS.salaoEstetica,
+    imagem: '/projects/salao-estetica/hero-home.jpg',
+    alt: 'Demonstração da plataforma Studio Beauty para estética e beleza.',
+  },
+  {
     id: 'ecommerce' as const,
     categoria: 'E-COMMERCE',
     titulo: 'Vitrine, catálogo e operação conectados.',

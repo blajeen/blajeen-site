@@ -40,6 +40,18 @@ const produtosEmDemonstracao = [
     alt: 'Painel de gestão da plataforma Personal Studio exibido em um monitor.',
   },
   {
+    id: 'salao' as ProductIconId,
+    indice: 'PRODUTO 04',
+    categoria: 'ESTÉTICA E BELEZA',
+    titulo: 'Cliente, profissional e gestão conectadas à mesma experiência.',
+    texto:
+      'Uma plataforma white-label com site, agendamento, portfólio, histórico e gestão para estúdios de beleza.',
+    href: ROTAS.salaoEstetica,
+    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
+    imagem: '/projects/salao-estetica/hero-home.jpg',
+    alt: 'Página demonstrativa da plataforma Studio Beauty para estética e beleza.',
+  },
+  {
     id: 'ecommerce' as ProductIconId,
     indice: 'PRODUTO 05',
     categoria: 'LOJAS E MARCAS',
@@ -62,15 +74,6 @@ const proximasVerticais = [
     texto: 'Presença digital e jornada de atendimento próprias para serviços de cabelo e para a rotina do salão.',
     estado: 'EM BREVE',
     href: ROTAS.salaoFeminino,
-  },
-  {
-    id: 'salao' as ProductIconId,
-    ancora: 'salao-estetica',
-    indice: 'PRODUTO 04',
-    titulo: 'Estética e beleza',
-    texto: 'Uma vertical separada para estética, unhas, sobrancelhas, cílios, maquiagem, noivas e serviços combinados.',
-    estado: 'EM BREVE',
-    href: ROTAS.salaoEstetica,
   },
   {
     id: 'pet' as ProductIconId,

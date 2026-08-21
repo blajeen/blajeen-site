@@ -8,8 +8,8 @@ import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Trabalhos — Blajeen Labs',
-  descricao: 'Projetos digitais que a Blajeen Labs criou para clientes e colocou no mundo real.',
+  titulo: 'Projetos feitos — Blajeen Labs',
+  descricao: 'Alguns dos projetos digitais que a Blajeen Labs criou para clientes e colocou no mundo real.',
   rota: ROTAS.trabalhos,
 });
 
@@ -19,7 +19,7 @@ export default function TrabalhosPage() {
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
         <LabBackdrop />
         <Container>
-          <p className="tecnica text-signal">TRABALHOS PARA CLIENTES / PRODUTOS REAIS</p>
+          <p className="tecnica text-signal">PROJETOS FEITOS PARA CLIENTES / PRODUTOS REAIS</p>
           <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
             <h1 className="max-w-[13ch] text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em] lg:col-span-8">
               Projetos que saíram da bancada e chegaram ao mundo real.
@@ -31,7 +31,7 @@ export default function TrabalhosPage() {
         </Container>
       </header>
 
-      <Section indice="01 / TRABALHOS SELECIONADOS" rotulo="Trabalhos selecionados" className="pb-[clamp(3rem,6vw,6rem)]">
+      <Section indice="01 / PROJETOS FEITOS" rotulo="Alguns projetos feitos para clientes" className="pb-[clamp(3rem,6vw,6rem)]">
         <div className="grid gap-5 lg:grid-cols-2">
           {trabalhos.map((trabalho) => <WorkCard key={trabalho.id} trabalho={trabalho} />)}
         </div>

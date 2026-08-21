@@ -50,6 +50,7 @@
      * mas em 56–104 px no mobile e até 112 px no desktop, em vez de 180.
      */
     --section-gap: clamp(2.75rem, 5.5vw, 5.5rem);
+    --mobile-rail-width: clamp(4.5rem, 20vw, 5.5rem);
   }
 
   html {
@@ -111,6 +112,18 @@
 
   [inert] {
     pointer-events: none;
+  }
+}
+
+/* No mobile, o conteúdo convive com a barra lateral fixa em vez de ficar escondido por uma gaveta. */
+@media (max-width: 79.999rem) {
+  body > main,
+  body > footer {
+    margin-inline-start: var(--mobile-rail-width);
+  }
+
+  :root {
+    --gutter: clamp(0.9rem, 4vw, 2.5rem);
   }
 }
 

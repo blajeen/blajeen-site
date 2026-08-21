@@ -145,4 +145,15 @@ export type NavLink = {
   readonly rotulo: string;
   readonly descricao: string;
   readonly href: string;
+  readonly icone: NavIconId;
 };
+
+export type NavIconId =
+  | 'inicio'
+  | 'engenharia'
+  | 'projetos-feitos'
+  | 'produtos'
+  | 'jogos'
+  | 'estudio'
+  | 'novidades'
+  | 'contato';

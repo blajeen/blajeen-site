@@ -58,11 +58,11 @@ export const servicoPrincipal = {
 
 export const trabalhosHome = {
   id: 'trabalhos',
-  indice: '02 / TRABALHOS',
+  indice: '02 / PROJETOS FEITOS',
   titulo: 'Projetos que saíram da bancada e chegaram ao mundo real.',
   texto:
-    'Entregas para clientes em que estratégia, identidade, experiência e engenharia precisaram funcionar juntas.',
-  cta: { rotulo: 'VER TODOS OS TRABALHOS', href: ROTAS.trabalhos },
+    'Alguns dos projetos feitos para clientes, reunindo estratégia, identidade, experiência e engenharia para resolver necessidades reais.',
+  cta: { rotulo: 'VER PROJETOS FEITOS', href: ROTAS.trabalhos },
 } as const;
 
 export const rodapeCopy = {

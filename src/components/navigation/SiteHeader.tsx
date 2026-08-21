@@ -2,19 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavDrawer } from '@/components/navigation/NavDrawer';
+import { useEffect, useState } from 'react';
+import { MobileSideNav } from '@/components/navigation/MobileSideNav';
 import { SiteNav } from '@/components/navigation/SiteNav';
 import { ROTAS } from '@/lib/routes';
 
-const ID_GAVETA = 'gaveta-navegacao';
-
 export function SiteHeader() {
   const [rolado, setRolado] = useState(false);
-  const [aberto, setAberto] = useState(false);
-  const acionador = useRef<HTMLButtonElement>(null);
-
-  const fechar = useCallback(() => setAberto(false), []);
 
   // Superfície translúcida só depois do primeiro scroll — o header não compete com o hero.
   useEffect(() => {
@@ -23,12 +17,6 @@ export function SiteHeader() {
     aoRolar();
     return () => window.removeEventListener('scroll', aoRolar);
   }, []);
-
-  // Voltar/avançar no histórico com a gaveta aberta também precisa fechá-la.
-  useEffect(() => {
-    window.addEventListener('popstate', fechar);
-    return () => window.removeEventListener('popstate', fechar);
-  }, [fechar]);
 
   return (
     <>
@@ -65,29 +53,10 @@ export function SiteHeader() {
           </Link>
 
           <SiteNav />
-
-          {/*
-            A gaveta atende o mobile: cinco destinos mais o submenu de jogos não cabem numa barra
-            em 360 px. A partir de 64rem a barra assume e o acionador sai de cena.
-          */}
-          <button
-            ref={acionador}
-            type="button"
-            onClick={() => setAberto((valor) => !valor)}
-            aria-expanded={aberto}
-            aria-controls={ID_GAVETA}
-            className="alvo-toque tecnica -mr-1 inline-flex items-center gap-2 rounded-full border border-line-strong px-4 text-paper transition-colors duration-150 hover:border-signal/60 hover:text-signal xl:hidden"
-          >
-            MENU
-            <span aria-hidden="true" className="flex flex-col gap-[3px]">
-              <span className="block h-px w-3.5 bg-current" />
-              <span className="block h-px w-3.5 bg-current" />
-            </span>
-          </button>
+          <span className="tecnica text-mineral xl:hidden">BLAJEEN LABS</span>
         </div>
       </header>
-
-      <NavDrawer id={ID_GAVETA} aberto={aberto} aoFechar={fechar} acionador={acionador} />
+      <MobileSideNav />
     </>
   );
 }

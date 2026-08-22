@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
 import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
@@ -49,8 +49,8 @@ const produtos: readonly ProdutoCatalogo[] = [
       'Para personal trainers e estúdios que querem reunir presença digital, agenda, treinos e acompanhamento em uma experiência própria.',
     href: ROTAS.personalStudio,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
-    alt: 'Painel de gestão da plataforma Personal.',
+    imagem: '/projects/personal-studio/mockup-painel-gestor.png',
+    alt: 'Painel de gestão da plataforma Personal apresentado em um monitor.',
   },
   {
     id: 'salao' as ProductIconId,
@@ -119,21 +119,18 @@ export default function ProjetosPage() {
             <Reveal key={produto.id}>
               <article className="grid overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 lg:grid-cols-12">
                 <div
-                  className={`relative min-h-[18rem] overflow-hidden bg-surface lg:col-span-7 lg:min-h-[34rem] ${
+                  className={`flex min-h-[18rem] items-center overflow-hidden bg-surface p-3 sm:p-6 lg:col-span-7 lg:min-h-[34rem] lg:p-8 ${
                     posicao % 2 === 1 ? 'lg:col-start-6 lg:row-start-1' : ''
                   }`}
                 >
                   {produto.imagem && produto.alt ? (
-                    <>
-                      <Image
-                        src={produto.imagem}
-                        alt={produto.alt}
-                        fill
-                        sizes="(min-width: 1024px) 58vw, 100vw"
-                        className="object-cover object-top transition-transform duration-500 hover:scale-[1.015]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
-                    </>
+                    <SystemScreenshot
+                      src={produto.imagem}
+                      alt={produto.alt}
+                      sizes="(min-width: 1024px) 58vw, 100vw"
+                      label={`${produto.categoria} / ${produto.estado}`}
+                      className="w-full transition-transform duration-500 hover:scale-[1.006]"
+                    />
                   ) : (
                     <UpcomingMedicalVisual />
                   )}

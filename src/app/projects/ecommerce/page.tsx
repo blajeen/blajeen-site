@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductAudience } from '@/components/projects/ProductAudience';
 import { ProductGallery } from '@/components/projects/ProductGallery';
@@ -136,17 +136,17 @@ export default function EcommercePage() {
             </div>
 
             <Reveal className="lg:col-span-6">
-              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-                <Image
+              <figure>
+                <SystemScreenshot
                   src="/projects/ecommerce/screenshots/01-vitrine.png"
                   alt="Vitrine principal da demonstração de E-commerce."
-                  width={1600}
-                  height={900}
-                  priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="aspect-video h-auto w-full object-cover object-top"
+                  largura={1600}
+                  altura={900}
+                  prioridade
+                  label="E-COMMERCE / VITRINE"
                 />
-                <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
+                <figcaption className="tecnica mt-4 px-1 text-mineral-dim">
                   Vitrine real da base demonstrativa, pronta para receber outra marca e outro catálogo.
                 </figcaption>
               </figure>

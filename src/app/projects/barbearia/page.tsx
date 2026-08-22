@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
 import { ProductAudience } from '@/components/projects/ProductAudience';
@@ -189,17 +189,17 @@ export default function BarbeariaPage() {
             </div>
 
             <Reveal className="lg:col-span-6">
-              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-                <Image
+              <figure>
+                <SystemScreenshot
                   src="/projects/barbearia/screenshots-padronizados/04-gestao-resumo.png"
                   alt="Resumo diário da gestão na plataforma para barbearias."
-                  width={1600}
-                  height={900}
-                  priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="h-auto w-full"
+                  largura={1600}
+                  altura={900}
+                  prioridade
+                  label="BARBEARIA / VISÃO DA GESTÃO"
                 />
-                <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
+                <figcaption className="tecnica mt-4 px-1 text-mineral-dim">
                   Gestão diária: operação, equipe e próximos atendimentos em uma única visão.
                 </figcaption>
               </figure>
@@ -230,14 +230,15 @@ export default function BarbeariaPage() {
           {jornadas.map((jornada) => (
             <Reveal key={jornada.titulo}>
               <article className="h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/60">
-                <div className="aspect-[16/9] overflow-hidden border-b border-line bg-surface">
-                  <Image
+                <div className="bg-surface p-3">
+                  <SystemScreenshot
                     src={jornada.imagem}
                     alt={jornada.alt}
-                    width={1600}
-                    height={900}
                     sizes="(min-width: 1024px) 32vw, 100vw"
-                    className="h-full w-full object-cover object-top"
+                    largura={1600}
+                    altura={900}
+                    label={`JORNADA ${jornada.numero}`}
+                    className="rounded-[calc(var(--radius-panel)-0.5rem)]"
                   />
                 </div>
                 <div className="p-6">

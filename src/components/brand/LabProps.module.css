@@ -417,9 +417,10 @@
   }
 
   .frasco {
-    width: 4.25rem;
+    width: 3.2rem;
     inset-inline-start: 0.4rem;
-    inset-block-end: 0.45rem;
+    inset-block-end: 0.35rem;
+    opacity: 0.72;
   }
 
   .gosmaOverlay {

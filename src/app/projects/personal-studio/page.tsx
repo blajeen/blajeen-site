@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section, TituloSecao } from '@/components/layout/Section';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductGallery } from '@/components/projects/ProductGallery';
 import { ProductAudience } from '@/components/projects/ProductAudience';
@@ -174,17 +175,17 @@ export default function PersonalStudioPage() {
             </div>
 
             <Reveal className="lg:col-span-6">
-              <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#0b0d0a]">
-                <Image
+              <figure>
+                <SystemScreenshot
                   src="/projects/personal-studio/screenshots-v2/07-gestor-alunos.png"
                   alt="Painel de gestão do Personal com a carteira de alunos."
-                  width={1897}
-                  height={907}
-                  priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="aspect-video h-auto w-full object-contain"
+                  largura={1897}
+                  altura={907}
+                  prioridade
+                  label="PERSONAL / PAINEL DO GESTOR"
                 />
-                <figcaption className="tecnica border-t border-line px-5 py-4 text-mineral-dim">
+                <figcaption className="tecnica mt-4 px-1 text-mineral-dim">
                   Painel do gestor: uma visão centralizada da operação.
                 </figcaption>
               </figure>
@@ -216,14 +217,14 @@ export default function PersonalStudioPage() {
                   <h2 className="mt-5 text-[clamp(1.7rem,3.6vw,3rem)] leading-[1.04] tracking-[-0.045em]">{experiencia.titulo}</h2>
                   <p className="medida-texto mt-5 text-[1rem] leading-relaxed text-mineral">{experiencia.texto}</p>
                 </div>
-                <figure className={`${indice % 2 === 0 ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'} aspect-video overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#0b0d0a]`}>
+                <figure className={`${indice % 2 === 0 ? 'lg:col-span-6 lg:col-start-7' : 'lg:col-span-6 lg:col-start-1'} overflow-hidden rounded-[var(--radius-panel)] border border-line bg-[#0b0d0a]`}>
                   <Image
                     src={experiencia.imagem}
                     alt={experiencia.alt}
                     width={1536}
                     height={1024}
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="size-full object-contain"
+                    className="block h-auto w-full"
                   />
                 </figure>
               </article>

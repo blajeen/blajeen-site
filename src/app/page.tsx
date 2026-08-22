@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { Hero } from '@/components/layout/Hero';
 import { Section, TituloSecao } from '@/components/layout/Section';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase';
@@ -45,8 +45,8 @@ const produtos: readonly ProdutoHome[] = [
     texto: 'Para personal trainers e estúdios que precisam conectar agenda, treinos, alunos e acompanhamento.',
     href: ROTAS.personalStudio,
     estado: 'DEMONSTRAÇÃO',
-    imagem: '/projects/personal-studio/screenshots-v2/07-gestor-alunos.png',
-    alt: 'Painel de gestão da plataforma Personal.',
+    imagem: '/projects/personal-studio/mockup-painel-gestor.png',
+    alt: 'Painel de gestão da plataforma Personal apresentado em um monitor.',
   },
   {
     id: 'salao' as const,
@@ -179,16 +179,18 @@ export default function Home() {
             <Reveal key={produto.id} className={produto.id === 'medico' ? 'lg:col-span-2' : ''}>
               <Link
                 href={produto.href}
-                className="group grid h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 transition-colors duration-200 hover:border-signal/50 sm:grid-cols-[0.95fr_1.05fr]"
+                className={`group h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 transition-colors duration-200 hover:border-signal/50 ${
+                  produto.id === 'medico' ? 'grid sm:grid-cols-[1.05fr_0.95fr]' : 'flex flex-col'
+                }`}
               >
-                <div className="relative min-h-60 overflow-hidden bg-surface">
+                <div className={`bg-surface ${produto.imagem ? 'p-3 sm:p-4' : 'relative min-h-60 overflow-hidden'}`}>
                   {produto.imagem && produto.alt ? (
-                    <Image
+                    <SystemScreenshot
                       src={produto.imagem}
                       alt={produto.alt}
-                      fill
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 100vw"
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+                      label={`${produto.categoria} / ${produto.estado}`}
+                      className="transition-transform duration-500 group-hover:scale-[1.008]"
                     />
                   ) : (
                     <UpcomingMedicalVisual compact />
@@ -202,7 +204,7 @@ export default function Home() {
                       <span className="tecnica mt-2 block text-[9px] text-signal">{produto.estado}</span>
                     </span>
                   </div>
-                  <h3 className="mt-9 text-[clamp(1.45rem,2.6vw,2.2rem)] leading-[1.02] tracking-[-0.045em]">
+                  <h3 className="mt-7 text-[clamp(1.45rem,2.6vw,2.2rem)] leading-[1.02] tracking-[-0.045em]">
                     {produto.titulo}
                   </h3>
                   <p className="medida-texto mt-4 text-sm leading-relaxed text-mineral">

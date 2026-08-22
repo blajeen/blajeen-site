@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
+import { SystemScreenshot } from '@/components/media/SystemScreenshot';
 
 type Slide = {
   readonly imagem: string;
@@ -21,17 +21,17 @@ export function ProductGallery({ slides }: { slides: readonly Slide[] }) {
   return (
     <div className="mx-auto mt-12 max-w-[1280px] sm:mt-16">
       <figure className="overflow-hidden rounded-[var(--radius-panel)] border border-line-strong bg-raised shadow-[var(--shadow-panel)]">
-        <div className="grid aspect-video w-full place-items-center bg-[#0b0d0a] p-2 sm:p-4">
-          <div className="relative size-full overflow-hidden rounded-[clamp(0.65rem,1.4vw,1rem)]">
-            <Image
-              key={slide.imagem}
-              src={slide.imagem}
-              alt={slide.alt}
-              fill
-              sizes="(min-width: 1280px) 1248px, 96vw"
-              className="object-contain"
-            />
-          </div>
+        <div className="bg-[#0b0d0a] p-2 sm:p-4">
+          <SystemScreenshot
+            key={slide.imagem}
+            src={slide.imagem}
+            alt={slide.alt}
+            sizes="(min-width: 1280px) 1248px, 96vw"
+            largura={slide.largura}
+            altura={slide.altura}
+            label={`TELA ${String(atual + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`}
+            className="rounded-[clamp(0.65rem,1.4vw,1rem)]"
+          />
         </div>
         <figcaption className="border-t border-line px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex flex-wrap items-center justify-between gap-5">

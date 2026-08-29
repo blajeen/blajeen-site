@@ -20,7 +20,8 @@ type Props = {
  * a imagem ocupa 100% da largura e a altura acompanha. É isso que garante que nem o título do
  * jogo nem a composição sejam cortados em nenhuma largura de tela. A marca do laboratório entra
  * como uma marca-d'água discreta no canto superior direito, sem cápsula ou fundo opaco.
- * Os PNGs são os mestres; o build entrega AVIF/WebP responsivos com as mesmas cores.
+ * Os PNGs mestres são servidos diretamente: isso preserva as cores e mantém os banners visíveis
+ * mesmo quando a cota externa de otimização de imagens do deploy está indisponível.
  */
 export function ProjectBanner({ projeto, prioridade = false, sizes, className }: Props) {
   return (
@@ -39,6 +40,7 @@ export function ProjectBanner({ projeto, prioridade = false, sizes, className }:
         height={projeto.banner.altura}
         sizes={sizes}
         priority={prioridade}
+        unoptimized
         {...(prioridade
           ? {}
           : // Fora do LCP, o banner não pode competir por banda com o CSS, a fonte e o script

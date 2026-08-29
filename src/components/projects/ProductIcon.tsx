@@ -70,8 +70,10 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
   if (id === 'food') {
     return (
       <svg {...comum}>
-        <path d="M10 8v13M6 8v5a4 4 0 0 0 8 0V8M6 11h8" />
-        <path d="M21 8v13M18 8c0 3 3 3 3 6" />
+        <path d="M10 7v14M6 7v5a4 4 0 0 0 8 0V7M6 11h8" />
+        <path d="M20 8v13M20 8c4 2 5 5 5 8" />
+        <path d="M28 27h12M30 27c0-6 3-10 5-10s5 4 5 10M27 31c2 5 5 7 9 7s7-2 9-7" />
+        <path d="M25 41h22" />
       </svg>
     );
   }

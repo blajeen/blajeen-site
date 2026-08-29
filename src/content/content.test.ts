@@ -41,8 +41,8 @@ describe('projetos', () => {
       revalio: { src: '/projects/revalio/revalio-banner-final.png', largura: 1672, altura: 941 },
       docalio: { src: '/projects/docalio/docalio-banner-final.png', largura: 1672, altura: 941 },
       gramelio: { src: '/projects/gramelio/gramelio-banner-final.png', largura: 1536, altura: 1024 },
-      catelio: { src: '/projects/catelio/catelio-icon-512.png', largura: 1254, altura: 1254 },
-      dogolio: { src: '/projects/dogolio/dogolio-icon-512.png', largura: 1254, altura: 1254 },
+      catelio: { src: '/projects/catelio/catelio-banner-city.png', largura: 1672, altura: 941 },
+      dogolio: { src: '/projects/dogolio/dogolio-banner-city.png', largura: 1672, altura: 941 },
     };
 
     for (const projeto of projetos) {

@@ -46,6 +46,17 @@ export function ProjectBanner({ projeto, prioridade = false, sizes, className }:
         className="block h-auto w-full"
       />
 
+      <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full border border-white/15 bg-ink/70 p-1.5 shadow-lg backdrop-blur-sm sm:left-5 sm:top-5 sm:p-2">
+        <Image
+          src="/brand/blajeen-labs-logo.png"
+          alt="Blajeen Labs"
+          width={64}
+          height={64}
+          sizes="32px"
+          className="size-7 rounded-full object-cover sm:size-8"
+        />
+      </span>
+
       {/* Scanline única no foco/hover do showcase — sem loop permanente. */}
       <span
         aria-hidden="true"

@@ -56,16 +56,12 @@ export const metadata: Metadata = {
   robots: SITE_INDEXAVEL ? undefined : { index: false, follow: false },
   manifest: '/manifest.webmanifest',
   alternates: { canonical: '/' },
-  /*
-   * O ícone da aba é a cabeça do mascote. Ele substitui a síntese geométrica dos dois `E`, que
-   * continua no repositório como `public/icon.svg` mas deixou de ser referenciada.
-   */
+  /* A marca oficial do laboratório também identifica a aba e o atalho no celular. */
   icons: {
     icon: [
-      { url: '/icon-32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/brand/blajeen-labs-logo.png', sizes: '1536x1536', type: 'image/png' },
     ],
-    apple: [{ url: '/icon-512.png', sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: '/brand/blajeen-labs-logo.png', sizes: '1536x1536', type: 'image/png' }],
   },
   formatDetection: { telephone: false, email: false, address: false },
   openGraph: {

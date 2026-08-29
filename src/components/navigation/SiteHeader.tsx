@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MobileSideNav } from '@/components/navigation/MobileSideNav';
@@ -38,11 +39,18 @@ export function SiteHeader() {
           <Link
             href={ROTAS.home}
             aria-label="Início — Blajeen Labs"
-            className="alvo-toque group -ml-1 flex items-center rounded-full px-1"
+            className="alvo-toque group -ml-2 flex items-center rounded-full px-1"
           >
-            <span className="text-[0.95rem] font-semibold tracking-[0.08em] text-paper transition-colors group-hover:text-signal sm:text-[1.05rem]">
-              Blajeen Labs
-            </span>
+            <Image
+              src="/brand/blajeen-labs-logo.png"
+              alt="Blajeen Labs"
+              width={96}
+              height={96}
+              priority
+              sizes="48px"
+              className="size-11 rounded-full object-cover ring-1 ring-line-strong transition-transform duration-200 group-hover:scale-[1.04] sm:size-12"
+            />
+            <span className="sr-only">Blajeen Labs</span>
           </Link>
 
           <SiteNav />

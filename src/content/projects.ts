@@ -283,10 +283,10 @@ export const catelio: Project = {
   aviso:
     'Catelio é um jogo de entretenimento em desenvolvimento. Não existe build público, conta, compra ou data de lançamento anunciada. Personagens, regiões e situações são ficcionais e não representam orientação sobre cuidados reais com animais.',
   banner: {
-    src: '/projects/catelio/catelio-icon-512.png',
-    alt: 'Ícone oficial do Catelio: um gato estilizado em uma composição colorida.',
-    largura: 1254,
-    altura: 1254,
+    src: '/projects/catelio/catelio-banner-city.png',
+    alt: 'Catelio em uma cidade noturna low-poly: um gato laranja explora telhados iluminados e caminhos cheios de descobertas.',
+    largura: 1672,
+    altura: 941,
   },
   icone: {
     src: '/projects/catelio/catelio-icon-512.png',
@@ -353,10 +353,10 @@ export const dogolio: Project = {
   aviso:
     'Dogolio é um jogo de entretenimento em desenvolvimento sobre um cachorro caramelo. Não existe build público, conta, compra ou data de lançamento anunciada. A cidade, os personagens e as situações são ficcionais e não representam orientação sobre cuidados reais com animais.',
   banner: {
-    src: '/projects/dogolio/dogolio-icon-512.png',
-    alt: 'Logo do Dogolio: cachorro caramelo estilizado em uma cidade noturna colorida, com o título Dogolio.',
-    largura: 1254,
-    altura: 1254,
+    src: '/projects/dogolio/dogolio-banner-city.png',
+    alt: 'Dogolio em uma cidade noturna detalhada: um cachorro caramelo caminha por ruas iluminadas em direção ao centro da cidade.',
+    largura: 1672,
+    altura: 941,
   },
   icone: {
     src: '/projects/dogolio/dogolio-icon-512.png',

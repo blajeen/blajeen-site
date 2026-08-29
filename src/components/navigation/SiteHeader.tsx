@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { MobileSideNav } from '@/components/navigation/MobileSideNav';
 import { SiteNav } from '@/components/navigation/SiteNav';
@@ -41,19 +40,12 @@ export function SiteHeader() {
             aria-label="Início — Blajeen Labs"
             className="alvo-toque group -ml-1 flex items-center rounded-full px-1"
           >
-            <Image
-              src="/brand/blajeen-crest-header.webp"
-              alt=""
-              width={320}
-              height={320}
-              priority
-              sizes="56px"
-              className="size-12 rounded-full object-cover drop-shadow-[0_0_8px_rgba(201,255,61,0.16)] transition-[filter,transform] duration-200 group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_12px_rgba(201,255,61,0.42)] sm:size-14"
-            />
+            <span className="text-[0.95rem] font-semibold tracking-[0.08em] text-paper transition-colors group-hover:text-signal sm:text-[1.05rem]">
+              Blajeen Labs
+            </span>
           </Link>
 
           <SiteNav />
-          <span className="tecnica text-mineral xl:hidden">BLAJEEN LABS</span>
         </div>
       </header>
       <MobileSideNav />

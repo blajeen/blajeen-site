@@ -5,7 +5,7 @@ export const hero = {
   eyebrow: 'DESENVOLVIMENTO DE SOFTWARE / JOGOS / LABORATÓRIO DE IDEIAS',
   titulo: ['Criamos coisas estranhas.', 'E fazemos com que importem.'],
   texto:
-    'Engenharia de Software com IA aplicada a ideias próprias e projetos de clientes — de sites e aplicativos a jogos e sistemas completos.',
+    'Produtos digitais, jogos e soluções personalizadas para transformar ideias e necessidades em experiências reais.',
   cta: { rotulo: 'ENTRAR NO LABORATÓRIO', href: '#laboratorio' },
   estado: 'SISTEMA ATIVO',
 } as const;
@@ -24,16 +24,16 @@ export const laboratorio = {
 export const experimentos = {
   id: 'jogos',
   indice: '04 / JOGOS',
-  titulo: 'Três mundos. Três perguntas diferentes.',
+  titulo: 'Cinco mundos. Cinco perguntas diferentes.',
 } as const;
 
 export const produtosComerciais = {
   id: 'produtos',
-  indice: '05 / PRODUTOS',
-  titulo: 'Tecnologia própria para rotinas reais.',
+  indice: '05 / SAAS',
+  titulo: 'Sistemas próprios para rotinas reais.',
   texto:
     'Bases funcionais para profissionais e negócios que querem começar com mais agilidade, sem abrir mão da própria identidade e das regras da operação.',
-  cta: { rotulo: 'EXPLORAR OS PRODUTOS', href: ROTAS.projetos },
+  cta: { rotulo: 'EXPLORAR O SAAS', href: ROTAS.projetos },
 } as const;
 
 export const proximo = {
@@ -49,7 +49,7 @@ export const proximo = {
 export const servicoPrincipal = {
   id: 'crie-seu-projeto',
   indice: '01 / SERVIÇO PRINCIPAL',
-  eyebrow: 'ENGENHARIA DE SOFTWARE COM IA APLICADA',
+  eyebrow: 'PRODUTO DIGITAL PERSONALIZADO',
   titulo: 'Sua ideia pode virar um produto com identidade própria.',
   texto:
     'Criamos sites, aplicativos, sistemas e experiências digitais do primeiro rascunho à publicação. Ajudamos a organizar a ideia, sugerimos caminhos e personalizamos cada detalhe para a sua necessidade.',
@@ -66,14 +66,14 @@ export const trabalhosHome = {
 } as const;
 
 export const rodapeCopy = {
-  linha: 'Engenharia de Software com IA aplicada a ideias, negócios e produtos digitais.',
+  linha: 'Produtos digitais, jogos e soluções personalizadas para ideias, negócios e pessoas.',
   base: 'TODOS OS SISTEMAS NORMAIS',
 } as const;
 
 export const metadados = {
-  titulo: 'Blajeen Labs - Eng. de Software',
+  titulo: 'Blajeen Labs',
   descricao:
-    'Sites, aplicativos, sistemas, produtos digitais e jogos construídos com Engenharia de Software com IA aplicada.',
+    'Sites, aplicativos, sistemas, produtos digitais e jogos criados pela Blajeen Labs.',
   ogTitulo: 'BLAJEEN LABS',
   ogDescricao: 'Criamos coisas estranhas. E fazemos com que importem.',
 } as const;

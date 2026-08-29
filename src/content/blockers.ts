@@ -104,6 +104,18 @@ export const BLOQUEADORES = {
     // produção e o nome anterior do projeto. Publicá-las como galeria daria a entender que são
     // telas do jogo.
   },
+  conceptArtCatelio: {
+    titulo: 'Capturas reais ou concept art autorizada do Catelio',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
+    // TODO(bloqueador): o ícone oficial existe, mas capturas de gameplay ainda não foram
+    // selecionadas para comunicação pública.
+  },
+  conceptArtDogolio: {
+    titulo: 'Capturas reais ou concept art autorizada do Dogolio',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
+    // TODO(bloqueador): a logo do Dogolio foi criada para a apresentação do conceito;
+    // capturas de gameplay ainda não foram selecionadas para comunicação pública.
+  },
 } as const satisfies Record<string, { titulo: string; docs: string }>;
 
 export type BloqueadorId = keyof typeof BLOQUEADORES;

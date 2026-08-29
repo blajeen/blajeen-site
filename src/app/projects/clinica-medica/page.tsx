@@ -4,7 +4,7 @@ import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Clínica Médica',
+  titulo: 'Doutelio — Blajeen Labs',
   descricao:
     'Produto em desenvolvimento para médicos que atendem de forma independente: site, agenda, pacientes, prontuário e documentos clínicos em uma única base.',
   rota: ROTAS.clinicaMedica,
@@ -13,12 +13,12 @@ export const metadata: Metadata = metadadosDaRota({
 const produto: UpcomingProduct = {
   icon: 'medico',
   eyebrow: 'PRODUTO 05 / CLÍNICA MÉDICA',
-  title: 'Clínica Médica',
+  title: 'Doutelio',
   headline: 'Presença profissional e rotina clínica em uma única base.',
   introduction:
     'Um produto em desenvolvimento para o médico que atende de forma independente e quer organizar sua presença digital, seus pacientes e o dia a dia do consultório.',
   contactId: 'clinica-medica',
-  contactLabel: 'Tenho interesse na Clínica Médica',
+  contactLabel: 'Tenho interesse no Doutelio',
   directions: [
     {
       title: 'Site profissional',

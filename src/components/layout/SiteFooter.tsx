@@ -8,7 +8,7 @@ import { rodapeCopy } from '@/content/home';
 
 const grupos = [
   { titulo: 'Jogos', links: rodape.jogos },
-  { titulo: 'Produtos', links: rodape.projetos },
+  { titulo: 'SaaS', links: rodape.projetos },
   { titulo: 'Estúdio', links: rodape.estudio },
   { titulo: 'Social', links: rodape.social },
   // "Excluir dados" é subgrupo de Legal: um destino por produto, sem repetir o nome do jogo.

@@ -13,8 +13,8 @@ export const site = {
   posicionamento: 'DESENVOLVIMENTO DE SOFTWARE / JOGOS / LABORATÓRIO DE IDEIAS',
   assinatura: 'Build strange things. Make them matter.',
   descricao:
-    'Estúdio independente de Engenharia de Software com IA aplicada, produtos digitais e jogos.',
-  footerLinha: 'Engenharia de Software com IA aplicada a ideias, negócios e produtos digitais.',
+    'Estúdio independente de produtos digitais, jogos e soluções personalizadas.',
+  footerLinha: 'Produtos digitais, jogos e soluções personalizadas para ideias e negócios reais.',
   ano: 2026,
   idioma: 'pt-BR',
   instagram: {
@@ -72,6 +72,7 @@ export const site = {
     'contato.gramelio@gmail.com',
     'Confirmado pelo titular em 20/08/2026.',
   ) satisfies Campo<string>,
+
 } as const;
 
 /**

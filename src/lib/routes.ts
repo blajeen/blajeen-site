@@ -16,9 +16,14 @@ export const ROTAS = {
   salaoEstetica: '/projects/salao-estetica',
   ecommerce: '/projects/ecommerce',
   clinicaMedica: '/projects/clinica-medica',
+  foodelio: '/projects/foodelio',
+  pipelio: '/projects/pipelio',
+  painelAdministrativo: '/projects/painel-administrativo',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
+  projetoCatelio: '/projects/catelio',
+  projetoDogolio: '/projects/dogolio',
   novidades: '/novidades',
   sobre: '/about',
   contato: '/contact',
@@ -37,6 +42,14 @@ export const ROTAS = {
   gramelioTermos: '/gramelio/terms',
   gramelioSuporte: '/gramelio/support',
   gramelioExclusao: '/gramelio/delete-account',
+  catelioPrivacidade: '/catelio/privacy',
+  catelioTermos: '/catelio/terms',
+  catelioSuporte: '/catelio/support',
+  catelioExclusao: '/catelio/delete-account',
+  dogolioPrivacidade: '/dogolio/privacy',
+  dogolioTermos: '/dogolio/terms',
+  dogolioSuporte: '/dogolio/support',
+  dogolioExclusao: '/dogolio/delete-account',
 } as const;
 
 export type RotaId = keyof typeof ROTAS;
@@ -60,8 +73,16 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.gramelioPrivacidade,
   ROTAS.gramelioTermos,
   ROTAS.gramelioSuporte,
-  ROTAS.gramelioExclusao,
-];
+    ROTAS.gramelioExclusao,
+    ROTAS.catelioPrivacidade,
+    ROTAS.catelioTermos,
+    ROTAS.catelioSuporte,
+    ROTAS.catelioExclusao,
+    ROTAS.dogolioPrivacidade,
+    ROTAS.dogolioTermos,
+    ROTAS.dogolioSuporte,
+    ROTAS.dogolioExclusao,
+  ];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
 export function prioridadeSitemap(rota: Rota): number {
@@ -77,7 +98,12 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.personalStudio ||
     rota === ROTAS.salaoEstetica ||
     rota === ROTAS.ecommerce ||
-    rota === ROTAS.clinicaMedica
+    rota === ROTAS.clinicaMedica ||
+    rota === ROTAS.foodelio ||
+    rota === ROTAS.pipelio ||
+    rota === ROTAS.painelAdministrativo ||
+    rota === ROTAS.projetoCatelio ||
+    rota === ROTAS.projetoDogolio
   )
     return 0.9;
   if (rota === ROTAS.novidades) return 0.8;

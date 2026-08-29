@@ -10,8 +10,8 @@ import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Produtos',
-  descricao: 'Produtos digitais próprios da Blajeen Labs, adaptados a negócios reais.',
+  titulo: 'SaaS — Blajeen Labs',
+  descricao: 'Sistemas próprios da Blajeen Labs, adaptados a negócios reais.',
   rota: ROTAS.projetos,
 });
 
@@ -30,8 +30,8 @@ type ProdutoCatalogo = {
 const produtos: readonly ProdutoCatalogo[] = [
   {
     id: 'barbearia' as ProductIconId,
-    indice: 'PRODUTO 01',
-    categoria: 'BARBEARIA',
+    indice: 'SAAS 01',
+    categoria: 'BARBELIO / BARBEARIAS',
     titulo: 'Agenda simples para o cliente. Operação organizada para a equipe.',
     texto:
       'Para barbearias que querem oferecer agendamento sem conta e organizar equipe, serviços e rotina em uma plataforma com sua identidade.',
@@ -42,8 +42,8 @@ const produtos: readonly ProdutoCatalogo[] = [
   },
   {
     id: 'personal' as ProductIconId,
-    indice: 'PRODUTO 02',
-    categoria: 'PERSONAL',
+    indice: 'SAAS 02',
+    categoria: 'STUDELIO / PERSONAL',
     titulo: 'Aluno, personal e gestão no mesmo produto.',
     texto:
       'Para personal trainers e estúdios que querem reunir presença digital, agenda, treinos e acompanhamento em uma experiência própria.',
@@ -54,36 +54,63 @@ const produtos: readonly ProdutoCatalogo[] = [
   },
   {
     id: 'salao' as ProductIconId,
-    indice: 'PRODUTO 03',
-    categoria: 'STUDIO BEAUTY',
+    indice: 'SAAS 03',
+    categoria: 'BEAUTELIO / ESTÉTICA',
     titulo: 'Cliente, profissional e gestão conectadas à mesma experiência.',
     texto:
       'Para estúdios de estética e beleza que precisam conectar site, agendamento, portfólio, histórico e gestão.',
     href: ROTAS.salaoEstetica,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
-    alt: 'Página pública demonstrativa da plataforma Studio Beauty.',
+    alt: 'Página pública demonstrativa da plataforma Beautelio.',
   },
   {
     id: 'ecommerce' as ProductIconId,
-    indice: 'PRODUTO 04',
-    categoria: 'LOJAS E MARCAS',
+    indice: 'SAAS 04',
+    categoria: 'LOJALIO / LOJAS',
     titulo: 'Vitrine, catálogo e atendimento em uma loja própria.',
     texto:
       'Para lojas e marcas que querem vender em uma vitrine própria, com busca, carrinho, atendimento assistido e painel de gestão.',
     href: ROTAS.ecommerce,
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
-    alt: 'Vitrine demonstrativa do E-commerce da Blajeen Labs.',
+    alt: 'Vitrine demonstrativa do Lojalio da Blajeen Labs.',
   },
   {
     id: 'medico' as ProductIconId,
-    indice: 'PRODUTO 05',
-    categoria: 'CLÍNICA MÉDICA',
+    indice: 'SAAS 05',
+    categoria: 'DOUTELIO / MÉDICOS',
     titulo: 'Site, agenda e rotina clínica no mesmo lugar.',
     texto:
       'Para médicos que atendem de forma independente e querem organizar site, agenda, pacientes, prontuário e documentos clínicos.',
     href: ROTAS.clinicaMedica,
+    estado: 'EM BREVE',
+  },
+  {
+    id: 'food' as ProductIconId,
+    indice: 'SAAS 06',
+    categoria: 'FOODELIO / ALIMENTAÇÃO',
+    titulo: 'Cardápio e pedidos em uma experiência própria.',
+    texto: 'Para restaurantes, lanchonetes e operações de alimentação que querem apresentar o cardápio e organizar pedidos em um só lugar.',
+    href: ROTAS.foodelio,
+    estado: 'EM BREVE',
+  },
+  {
+    id: 'crm' as ProductIconId,
+    indice: 'SAAS 07',
+    categoria: 'PIPELIO / CRM',
+    titulo: 'Relacionamento comercial sem perder o contexto.',
+    texto: 'Para times comerciais que precisam acompanhar oportunidades, contatos, etapas e próximos passos com clareza.',
+    href: ROTAS.pipelio,
+    estado: 'EM BREVE',
+  },
+  {
+    id: 'admin' as ProductIconId,
+    indice: 'SAAS 08',
+    categoria: 'PAINEL ADMINISTRATIVO CENTRAL',
+    titulo: 'Controle completo para ajustar e acompanhar seu SaaS.',
+    texto: 'Um painel central da Blajeen Labs para configurar a identidade do negócio, organizar módulos, acompanhar a operação e controlar o SaaS inteiro em um só lugar.',
+    href: ROTAS.painelAdministrativo,
     estado: 'EM BREVE',
   },
 ];
@@ -103,7 +130,7 @@ export default function ProjetosPage() {
               id="produtos-titulo"
               className="max-w-[14ch] text-[clamp(2.55rem,6.5vw,6rem)] leading-[0.94] tracking-[-0.055em] lg:col-span-8"
             >
-              Produtos digitais para negócios reais.
+              SaaS para negócios reais.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
               Bases funcionais criadas pela Blajeen Labs e adaptadas às necessidades, à identidade,
@@ -113,7 +140,7 @@ export default function ProjetosPage() {
         </Container>
       </section>
 
-      <Section className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Produtos digitais">
+      <Section className="pb-[clamp(4rem,9vw,9rem)]" rotulo="SaaS Blajeen Labs">
         <div className="flex flex-col gap-[clamp(3rem,7vw,7rem)]">
           {produtos.map((produto, posicao) => (
             <Reveal key={produto.id}>

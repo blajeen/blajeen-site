@@ -6,6 +6,8 @@ export const OG = {
   revalio: '/og/revalio.png',
   docalio: '/og/docalio.png',
   gramelio: '/og/gramelio.png',
+  catelio: '/projects/catelio/catelio-icon-512.png',
+  dogolio: '/projects/dogolio/dogolio-icon-512.png',
 } as const;
 
 type Entrada = {
@@ -31,7 +33,7 @@ export function metadadosDaRota({
   descricao,
   rota,
   imagem = OG.estudio,
-  imagemAlt = 'Blajeen Labs — Engenharia de Software com IA aplicada.',
+  imagemAlt = 'Blajeen Labs — produtos digitais, jogos e soluções personalizadas.',
   ogTitulo,
   ogDescricao,
   semImagem = false,

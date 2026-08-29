@@ -15,7 +15,7 @@ import {
 import { documentosLegais } from './legal';
 import { atalhosDeJogo, rodape } from './navigation';
 import { contato, sobre } from './pages';
-import { docalio, gramelio, projetos, revalio, rotasDoProjeto } from './projects';
+import { catelio, docalio, dogolio, gramelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
 import { ROTAS_DE_LOJA } from '@/lib/routes';
 
@@ -28,7 +28,7 @@ import { ROTAS_DE_LOJA } from '@/lib/routes';
 
 describe('projetos', () => {
   it('apresenta apenas os produtos reais do estúdio', () => {
-    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio']);
+    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Dogolio']);
   });
 
   it('usa os banners finais aprovados, sem versão numerada', () => {
@@ -41,6 +41,8 @@ describe('projetos', () => {
       revalio: { src: '/projects/revalio/revalio-banner-final.png', largura: 1672, altura: 941 },
       docalio: { src: '/projects/docalio/docalio-banner-final.png', largura: 1672, altura: 941 },
       gramelio: { src: '/projects/gramelio/gramelio-banner-final.png', largura: 1536, altura: 1024 },
+      catelio: { src: '/projects/catelio/catelio-icon-512.png', largura: 1254, altura: 1254 },
+      dogolio: { src: '/projects/dogolio/dogolio-icon-512.png', largura: 1254, altura: 1254 },
     };
 
     for (const projeto of projetos) {
@@ -83,7 +85,7 @@ describe('projetos', () => {
   });
 
   it('só anuncia "em breve" sem data', () => {
-    for (const projeto of [docalio, gramelio]) {
+    for (const projeto of [docalio, gramelio, catelio, dogolio]) {
       const texto = JSON.stringify(projeto.disponibilidade);
       expect(texto, projeto.nome).not.toMatch(/\d{4}|janeiro|fevereiro|mar[çc]o|trimestre/i);
     }
@@ -122,7 +124,7 @@ describe('projetos', () => {
 
   it('usa o ícone de loja de cada jogo, quadrado e sem alt duplicado', () => {
     for (const projeto of projetos) {
-      expect(projeto.icone.src).toBe(`/projects/${projeto.id}/${projeto.id}-icon-512.png`);
+      expect(projeto.icone.src).toMatch(`/projects/${projeto.id}/${projeto.id}-icon-`);
     }
     for (const projeto of projetos) {
       expect(projeto.icone.tamanho).toBe(512);
@@ -136,10 +138,12 @@ describe('projetos', () => {
       'Revalio',
       'Docalio',
       'Gramelio',
+      'Catelio',
+      'Dogolio',
     ]);
     for (const atalho of atalhosDeJogo) {
       const projeto = projetos.find((item) => item.nome === atalho.rotulo);
-      expect(atalho.estado).toBe(projeto?.status);
+      expect(atalho.estado).toBe(projeto ? statusVisivel(projeto) : undefined);
       expect(atalho.icone.src).toBe(projeto?.icone.src);
     }
   });
@@ -163,6 +167,7 @@ describe('projetos', () => {
     expect(gramelio.aviso).toMatch(/não existe build público/i);
     expect(gramelio.aviso).toMatch(/ficcionais/i);
     expect(gramelio.notaCurta).toMatch(/desenvolvimento/i);
+    expect(dogolio.aviso).toMatch(/cachorro caramelo/i);
   });
 
   it('só afirma estar nas lojas quando está', () => {
@@ -383,6 +388,8 @@ describe('documentos legais', () => {
       Revalio: 'contato.revalio@gmail.com',
       Docalio: 'contato.docalio@gmail.com',
       Gramelio: 'contato.gramelio@gmail.com',
+      Catelio: 'brg.ftw@gmail.com',
+      Dogolio: 'brg.ftw@gmail.com',
       'Blajeen Labs': 'brg.ftw@gmail.com',
     };
 

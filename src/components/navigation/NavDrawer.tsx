@@ -114,7 +114,7 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
           ))}
         </ul>
 
-        <p className="tecnica mt-10 text-mineral-dim">Produtos</p>
+        <p className="tecnica mt-10 text-mineral-dim">SaaS</p>
         <ul className="mt-4 flex flex-col gap-2">
           {atalhosDeProjeto.map((atalho) => (
             <li key={atalho.href}>
@@ -156,6 +156,8 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
             { href: ROTAS.revalioExclusao, rotulo: 'Excluir conta — Revalio' },
             { href: ROTAS.docalioExclusao, rotulo: 'Excluir conta — Docalio' },
             { href: ROTAS.gramelioExclusao, rotulo: 'Excluir conta — Gramelio' },
+            { href: ROTAS.catelioExclusao, rotulo: 'Excluir conta — Catelio' },
+            { href: ROTAS.dogolioExclusao, rotulo: 'Excluir conta — Dogolio' },
           ].map((link) => (
             <Link
               key={link.href}

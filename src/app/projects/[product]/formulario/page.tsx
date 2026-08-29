@@ -7,10 +7,10 @@ import { BuyerOnboardingStart } from '@/components/onboarding/BuyerOnboardingSta
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
 
 const products = {
-  barbearia: 'Barbearia',
-  'personal-studio': 'Personal',
-  'salao-estetica': 'Studio Beauty',
-  ecommerce: 'E-commerce',
+  barbearia: 'Barbelio',
+  'personal-studio': 'Studelio',
+  'salao-estetica': 'Beautelio',
+  ecommerce: 'Lojalio',
 } as const;
 
 type ProductSlug = keyof typeof products;

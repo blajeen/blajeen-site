@@ -9,10 +9,10 @@ import type { Project } from '@/content/types';
 
 type Props = {
   projeto: Project;
-  /** Alterna a direção da composição para criar ritmo entre os dois experimentos. */
+  /** Alterna a direção da composição para criar ritmo entre os experimentos. */
   invertido?: boolean;
   /**
-   * Versão para o painel de abas da home, onde os dois experimentos dividem uma tela.
+   * Versão para o painel de abas da home, onde os experimentos dividem uma tela.
    * Encolhe a tipografia e a mídia; não corta informação nem transforma o bloco em card.
    */
   compacto?: boolean;

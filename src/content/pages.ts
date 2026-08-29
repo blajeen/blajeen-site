@@ -43,7 +43,7 @@ export const sobre = {
       indice: '04 / INSTRUMENTOS',
       titulo: 'Tecnologia amplifica intenção.',
       paragrafos: [
-        'Engenharia de Software com IA aplicada, desenvolvimento de jogos, 3D e sistemas interativos fazem parte do laboratório.',
+        'Produtos digitais, desenvolvimento de jogos, 3D e sistemas interativos fazem parte do laboratório.',
         'As ferramentas reduzem a distância entre uma ideia e uma experiência testável. Mas continuam sendo instrumentos: o produto é aquilo que a pessoa entende, sente e consegue fazer.',
       ],
     },
@@ -51,7 +51,7 @@ export const sobre = {
   linhaTecnica: 'INTENÇÃO × TECNOLOGIA × ITERAÇÃO → PRODUTOS AUTORAIS',
   metaTitulo: 'Sobre — Blajeen Labs',
   metaDescricao:
-    'A Blajeen Labs é um estúdio independente de Engenharia de Software com IA aplicada, produtos digitais e jogos.',
+    'A Blajeen Labs é um estúdio independente de produtos digitais, jogos e soluções personalizadas.',
 } as const;
 
 export const contato = {

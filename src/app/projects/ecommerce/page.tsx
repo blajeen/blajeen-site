@@ -13,9 +13,9 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-ecommerce-bay.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'E-commerce',
+  titulo: 'Lojalio — Blajeen Labs',
   descricao:
-    'E-commerce white-label com vitrine, catálogo, busca, carrinho, checkout assistido e painel administrativo.',
+    'Lojalio white-label com vitrine, catálogo, busca, carrinho, checkout assistido e painel administrativo.',
   rota: ROTAS.ecommerce,
 });
 
@@ -139,7 +139,7 @@ export default function EcommercePage() {
               <figure>
                 <SystemScreenshot
                   src="/projects/ecommerce/screenshots/01-vitrine.png"
-                  alt="Vitrine principal da demonstração de E-commerce."
+                  alt="Vitrine principal da demonstração do Lojalio."
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   largura={1600}
                   altura={900}

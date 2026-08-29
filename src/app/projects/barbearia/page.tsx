@@ -13,7 +13,7 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-barbearia-blajeen-labs.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Barbearia',
+  titulo: 'Barbelio',
   descricao:
     'Plataforma white-label para barbearias com site institucional, agendamento online e gestão da operação.',
   rota: ROTAS.barbearia,

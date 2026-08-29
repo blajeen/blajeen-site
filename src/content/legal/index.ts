@@ -13,6 +13,18 @@ import {
   termosGramelio,
 } from './gramelio';
 import {
+  exclusaoCatelio,
+  privacidadeCatelio,
+  suporteCatelio,
+  termosCatelio,
+} from './catelio';
+import {
+  exclusaoDogolio,
+  privacidadeDogolio,
+  suporteDogolio,
+  termosDogolio,
+} from './dogolio';
+import {
   exclusaoRevalio,
   privacidadeRevalio,
   suporteRevalio,
@@ -35,6 +47,14 @@ export {
   termosGramelio,
   suporteGramelio,
   exclusaoGramelio,
+  privacidadeCatelio,
+  termosCatelio,
+  suporteCatelio,
+  exclusaoCatelio,
+  privacidadeDogolio,
+  termosDogolio,
+  suporteDogolio,
+  exclusaoDogolio,
 };
 
 /** Todos os documentos públicos, na ordem em que aparecem no site. */
@@ -54,4 +74,12 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosGramelio,
   suporteGramelio,
   exclusaoGramelio,
+  privacidadeCatelio,
+  termosCatelio,
+  suporteCatelio,
+  exclusaoCatelio,
+  privacidadeDogolio,
+  termosDogolio,
+  suporteDogolio,
+  exclusaoDogolio,
 ];

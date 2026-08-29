@@ -7,7 +7,13 @@ import { ROTAS } from '@/lib/routes';
 import { MobileNavIcon } from './MobileNavIcon';
 import styles from './MobileSideNav.module.css';
 
-const rotasDeJogos = [ROTAS.projetoRevalio, ROTAS.projetoDocalio, ROTAS.projetoGramelio];
+const rotasDeJogos = [
+  ROTAS.projetoRevalio,
+  ROTAS.projetoDocalio,
+  ROTAS.projetoGramelio,
+  ROTAS.projetoCatelio,
+  ROTAS.projetoDogolio,
+];
 const rotasDeProdutos = [
   ROTAS.projetos,
   ROTAS.barbearia,
@@ -15,6 +21,9 @@ const rotasDeProdutos = [
   ROTAS.salaoEstetica,
   ROTAS.ecommerce,
   ROTAS.clinicaMedica,
+  ROTAS.foodelio,
+  ROTAS.pipelio,
+  ROTAS.painelAdministrativo,
 ];
 
 function caminhoComecaCom(caminho: string, rota: string) {

@@ -1,4 +1,12 @@
-export type ProductIconId = 'barbearia' | 'personal' | 'salao' | 'ecommerce' | 'medico';
+export type ProductIconId =
+  | 'barbearia'
+  | 'personal'
+  | 'salao'
+  | 'ecommerce'
+  | 'medico'
+  | 'food'
+  | 'crm'
+  | 'admin';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -55,6 +63,36 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
         <path d="M14 8h8M26 8h8M24 25v5a9 9 0 0 0 18 0v-3" />
         <circle cx="42" cy="23" r="4" />
         <path d="M15 38h10M20 33v10" />
+      </svg>
+    );
+  }
+
+  if (id === 'food') {
+    return (
+      <svg {...comum}>
+        <path d="M10 8v13M6 8v5a4 4 0 0 0 8 0V8M6 11h8" />
+        <path d="M21 8v13M18 8c0 3 3 3 3 6" />
+      </svg>
+    );
+  }
+
+  if (id === 'crm') {
+    return (
+      <svg {...comum}>
+        <circle cx="10" cy="11" r="3" />
+        <circle cx="24" cy="9" r="3" />
+        <circle cx="37" cy="13" r="3" />
+        <path d="M4 25c0-4 3-6 6-6s6 2 6 6M18 23c1-3 3-5 6-5 3 0 5 2 6 5M31 27c1-3 3-5 6-5 4 0 7 2 7 6" />
+        <path d="M13 12.5 21 10.5M27 10l7 2" />
+      </svg>
+    );
+  }
+
+  if (id === 'admin') {
+    return (
+      <svg {...comum}>
+        <rect x="6" y="7" width="36" height="29" rx="3" />
+        <path d="M6 15h36M14 23h8M14 29h14M32 23h4M32 29h4" />
       </svg>
     );
   }

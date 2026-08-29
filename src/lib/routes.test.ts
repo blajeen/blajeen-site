@@ -26,7 +26,7 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` + as 5 do Gramelio + Clínica Médica.
-    expect(TODAS_AS_ROTAS).toHaveLength(32);
+    expect(TODAS_AS_ROTAS).toHaveLength(45);
     expect(TODAS_AS_ROTAS).toContain('/crie-seu-projeto');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');
@@ -39,6 +39,8 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/projects/clinica-medica');
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/catelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/dogolio');
   });
 
   it('tem um arquivo de página para cada rota', () => {
@@ -67,6 +69,14 @@ describe('rotas públicas', () => {
       '/gramelio/terms',
       '/gramelio/support',
       '/gramelio/delete-account',
+      '/catelio/privacy',
+      '/catelio/terms',
+      '/catelio/support',
+      '/catelio/delete-account',
+      '/dogolio/privacy',
+      '/dogolio/terms',
+      '/dogolio/support',
+      '/dogolio/delete-account',
     ]);
   });
 
@@ -77,6 +87,7 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.trabalhoDomGuima)).toBe(0.85);
     expect(prioridadeSitemap(ROTAS.projetoRevalio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.projetoDogolio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.barbearia)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.salaoEstetica)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.ecommerce)).toBe(0.9);

@@ -12,7 +12,7 @@ import type { NavLink } from './types';
 export const barraDeNavegacao = [
   { rotulo: 'Crie seu projeto', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
   { rotulo: 'Projetos feitos', tipo: 'link', href: ROTAS.trabalhos },
-  { rotulo: 'Produtos', tipo: 'submenu', menu: 'projetos' },
+  { rotulo: 'SaaS', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
   { rotulo: 'Estúdio', tipo: 'link', href: ROTAS.sobre },
   { rotulo: 'Novidades', tipo: 'link', href: ROTAS.novidades },
@@ -24,7 +24,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '00',
     rotulo: 'Início',
-    descricao: 'Visão geral do laboratório, dos produtos e dos projetos.',
+    descricao: 'Visão geral do laboratório, do SaaS e dos projetos.',
     href: ROTAS.home,
     icone: 'inicio',
   },
@@ -44,15 +44,15 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   },
   {
     indice: '03',
-    rotulo: 'Produtos',
-    descricao: 'Plataformas próprias adaptadas a negócios reais.',
+    rotulo: 'SaaS',
+    descricao: 'Sistemas próprios adaptados a negócios reais.',
     href: ROTAS.projetos,
     icone: 'produtos',
   },
   {
     indice: '04',
     rotulo: 'Jogos',
-    descricao: 'Revalio, Docalio e Gramelio: os jogos do laboratório.',
+    descricao: 'Revalio, Docalio, Gramelio, Catelio e Dogolio: os jogos do laboratório.',
     href: ROTAS.projetoRevalio,
     icone: 'jogos',
   },
@@ -80,7 +80,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
 ] as const;
 
 /**
- * Atalhos secundários para escolher entre os dois jogos.
+ * Atalhos secundários para escolher entre os jogos do laboratório.
  *
  * Derivados de `projetos` para que nome, ícone e estado venham da mesma fonte tipada: o estado
  * mostrado aqui não pode divergir do estado mostrado na página do produto.
@@ -97,34 +97,52 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
 /** Projetos de software apresentados no menu do estúdio. */
 export const atalhosDeProjeto = [
   {
-    rotulo: 'Barbearias',
+    rotulo: 'Barbelio',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'barbearia',
     href: ROTAS.barbearia,
   },
   {
-    rotulo: 'Personal',
+    rotulo: 'Studelio',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'personal',
     href: ROTAS.personalStudio,
   },
   {
-    rotulo: 'Studio Beauty',
+    rotulo: 'Beautelio',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'salao',
     href: ROTAS.salaoEstetica,
   },
   {
-    rotulo: 'E-commerce',
+    rotulo: 'Lojalio',
     estado: 'DEMONSTRAÇÃO DISPONÍVEL',
     simbolo: 'ecommerce',
     href: ROTAS.ecommerce,
   },
   {
-    rotulo: 'Clínica Médica',
+    rotulo: 'Doutelio',
     estado: 'EM BREVE',
     simbolo: 'medico',
     href: ROTAS.clinicaMedica,
+  },
+  {
+    rotulo: 'Foodelio',
+    estado: 'EM BREVE',
+    simbolo: 'food',
+    href: ROTAS.foodelio,
+  },
+  {
+    rotulo: 'Pipelio',
+    estado: 'EM BREVE',
+    simbolo: 'crm',
+    href: ROTAS.pipelio,
+  },
+  {
+    rotulo: 'Painel Administrativo Central',
+    estado: 'EM BREVE',
+    simbolo: 'admin',
+    href: ROTAS.painelAdministrativo,
   },
 ] as const;
 
@@ -144,13 +162,18 @@ export const rodape = {
     { rotulo: 'Revalio', href: ROTAS.projetoRevalio },
     { rotulo: 'Docalio', href: ROTAS.projetoDocalio },
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
+    { rotulo: 'Catelio', href: ROTAS.projetoCatelio },
+    { rotulo: 'Dogolio', href: ROTAS.projetoDogolio },
   ],
   projetos: [
-    { rotulo: 'Barbearias', href: ROTAS.barbearia },
-    { rotulo: 'Personal', href: ROTAS.personalStudio },
-    { rotulo: 'Studio Beauty', href: ROTAS.salaoEstetica },
-    { rotulo: 'E-commerce', href: ROTAS.ecommerce },
-    { rotulo: 'Clínica Médica', href: ROTAS.clinicaMedica },
+    { rotulo: 'Barbelio', href: ROTAS.barbearia },
+    { rotulo: 'Studelio', href: ROTAS.personalStudio },
+    { rotulo: 'Beautelio', href: ROTAS.salaoEstetica },
+    { rotulo: 'Lojalio', href: ROTAS.ecommerce },
+    { rotulo: 'Doutelio', href: ROTAS.clinicaMedica },
+    { rotulo: 'Foodelio', href: ROTAS.foodelio },
+    { rotulo: 'Pipelio', href: ROTAS.pipelio },
+    { rotulo: 'Painel Administrativo Central', href: ROTAS.painelAdministrativo },
   ],
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
@@ -180,6 +203,8 @@ export const rodape = {
       { rotulo: 'Revalio', href: ROTAS.revalioExclusao },
       { rotulo: 'Docalio', href: ROTAS.docalioExclusao },
       { rotulo: 'Gramelio', href: ROTAS.gramelioExclusao },
+      { rotulo: 'Catelio', href: ROTAS.catelioExclusao },
+      { rotulo: 'Dogolio', href: ROTAS.dogolioExclusao },
     ],
   },
 } as const;

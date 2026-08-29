@@ -236,12 +236,154 @@ export const gramelio: Project = {
     'Gramelio é o jogo casual em desenvolvimento na Blajeen Labs: um toque move o animal, a grama vira leite no curral e cada mapa é uma fase curta de decisões.',
 };
 
-export const projetos: readonly Project[] = [revalio, docalio, gramelio];
+export const catelio: Project = {
+  id: 'catelio',
+  nome: 'Catelio',
+  indice: 'EXPERIMENTO 04',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'JOGO CASUAL DE EXPLORAÇÃO',
+  status: 'EM DESENVOLVIMENTO',
+  frase: 'Um toque, um gato e um mundo para descobrir.',
+  descricao:
+    'Um jogo casual de exploração em que você guia um gato por regiões pequenas, encontra comida, conhece personagens e descobre novos caminhos.',
+  cta: 'CONHECER CATELIO',
+  notaCurta:
+    'Jogo em desenvolvimento. Ainda não há build público, plataforma ou data de lançamento anunciada.',
+  eyebrow: 'EXPERIMENTO 04 / JOGO CASUAL',
+  subtitulo: 'Um toque, um gato e um mundo para descobrir.',
+  introducao:
+    'Catelio é um jogo casual em desenvolvimento sobre explorar, cuidar e voltar para casa — com mapas compactos, interações leves e um gato como protagonista.',
+  manifesto: [
+    'Catelio nasceu de uma ideia simples: transformar a curiosidade de um gato em uma jornada que cabe na tela e convida a explorar sem pressa.',
+    'Cada região combina caminhos, comida, personagens e pequenos acontecimentos. O jogador decide para onde ir, o que descobrir e quando voltar.',
+  ],
+  recursos: [],
+  pilares: [
+    {
+      titulo: 'Um toque',
+      texto: 'Toque no destino e o gato caminha até lá. O comando é direto, legível e pensado para celular.',
+    },
+    {
+      titulo: 'Exploração em regiões',
+      texto: 'Mapas compactos, com passagens e pontos de interesse que incentivam voltar e observar melhor.',
+    },
+    {
+      titulo: 'Fome e cuidado',
+      texto: 'Encontrar alimentos e administrar a fome cria um ritmo leve entre explorar, interagir e retornar.',
+    },
+    {
+      titulo: 'Momentos de gato',
+      texto: 'Interações opcionais com personagens e objetos dão personalidade ao caminho sem interromper o controle.',
+    },
+    {
+      titulo: 'Novos mundos',
+      texto: 'A estrutura foi pensada para receber regiões, animais, objetos e desafios novos ao longo do tempo.',
+    },
+  ],
+  aviso:
+    'Catelio é um jogo de entretenimento em desenvolvimento. Não existe build público, conta, compra ou data de lançamento anunciada. Personagens, regiões e situações são ficcionais e não representam orientação sobre cuidados reais com animais.',
+  banner: {
+    src: '/projects/catelio/catelio-icon-512.png',
+    alt: 'Ícone oficial do Catelio: um gato estilizado em uma composição colorida.',
+    largura: 1254,
+    altura: 1254,
+  },
+  icone: {
+    src: '/projects/catelio/catelio-icon-512.png',
+    alt: '',
+    tamanho: 512,
+  },
+  galeria: [],
+  galeriaBloqueador: 'conceptArtCatelio',
+  plataformas: [],
+  disponibilidade: [
+    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+  ],
+  ogDescricao: 'Exploração casual com um gato. Experimento 04 da Blajeen Labs.',
+  metaTitulo: 'Catelio — Blajeen Labs',
+  metaDescricao:
+    'Catelio é o jogo casual de exploração em desenvolvimento na Blajeen Labs: um toque guia o gato por regiões, alimentos e descobertas.',
+};
+
+export const dogolio: Project = {
+  id: 'dogolio',
+  nome: 'Dogolio',
+  indice: 'EXPERIMENTO 05',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'JOGO CASUAL DE EXPLORAÇÃO',
+  status: 'EM DESENVOLVIMENTO',
+  frase: 'A cidade também é casa.',
+  descricao:
+    'Um jogo casual sobre um cachorro caramelo que percorre a mesma cidade do Catelio, encontra pessoas, descobre caminhos e transforma cada passeio em uma nova história.',
+  cta: 'CONHECER DOGOLIO',
+  notaCurta:
+    'Jogo em desenvolvimento. Ainda não há build público, plataforma ou data de lançamento anunciada.',
+  eyebrow: 'EXPERIMENTO 05 / JOGO CASUAL',
+  subtitulo: 'A cidade também é casa.',
+  introducao:
+    'Dogolio acompanha um cachorro caramelo andando pela cidade do Catelio: uma aventura leve sobre vizinhança, encontros e pequenas descobertas.',
+  manifesto: [
+    'Dogolio compartilha o mesmo mapa-base do Catelio, mas olha para a cidade a partir da rua: calçadas, praças, lojas e pessoas que fazem cada bairro ter seu próprio ritmo.',
+    'O cachorro caramelo é o guia. Em cada passeio, ele encontra personagens, cria vínculos e abre novas possibilidades para continuar explorando.',
+  ],
+  recursos: [],
+  pilares: [
+    {
+      titulo: 'Passeios pela cidade',
+      texto: 'Caminhos curtos e legíveis para explorar bairros, praças e pontos de encontro sem pressa.',
+    },
+    {
+      titulo: 'O cachorro caramelo',
+      texto: 'Um protagonista carismático que reage ao ambiente e dá personalidade a cada descoberta.',
+    },
+    {
+      titulo: 'Encontros de rua',
+      texto: 'Personagens e situações cotidianas que transformam um passeio simples em uma pequena história.',
+    },
+    {
+      titulo: 'Cidade compartilhada',
+      texto: 'Regiões do Dogolio e do Catelio se conectam para construir um universo comum, com novos caminhos a cada capítulo.',
+    },
+    {
+      titulo: 'Histórias que continuam',
+      texto: 'A estrutura foi pensada para receber bairros, missões e encontros novos ao longo do tempo.',
+    },
+  ],
+  aviso:
+    'Dogolio é um jogo de entretenimento em desenvolvimento sobre um cachorro caramelo. Não existe build público, conta, compra ou data de lançamento anunciada. A cidade, os personagens e as situações são ficcionais e não representam orientação sobre cuidados reais com animais.',
+  banner: {
+    src: '/projects/dogolio/dogolio-icon-512.png',
+    alt: 'Logo do Dogolio: cachorro caramelo estilizado em uma cidade noturna colorida, com o título Dogolio.',
+    largura: 1254,
+    altura: 1254,
+  },
+  icone: {
+    src: '/projects/dogolio/dogolio-icon-512.png',
+    alt: '',
+    tamanho: 512,
+  },
+  galeria: [],
+  galeriaBloqueador: 'conceptArtDogolio',
+  plataformas: [],
+  disponibilidade: [
+    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+  ],
+  ogDescricao: 'Exploração casual com um cachorro caramelo. Experimento 05 da Blajeen Labs.',
+  metaTitulo: 'Dogolio — Blajeen Labs',
+  metaDescricao:
+    'Dogolio é o jogo casual em desenvolvimento na Blajeen Labs sobre um cachorro caramelo explorando a mesma cidade do Catelio.',
+};
+
+export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, dogolio];
 
 export const projetoPorId: Record<ProjectId, Project> = {
   revalio,
   docalio,
   gramelio,
+  catelio,
+  dogolio,
 };
 
 /**
@@ -271,6 +413,20 @@ export const rotasDoProjeto = {
     privacidade: ROTAS.gramelioPrivacidade,
     termos: ROTAS.gramelioTermos,
     exclusao: ROTAS.gramelioExclusao,
+  },
+  catelio: {
+    pagina: ROTAS.projetoCatelio,
+    suporte: ROTAS.catelioSuporte,
+    privacidade: ROTAS.catelioPrivacidade,
+    termos: ROTAS.catelioTermos,
+    exclusao: ROTAS.catelioExclusao,
+  },
+  dogolio: {
+    pagina: ROTAS.projetoDogolio,
+    suporte: ROTAS.dogolioSuporte,
+    privacidade: ROTAS.dogolioPrivacidade,
+    termos: ROTAS.dogolioTermos,
+    exclusao: ROTAS.dogolioExclusao,
   },
 } as const satisfies Record<
   ProjectId,

@@ -6,11 +6,11 @@ import { useSearchParams } from 'next/navigation';
 const EMAIL_DESTINO = 'brg.ftw@gmail.com';
 
 const produtos = {
-  barbearia: 'Barbearia',
-  'personal-studio': 'Personal',
-  'salao-estetica': 'Studio Beauty',
-  ecommerce: 'E-commerce',
-  'clinica-medica': 'Clínica Médica',
+  barbearia: 'Barbelio',
+  'personal-studio': 'Studelio',
+  'salao-estetica': 'Beautelio',
+  ecommerce: 'Lojalio',
+  'clinica-medica': 'Doutelio',
   'projeto-personalizado': 'Projeto personalizado',
   outro: 'Outro projeto',
 } as const;

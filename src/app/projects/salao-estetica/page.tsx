@@ -13,7 +13,7 @@ import { ROTAS } from '@/lib/routes';
 const DEMONSTRACAO = 'https://site-estetica-kappa.vercel.app';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Studio Beauty',
+  titulo: 'Beautelio — Blajeen Labs',
   descricao:
     'Plataforma white-label para estúdios de beleza com site, agendamento, portfólio, área da cliente e gestão da operação.',
   rota: ROTAS.salaoEstetica,
@@ -76,16 +76,16 @@ const personalizacoes = [
 ] as const;
 
 const demonstracoes = ([
-  ['01-inicio.png', 'Site público do Studio Beauty com identidade, proposta e acesso ao agendamento.', 'Site público: apresentação da marca, especialidades e chamada principal.'],
-  ['02-servicos.png', 'Catálogo de serviços do Studio Beauty.', 'Serviços: categorias, valores, durações e caminhos para reservar.'],
+  ['01-inicio.png', 'Site público do Beautelio com identidade, proposta e acesso ao agendamento.', 'Site público: apresentação da marca, especialidades e chamada principal.'],
+  ['02-servicos.png', 'Catálogo de serviços do Beautelio.', 'Serviços: categorias, valores, durações e caminhos para reservar.'],
   ['03-categoria-unhas.png', 'Categoria de unhas com serviços disponíveis.', 'Categoria: serviços de unhas organizados para facilitar a escolha.'],
-  ['04-profissionais.png', 'Equipe de profissionais do Studio Beauty.', 'Profissionais: especialidades, perfis e acesso ao agendamento.'],
-  ['05-portfolio.png', 'Portfólio de trabalhos do Studio Beauty.', 'Portfólio: trabalhos reais organizados por especialidade e autorização.'],
-  ['06-pacotes.png', 'Pacotes e serviços combinados do Studio Beauty.', 'Pacotes: combinações de serviços apresentadas com clareza.'],
+  ['04-profissionais.png', 'Equipe de profissionais do Beautelio.', 'Profissionais: especialidades, perfis e acesso ao agendamento.'],
+  ['05-portfolio.png', 'Portfólio de trabalhos do Beautelio.', 'Portfólio: trabalhos reais organizados por especialidade e autorização.'],
+  ['06-pacotes.png', 'Pacotes e serviços combinados do Beautelio.', 'Pacotes: combinações de serviços apresentadas com clareza.'],
   ['07-beauty-club.png', 'Área de apresentação do Beauty Club.', 'Beauty Club: recorrência e benefícios configuráveis para o estúdio.'],
   ['08-noivas-eventos.png', 'Jornada para noivas e eventos.', 'Noivas e eventos: produção de beleza e cronograma dedicado.'],
-  ['09-agendamento.png', 'Início do fluxo de agendamento do Studio Beauty.', 'Agendamento: início por serviço, profissional ou ocasião.'],
-  ['10-sobre-estudio.png', 'Página institucional sobre o Studio Beauty.', 'Institucional: história, unidades, políticas e perguntas frequentes.'],
+  ['09-agendamento.png', 'Início do fluxo de agendamento do Beautelio.', 'Agendamento: início por serviço, profissional ou ocasião.'],
+  ['10-sobre-estudio.png', 'Página institucional sobre o Beautelio.', 'Institucional: história, unidades, políticas e perguntas frequentes.'],
 ] as const).map(([arquivo, alt, legenda]) => ({
   imagem: `/projects/salao-estetica/screenshots/${arquivo}`,
   alt,

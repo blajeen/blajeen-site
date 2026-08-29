@@ -12,7 +12,7 @@ import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
-  titulo: 'Personal',
+  titulo: 'Studelio — Blajeen Labs',
   descricao:
     'Plataforma white-label demonstrativa para personal trainers autônomos e estúdios de treinamento.',
   rota: ROTAS.personalStudio,
@@ -23,19 +23,19 @@ const experiencias = [
     titulo: 'Área do aluno',
     texto: 'Agenda, próximos treinos, exercícios, plano e evolução em uma experiência responsiva, pensada para o uso diário.',
     imagem: '/projects/personal-studio/mockup-area-aluno.png',
-    alt: 'Área do aluno do Personal Studio exibida em um smartphone.',
+    alt: 'Área do aluno do Studelio exibida em um smartphone.',
   },
   {
     titulo: 'Portal do personal',
     texto: 'Agenda, carteira de alunos, prescrição de treinos e acompanhamento reunidos em um único painel.',
     imagem: '/projects/personal-studio/mockup-area-personal.png',
-    alt: 'Portal do personal do Personal Studio exibido em um notebook.',
+    alt: 'Portal do personal do Studelio exibido em um notebook.',
   },
   {
     titulo: 'Painel do gestor',
     texto: 'Agenda, equipe, alunos e alertas operacionais em uma visão centralizada para a gestão do estúdio.',
     imagem: '/projects/personal-studio/mockup-painel-gestor.png',
-    alt: 'Painel de gestão do Personal Studio exibido em um monitor.',
+    alt: 'Painel de gestão do Studelio exibido em um monitor.',
   },
 ] as const;
 

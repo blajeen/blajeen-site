@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Container } from '@/components/layout/Section';
 import { MotionToggle } from '@/components/motion/MotionToggle';
 import { InstagramIcon } from '@/components/brand/InstagramIcon';
+import { GithubIcon } from '@/components/brand/GithubIcon';
 import { rodape } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rodapeCopy } from '@/content/home';
@@ -42,7 +43,13 @@ export function SiteFooter() {
                         {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                         className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
                       >
-                        {grupo.titulo === 'Social' ? <InstagramIcon className="mr-2 size-4" /> : null}
+                        {grupo.titulo === 'Social' ? (
+                          link.href.includes('instagram.com') ? (
+                            <InstagramIcon className="mr-2 size-4" />
+                          ) : (
+                            <GithubIcon className="mr-2 size-4" />
+                          )
+                        ) : null}
                         {link.rotulo}
                       </Link>
                     </li>

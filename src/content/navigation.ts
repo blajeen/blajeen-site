@@ -189,6 +189,7 @@ export const rodape = {
   ],
   social: [
     { rotulo: '@blajeenlab', href: 'https://www.instagram.com/blajeenlab/' },
+    { rotulo: 'GitHub / blajeen', href: 'https://github.com/blajeen' },
   ],
   /**
    * Subgrupo de "Legal", com um destino por produto.

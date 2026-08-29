@@ -42,12 +42,13 @@ export function SiteHeader() {
             className="alvo-toque group -ml-2 flex items-center rounded-full px-1"
           >
             <Image
-              src="/brand/blajeen-labs-logo.png"
+              src="/brand/blajeen-labs-logo-header.png"
               alt="Blajeen Labs"
               width={96}
               height={96}
               priority
               sizes="48px"
+              unoptimized
               className="size-11 rounded-full object-cover ring-1 ring-line-strong transition-transform duration-200 group-hover:scale-[1.04] sm:size-12"
             />
             <span className="sr-only">Blajeen Labs</span>

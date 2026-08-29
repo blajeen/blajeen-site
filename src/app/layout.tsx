@@ -59,9 +59,10 @@ export const metadata: Metadata = {
   /* A marca oficial do laboratório também identifica a aba e o atalho no celular. */
   icons: {
     icon: [
-      { url: '/brand/blajeen-labs-logo.png', sizes: '1536x1536', type: 'image/png' },
+      { url: '/brand/blajeen-labs-favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/blajeen-labs-icon-192.png', sizes: '192x192', type: 'image/png' },
     ],
-    apple: [{ url: '/brand/blajeen-labs-logo.png', sizes: '1536x1536', type: 'image/png' }],
+    apple: [{ url: '/brand/blajeen-labs-icon-512.png', sizes: '512x512', type: 'image/png' }],
   },
   formatDetection: { telephone: false, email: false, address: false },
   openGraph: {

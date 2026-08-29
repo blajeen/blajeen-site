@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { Drawer } from '@/components/overlays/Drawer';
@@ -8,6 +7,7 @@ import { StoreBadges } from '@/components/projects/StoreBadges';
 import { disponibilidadeVisivel, statusVisivel } from '@/content/estado-do-projeto';
 import { rotasDoProjeto } from '@/content/projects';
 import type { Project } from '@/content/types';
+import { ProjectBanner } from '@/components/projects/ProjectBanner';
 
 /**
  * Gaveta de prévia de um projeto.
@@ -46,14 +46,10 @@ export function ProjectPreview({ projeto }: { projeto: Project }) {
       >
         <div className="px-6 pb-10 pt-4 sm:px-8">
           {/* A gaveta herda a cor do projeto apenas pela imagem; a interface segue o sistema. */}
-          <Image
-            src={projeto.banner.src}
-            alt={projeto.banner.alt}
-            width={projeto.banner.largura}
-            height={projeto.banner.altura}
+          <ProjectBanner
+            projeto={projeto}
             sizes="(min-width: 48rem) 40rem, 100vw"
-            loading="lazy"
-            className="block h-auto w-full rounded-[var(--radius-control)] border border-line"
+            className="rounded-[var(--radius-control)]"
           />
 
           <p className="tecnica mt-6 text-mineral-dim">{projeto.categoria}</p>

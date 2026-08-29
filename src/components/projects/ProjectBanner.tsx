@@ -18,7 +18,8 @@ type Props = {
  *
  * A arte 1672×941 é usada inteira. Não existe recorte: `width`/`height` fixam a proporção,
  * a imagem ocupa 100% da largura e a altura acompanha. É isso que garante que nem o título do
- * jogo nem a assinatura Blajeen Labs sejam cortados em nenhuma largura de tela.
+ * jogo nem a composição sejam cortados em nenhuma largura de tela. A marca do laboratório entra
+ * como uma marca-d'água discreta no canto superior direito, sem cápsula ou fundo opaco.
  * Os PNGs são os mestres; o build entrega AVIF/WebP responsivos com as mesmas cores.
  */
 export function ProjectBanner({ projeto, prioridade = false, sizes, className }: Props) {
@@ -46,15 +47,18 @@ export function ProjectBanner({ projeto, prioridade = false, sizes, className }:
         className="block h-auto w-full"
       />
 
-      <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full border border-white/15 bg-ink/70 p-1.5 shadow-lg backdrop-blur-sm sm:left-5 sm:top-5 sm:p-2">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-3 top-3 inline-flex opacity-30 mix-blend-screen drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] sm:right-4 sm:top-4"
+      >
         <Image
           src="/brand/blajeen-labs-logo-header.png"
-          alt="Blajeen Labs"
+          alt=""
           width={64}
           height={64}
-          sizes="32px"
+          sizes="(min-width: 640px) 36px, 28px"
           unoptimized
-          className="size-7 rounded-full object-cover sm:size-8"
+          className="size-7 rounded-full object-cover sm:size-9"
         />
       </span>
 

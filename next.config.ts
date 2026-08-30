@@ -30,6 +30,19 @@ const nextConfig: NextConfig = {
   agentRules: false,
   // O QA visual acessa o servidor de desenvolvimento por 127.0.0.1.
   allowedDevOrigins: ['127.0.0.1'],
+  /**
+   * Documentos públicos do Gramelio são HTML estático fornecido pelo próprio jogo. As reescritas
+   * preservam as URLs sem extensão exigidas pelas lojas, enquanto mantêm o texto e a estrutura
+   * legal exatamente iguais aos arquivos revisados no repositório do jogo.
+   */
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/gramelio/privacy', destination: '/gramelio/privacy.html' },
+        { source: '/gramelio/suporte', destination: '/gramelio/suporte.html' },
+      ],
+    };
+  },
   images: {
     // Os PNGs 1672×941 permanecem como mestres; o build entrega derivados AVIF/WebP.
     formats: ['image/avif', 'image/webp'],

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GRAMELIO — Suporte</title>
+<style>
+  :root{
+    --tinta:#3a2a1c; --fraco:#6b5844; --papel:#fdf6e6; --creme:#f5e9cf;
+    --borda:#e0cfa8; --dourado:#c8951f; --link:#8a5a12;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --tinta:#f2e6d2; --fraco:#b8a68f; --papel:#241b13; --creme:#2f251a;
+      --borda:#463526; --dourado:#e0ae3c; --link:#e0ae3c;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--papel); color:var(--tinta);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  .faixa{background:var(--creme); border-bottom:1px solid var(--borda)}
+  main{max-width:680px; margin:0 auto; padding:0 20px 64px}
+  header{max-width:680px; margin:0 auto; padding:40px 20px 32px}
+  h1{margin:0 0 6px; font-size:30px; letter-spacing:.5px}
+  .sub{margin:0; color:var(--fraco); font-size:17px}
+  h2{margin:40px 0 10px; font-size:20px}
+  p{margin:0 0 14px}
+  a{color:var(--link)}
+  .cartao{
+    background:var(--creme); border:1px solid var(--borda); border-radius:12px;
+    padding:20px 22px; margin:24px 0;
+  }
+  .email{font-size:19px; font-weight:600; word-break:break-all}
+  ul{margin:0 0 14px; padding-left:22px}
+  li{margin:0 0 8px}
+  code{
+    background:var(--creme); border:1px solid var(--borda); border-radius:5px;
+    padding:1px 6px; font-size:14px;
+  }
+  footer{
+    border-top:1px solid var(--borda); margin-top:48px; padding-top:20px;
+    color:var(--fraco); font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="faixa">
+  <header>
+    <h1>GRAMELIO</h1>
+    <p class="sub">A vaca, a grama e o relógio — suporte e contato</p>
+  </header>
+</div>
+
+<main>
+
+  <div class="cartao">
+    <p style="margin:0 0 6px; color:var(--fraco)">Fale comigo</p>
+    <p class="email" style="margin:0">
+      <a href="mailto:brg.ftw@gmail.com">brg.ftw@gmail.com</a>
+    </p>
+  </div>
+
+  <p>
+    Respondo a dúvidas, relatos de problema e pedidos sobre os seus dados. É uma
+    pessoa só cuidando do jogo, então pode levar alguns dias — mas toda mensagem
+    é lida.
+  </p>
+
+  <h2>Encontrou um problema?</h2>
+
+  <p>Duas informações fazem toda a diferença para eu achar a causa:</p>
+
+  <ul>
+    <li>
+      <strong>A versão e o build.</strong> Abra <strong>Ajustes</strong> dentro do
+      jogo — o número aparece no rodapé, algo como
+      <code>versão 1.0 · build a3f9c21</code>. Sem ele não dá para saber se você já
+      está numa correção ou ainda na versão antiga.
+    </li>
+    <li>
+      <strong>O modelo do aparelho</strong> e, se der, em que fase ou tela aconteceu.
+    </li>
+  </ul>
+
+  <h2>Perdi meu progresso</h2>
+
+  <p>
+    O jogo guarda uma cópia do progresso na nuvem automaticamente, sem cadastro. Ao
+    instalar em um aparelho novo, ele costuma voltar sozinho na primeira abertura,
+    desde que haja internet. Se não voltar, me escreva antes de recomeçar.
+  </p>
+
+  <h2>Comprei o jogo completo e ele não liberou</h2>
+
+  <p>
+    Na tela da oferta há o botão <strong>Restaurar compra</strong> — ele recupera uma
+    compra feita antes, neste ou em outro aparelho, sem cobrar de novo. Se ainda
+    assim não liberar, me escreva com o e-mail da sua conta da App Store.
+  </p>
+
+  <h2>Quero apagar meus dados</h2>
+
+  <p>
+    Dentro do jogo, <strong>Ajustes → Apagar Progresso</strong> zera tudo o que está
+    no aparelho. Para apagar também a cópia guardada na nuvem, me escreva informando
+    o <strong>identificador de jogador</strong> que aparece em Ajustes, logo abaixo
+    da versão.
+  </p>
+
+  <p>
+    Detalhes sobre o que é guardado e por quê estão na
+    <a href="/gramelio/privacy">Política de Privacidade</a>.
+  </p>
+
+  <footer>
+    <p style="margin:0">
+      <a href="/gramelio/privacy">Política de Privacidade</a>
+    </p>
+    <p style="margin:6px 0 0">GRAMELIO · 2026</p>
+  </footer>
+
+</main>
+
+</body>
+</html>

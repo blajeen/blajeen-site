@@ -13,6 +13,7 @@ const rotasDeJogos = [
   ROTAS.projetoGramelio,
   ROTAS.projetoCatelio,
   ROTAS.projetoDogolio,
+  ROTAS.projetoMorvelio,
 ];
 const rotasDeProdutos = [
   ROTAS.projetos,

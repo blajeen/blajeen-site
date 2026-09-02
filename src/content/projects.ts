@@ -376,7 +376,73 @@ export const dogolio: Project = {
     'Dogolio é o jogo casual em desenvolvimento na Blajeen Labs sobre um cachorro caramelo explorando a mesma cidade do Catelio.',
 };
 
-export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, dogolio];
+export const morvelio: Project = {
+  id: 'morvelio',
+  nome: 'Morvelio',
+  indice: 'EXPERIMENTO 06',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'JOGO AUTORAL EM FORMAÇÃO',
+  status: 'EM DESENVOLVIMENTO',
+  frase: 'Monte um trio. Avance. Decida quando recuar.',
+  descricao:
+    'Um action-roguelite mobile em visão top-down: monte um trio, avance por uma cidadela congelada e decida a cada orbe se o próximo corredor vale o risco.',
+  cta: 'CONHECER MORVELIO',
+  notaCurta:
+    'Jogo em desenvolvimento. O conceito, a plataforma e a data de lançamento ainda não foram anunciados.',
+  eyebrow: 'EXPERIMENTO 06 / JOGO AUTORAL',
+  subtitulo: 'Uma cidadela congelada. Um trio. Escolhas que cobram juros.',
+  introducao:
+    'Morvelio é um jogo autoral em desenvolvimento sobre atravessar uma cidadela congelada, alternar entre heróis e escolher entre continuar a expedição ou voltar ao acampamento.',
+  manifesto: [
+    'Morvelio nasceu para abrir espaço a uma nova ideia dentro do laboratório: um jogo de ação e exploração em que cada avanço muda o risco da próxima decisão.',
+    'O mundo, o ritmo e as regras são prototipados antes de qualquer promessa. O que permanecerá no produto final será escolhido pelo que fizer sentido para a experiência.',
+  ],
+  recursos: [],
+  pilares: [
+    {
+      titulo: 'Trio tático',
+      texto: 'Monte uma equipe de heróis e alterne entre eles para atravessar cada encontro.',
+    },
+    {
+      titulo: 'Avançar ou recuar',
+      texto: 'Orbes e corredores criam decisões de risco antes do próximo combate.',
+    },
+    {
+      titulo: 'Uma cidadela congelada',
+      texto: 'Uma direção de arte fantástica dá unidade ao primeiro mapa e aos seus desafios.',
+    },
+    {
+      titulo: 'Protótipos antes de promessas',
+      texto: 'Cada mecânica é testada e refinada antes de ser apresentada como parte do jogo.',
+    },
+  ],
+  aviso:
+    'Morvelio é um jogo de entretenimento em desenvolvimento. Não existe build público, conta, compra, plataforma ou data de lançamento anunciada. O mundo, os personagens e as situações são ficcionais e qualquer detalhe do conceito pode mudar durante a criação.',
+  banner: {
+    src: '/projects/morvelio/morvelio-banner.png',
+    alt: 'Banner oficial do Morvelio com uma cidadela fantástica iluminada por um eclipse violeta, personagens em primeiro plano e o título MORVELIO.',
+    largura: 1536,
+    altura: 1024,
+  },
+  icone: {
+    src: '/projects/morvelio/morvelio-icon-512.png',
+    alt: '',
+    tamanho: 512,
+  },
+  galeria: [],
+  galeriaBloqueador: 'conceptArtMorvelio',
+  plataformas: [],
+  disponibilidade: [
+    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+  ],
+  ogDescricao: 'Um novo mundo autoral em formação. Experimento 06 da Blajeen Labs.',
+  metaTitulo: 'Morvelio — Blajeen Labs',
+  metaDescricao:
+    'Morvelio é o novo jogo autoral em formação da Blajeen Labs: um mundo próprio sendo descoberto por meio de protótipos e experimentos.',
+};
+
+export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, dogolio, morvelio];
 
 export const projetoPorId: Record<ProjectId, Project> = {
   revalio,
@@ -384,6 +450,7 @@ export const projetoPorId: Record<ProjectId, Project> = {
   gramelio,
   catelio,
   dogolio,
+  morvelio,
 };
 
 /**
@@ -427,6 +494,13 @@ export const rotasDoProjeto = {
     privacidade: ROTAS.dogolioPrivacidade,
     termos: ROTAS.dogolioTermos,
     exclusao: ROTAS.dogolioExclusao,
+  },
+  morvelio: {
+    pagina: ROTAS.projetoMorvelio,
+    suporte: ROTAS.morvelioSuporte,
+    privacidade: ROTAS.morvelioPrivacidade,
+    termos: ROTAS.morvelioTermos,
+    exclusao: ROTAS.morvelioExclusao,
   },
 } as const satisfies Record<
   ProjectId,

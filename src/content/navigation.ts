@@ -52,7 +52,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '04',
     rotulo: 'Jogos',
-    descricao: 'Revalio, Docalio, Gramelio, Catelio e Dogolio: os jogos do laboratório.',
+    descricao: 'Revalio, Docalio, Gramelio, Catelio, Dogolio e Morvelio: os jogos do laboratório.',
     href: ROTAS.projetoRevalio,
     icone: 'jogos',
   },
@@ -164,6 +164,7 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
     { rotulo: 'Catelio', href: ROTAS.projetoCatelio },
     { rotulo: 'Dogolio', href: ROTAS.projetoDogolio },
+    { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
   ],
   projetos: [
     { rotulo: 'Barbelio', href: ROTAS.barbearia },
@@ -206,6 +207,7 @@ export const rodape = {
       { rotulo: 'Gramelio', href: ROTAS.gramelioExclusao },
       { rotulo: 'Catelio', href: ROTAS.catelioExclusao },
       { rotulo: 'Dogolio', href: ROTAS.dogolioExclusao },
+      { rotulo: 'Morvelio', href: ROTAS.morvelioExclusao },
     ],
   },
 } as const;

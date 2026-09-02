@@ -116,6 +116,12 @@ export const BLOQUEADORES = {
     // TODO(bloqueador): a logo do Dogolio foi criada para a apresentação do conceito;
     // capturas de gameplay ainda não foram selecionadas para comunicação pública.
   },
+  conceptArtMorvelio: {
+    titulo: 'Capturas reais ou concept art autorizada do Morvelio',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
+    // TODO(bloqueador): o banner e o ícone apresentam a identidade do conceito; capturas de
+    // gameplay ainda não foram selecionadas para comunicação pública.
+  },
 } as const satisfies Record<string, { titulo: string; docs: string }>;
 
 export type BloqueadorId = keyof typeof BLOQUEADORES;

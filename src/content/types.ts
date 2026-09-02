@@ -1,6 +1,6 @@
 import type { BloqueadorId, Campo } from './blockers';
 
-export type ProjectId = 'revalio' | 'docalio' | 'gramelio' | 'catelio' | 'dogolio';
+export type ProjectId = 'revalio' | 'docalio' | 'gramelio' | 'catelio' | 'dogolio' | 'morvelio';
 
 export type ProjectStatus = 'EM DESENVOLVIMENTO' | 'DISPONÍVEL';
 
@@ -125,7 +125,7 @@ export type LegalDocumentKind = 'privacidade' | 'termos' | 'suporte' | 'exclusao
 export type LegalDocument = {
   readonly rota: string;
   readonly kind: LegalDocumentKind;
-  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Dogolio';
+  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Dogolio' | 'Morvelio';
   readonly titulo: string;
   readonly resumo: string;
   /**

@@ -24,6 +24,7 @@ export const ROTAS = {
   projetoGramelio: '/projects/gramelio',
   projetoCatelio: '/projects/catelio',
   projetoDogolio: '/projects/dogolio',
+  projetoMorvelio: '/projects/morvelio',
   novidades: '/novidades',
   sobre: '/about',
   contato: '/contact',
@@ -50,6 +51,10 @@ export const ROTAS = {
   dogolioTermos: '/dogolio/terms',
   dogolioSuporte: '/dogolio/support',
   dogolioExclusao: '/dogolio/delete-account',
+  morvelioPrivacidade: '/morvelio/privacy',
+  morvelioTermos: '/morvelio/terms',
+  morvelioSuporte: '/morvelio/support',
+  morvelioExclusao: '/morvelio/delete-account',
 } as const;
 
 export type RotaId = keyof typeof ROTAS;
@@ -73,16 +78,20 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.gramelioPrivacidade,
   ROTAS.gramelioTermos,
   ROTAS.gramelioSuporte,
-    ROTAS.gramelioExclusao,
-    ROTAS.catelioPrivacidade,
-    ROTAS.catelioTermos,
-    ROTAS.catelioSuporte,
-    ROTAS.catelioExclusao,
-    ROTAS.dogolioPrivacidade,
-    ROTAS.dogolioTermos,
-    ROTAS.dogolioSuporte,
-    ROTAS.dogolioExclusao,
-  ];
+  ROTAS.gramelioExclusao,
+  ROTAS.catelioPrivacidade,
+  ROTAS.catelioTermos,
+  ROTAS.catelioSuporte,
+  ROTAS.catelioExclusao,
+  ROTAS.dogolioPrivacidade,
+  ROTAS.dogolioTermos,
+  ROTAS.dogolioSuporte,
+  ROTAS.dogolioExclusao,
+  ROTAS.morvelioPrivacidade,
+  ROTAS.morvelioTermos,
+  ROTAS.morvelioSuporte,
+  ROTAS.morvelioExclusao,
+];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
 export function prioridadeSitemap(rota: Rota): number {
@@ -103,7 +112,8 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.pipelio ||
     rota === ROTAS.painelAdministrativo ||
     rota === ROTAS.projetoCatelio ||
-    rota === ROTAS.projetoDogolio
+    rota === ROTAS.projetoDogolio ||
+    rota === ROTAS.projetoMorvelio
   )
     return 0.9;
   if (rota === ROTAS.novidades) return 0.8;

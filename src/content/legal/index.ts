@@ -25,6 +25,12 @@ import {
   termosDogolio,
 } from './dogolio';
 import {
+  exclusaoMorvelio,
+  privacidadeMorvelio,
+  suporteMorvelio,
+  termosMorvelio,
+} from './morvelio';
+import {
   exclusaoRevalio,
   privacidadeRevalio,
   suporteRevalio,
@@ -55,6 +61,10 @@ export {
   termosDogolio,
   suporteDogolio,
   exclusaoDogolio,
+  privacidadeMorvelio,
+  termosMorvelio,
+  suporteMorvelio,
+  exclusaoMorvelio,
 };
 
 /** Todos os documentos públicos, na ordem em que aparecem no site. */
@@ -82,4 +92,8 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosDogolio,
   suporteDogolio,
   exclusaoDogolio,
+  privacidadeMorvelio,
+  termosMorvelio,
+  suporteMorvelio,
+  exclusaoMorvelio,
 ];

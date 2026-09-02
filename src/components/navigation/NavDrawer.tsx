@@ -158,6 +158,7 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
             { href: ROTAS.gramelioExclusao, rotulo: 'Excluir conta — Gramelio' },
             { href: ROTAS.catelioExclusao, rotulo: 'Excluir conta — Catelio' },
             { href: ROTAS.dogolioExclusao, rotulo: 'Excluir conta — Dogolio' },
+            { href: ROTAS.morvelioExclusao, rotulo: 'Excluir conta — Morvelio' },
           ].map((link) => (
             <Link
               key={link.href}

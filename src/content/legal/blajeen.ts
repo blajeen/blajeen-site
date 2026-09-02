@@ -190,6 +190,7 @@ export const privacidadeEstudio: LegalDocument = {
     { href: ROTAS.gramelioPrivacidade, rotulo: 'Privacidade do Gramelio' },
     { href: ROTAS.catelioPrivacidade, rotulo: 'Privacidade do Catelio' },
     { href: ROTAS.dogolioPrivacidade, rotulo: 'Privacidade do Dogolio' },
+    { href: ROTAS.morvelioPrivacidade, rotulo: 'Privacidade do Morvelio' },
     { href: ROTAS.suporte, rotulo: 'Suporte' },
   ],
   metaTitulo: 'Privacidade — Blajeen Labs',
@@ -214,7 +215,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto e páginas de apoio de Revalio, Docalio, Gramelio, Catelio e Dogolio.',
+            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto e páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Dogolio e Morvelio.',
         },
         {
           tipo: 'paragrafo',
@@ -240,7 +241,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'destaque',
           texto:
-            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio e Dogolio são jogos casuais; os produtos SaaS são bases de software adaptáveis e não substituem orientação profissional específica de cada operação.',
+            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio, Dogolio e Morvelio são jogos; os produtos SaaS são bases de software adaptáveis e não substituem orientação profissional específica de cada operação.',
         },
       ],
     },
@@ -251,7 +252,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Dogolio e das linhas SaaS, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros.',
+            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Dogolio, Morvelio e das linhas SaaS, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros.',
         },
         {
           tipo: 'paragrafo',
@@ -454,10 +455,11 @@ export const suporteEstudio: LegalDocument = {
       { href: ROTAS.gramelioSuporte, rotulo: 'Suporte do Gramelio' },
       { href: ROTAS.catelioSuporte, rotulo: 'Suporte do Catelio' },
       { href: ROTAS.dogolioSuporte, rotulo: 'Suporte do Dogolio' },
-    { href: ROTAS.contato, rotulo: 'Contato do estúdio' },
-    { href: ROTAS.privacidade, rotulo: 'Privacidade' },
+      { href: ROTAS.morvelioSuporte, rotulo: 'Suporte do Morvelio' },
+      { href: ROTAS.contato, rotulo: 'Contato do estúdio' },
+      { href: ROTAS.privacidade, rotulo: 'Privacidade' },
   ],
   metaTitulo: 'Suporte — Blajeen Labs',
   metaDescricao:
-    'Suporte de Revalio, Docalio, Gramelio, Catelio e Dogolio: ajuda com os produtos, dúvidas de uso e como reportar um bug.',
+    'Suporte de Revalio, Docalio, Gramelio, Catelio, Dogolio e Morvelio: ajuda com os produtos, dúvidas de uso e como reportar um bug.',
 };

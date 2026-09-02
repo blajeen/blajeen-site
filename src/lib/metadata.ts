@@ -8,6 +8,7 @@ export const OG = {
   gramelio: '/og/gramelio.png',
   catelio: '/projects/catelio/catelio-icon-512.png',
   dogolio: '/projects/dogolio/dogolio-icon-512.png',
+  morvelio: '/projects/morvelio/morvelio-icon-512.png',
 } as const;
 
 type Entrada = {

@@ -32,11 +32,11 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/lina-art-pet');
     expect(TODAS_AS_ROTAS).toContain('/projects');
-    expect(TODAS_AS_ROTAS).toContain('/projects/barbearia');
-    expect(TODAS_AS_ROTAS).toContain('/projects/personal-studio');
-    expect(TODAS_AS_ROTAS).toContain('/projects/salao-estetica');
-    expect(TODAS_AS_ROTAS).toContain('/projects/ecommerce');
-    expect(TODAS_AS_ROTAS).toContain('/projects/clinica-medica');
+    expect(TODAS_AS_ROTAS).toContain('/projects/barbelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/studelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/beautelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/lojalio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/doutelio');
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/catelio');

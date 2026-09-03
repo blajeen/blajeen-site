@@ -64,7 +64,7 @@ export const saas: readonly SaasProduct[] = [
   },
   {
     id: 'beautelio', nome: 'Beautelio', icone: 'salao', rota: ROTAS.salaoEstetica,
-    contato: 'salao-estetica', formulario: 'salao-estetica', segmento: 'Estética e beleza', estado: 'ATIVO · DISPONÍVEL',
+    contato: 'beautelio', formulario: 'beautelio', segmento: 'Estética e beleza', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-beautelio.vercel.app', demo: 'https://site-beautelio.vercel.app/loja', nomeDemo: 'Lumi Beauty Studio',
     titulo: 'A experiência do seu espaço começa antes da visita.',
     resumo: 'Serviços, profissionais, clientes, agenda e portfólio com a identidade do seu espaço de beleza.',
@@ -84,7 +84,7 @@ export const saas: readonly SaasProduct[] = [
   },
   {
     id: 'barbelio', nome: 'Barbelio', icone: 'barbearia', rota: ROTAS.barbearia,
-    contato: 'barbearia', formulario: 'barbearia', segmento: 'Barbearias', estado: 'ATIVO · DISPONÍVEL',
+    contato: 'barbelio', formulario: 'barbelio', segmento: 'Barbearias', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-barbelio.vercel.app', demo: 'https://site-barbelio.vercel.app/barbearia-aurora-demo', nomeDemo: 'Barbearia Aurora',
     titulo: 'Sua barbearia bem apresentada. Sua agenda organizada.',
     resumo: 'Apresente serviços e equipe, receba pedidos de horário sem exigir conta do cliente e organize os atendimentos.',
@@ -105,7 +105,7 @@ export const saas: readonly SaasProduct[] = [
   },
   {
     id: 'studelio', nome: 'Studelio', icone: 'personal', rota: ROTAS.personalStudio,
-    contato: 'personal-studio', formulario: 'personal-studio', segmento: 'Personal trainers e estúdios', estado: 'ATIVO · DISPONÍVEL',
+    contato: 'studelio', formulario: 'studelio', segmento: 'Personal trainers e estúdios', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-studelio.vercel.app', demo: 'https://site-studelio.vercel.app/estudio/studio-move-demo', nomeDemo: 'Studio Move',
     titulo: 'Mais clareza para acompanhar alunos e sessões.',
     resumo: 'Modalidades, profissionais, planos, sessões e presenças organizados para a rotina do seu estúdio.',
@@ -145,7 +145,7 @@ export const saas: readonly SaasProduct[] = [
   },
   {
     id: 'lojalio', nome: 'Lojalio', icone: 'ecommerce', rota: ROTAS.ecommerce,
-    contato: 'ecommerce', formulario: 'ecommerce', segmento: 'Lojas e e-commerce', estado: 'ATIVO · DISPONÍVEL',
+    contato: 'lojalio', formulario: 'lojalio', segmento: 'Lojas e e-commerce', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-lojalio.vercel.app', demo: 'https://site-lojalio.vercel.app/loja', nomeDemo: 'Lojalio Market',
     titulo: 'Sua loja com vitrine própria e operação conectada.',
     resumo: 'Catálogo, estoque, ofertas, checkout e pedidos reunidos para apresentar sua marca e acompanhar as vendas.',

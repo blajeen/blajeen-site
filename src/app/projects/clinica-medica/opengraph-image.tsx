@@ -1,14 +1,16 @@
 import { criarOgProduto, tamanhoOgProduto } from '@/lib/product-og';
+import { obterSaas } from '@/content/saas';
 
-export const alt = 'Clínica Médica — Blajeen Labs';
+const produto = obterSaas('doutelio');
+export const alt = 'Doutelio — Blajeen Labs';
 export const size = tamanhoOgProduto;
 export const contentType = 'image/png';
 
 export default function Image() {
   return criarOgProduto({
-    etiqueta: 'EM BREVE / CLÍNICA MÉDICA',
-    titulo: 'Site, agenda e rotina clínica em uma única base.',
-    descricao: 'Produto em desenvolvimento para médicos que atendem de forma independente.',
-    simbolo: '+',
+    etiqueta: `${produto.nome.toUpperCase()} / ATIVO`,
+    titulo: produto.titulo,
+    descricao: produto.resumo,
+    simbolo: 'D',
   });
 }

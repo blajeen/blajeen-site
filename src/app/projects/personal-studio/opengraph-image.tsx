@@ -1,14 +1,16 @@
 import { criarOgProduto, tamanhoOgProduto } from '@/lib/product-og';
+import { obterSaas } from '@/content/saas';
 
-export const alt = 'Personal — Blajeen Labs';
+const produto = obterSaas('studelio');
+export const alt = 'Studelio — Blajeen Labs';
 export const size = tamanhoOgProduto;
 export const contentType = 'image/png';
 
 export default function Image() {
   return criarOgProduto({
-    etiqueta: 'PRODUTO PRÓPRIO / FITNESS',
-    titulo: 'Aluno, personal e gestão conectados.',
-    descricao: 'Agenda, treinos e acompanhamento em uma plataforma adaptável à rotina do negócio.',
-    simbolo: 'P',
+    etiqueta: `${produto.nome.toUpperCase()} / ATIVO`,
+    titulo: produto.titulo,
+    descricao: produto.resumo,
+    simbolo: 'S',
   });
 }

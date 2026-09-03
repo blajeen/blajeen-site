@@ -3,80 +3,16 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { Hero } from '@/components/layout/Hero';
 import { Section, TituloSecao } from '@/components/layout/Section';
-import { SystemScreenshot } from '@/components/media/SystemScreenshot';
+import { SaasCard } from '@/components/projects/SaasCard';
+import { saas, avisoDemonstracao } from '@/content/saas';
 import { Reveal } from '@/components/motion/Reveal';
-import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase';
-import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
 import { WorkCard } from '@/components/portfolio/WorkCard';
 import { experimentos, laboratorio, produtosComerciais, proximo, servicoPrincipal, trabalhosHome } from '@/content/home';
 import { trabalhos } from '@/content/portfolio';
 import { projetos } from '@/content/projects';
-import { ROTAS } from '@/lib/routes';
 
 export const revalidate = 3600;
-
-type ProdutoHome = {
-  readonly id: ProductIconId;
-  readonly categoria: string;
-  readonly titulo: string;
-  readonly texto: string;
-  readonly href: string;
-  readonly estado: string;
-  readonly imagem?: string;
-  readonly alt?: string;
-};
-
-const produtos: readonly ProdutoHome[] = [
-  {
-    id: 'barbearia' as const,
-    categoria: 'BARBELIO / BARBEARIAS',
-    titulo: 'Agendamento sem conta e gestão da operação.',
-    texto: 'Para barbearias que querem facilitar o agendamento do cliente e organizar agenda, equipe e atendimento.',
-    href: ROTAS.barbearia,
-    estado: 'DEMONSTRAÇÃO',
-    imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
-    alt: 'Página inicial da plataforma demonstrativa para barbearias.',
-  },
-  {
-    id: 'personal' as const,
-    categoria: 'STUDELIO / PERSONAL',
-    titulo: 'Aluno, personal e gestor conectados.',
-    texto: 'Para personal trainers e estúdios que precisam conectar agenda, treinos, alunos e acompanhamento.',
-    href: ROTAS.personalStudio,
-    estado: 'DEMONSTRAÇÃO',
-    imagem: '/projects/personal-studio/mockup-painel-gestor.png',
-    alt: 'Painel de gestão da plataforma Personal apresentado em um monitor.',
-  },
-  {
-    id: 'salao' as const,
-    categoria: 'BEAUTELIO / ESTÉTICA',
-    titulo: 'Cliente, profissional e gestão conectadas.',
-    texto: 'Para estúdios de estética e beleza que querem reunir divulgação, agenda, portfólio e histórico.',
-    href: ROTAS.salaoEstetica,
-    estado: 'DEMONSTRAÇÃO',
-    imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
-    alt: 'Site público da plataforma Beautelio.',
-  },
-  {
-    id: 'ecommerce' as const,
-    categoria: 'LOJALIO / LOJAS',
-    titulo: 'Vitrine, catálogo e operação conectados.',
-    texto: 'Para lojas e marcas que precisam vender com catálogo, busca, carrinho, atendimento e gestão.',
-    href: ROTAS.ecommerce,
-    estado: 'DEMONSTRAÇÃO',
-    imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
-    alt: 'Vitrine da demonstração do Lojalio.',
-  },
-  {
-    id: 'medico' as const,
-    categoria: 'DOUTELIO / MÉDICOS',
-    titulo: 'Presença profissional e rotina clínica conectadas.',
-    texto: 'Para médicos que atendem de forma independente e querem organizar presença digital, agenda, pacientes e documentos.',
-    href: ROTAS.clinicaMedica,
-    estado: 'EM BREVE',
-  },
-];
 
 export default function Home() {
   return (
@@ -175,50 +111,10 @@ export default function Home() {
         </div>
 
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          {produtos.map((produto) => (
-            <Reveal key={produto.id} className={produto.id === 'medico' ? 'lg:col-span-2' : ''}>
-              <Link
-                href={produto.href}
-                className={`group h-full overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 transition-colors duration-200 hover:border-signal/50 ${
-                  produto.id === 'medico' ? 'grid sm:grid-cols-[1.05fr_0.95fr]' : 'flex flex-col'
-                }`}
-              >
-                <div className={`bg-surface ${produto.imagem ? 'p-3 sm:p-4' : 'relative min-h-60 overflow-hidden'}`}>
-                  {produto.imagem && produto.alt ? (
-                    <SystemScreenshot
-                      src={produto.imagem}
-                      alt={produto.alt}
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 100vw"
-                      label={`${produto.categoria} / ${produto.estado}`}
-                      className="transition-transform duration-500 group-hover:scale-[1.008]"
-                    />
-                  ) : (
-                    <UpcomingMedicalVisual compact />
-                  )}
-                </div>
-                <div className="flex flex-col p-6 sm:p-7">
-                  <div className="flex items-center justify-between gap-4">
-                    <ProductIcon id={produto.id} className="size-9 text-signal" />
-                    <span className="text-right">
-                      <span className="tecnica block text-mineral-dim">{produto.categoria}</span>
-                      <span className="tecnica mt-2 block text-[9px] text-signal">{produto.estado}</span>
-                    </span>
-                  </div>
-                  <h3 className="mt-7 text-[clamp(1.45rem,2.6vw,2.2rem)] leading-[1.02] tracking-[-0.045em]">
-                    {produto.titulo}
-                  </h3>
-                  <p className="medida-texto mt-4 text-sm leading-relaxed text-mineral">
-                    {produto.texto}
-                  </p>
-                  <span className="tecnica mt-8 inline-flex items-center gap-3 text-paper group-hover:text-signal">
-                    Ver produto <span aria-hidden="true">→</span>
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+          {saas.map((produto) => <SaasCard key={produto.id} produto={produto} />)}
         </div>
 
+        <p className="mt-6 max-w-[100ch] text-xs leading-relaxed text-mineral-dim">{avisoDemonstracao}</p>
         <Link
           href={produtosComerciais.cta.href}
           className="alvo-toque tecnica mt-10 inline-flex items-center gap-3 border-b border-signal pb-2 text-paper transition-colors duration-150 hover:text-signal"

@@ -32,8 +32,8 @@ export const produtosComerciais = {
   indice: '05 / SAAS',
   titulo: 'Sistemas próprios para rotinas reais.',
   texto:
-    'Bases funcionais para profissionais e negócios que querem começar com mais agilidade, sem abrir mão da própria identidade e das regras da operação.',
-  cta: { rotulo: 'EXPLORAR O SAAS', href: ROTAS.projetos },
+    'Seis SaaS ativos para consultórios, beleza, barbearias, estúdios, restaurantes e lojas. Conheça os recursos, explore as demos e encontre o sistema para a sua operação.',
+  cta: { rotulo: 'EXPLORAR OS SAAS', href: ROTAS.projetos },
 } as const;
 
 export const proximo = {

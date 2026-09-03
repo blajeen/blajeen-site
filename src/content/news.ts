@@ -25,6 +25,19 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'saas-ativos-setembro-2026',
+    data: '2026-09-02',
+    rotulo: 'SaaS disponíveis',
+    titulo: 'Seis SaaS ativos para negócios com identidade própria',
+    texto: [
+      'Doutelio, Beautelio, Barbelio, Studelio, Foodelio e Lojalio estão ativos e disponíveis. As plataformas atendem consultórios, espaços de beleza, barbearias, personal trainers e estúdios, restaurantes e lojas.',
+      'Cada produto ganhou uma apresentação atualizada na Blajeen Labs, com três imagens selecionadas, recursos por segmento e links separados para o site do SaaS e a demonstração. As demos usam dados e operações fictícios.',
+      'Os painéis de gestão fazem parte da experiência de cada SaaS. O Pipelio, voltado ao CRM comercial, continua em desenvolvimento e ainda não está disponível para uso.',
+    ],
+    href: ROTAS.projetos,
+    cta: 'Conhecer os SaaS disponíveis',
+  },
+  {
     id: 'clinica-medica-em-desenvolvimento',
     data: '2026-08-21',
     rotulo: 'Em desenvolvimento',

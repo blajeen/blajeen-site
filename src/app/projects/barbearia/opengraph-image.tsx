@@ -1,14 +1,16 @@
 import { criarOgProduto, tamanhoOgProduto } from '@/lib/product-og';
+import { obterSaas } from '@/content/saas';
 
-export const alt = 'Barbearia — Blajeen Labs';
+const produto = obterSaas('barbelio');
+export const alt = 'Barbelio — Blajeen Labs';
 export const size = tamanhoOgProduto;
 export const contentType = 'image/png';
 
 export default function Image() {
   return criarOgProduto({
-    etiqueta: 'PRODUTO PRÓPRIO / BARBEARIAS',
-    titulo: 'Agenda simples. Operação conectada.',
-    descricao: 'Site, agendamento sem conta e gestão em uma plataforma com a identidade da barbearia.',
+    etiqueta: `${produto.nome.toUpperCase()} / ATIVO`,
+    titulo: produto.titulo,
+    descricao: produto.resumo,
     simbolo: 'B',
   });
 }

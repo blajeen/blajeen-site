@@ -2,6 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { NavLink } from './types';
+import { saas, saasEmBreve } from './saas';
 
 /**
  * Barra de navegação do desktop.
@@ -96,55 +97,12 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
 
 /** Projetos de software apresentados no menu do estúdio. */
 export const atalhosDeProjeto = [
-  {
-    rotulo: 'Barbelio',
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    simbolo: 'barbearia',
-    href: ROTAS.barbearia,
-  },
-  {
-    rotulo: 'Studelio',
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    simbolo: 'personal',
-    href: ROTAS.personalStudio,
-  },
-  {
-    rotulo: 'Beautelio',
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    simbolo: 'salao',
-    href: ROTAS.salaoEstetica,
-  },
-  {
-    rotulo: 'Lojalio',
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    simbolo: 'ecommerce',
-    href: ROTAS.ecommerce,
-  },
-  {
-    rotulo: 'Doutelio',
-    estado: 'EM BREVE',
-    simbolo: 'medico',
-    href: ROTAS.clinicaMedica,
-  },
-  {
-    rotulo: 'Foodelio',
-    estado: 'EM BREVE',
-    simbolo: 'food',
-    href: ROTAS.foodelio,
-  },
-  {
-    rotulo: 'Pipelio',
-    estado: 'EM BREVE',
-    simbolo: 'crm',
-    href: ROTAS.pipelio,
-  },
-  {
-    rotulo: 'Painel Administrativo Central',
-    estado: 'EM BREVE',
-    simbolo: 'admin',
-    href: ROTAS.painelAdministrativo,
-  },
-] as const;
+  ...saas.map((produto) => ({
+    rotulo: produto.nome, estado: produto.estado, simbolo: produto.icone, href: produto.rota,
+  })),
+  { rotulo: saasEmBreve.nome, estado: saasEmBreve.estado, simbolo: saasEmBreve.icone, href: saasEmBreve.rota },
+  { rotulo: 'Painéis de gestão', estado: 'DISPONÍVEL NOS SAAS', simbolo: 'admin' as const, href: ROTAS.painelAdministrativo },
+];
 
 /**
  * Links do rodapé, agrupados por responsabilidade.
@@ -166,16 +124,7 @@ export const rodape = {
     { rotulo: 'Dogolio', href: ROTAS.projetoDogolio },
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
   ],
-  projetos: [
-    { rotulo: 'Barbelio', href: ROTAS.barbearia },
-    { rotulo: 'Studelio', href: ROTAS.personalStudio },
-    { rotulo: 'Beautelio', href: ROTAS.salaoEstetica },
-    { rotulo: 'Lojalio', href: ROTAS.ecommerce },
-    { rotulo: 'Doutelio', href: ROTAS.clinicaMedica },
-    { rotulo: 'Foodelio', href: ROTAS.foodelio },
-    { rotulo: 'Pipelio', href: ROTAS.pipelio },
-    { rotulo: 'Painel Administrativo Central', href: ROTAS.painelAdministrativo },
-  ],
+  projetos: atalhosDeProjeto.map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },

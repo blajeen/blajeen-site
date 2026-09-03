@@ -1,215 +1,62 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
-import { LabBackdrop } from '@/components/brand/LabBackdrop';
-import { Container, Section } from '@/components/layout/Section';
-import { SystemScreenshot } from '@/components/media/SystemScreenshot';
-import { Reveal } from '@/components/motion/Reveal';
-import { ProductIcon, type ProductIconId } from '@/components/projects/ProductIcon';
-import { UpcomingMedicalVisual } from '@/components/projects/UpcomingMedicalVisual';
-import { metadadosDaRota } from '@/lib/metadata';
+import { Container, Section, TituloSecao } from '@/components/layout/Section';
+import { ProductIcon } from '@/components/projects/ProductIcon';
+import { SaasCard } from '@/components/projects/SaasCard';
+import { saas, saasEmBreve, avisoDemonstracao } from '@/content/saas';
 import { ROTAS } from '@/lib/routes';
+import { metadadosDaRota } from '@/lib/metadata';
 
-export const metadata: Metadata = metadadosDaRota({
-  titulo: 'SaaS — Blajeen Labs',
-  descricao: 'Sistemas próprios da Blajeen Labs, adaptados a negócios reais.',
+export const metadata = metadadosDaRota({
+  titulo: 'SaaS Blajeen Labs — sistemas para o seu negócio',
+  descricao: 'Doutelio, Beautelio, Barbelio, Studelio, Foodelio e Lojalio: seis SaaS ativos para organizar seu negócio com sua identidade. Conheça e teste as demonstrações.',
   rota: ROTAS.projetos,
 });
 
-type ProdutoCatalogo = {
-  readonly id: ProductIconId;
-  readonly indice: string;
-  readonly categoria: string;
-  readonly titulo: string;
-  readonly texto: string;
-  readonly href: string;
-  readonly estado: string;
-  readonly imagem?: string;
-  readonly alt?: string;
-};
-
-const produtos: readonly ProdutoCatalogo[] = [
-  {
-    id: 'barbearia' as ProductIconId,
-    indice: 'SAAS 01',
-    categoria: 'BARBELIO / BARBEARIAS',
-    titulo: 'Agenda simples para o cliente. Operação organizada para a equipe.',
-    texto:
-      'Para barbearias que querem oferecer agendamento sem conta e organizar equipe, serviços e rotina em uma plataforma com sua identidade.',
-    href: ROTAS.barbearia,
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    imagem: '/projects/barbearia/screenshots-padronizados/01-site-institucional.png',
-    alt: 'Página inicial da plataforma demonstrativa para barbearias.',
-  },
-  {
-    id: 'personal' as ProductIconId,
-    indice: 'SAAS 02',
-    categoria: 'STUDELIO / PERSONAL',
-    titulo: 'Aluno, personal e gestão no mesmo produto.',
-    texto:
-      'Para personal trainers e estúdios que querem reunir presença digital, agenda, treinos e acompanhamento em uma experiência própria.',
-    href: ROTAS.personalStudio,
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    imagem: '/projects/personal-studio/mockup-painel-gestor.png',
-    alt: 'Painel de gestão da plataforma Personal apresentado em um monitor.',
-  },
-  {
-    id: 'salao' as ProductIconId,
-    indice: 'SAAS 03',
-    categoria: 'BEAUTELIO / ESTÉTICA',
-    titulo: 'Cliente, profissional e gestão conectadas à mesma experiência.',
-    texto:
-      'Para estúdios de estética e beleza que precisam conectar site, agendamento, portfólio, histórico e gestão.',
-    href: ROTAS.salaoEstetica,
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    imagem: '/projects/salao-estetica/screenshots/01-inicio.png',
-    alt: 'Página pública demonstrativa da plataforma Beautelio.',
-  },
-  {
-    id: 'ecommerce' as ProductIconId,
-    indice: 'SAAS 04',
-    categoria: 'LOJALIO / LOJAS',
-    titulo: 'Vitrine, catálogo e atendimento em uma loja própria.',
-    texto:
-      'Para lojas e marcas que querem vender em uma vitrine própria, com busca, carrinho, atendimento assistido e painel de gestão.',
-    href: ROTAS.ecommerce,
-    estado: 'DEMONSTRAÇÃO DISPONÍVEL',
-    imagem: '/projects/ecommerce/screenshots/01-vitrine.png',
-    alt: 'Vitrine demonstrativa do Lojalio da Blajeen Labs.',
-  },
-  {
-    id: 'medico' as ProductIconId,
-    indice: 'SAAS 05',
-    categoria: 'DOUTELIO / MÉDICOS',
-    titulo: 'Site, agenda e rotina clínica no mesmo lugar.',
-    texto:
-      'Para médicos que atendem de forma independente e querem organizar site, agenda, pacientes, prontuário e documentos clínicos.',
-    href: ROTAS.clinicaMedica,
-    estado: 'EM BREVE',
-  },
-  {
-    id: 'food' as ProductIconId,
-    indice: 'SAAS 06',
-    categoria: 'FOODELIO / ALIMENTAÇÃO',
-    titulo: 'Cardápio e pedidos em uma experiência própria.',
-    texto: 'Para restaurantes, lanchonetes e operações de alimentação que querem apresentar o cardápio e organizar pedidos em um só lugar.',
-    href: ROTAS.foodelio,
-    estado: 'EM BREVE',
-  },
-  {
-    id: 'crm' as ProductIconId,
-    indice: 'SAAS 07',
-    categoria: 'PIPELIO / CRM',
-    titulo: 'Relacionamento comercial sem perder o contexto.',
-    texto: 'Para times comerciais que precisam acompanhar oportunidades, contatos, etapas e próximos passos com clareza.',
-    href: ROTAS.pipelio,
-    estado: 'EM BREVE',
-  },
-  {
-    id: 'admin' as ProductIconId,
-    indice: 'SAAS 08',
-    categoria: 'PAINEL ADMINISTRATIVO CENTRAL',
-    titulo: 'Controle completo para ajustar e acompanhar seu SaaS.',
-    texto: 'Um painel central da Blajeen Labs para configurar a identidade do negócio, organizar módulos, acompanhar a operação e controlar o SaaS inteiro em um só lugar.',
-    href: ROTAS.painelAdministrativo,
-    estado: 'EM BREVE',
-  },
-];
-
-export default function ProjetosPage() {
-  return (
-    <>
-      <section
-        className="relative isolate overflow-hidden pt-[clamp(3.5rem,7vw,7rem)]"
-        aria-labelledby="produtos-titulo"
-      >
-        <LabBackdrop />
-        <Container>
-          <p className="tecnica text-signal">PRODUTOS PRÓPRIOS / NEGÓCIOS REAIS</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
-            <h1
-              id="produtos-titulo"
-              className="max-w-[14ch] text-[clamp(2.55rem,6.5vw,6rem)] leading-[0.94] tracking-[-0.055em] lg:col-span-8"
-            >
-              SaaS para negócios reais.
-            </h1>
-            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Bases funcionais criadas pela Blajeen Labs e adaptadas às necessidades, à identidade,
-              às regras e à rotina de cada operação.
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      <Section className="pb-[clamp(4rem,9vw,9rem)]" rotulo="SaaS Blajeen Labs">
-        <div className="flex flex-col gap-[clamp(3rem,7vw,7rem)]">
-          {produtos.map((produto, posicao) => (
-            <Reveal key={produto.id}>
-              <article className="grid overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/70 lg:grid-cols-12">
-                <div
-                  className={`flex min-h-[18rem] items-center overflow-hidden bg-surface p-3 sm:p-6 lg:col-span-7 lg:min-h-[34rem] lg:p-8 ${
-                    posicao % 2 === 1 ? 'lg:col-start-6 lg:row-start-1' : ''
-                  }`}
-                >
-                  {produto.imagem && produto.alt ? (
-                    <SystemScreenshot
-                      src={produto.imagem}
-                      alt={produto.alt}
-                      sizes="(min-width: 1024px) 58vw, 100vw"
-                      label={`${produto.categoria} / ${produto.estado}`}
-                      className="w-full transition-transform duration-500 hover:scale-[1.006]"
-                    />
-                  ) : (
-                    <UpcomingMedicalVisual />
-                  )}
-                </div>
-
-                <div
-                  className={`flex flex-col justify-between p-7 sm:p-10 lg:col-span-5 lg:p-12 ${
-                    posicao % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-start justify-between gap-5">
-                      <ProductIcon id={produto.id} className="size-12 text-signal" />
-                      <span className="tecnica rounded-full border border-signal/40 px-3 py-2 text-signal">
-                        {produto.estado}
-                      </span>
-                    </div>
-                    <p className="tecnica mt-10 text-mineral-dim">
-                      {produto.indice} / {produto.categoria}
-                    </p>
-                    <h2 className="mt-5 max-w-[14ch] text-[clamp(2rem,4vw,3.6rem)] leading-[0.98] tracking-[-0.05em]">
-                      {produto.titulo}
-                    </h2>
-                    <p className="medida-texto mt-6 text-[1rem] leading-relaxed text-mineral">
-                      {produto.texto}
-                    </p>
-                  </div>
-
-                  <Link
-                    href={produto.href}
-                    className="alvo-toque tecnica mt-10 inline-flex w-fit items-center gap-3 border-b border-signal pb-2 text-paper transition-colors duration-150 hover:text-signal"
-                  >
-                    Explorar o produto
-                    <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+export default function Page() {
+  return <>
+    <section aria-labelledby="catalogo-titulo" className="pt-[clamp(2.5rem,6vw,5rem)] pb-8">
+      <Container>
+        <p className="tecnica text-signal">SAAS BLAJEEN LABS / 6 PRODUTOS ATIVOS</p>
+        <div className="mt-6 grid gap-7 lg:grid-cols-2 lg:items-end">
+          <h1 id="catalogo-titulo" className="max-w-[17ch] text-[clamp(2.3rem,5.2vw,4.6rem)] leading-[1.04] tracking-[-0.05em]">Seu negócio.<br />Seu ritmo. Seu SaaS.</h1>
+          <div><p className="max-w-[60ch] text-base leading-relaxed text-mineral">Sistemas online para organizar a operação e apresentar sua marca. Escolha o produto para o seu segmento, conheça os recursos e explore uma demonstração antes de começar.</p>
+          <p className="mt-4 text-sm leading-relaxed text-mineral">Cada SaaS tem seu próprio site, painel de gestão e opções de configuração. Precisa ir além? A Blajeen Labs também avalia adaptações para a sua necessidade.</p></div>
         </div>
-        <div className="mt-[clamp(3rem,7vw,7rem)] grid gap-7 rounded-[var(--radius-panel)] border border-[#55bfff]/25 bg-raised/70 p-7 sm:p-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <p className="tecnica text-[#8bddff]">PRECISA DE OUTRA COISA?</p>
-            <h2 className="mt-5 max-w-[15ch] text-[clamp(2rem,4vw,3.8rem)] leading-[0.98] tracking-[-0.05em]">Criamos uma solução do zero para a sua necessidade.</h2>
-          </div>
-          <div className="lg:col-span-3 lg:col-start-10">
-            <p className="text-sm leading-relaxed text-mineral">Do logo ao produto final, sua ideia ganha forma com identidade, engenharia e suporte.</p>
-            <Link href={ROTAS.crieSeuProjeto} className="alvo-toque tecnica mt-6 inline-flex items-center rounded-full bg-[#55bfff] px-5 text-ink hover:bg-[#8bddff]">CRIE SEU PROJETO →</Link>
-          </div>
-        </div>
-      </Section>
-
-    </>
-  );
+        <nav aria-label="Escolher um SaaS" className="mt-8 flex flex-wrap gap-2">
+          {saas.map((produto) => <a key={produto.id} href={`#${produto.id}`} className="alvo-toque inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-mineral hover:border-signal/50 hover:text-paper"><ProductIcon id={produto.icone} className="size-5 shrink-0" />{produto.nome}</a>)}
+        </nav>
+      </Container>
+    </section>
+    <Section rotulo="SaaS disponíveis" className="!pt-3">
+      <div className="grid items-stretch gap-6 lg:grid-cols-2">
+        {saas.map((produto) => <SaasCard key={produto.id} produto={produto} nivel={2} />)}
+      </div>
+      <p className="mt-7 max-w-[100ch] text-xs leading-relaxed text-mineral-dim">{avisoDemonstracao}</p>
+    </Section>
+    <Section indice="GESTÃO E PRÓXIMOS PRODUTOS" rotuladaPor="gestao-titulo" className="!pt-0">
+      <TituloSecao id="gestao-titulo">O controle fica com você.</TituloSecao>
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <article className="flex flex-col rounded-[var(--radius-panel)] border border-signal/25 bg-raised/70 p-6 sm:p-8">
+          <ProductIcon id="admin" className="size-10 text-signal" />
+          <p className="tecnica mt-5 text-[10px] text-signal">DISPONÍVEL NOS SAAS</p>
+          <h3 className="mt-3 text-2xl leading-tight tracking-tight">Painéis de gestão</h3>
+          <p className="mt-4 text-sm leading-relaxed text-mineral">Gerencie a operação e a apresentação do seu negócio no painel do produto contratado. Cada SaaS reúne os módulos e controles do seu segmento.</p>
+          <Link href={ROTAS.painelAdministrativo} className="alvo-toque mt-5 inline-flex w-fit items-center text-sm text-signal">Conhecer a gestão dos SaaS →</Link>
+        </article>
+        <article className="flex flex-col rounded-[var(--radius-panel)] border border-line bg-surface p-6 sm:p-8">
+          <ProductIcon id={saasEmBreve.icone} className="size-10 text-mineral" />
+          <p className="tecnica mt-5 text-[10px] text-mineral-dim">{saasEmBreve.estado}</p>
+          <h3 className="mt-3 text-2xl leading-tight tracking-tight">{saasEmBreve.nome}</h3>
+          <p className="mt-4 text-sm leading-relaxed text-mineral">{saasEmBreve.descricao} Ainda não disponível para uso.</p>
+          <Link href={saasEmBreve.rota} className="alvo-toque mt-5 inline-flex w-fit items-center text-sm text-paper hover:text-signal">Conhecer a proposta →</Link>
+        </article>
+      </div>
+    </Section>
+    <Section rotuladaPor="saas-ajuda" className="!pt-0">
+      <div className="flex flex-wrap items-center justify-between gap-6 border-t border-line pt-8">
+        <div><h2 id="saas-ajuda" className="text-2xl tracking-tight">Qual produto combina com a sua operação?</h2><p className="mt-3 max-w-[65ch] text-sm leading-relaxed text-mineral">Conte o que você precisa organizar. Ajudamos a escolher o caminho e a avaliar personalizações.</p></div>
+        <Link href={`${ROTAS.contato}#interesse`} className="alvo-toque inline-flex items-center rounded-full bg-signal px-6 py-3 text-sm font-medium text-ink hover:bg-signal-pale">Entre em contato →</Link>
+      </div>
+    </Section>
+  </>;
 }

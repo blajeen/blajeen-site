@@ -11,6 +11,9 @@ const produtos = {
   'salao-estetica': 'Beautelio',
   ecommerce: 'Lojalio',
   'clinica-medica': 'Doutelio',
+  foodelio: 'Foodelio',
+  pipelio: 'Pipelio — em breve',
+  'painel-administrativo': 'Painéis de gestão dos SaaS',
   'projeto-personalizado': 'Projeto personalizado',
   outro: 'Outro projeto',
 } as const;

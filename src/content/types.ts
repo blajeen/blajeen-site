@@ -35,11 +35,11 @@ export type Recurso = {
 };
 
 /**
- * Pilar de desenho de um jogo que ainda não tem build público.
+ * Pilar da experiência de um jogo, apresentado conforme o estado do produto.
  *
  * Existe para separar duas coisas que o site não pode confundir: o que já roda no aplicativo
  * (`recursos`, apresentado como "o que existe no build hoje") e o que o jogo está sendo desenhado
- * para ser. A página rotula o bloco como desenho, não como recurso pronto.
+ * para ser. Produtos em desenvolvimento continuam rotulados como desenho.
  */
 export type Pilar = {
   readonly titulo: string;
@@ -72,8 +72,8 @@ export type Project = {
   /** Vazio quando nada foi confirmado no build e aprovado para comunicação. */
   readonly recursos: readonly Recurso[];
   /**
-   * O desenho do jogo, para produtos que ainda não têm build público. Nunca substitui `recursos`:
-   * os dois blocos existem separados porque a página precisa dizer qual é qual.
+   * Pilares da experiência. Em produtos em desenvolvimento, são explicitamente apresentados
+   * como desenho. Não substituem o inventário técnico auditado de `recursos`.
    */
   readonly pilares?: readonly Pilar[];
   readonly aviso: string;

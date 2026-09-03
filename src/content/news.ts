@@ -25,6 +25,29 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'gramelio-disponivel',
+    data: '2026-09-03',
+    rotulo: 'Lançamento',
+    projeto: 'gramelio',
+    titulo: 'Gramelio já está disponível',
+    texto: [
+      'O Gramelio saiu do laboratório. Um jogo casual de fazenda em que cada toque é uma decisão: planejar o caminho, comer a grama, administrar o estômago e voltar ao curral para produzir leite.',
+      'Uma experiência para quem gosta de partidas curtas e desafios de planejamento, com personalidade, descoberta e espaço para jogar no próprio ritmo. Conheça o jogo e encontre os canais de suporte na página do Gramelio.',
+    ],
+  },
+  {
+    id: 'docalio-disponivel',
+    data: '2026-09-03',
+    rotulo: 'Lançamento',
+    projeto: 'docalio',
+    titulo: 'Docalio já está disponível',
+    texto: [
+      'Cada paciente muda a história — e cada prioridade muda o plantão. Docalio já está disponível: um jogo de estratégia médica em que a ordem dos atendimentos faz parte do desafio.',
+      'Para quem gosta de pensar sob pressão e encontrar a melhor sequência de decisões. Conheça a proposta e os canais de suporte na página do Docalio.',
+      'Casos e personagens são ficcionais. O jogo não oferece diagnóstico, prescrição ou orientação para pacientes reais.',
+    ],
+  },
+  {
     id: 'saas-ativos-setembro-2026',
     data: '2026-09-02',
     rotulo: 'SaaS disponíveis',

@@ -7,7 +7,7 @@ export const OG = {
   docalio: '/og/docalio.png',
   gramelio: '/og/gramelio.png',
   catelio: '/projects/catelio/catelio-icon-512.png',
-  dogolio: '/projects/dogolio/dogolio-icon-cyberpunk-gray-512.webp',
+  dogolio: '/projects/dogolio/dogolio-icon-cartoon-light-gray-512.webp',
   morvelio: '/projects/morvelio/morvelio-icon-512.png',
 } as const;
 

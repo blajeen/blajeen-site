@@ -70,6 +70,21 @@ const home = await (await get('/')).text();
 await checkRenderedImages(home, '/');
 assert.match(home, /Seis SaaS ativos/);
 const dogolio = await (await get('/projects/dogolio')).text();
-assert.match(dogolio, /dogolio-icon-cyberpunk-gray-512\.webp/);
+assert.match(dogolio, /dogolio-icon-cartoon-light-gray-512\.webp/);
 await checkRenderedImages(dogolio, '/projects/dogolio');
 console.log(`OK catálogo, Pipelio em breve, painéis, home e Dogolio; ${checkedImages.size} imagens renderizadas válidas`);
+
+for (const id of ['docalio', 'gramelio']) {
+  const html = await (await get(`/projects/${id}`)).text();
+  const main = /<main\b[^>]*>([\s\S]*?)<\/main>/.exec(html)?.[1];
+  assert.ok(main, `${id}: conteúdo principal ausente`);
+  assert.match(main, /DISPONÍVEL/, `${id}: estado disponível ausente`);
+  assert.doesNotMatch(main, /EM DESENVOLVIMENTO|não existe\s+build público|Ainda não há build público|Em breve na/);
+  await checkRenderedImages(html, `/projects/${id}`);
+}
+const news = await (await get('/novidades')).text();
+for (const id of ['docalio', 'gramelio']) {
+  assert.equal((news.match(new RegExp(`id="${id}-disponivel"`, 'g')) ?? []).length, 1, `${id}: anúncio ausente ou duplicado`);
+  assert.ok(news.includes(`href="/projects/${id}"`), `${id}: anúncio sem destino`);
+}
+console.log('OK Gramelio e Docalio disponíveis, com anúncios individuais nas novidades');

@@ -11,8 +11,9 @@ import type { Project, ProjectId } from './types';
  * Gramelio, a fonte é a descrição do titular em 19/08/2026, e ela descreve o desenho do jogo:
  * por isso o produto tem `pilares` e continua com `recursos` vazio.
  *
- * `plataformas` fica vazio de propósito: `INVENTARIO_RELEASE.md` registra que o pacote de produção
- * do Revalio ainda não foi gerado e que o iOS depende de macOS/Xcode. Nenhuma loja foi anunciada.
+ * Atualização do titular em 03/09/2026: Docalio e Gramelio estão disponíveis.
+ * Sem URLs de loja fornecidas, ficam sem selos de download. Isso não redefine datas de
+ * lançamento, não atesta revisão jurídica e não altera o contrato de dados dos jogos.
  */
 
 export const revalio: Project = {
@@ -101,14 +102,14 @@ export const docalio: Project = {
   id: 'docalio',
   nome: 'Docalio',
   indice: 'EXPERIMENTO 02',
-  estado: 'EM FORMAÇÃO',
+  estado: 'ATIVO',
   categoria: 'JOGO DE ESTRATÉGIA MÉDICA',
-  status: 'EM DESENVOLVIMENTO',
+  status: 'DISPONÍVEL',
   frase: 'Cada paciente muda a história.',
   descricao:
     'Um jogo de estratégia por níveis: cada plantão traz pacientes que precisam ser salvos a tempo. O segredo não é a rapidez, e sim saber priorizar na hora da emergência.',
   cta: 'CONHECER DOCALIO',
-  notaCurta: 'Conceito em desenvolvimento. Escopo, plataformas e lançamento ainda não foram anunciados.',
+  notaCurta: 'Já disponível. Estratégia com casos ficcionais; não oferece orientação para pacientes reais.',
   eyebrow: 'EXPERIMENTO 02 / ESTRATÉGIA MÉDICA',
   subtitulo: 'Cada paciente muda a história.',
   introducao:
@@ -123,7 +124,7 @@ export const docalio: Project = {
    */
   recursos: [],
   aviso:
-    'Docalio é uma experiência de entretenimento e aprendizagem em desenvolvimento. Casos e personagens são ficcionais. O produto não oferece diagnóstico, prescrição ou orientação para pacientes reais e não substitui formação, supervisão profissional ou protocolos oficiais.',
+    'Docalio é uma experiência de entretenimento e aprendizagem. Casos e personagens são ficcionais. O produto não oferece diagnóstico, prescrição ou orientação para pacientes reais e não substitui formação, supervisão profissional ou protocolos oficiais.',
   banner: {
     src: '/projects/docalio/docalio-banner-final.png',
     alt: 'Key art do Docalio: cena low-poly de uma clínica de campanha vista de cima, com o médico central de uniforme branco e amarelo entre estações de atendimento. A arte traz o título DOCALIO e a assinatura Blajeen Labs.',
@@ -138,30 +139,27 @@ export const docalio: Project = {
   galeria: [],
   galeriaBloqueador: 'conceptArtDocalio',
   plataformas: [],
-  // Ainda sem build distribuído: as duas lojas entram como "em breve", sem data.
-  disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
-  ],
-  ogDescricao: 'Estratégia e prioridade na emergência. Experimento 02 da Blajeen Labs.',
+  // Disponibilidade confirmada pelo titular; lojas e URLs específicas ainda não confirmadas.
+  disponibilidade: [],
+  ogDescricao: 'Docalio já está disponível: estratégia e prioridade na emergência, com casos ficcionais.',
   metaTitulo: 'Docalio — Blajeen Labs',
   metaDescricao:
-    'Docalio é o jogo de estratégia médica em desenvolvimento na Blajeen Labs: salvar todos os pacientes a tempo depende de saber priorizar.',
+    'Docalio já está disponível. O jogo de estratégia médica da Blajeen Labs desafia você a priorizar o atendimento de pacientes ficcionais a cada plantão.',
 };
 
 export const gramelio: Project = {
   id: 'gramelio',
   nome: 'Gramelio',
   indice: 'EXPERIMENTO 03',
-  estado: 'EM FORMAÇÃO',
+  estado: 'ATIVO',
   categoria: 'JOGO CASUAL PARA CELULAR',
-  status: 'EM DESENVOLVIMENTO',
+  status: 'DISPONÍVEL',
   frase: 'Coma a grama, encha o estômago, volte ao curral.',
   descricao:
     'Um jogo casual em que um toque na tela move o animal pelo mapa. Na campanha da vaca, a regra é fácil de entender e difícil de otimizar: comer a grama certa, controlar o estômago e voltar ao curral a tempo de produzir leite.',
   cta: 'CONHECER GRAMELIO',
   notaCurta:
-    'Jogo em desenvolvimento. Ainda não há build público, plataforma ou data de lançamento anunciada.',
+    'Já disponível. Um jogo casual de fazenda para planejar caminhos, cuidar do estômago e voltar ao curral.',
   eyebrow: 'EXPERIMENTO 03 / JOGO CASUAL',
   subtitulo: 'Coma a grama, encha o estômago, volte ao curral.',
   introducao:
@@ -172,9 +170,9 @@ export const gramelio: Project = {
     'A vaca é a primeira campanha. O laboratório desenha outras, com outros animais e outras regras de fazenda.',
   ],
   /*
-   * Vazio de propósito. Em 19/08/2026 `C:\dev\gramelio` contém somente arte: não há build,
-   * código ou pacote a auditar, então nada pode ser apresentado como "o que existe hoje".
-   * O que o titular descreveu é o desenho do jogo, e ele vive em `pilares`.
+   * Os pilares apresentam a experiência, sem prometer contagens ou preços.
+   * Ciclo, progressão e cosméticos: `C:\dev\gramelio\docs\00-estado-do-projeto.md`.
+   * Disponibilidade confirmada pelo titular em 03/09/2026.
    */
   recursos: [],
   pilares: [
@@ -206,11 +204,11 @@ export const gramelio: Project = {
     {
       titulo: 'Customização',
       texto:
-        'Chapéus, acessórios e currais para deixar a vaca e a fazenda com a sua cara. A loja de cosméticos está no desenho; moeda, preço e forma de compra ainda não foram definidos.',
+        'Chapéus, acessórios e currais para deixar a vaca e a fazenda com a sua cara.',
     },
   ],
   aviso:
-    'Gramelio é um jogo de entretenimento em desenvolvimento. Nada nesta página descreve um aplicativo distribuído: não existe build público, ficha de loja, preço, plataforma ou data de lançamento. Fazendas, animais e missões são ficcionais e não representam prática agropecuária ou cuidado animal real.',
+    'Gramelio é um jogo de entretenimento. Fazendas, animais e missões são ficcionais e não representam prática agropecuária ou cuidado animal real.',
   banner: {
     src: '/projects/gramelio/gramelio-banner-final.png',
     alt: 'Key art do Gramelio: uma vaca de desenho mastigando grama no centro de uma fazenda ensolarada, com celeiro, moinho e riacho ao fundo. A arte traz o título GRAMELIO em uma placa de madeira, o lema "Coma. Planeje. Produza. Repita!", uma fileira de cinco mundos na base e a assinatura Blajeen Labs sobre o céu, no alto à esquerda.',
@@ -225,15 +223,12 @@ export const gramelio: Project = {
   galeria: [],
   galeriaBloqueador: 'arteGramelio',
   plataformas: [],
-  // Sem build e sem ficha: as duas lojas entram como "em breve", sem data.
-  disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
-  ],
-  ogDescricao: 'Um toque, um pasto e um estômago para administrar. Experimento 03 da Blajeen Labs.',
+  // Disponibilidade confirmada pelo titular; lojas e URLs específicas ainda não confirmadas.
+  disponibilidade: [],
+  ogDescricao: 'Gramelio já está disponível: um toque, um pasto e um estômago para administrar.',
   metaTitulo: 'Gramelio — Blajeen Labs',
   metaDescricao:
-    'Gramelio é o jogo casual em desenvolvimento na Blajeen Labs: um toque move o animal, a grama vira leite no curral e cada mapa é uma fase curta de decisões.',
+    'Gramelio já está disponível. No jogo casual de fazenda da Blajeen Labs, um toque move o animal, a grama vira leite no curral e cada mapa traz novas decisões.',
 };
 
 export const catelio: Project = {
@@ -359,7 +354,7 @@ export const dogolio: Project = {
     altura: 941,
   },
   icone: {
-    src: '/projects/dogolio/dogolio-icon-cyberpunk-gray-512.webp',
+    src: '/projects/dogolio/dogolio-icon-cartoon-light-gray-512.webp',
     alt: '',
     tamanho: 512,
   },

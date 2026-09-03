@@ -11,7 +11,7 @@ describe('Entrega de imagens', () => {
   });
 
   it('usa o novo ícone versionado do Dogolio no site e no compartilhamento', () => {
-    expect(dogolio.icone?.src).toBe('/projects/dogolio/dogolio-icon-cyberpunk-gray-512.webp');
+    expect(dogolio.icone?.src).toBe('/projects/dogolio/dogolio-icon-cartoon-light-gray-512.webp');
     expect(OG.dogolio).toBe(dogolio.icone?.src);
     expect(existsSync(join(process.cwd(), 'public', OG.dogolio))).toBe(true);
   });

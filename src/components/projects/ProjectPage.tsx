@@ -20,6 +20,7 @@ export function ProjectPage({ projeto }: { projeto: Project }) {
   const rotas = rotasDoProjeto[projeto.id];
   const proximo = proximoProjeto(projeto);
   const pilares = projeto.pilares ?? [];
+  const disponivel = statusVisivel(projeto) === 'DISPONÍVEL';
 
   /*
    * Os índices são numerados a partir das seções que realmente existem. Recursos, desenho e
@@ -133,12 +134,12 @@ export function ProjectPage({ projeto }: { projeto: Project }) {
       ) : null}
 
       {pilares.length > 0 ? (
-        <Section indice={`${indice('desenho')} / NO DESENHO`} rotuladaPor="desenho-titulo">
+        <Section indice={`${indice('desenho')} / ${disponivel ? 'A EXPERIÊNCIA' : 'NO DESENHO'}`} rotuladaPor="desenho-titulo">
           <h2
             id="desenho-titulo"
             className="max-w-[18ch] text-[clamp(1.8rem,4vw,3rem)] leading-[1.04] tracking-[-0.045em]"
           >
-            O que o jogo está sendo desenhado para ser
+            {disponivel ? 'A experiência do jogo' : 'O que o jogo está sendo desenhado para ser'}
           </h2>
 
           {/* Mesma gramática da lista de recursos, com um rótulo que não confunde plano com build. */}
@@ -161,11 +162,11 @@ export function ProjectPage({ projeto }: { projeto: Project }) {
             ))}
           </ul>
 
-          <p className="medida-texto mt-8 text-sm leading-relaxed text-mineral-dim">
+          {!disponivel ? <p className="medida-texto mt-8 text-sm leading-relaxed text-mineral-dim">
             Esta lista é o desenho do jogo, não uma lista de recursos prontos. Ainda não existe
             build público, e o que estiver implementado passa a ser descrito como tal quando houver
             um aplicativo para auditar.
-          </p>
+          </p> : null}
         </Section>
       ) : null}
 

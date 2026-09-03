@@ -41,13 +41,25 @@ describe('novidades', () => {
     expect(texto).toMatch(/data de lançamento/i);
   });
 
-  it('não promete data de lançamento dos jogos sem build', () => {
+  it('preserva os registros históricos anteriores ao lançamento', () => {
     for (const id of ['docalio', 'gramelio'] as const) {
-      const item = novidades.find((novidade) => novidade.projeto === id);
+      const item = novidades.find((novidade) => novidade.projeto === id && novidade.data < '2026-09-03');
       const texto = item?.texto.join(' ') ?? '';
       expect(texto, id).toMatch(/ainda não há build público/i);
       expect(texto, id).not.toMatch(/lançamento em|chega em|previs[ãa]o para/i);
     }
+  });
+
+  it('publica um anúncio de disponibilidade para cada jogo confirmado', () => {
+    const agora = novidadesPublicadas(new Date('2026-09-03T12:00:00Z'));
+    for (const id of ['docalio', 'gramelio'] as const) {
+      const itens = agora.filter((item) => item.id === `${id}-disponivel`);
+      expect(itens).toHaveLength(1);
+      expect(itens[0]).toMatchObject({ projeto: id, rotulo: 'Lançamento', data: '2026-09-03' });
+      expect(itens[0]!.titulo).toMatch(/já está disponível/);
+      expect(itens[0]!.texto.join(' ')).not.toMatch(/App Store|Google Play|\d+ fases|R\$/);
+    }
+    expect(new Set(novidades.map((item) => item.id)).size).toBe(novidades.length);
   });
 
   it('escreve a data por extenso em português', () => {

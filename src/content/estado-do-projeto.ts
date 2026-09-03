@@ -28,6 +28,6 @@ export function disponibilidadeVisivel(
   projeto: Project,
   agora: Date = new Date(),
 ): readonly Disponibilidade[] {
-  if (jaLancou(projeto, agora)) return projeto.disponibilidade;
+  if (statusVisivel(projeto, agora) === 'DISPONÍVEL') return projeto.disponibilidade;
   return projeto.disponibilidade.map((loja) => ({ ...loja, estado: 'em-breve' as const }));
 }

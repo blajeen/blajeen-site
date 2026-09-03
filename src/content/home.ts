@@ -24,7 +24,7 @@ export const laboratorio = {
 export const experimentos = {
   id: 'jogos',
   indice: '04 / JOGOS',
-  titulo: 'Cinco mundos. Cinco perguntas diferentes.',
+  titulo: 'Seis mundos. Seis perguntas diferentes.',
 } as const;
 
 export const produtosComerciais = {

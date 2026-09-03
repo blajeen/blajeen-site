@@ -70,14 +70,17 @@ describe('projetos', () => {
     expect(docalio.lancamento).toBeUndefined();
     expect(gramelio.lancamento).toBeUndefined();
     expect(revalio.estado).toBe('ATIVO');
-    expect(docalio.estado).toBe('EM FORMAÇÃO');
-    expect(gramelio.estado).toBe('EM FORMAÇÃO');
+    expect(docalio.estado).toBe('ATIVO');
+    expect(gramelio.estado).toBe('ATIVO');
+    expect(docalio.status).toBe('DISPONÍVEL');
+    expect(gramelio.status).toBe('DISPONÍVEL');
   });
 
   it('não transforma disponibilidade em link antes de ter a URL da ficha', () => {
     // Um botão de loja que não abre a loja é pior do que a ausência dele.
     for (const projeto of projetos) {
-      expect(projeto.disponibilidade).toHaveLength(2);
+      expect(projeto.disponibilidade.length).toBeLessThanOrEqual(2);
+      expect(new Set(projeto.disponibilidade.map((loja) => loja.loja)).size).toBe(projeto.disponibilidade.length);
       for (const loja of projeto.disponibilidade) {
         if (loja.url === null) continue;
         expect(loja.url).toMatch(/^https:\/\//);
@@ -110,7 +113,7 @@ describe('projetos', () => {
      * dos dois campos veio impedir.
      */
     for (const projeto of projetos) {
-      const temBuild = projeto.disponibilidade.some((loja) => loja.estado === 'disponivel');
+      const temBuild = statusVisivel(projeto) === 'DISPONÍVEL';
       if (!temBuild) expect(projeto.recursos, projeto.nome).toEqual([]);
     }
 
@@ -164,11 +167,14 @@ describe('projetos', () => {
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });
 
-  it('avisa que o Gramelio ainda não é um aplicativo distribuído', () => {
-    // O jogo não é médico; o risco aqui é outro — parecer um app que já dá para baixar.
-    expect(gramelio.aviso).toMatch(/não existe build público/i);
+  it('apresenta Gramelio e Docalio disponíveis sem inventar links ou retirar os avisos', () => {
+    for (const projeto of [gramelio, docalio]) {
+      expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
+      expect(projeto.notaCurta).toMatch(/já disponível/i);
+      expect(projeto.disponibilidade).toEqual([]);
+    }
     expect(gramelio.aviso).toMatch(/ficcionais/i);
-    expect(gramelio.notaCurta).toMatch(/desenvolvimento/i);
+    expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
     expect(dogolio.aviso).toMatch(/cachorro caramelo/i);
   });
 
@@ -297,8 +303,9 @@ describe('seções da home', () => {
 
     expect(statusVisivel(revalio, vespera)).toBe('EM DESENVOLVIMENTO');
     expect(statusVisivel(revalio, noDia)).toBe('DISPONÍVEL');
-    // O Docalio não tem data, então nunca vira disponível sozinho.
-    expect(statusVisivel(docalio, noDia)).toBe('EM DESENVOLVIMENTO');
+    // Docalio tem confirmação direta do titular, sem uma data de estreia inventada.
+    expect(statusVisivel(docalio)).toBe('DISPONÍVEL');
+    expect(statusVisivel(gramelio)).toBe('DISPONÍVEL');
   });
 
   it('não anuncia loja antes da data de lançamento', () => {

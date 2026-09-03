@@ -23,8 +23,8 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
               {trabalho.resumo}
             </p>
           </div>
-          <div className="relative mt-12 aspect-[32/15] min-h-72 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-            <Image src={trabalho.capa} alt={trabalho.capaAlt} fill priority sizes="100vw" className="object-contain object-top" />
+          <div className="media-pattern relative mt-12 aspect-[32/15] min-h-72 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
+            <Image src={trabalho.capa} alt={trabalho.capaAlt} fill priority sizes="100vw" quality={95} className="object-contain object-top" />
           </div>
         </Container>
       </header>
@@ -64,11 +64,11 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
           {trabalho.imagens.map((imagem) => (
             <figure
               key={imagem.src}
-              className={`relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised ${
+              className={`media-pattern relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised ${
                 trabalho.imagens.length === 3 ? 'aspect-square' : 'aspect-[4/5]'
               }`}
             >
-              <Image src={imagem.src} alt={imagem.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+              <Image src={imagem.src} alt={imagem.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" quality={95} className="object-cover" />
             </figure>
           ))}
         </div>

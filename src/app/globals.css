@@ -152,6 +152,20 @@
     min-height: 44px;
     min-width: 44px;
   }
+
+  /* Textura técnica discreta: dá unidade às capturas sem competir com a interface real. */
+  .media-pattern::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(201, 255, 61, 0.11) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201, 255, 61, 0.11) 1px, transparent 1px);
+    background-size: 8px 8px;
+    mix-blend-mode: multiply;
+    opacity: 0.16;
+  }
 }
 
 /*

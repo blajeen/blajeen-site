@@ -18,7 +18,8 @@ describe('apresentação dos SaaS', () => {
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     }
-    expect(screen.getAllByRole('link', { name: /Ampliar imagem/ })).toHaveLength(3);
+    expect(screen.queryByRole('link', { name: /Ampliar imagem/ })).not.toBeInTheDocument();
+    expect(screen.queryByText('Ampliar ↗')).not.toBeInTheDocument();
     expect(screen.getByText(/dados, fotos, preços e operações fictícios/)).toBeInTheDocument();
   });
 

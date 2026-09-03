@@ -56,7 +56,7 @@ export function SaasProductPage({ produto }: { produto: SaasProduct }) {
 
     <Section indice="02 / POR DENTRO DO PRODUTO" rotuladaPor="saas-telas" className="!pt-0">
       <div className="flex flex-wrap items-end justify-between gap-6">
-        <TituloSecao id="saas-telas">Da experiência à gestão.</TituloSecao>
+        <div><TituloSecao id="saas-telas">Veja o produto em uso.</TituloSecao><p className="mt-3 max-w-[58ch] text-sm leading-relaxed text-mineral">Uma visão rápida da experiência pública e dos controles que apoiam a rotina do seu negócio.</p></div>
         <a href={produto.site} target="_blank" rel="noopener noreferrer" className="alvo-toque inline-flex items-center gap-2 text-sm text-signal">Ver apresentação completa no {produto.nome} ↗</a>
       </div>
       <div className="mt-8 grid gap-8 lg:grid-cols-2">

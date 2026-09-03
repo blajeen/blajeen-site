@@ -45,13 +45,14 @@ export function SystemScreenshot({
         <span className="size-1.5 rounded-full bg-[#92b876]" />
         <span className="tecnica ml-2 truncate text-[9px] text-mineral-dim">{label}</span>
       </div>
-      <div className="relative w-full overflow-hidden bg-[#090b09]" style={{ aspectRatio: `${largura} / ${altura}` }}>
+      <div className="media-pattern relative w-full overflow-hidden bg-[#090b09]" style={{ aspectRatio: `${largura} / ${altura}` }}>
         <Image
           src={src}
           alt={alt}
           fill
           sizes={sizes}
           priority={prioridade}
+          quality={95}
           className={['object-contain object-top', imageClassName].filter(Boolean).join(' ')}
         />
       </div>

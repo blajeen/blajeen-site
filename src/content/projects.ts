@@ -359,7 +359,7 @@ export const dogolio: Project = {
     altura: 941,
   },
   icone: {
-    src: '/projects/dogolio/dogolio-icon-512.png',
+    src: '/projects/dogolio/dogolio-icon-cyberpunk-gray-512.webp',
     alt: '',
     tamanho: 512,
   },

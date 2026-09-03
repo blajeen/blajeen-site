@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 /**
  * Primeira publicação sem analytics, pixels, cookies não essenciais ou rede externa.
  * A CSP proíbe qualquer origem remota de script, estilo, fonte ou imagem: as fontes são
- * auto-hospedadas e os banners são servidos pelo próprio otimizador do Next.
+ * auto-hospedadas e as imagens são arquivos estáticos do próprio site.
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -44,7 +44,10 @@ const nextConfig: NextConfig = {
     };
   },
   images: {
-    // Os PNGs 1672×941 permanecem como mestres; o build entrega derivados AVIF/WebP.
+    // O otimizador da hospedagem passou a responder 402 (pagamento exigido).
+    // Servir os arquivos locais evita que esse bloqueio esconda fotos, ícones e banners.
+    // Os SaaS já usam WebP e novos ícones são compactados antes da publicação.
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [360, 390, 640, 768, 1024, 1280, 1440, 1920],
     imageSizes: [96, 160, 240, 320, 480],

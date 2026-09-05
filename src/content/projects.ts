@@ -437,7 +437,89 @@ export const morvelio: Project = {
     'Morvelio é o novo jogo autoral em formação da Blajeen Labs: um mundo próprio sendo descoberto por meio de protótipos e experimentos.',
 };
 
-export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, dogolio, morvelio];
+export const mazelio: Project = {
+  id: 'mazelio',
+  nome: 'Mazelio',
+  indice: 'EXPERIMENTO 07',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'TOWER DEFENSE DE MAZES',
+  status: 'EM DESENVOLVIMENTO',
+  frase: 'Construa as torres. Desenhe o caminho. Defenda o Rei.',
+  descricao: 'Um tower defense vertical para celular em que cada torre causa dano e também vira parede. Você não defende uma rota pronta: constrói um labirinto para fazer os inimigos passarem mais de uma vez pelas suas próprias defesas.',
+  cta: 'CONHECER MAZELIO',
+  notaCurta: 'Jogo em desenvolvimento. O vertical slice roda internamente em Android; ainda não há build público, loja ou data de lançamento anunciada.',
+  eyebrow: 'EXPERIMENTO 07 / TOWER DEFENSE',
+  subtitulo: 'Não defenda um caminho. Construa o caminho.',
+  introducao: 'Mazelio é um tower defense 2D vertical para celular em que dano e parede são a mesma coisa. Cada torre muda a rota, e cada rota muda a partida.',
+  manifesto: [
+    'A promessa de Mazelio não é apenas posicionar torres: é descobrir um caminho melhor. Uma construção bem pensada faz o mesmo inimigo cruzar várias vezes pelas suas defesas, mas nunca pode fechar completamente a passagem.',
+    'O primeiro protótipo já permite construir, validar o labirinto, jogar uma onda completa e alcançar vitória ou derrota. Agora o foco é provar, com partidas honestas, como o desenho da rota recompensa boas decisões.',
+  ],
+  recursos: [],
+  pilares: [
+    { titulo: 'Torres que mudam a rota', texto: 'Cada torre ataca e bloqueia espaço ao mesmo tempo. Posicionar uma defesa é também redesenhar o caminho dos inimigos.' },
+    { titulo: 'Mazing sem fechar a passagem', texto: 'O tabuleiro aceita labirintos, mas sempre preserva uma rota possível entre o portal e o Rei.' },
+    { titulo: 'Repetir o percurso', texto: 'A estratégia está em dobrar a rota através das próprias torres para criar mais oportunidades de dano.' },
+    { titulo: 'Elementos que importam', texto: 'Fogo, água e gelo, terra e natureza criam vantagens entre torres e criaturas; a escolha certa depende do próximo inimigo.' },
+    { titulo: 'Partidas verticais', texto: 'O primeiro formato usa um tabuleiro 10×14: portal no topo, Rei embaixo e preparação antes de cada onda.' },
+  ],
+  aviso: 'Mazelio é um jogo de entretenimento em desenvolvimento. Não existe build público, conta, compra, loja ou data de lançamento anunciada. Mecânicas, criaturas, torres, fases e elementos podem mudar conforme os testes avançarem.',
+  banner: { src: '/projects/mazelio/mazelio-banner-apocalypse-lab.webp', alt: 'Banner oficial de Mazelio, com sua identidade visual e arte do tower defense em desenvolvimento.', largura: 1536, altura: 1024 },
+  icone: { src: '/projects/mazelio/mazelio-icon-512.webp', alt: '', tamanho: 512 },
+  galeria: [],
+  galeriaBloqueador: 'conceptArtMazelio',
+  plataformas: [],
+  disponibilidade: [
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+  ],
+  ogDescricao: 'Um tower defense em que cada torre muda o caminho. Experimento 07 da Blajeen Labs.',
+  metaTitulo: 'Mazelio — Blajeen Labs',
+  metaDescricao: 'Mazelio é o tower defense vertical em desenvolvimento na Blajeen Labs: construa torres, mude a rota e crie labirintos que fazem cada defesa valer mais.',
+};
+
+export const socialio: Project = {
+  id: 'socialio',
+  nome: 'Socialio',
+  indice: 'EXPERIMENTO 08',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'MMO SOCIAL 2D',
+  status: 'EM DESENVOLVIMENTO',
+  frase: 'Um lugar para estar junto, no mesmo ritmo.',
+  descricao: 'Um MMO social 2D top-down para celular, em que pessoas compartilham a cidade de Graystones e escutam a mesma programação musical no mesmo momento.',
+  cta: 'CONHECER SOCIALIO',
+  notaCurta: 'Jogo em desenvolvimento. Ainda não há build público, lojas ou data de lançamento anunciada.',
+  eyebrow: 'EXPERIMENTO 08 / MMO SOCIAL',
+  subtitulo: 'Uma cidade calma. A mesma música. Pessoas no mesmo momento.',
+  introducao: 'Socialio é um MMO social 2D para celular sobre dividir um lugar, escutar a mesma música e deixar que as conversas revelem o que a cidade guarda.',
+  manifesto: [
+    'Socialio não nasce como uma corrida por níveis ou uma disputa por poder. A ideia é criar um lugar calmo para estar junto: visitar cafés, explorar a cidade, fazer pequenas atividades e encontrar outras pessoas sem pressa.',
+    'Em Graystones, a programação das rádios acompanha o relógio do servidor. Duas pessoas no mesmo lugar ouvem o mesmo trecho da mesma faixa, mesmo que uma tenha chegado depois. A cidade compartilha ritmo antes de compartilhar conversa.',
+  ],
+  recursos: [],
+  pilares: [
+    { titulo: 'Graystones e The Vale', texto: 'Uma cidade costeira inspirada em Greystones, na Irlanda, conectada ao interior mais afastado de The Vale.' },
+    { titulo: 'Rádios sincronizadas', texto: 'Cada rádio tem uma identidade musical. A programação acompanha o relógio do servidor para que quem está junto escute o mesmo momento.' },
+    { titulo: 'Um lugar social, sem corrida', texto: 'A experiência prioriza convivência, exploração e encontros em vez de uma progressão obrigatória.' },
+    { titulo: 'Atividades leves', texto: 'Pescar, cortar lenha, minerar, nadar e cuidar de bichos fazem parte do ritmo cotidiano da cidade.' },
+    { titulo: 'Mistérios que pedem conversa', texto: 'A história está espalhada pelo mundo e alguns mistérios só avançam quando pessoas compartilham o que descobriram.' },
+    { titulo: 'NPCs reconhecíveis', texto: 'Pessoas usam fones; NPCs não. Um detalhe visual simples ajuda a cidade a ser lida em segundos.' },
+  ],
+  aviso: 'Socialio é um jogo social online em desenvolvimento. Não existe build público, conta, compra, plataforma ou data de lançamento anunciada. Recursos de servidores, música, atividades e interação entre jogadores estão em desenho e serão detalhados antes de qualquer distribuição.',
+  banner: { src: '/projects/socialio/socialio-banner-cafe.webp', alt: 'Banner oficial de Socialio, com a identidade visual de um café em Graystones.', largura: 1672, altura: 941 },
+  icone: { src: '/projects/socialio/socialio-icon-cafe.webp', alt: '', tamanho: 512 },
+  galeria: [],
+  galeriaBloqueador: 'conceptArtSocialio',
+  plataformas: [],
+  disponibilidade: [
+    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+  ],
+  ogDescricao: 'Um MMO social calmo, com música sincronizada e uma cidade para descobrir. Experimento 08 da Blajeen Labs.',
+  metaTitulo: 'Socialio — Blajeen Labs',
+  metaDescricao: 'Socialio é o MMO social 2D em desenvolvimento na Blajeen Labs: Graystones, rádios sincronizadas e uma cidade feita para compartilhar momentos.',
+};
+
+export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, dogolio, morvelio, mazelio, socialio];
 
 export const projetoPorId: Record<ProjectId, Project> = {
   revalio,
@@ -446,6 +528,8 @@ export const projetoPorId: Record<ProjectId, Project> = {
   catelio,
   dogolio,
   morvelio,
+  mazelio,
+  socialio,
 };
 
 /**
@@ -496,6 +580,20 @@ export const rotasDoProjeto = {
     privacidade: ROTAS.morvelioPrivacidade,
     termos: ROTAS.morvelioTermos,
     exclusao: ROTAS.morvelioExclusao,
+  },
+  mazelio: {
+    pagina: ROTAS.projetoMazelio,
+    suporte: ROTAS.mazelioSuporte,
+    privacidade: ROTAS.mazelioPrivacidade,
+    termos: ROTAS.mazelioTermos,
+    exclusao: ROTAS.mazelioExclusao,
+  },
+  socialio: {
+    pagina: ROTAS.projetoSocialio,
+    suporte: ROTAS.socialioSuporte,
+    privacidade: ROTAS.socialioPrivacidade,
+    termos: ROTAS.socialioTermos,
+    exclusao: ROTAS.socialioExclusao,
   },
 } as const satisfies Record<
   ProjectId,

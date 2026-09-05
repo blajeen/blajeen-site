@@ -9,6 +9,8 @@ export const OG = {
   catelio: '/projects/catelio/catelio-icon-512.png',
   dogolio: '/projects/dogolio/dogolio-icon-cartoon-light-gray-512.webp',
   morvelio: '/projects/morvelio/morvelio-icon-512.png',
+  mazelio: '/projects/mazelio/mazelio-icon-512.webp',
+  socialio: '/projects/socialio/socialio-icon-cafe.webp',
 } as const;
 
 type Entrada = {

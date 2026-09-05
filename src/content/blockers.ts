@@ -122,6 +122,14 @@ export const BLOQUEADORES = {
     // TODO(bloqueador): o banner e o ícone apresentam a identidade do conceito; capturas de
     // gameplay ainda não foram selecionadas para comunicação pública.
   },
+  conceptArtMazelio: {
+    titulo: 'Capturas reais ou concept art adicional autorizada do Mazelio',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
+  },
+  conceptArtSocialio: {
+    titulo: 'Capturas reais ou concept art adicional autorizada do Socialio',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
+  },
 } as const satisfies Record<string, { titulo: string; docs: string }>;
 
 export type BloqueadorId = keyof typeof BLOQUEADORES;

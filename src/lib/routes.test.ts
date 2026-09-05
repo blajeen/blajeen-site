@@ -25,9 +25,8 @@ describe('rotaAtiva', () => {
 
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
-    // 16 do plano original + `/novidades` + as 5 do Gramelio + Clínica Médica
-    // + as 3 de Produtos: a aba, o Clearlio e a planilha.
-    expect(TODAS_AS_ROTAS).toHaveLength(53);
+    // 16 do plano original + `/novidades` + Gramelio, Clínica Médica, Produtos e dois novos jogos.
+    expect(TODAS_AS_ROTAS).toHaveLength(63);
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/planilha-financeira');
@@ -46,6 +45,8 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/projects/catelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/dogolio');
     expect(TODAS_AS_ROTAS).toContain('/projects/morvelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/mazelio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/socialio');
   });
 
   it('tem um arquivo de página para cada rota', () => {
@@ -86,6 +87,14 @@ describe('rotas públicas', () => {
       '/morvelio/terms',
       '/morvelio/support',
       '/morvelio/delete-account',
+      '/mazelio/privacy',
+      '/mazelio/terms',
+      '/mazelio/support',
+      '/mazelio/delete-account',
+      '/socialio/privacy',
+      '/socialio/terms',
+      '/socialio/support',
+      '/socialio/delete-account',
     ]);
   });
 
@@ -98,6 +107,8 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoDogolio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMorvelio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.projetoMazelio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.projetoSocialio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.barbearia)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.salaoEstetica)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.ecommerce)).toBe(0.9);

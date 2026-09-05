@@ -62,7 +62,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '05',
     rotulo: 'Jogos',
-    descricao: 'Revalio, Docalio, Gramelio, Catelio, Dogolio e Morvelio: os jogos do laboratório.',
+    descricao: 'Jogos autorais da Blajeen Labs: experiências de estratégia, exploração, convivência e mundos próprios.',
     href: ROTAS.projetoRevalio,
     icone: 'jogos',
   },
@@ -144,6 +144,8 @@ export const rodape = {
     { rotulo: 'Catelio', href: ROTAS.projetoCatelio },
     { rotulo: 'Dogolio', href: ROTAS.projetoDogolio },
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
+    { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
+    { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],
   projetos: atalhosDeProjeto.map(({ rotulo, href }) => ({ rotulo, href })),
   produtos: atalhosDeProduto.map(({ rotulo, href }) => ({ rotulo, href })),
@@ -179,6 +181,8 @@ export const rodape = {
       { rotulo: 'Catelio', href: ROTAS.catelioExclusao },
       { rotulo: 'Dogolio', href: ROTAS.dogolioExclusao },
       { rotulo: 'Morvelio', href: ROTAS.morvelioExclusao },
+      { rotulo: 'Mazelio', href: ROTAS.mazelioExclusao },
+      { rotulo: 'Socialio', href: ROTAS.socialioExclusao },
     ],
   },
 } as const;

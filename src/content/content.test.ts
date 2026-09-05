@@ -28,7 +28,7 @@ import { ROTAS_DE_LOJA } from '@/lib/routes';
 
 describe('projetos', () => {
   it('apresenta apenas os produtos reais do estúdio', () => {
-    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Dogolio', 'Morvelio']);
+    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Dogolio', 'Morvelio', 'Mazelio', 'Socialio']);
   });
 
   it('usa os banners finais aprovados, sem versão numerada', () => {
@@ -44,6 +44,8 @@ describe('projetos', () => {
       catelio: { src: '/projects/catelio/catelio-banner-city.png', largura: 1672, altura: 941 },
       dogolio: { src: '/projects/dogolio/dogolio-banner-city.png', largura: 1672, altura: 941 },
       morvelio: { src: '/projects/morvelio/morvelio-banner.png', largura: 1536, altura: 1024 },
+      mazelio: { src: '/projects/mazelio/mazelio-banner-apocalypse-lab.webp', largura: 1536, altura: 1024 },
+      socialio: { src: '/projects/socialio/socialio-banner-cafe.webp', largura: 1672, altura: 941 },
     };
 
     for (const projeto of projetos) {
@@ -145,6 +147,8 @@ describe('projetos', () => {
       'Catelio',
       'Dogolio',
       'Morvelio',
+      'Mazelio',
+      'Socialio',
     ]);
     for (const atalho of atalhosDeJogo) {
       const projeto = projetos.find((item) => item.nome === atalho.rotulo);
@@ -400,6 +404,8 @@ describe('documentos legais', () => {
       Catelio: 'brg.ftw@gmail.com',
       Dogolio: 'brg.ftw@gmail.com',
       Morvelio: 'brg.ftw@gmail.com',
+      Mazelio: 'brg.ftw@gmail.com',
+      Socialio: 'brg.ftw@gmail.com',
       'Blajeen Labs': 'brg.ftw@gmail.com',
     };
 

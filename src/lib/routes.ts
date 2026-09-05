@@ -36,6 +36,8 @@ export const ROTAS = {
   projetoCatelio: '/projects/catelio',
   projetoDogolio: '/projects/dogolio',
   projetoMorvelio: '/projects/morvelio',
+  projetoMazelio: '/projects/mazelio',
+  projetoSocialio: '/projects/socialio',
   novidades: '/novidades',
   sobre: '/about',
   contato: '/contact',
@@ -66,6 +68,14 @@ export const ROTAS = {
   morvelioTermos: '/morvelio/terms',
   morvelioSuporte: '/morvelio/support',
   morvelioExclusao: '/morvelio/delete-account',
+  mazelioPrivacidade: '/mazelio/privacy',
+  mazelioTermos: '/mazelio/terms',
+  mazelioSuporte: '/mazelio/support',
+  mazelioExclusao: '/mazelio/delete-account',
+  socialioPrivacidade: '/socialio/privacy',
+  socialioTermos: '/socialio/terms',
+  socialioSuporte: '/socialio/support',
+  socialioExclusao: '/socialio/delete-account',
 } as const;
 
 export type RotaId = keyof typeof ROTAS;
@@ -102,6 +112,14 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.morvelioTermos,
   ROTAS.morvelioSuporte,
   ROTAS.morvelioExclusao,
+  ROTAS.mazelioPrivacidade,
+  ROTAS.mazelioTermos,
+  ROTAS.mazelioSuporte,
+  ROTAS.mazelioExclusao,
+  ROTAS.socialioPrivacidade,
+  ROTAS.socialioTermos,
+  ROTAS.socialioSuporte,
+  ROTAS.socialioExclusao,
 ];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
@@ -130,7 +148,9 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.painelAdministrativo ||
     rota === ROTAS.projetoCatelio ||
     rota === ROTAS.projetoDogolio ||
-    rota === ROTAS.projetoMorvelio
+    rota === ROTAS.projetoMorvelio ||
+    rota === ROTAS.projetoMazelio ||
+    rota === ROTAS.projetoSocialio
   )
     return 0.9;
   if (rota === ROTAS.novidades) return 0.8;

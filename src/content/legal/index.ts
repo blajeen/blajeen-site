@@ -30,6 +30,8 @@ import {
   suporteMorvelio,
   termosMorvelio,
 } from './morvelio';
+import { exclusaoMazelio, privacidadeMazelio, suporteMazelio, termosMazelio } from './mazelio';
+import { exclusaoSocialio, privacidadeSocialio, suporteSocialio, termosSocialio } from './socialio';
 import {
   exclusaoRevalio,
   privacidadeRevalio,
@@ -65,6 +67,14 @@ export {
   termosMorvelio,
   suporteMorvelio,
   exclusaoMorvelio,
+  privacidadeMazelio,
+  termosMazelio,
+  suporteMazelio,
+  exclusaoMazelio,
+  privacidadeSocialio,
+  termosSocialio,
+  suporteSocialio,
+  exclusaoSocialio,
 };
 
 /** Todos os documentos públicos, na ordem em que aparecem no site. */
@@ -96,4 +106,12 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosMorvelio,
   suporteMorvelio,
   exclusaoMorvelio,
+  privacidadeMazelio,
+  termosMazelio,
+  suporteMazelio,
+  exclusaoMazelio,
+  privacidadeSocialio,
+  termosSocialio,
+  suporteSocialio,
+  exclusaoSocialio,
 ];

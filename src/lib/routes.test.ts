@@ -25,8 +25,11 @@ describe('rotaAtiva', () => {
 
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
-    // 16 do plano original + `/novidades` + as 5 do Gramelio + Clínica Médica.
-    expect(TODAS_AS_ROTAS).toHaveLength(50);
+    // 16 do plano original + `/novidades` + as 5 do Gramelio + Clínica Médica
+    // + as 2 de Produtos (a aba e a página do Clearlio).
+    expect(TODAS_AS_ROTAS).toHaveLength(52);
+    expect(TODAS_AS_ROTAS).toContain('/produtos');
+    expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/crie-seu-projeto');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');

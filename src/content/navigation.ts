@@ -2,6 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { NavLink } from './types';
+import { produtos } from './produtos';
 import { saas, saasEmBreve } from './saas';
 
 /**
@@ -13,7 +14,7 @@ import { saas, saasEmBreve } from './saas';
 export const barraDeNavegacao = [
   { rotulo: 'Crie seu projeto', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
   { rotulo: 'Projetos feitos', tipo: 'link', href: ROTAS.trabalhos },
-  { rotulo: 'Produtos', tipo: 'link', href: ROTAS.produtos },
+  { rotulo: 'Produtos', tipo: 'submenu', menu: 'produtos' },
   { rotulo: 'SaaS', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
   { rotulo: 'Estúdio', tipo: 'link', href: ROTAS.sobre },
@@ -103,6 +104,18 @@ export const atalhosDeJogo = projetos.map((projeto) => ({
   href: rotasDoProjeto[projeto.id].pagina,
 }));
 
+/**
+ * Os produtos do estúdio no menu: cada um leva à sua própria página.
+ *
+ * Sai da mesma fonte que a página `/produtos`, pra o menu não poder discordar dela.
+ */
+export const atalhosDeProduto = produtos.map((produto) => ({
+  rotulo: produto.nome,
+  estado: produto.estado,
+  simbolo: produto.simbolo,
+  href: produto.rota,
+}));
+
 /** Projetos de software apresentados no menu do estúdio. */
 export const atalhosDeProjeto = [
   ...saas.map((produto) => ({
@@ -133,7 +146,7 @@ export const rodape = {
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
   ],
   projetos: atalhosDeProjeto.map(({ rotulo, href }) => ({ rotulo, href })),
-  produtos: [{ rotulo: 'Clearlio', href: ROTAS.produtoClearlio }],
+  produtos: atalhosDeProduto.map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },

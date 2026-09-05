@@ -6,7 +6,9 @@ export type ProductIconId =
   | 'medico'
   | 'food'
   | 'crm'
-  | 'admin';
+  | 'admin'
+  | 'limpeza'
+  | 'planilha';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -95,6 +97,24 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <rect x="6" y="7" width="36" height="29" rx="3" />
         <path d="M6 15h36M14 23h8M14 29h14M32 23h4M32 29h4" />
+      </svg>
+    );
+  }
+
+  if (id === 'limpeza') {
+    return (
+      <svg {...comum}>
+        <path d="M17 7h14M15 13h18l-2.4 26a3 3 0 0 1-3 2.7h-7.2a3 3 0 0 1-3-2.7Z" />
+        <path d="M13 13h22M21 21v12M27 21v12" />
+      </svg>
+    );
+  }
+
+  if (id === 'planilha') {
+    return (
+      <svg {...comum}>
+        <rect x="7" y="8" width="34" height="32" rx="3" />
+        <path d="M7 17h34M18 17v23M7 28h34" />
       </svg>
     );
   }

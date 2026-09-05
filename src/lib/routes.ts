@@ -20,6 +20,7 @@ export const ROTAS = {
    */
   produtos: '/produtos',
   produtoClearlio: '/produtos/clearlio',
+  produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
   barbearia: '/projects/barbelio',
   personalStudio: '/projects/studelio',
@@ -108,7 +109,12 @@ export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.home) return 1;
   if (rota === ROTAS.crieSeuProjeto) return 0.95;
   if (rota === ROTAS.trabalhos) return 0.9;
-  if (rota === ROTAS.produtos || rota === ROTAS.produtoClearlio) return 0.9;
+  if (
+    rota === ROTAS.produtos ||
+    rota === ROTAS.produtoClearlio ||
+    rota === ROTAS.produtoPlanilhaFinanceira
+  )
+    return 0.9;
   if (rota === ROTAS.trabalhoDomGuima || rota === ROTAS.trabalhoLinaArtPet) return 0.85;
   if (
     rota === ROTAS.projetoRevalio ||

@@ -6,12 +6,19 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProductIcon } from '@/components/projects/ProductIcon';
 import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
-import { atalhosDeJogo, atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
+import { atalhosDeJogo, atalhosDeProduto, atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
 import { rotaAtiva } from '@/lib/routes';
 import styles from './SiteNav.module.css';
 
 const ATRASO_FECHAR = 140;
-type MenuId = 'jogos' | 'projetos';
+type MenuId = 'jogos' | 'projetos' | 'produtos';
+
+/** Qual lista cada gaveta abre. */
+const ATALHOS_DO_MENU = {
+  jogos: atalhosDeJogo,
+  projetos: atalhosDeProjeto,
+  produtos: atalhosDeProduto,
+} as const;
 
 /** Navegação desktop com menus acessíveis para jogos e projetos. */
 export function SiteNav() {
@@ -117,7 +124,7 @@ export function SiteNav() {
 
           const menu = destino.menu as MenuId;
           const estaAberto = aberto === menu;
-          const atalhos = menu === 'jogos' ? atalhosDeJogo : atalhosDeProjeto;
+          const atalhos = ATALHOS_DO_MENU[menu];
 
           return (
             <li

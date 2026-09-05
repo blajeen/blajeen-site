@@ -11,6 +11,15 @@ export const ROTAS = {
   trabalhoDomGuima: '/trabalhos/dom-guima',
   trabalhoLinaArtPet: '/trabalhos/lina-art-pet',
   projetos: '/projects',
+  /**
+   * Produtos: programa de computador que a pessoa baixa e roda na máquina dela.
+   *
+   * Categoria própria porque não é jogo nem SaaS — não tem conta, não tem servidor e não
+   * tem mensalidade, então o que a página precisa dizer é outro: em vez de preço e
+   * plano, ela precisa dizer o que o programa faz com os arquivos de quem instalou.
+   */
+  produtos: '/produtos',
+  produtoClearlio: '/produtos/clearlio',
   /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
   barbearia: '/projects/barbelio',
   personalStudio: '/projects/studelio',
@@ -99,6 +108,7 @@ export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.home) return 1;
   if (rota === ROTAS.crieSeuProjeto) return 0.95;
   if (rota === ROTAS.trabalhos) return 0.9;
+  if (rota === ROTAS.produtos || rota === ROTAS.produtoClearlio) return 0.9;
   if (rota === ROTAS.trabalhoDomGuima || rota === ROTAS.trabalhoLinaArtPet) return 0.85;
   if (
     rota === ROTAS.projetoRevalio ||

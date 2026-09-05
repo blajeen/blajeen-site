@@ -20,6 +20,7 @@ export const ROTAS = {
    */
   produtos: '/produtos',
   produtoClearlio: '/produtos/clearlio',
+  produtoNotalio: '/produtos/notalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
   barbearia: '/projects/barbelio',
@@ -130,6 +131,7 @@ export function prioridadeSitemap(rota: Rota): number {
   if (
     rota === ROTAS.produtos ||
     rota === ROTAS.produtoClearlio ||
+    rota === ROTAS.produtoNotalio ||
     rota === ROTAS.produtoPlanilhaFinanceira
   )
     return 0.9;

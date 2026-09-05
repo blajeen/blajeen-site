@@ -8,7 +8,8 @@ export type ProductIconId =
   | 'crm'
   | 'admin'
   | 'limpeza'
-  | 'planilha';
+  | 'planilha'
+  | 'notas';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -106,6 +107,15 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <path d="M17 7h14M15 13h18l-2.4 26a3 3 0 0 1-3 2.7h-7.2a3 3 0 0 1-3-2.7Z" />
         <path d="M13 13h22M21 21v12M27 21v12" />
+      </svg>
+    );
+  }
+
+  if (id === 'notas') {
+    return (
+      <svg {...comum}>
+        <path d="M12 10a3 3 0 0 1 3-3h13l8 8v21a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3Z" />
+        <path d="M28 7v6a3 3 0 0 0 3 3h5" />
       </svg>
     );
   }

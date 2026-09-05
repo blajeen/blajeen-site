@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
-import { BASE_DE_DOWNLOAD, clearlio } from '@/content/produtos';
+import { BASE_DE_DOWNLOAD, clearlio, PAGINA_DE_RELEASES } from '@/content/produtos';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -85,6 +85,21 @@ export default function ClearlioPage() {
             </p>
           </div>
         )}
+
+        {podeBaixar ? (
+          <p className="mt-6 text-xs text-mineral-dim">
+            Versão {app.versao}, para {app.requisitos}.{' '}
+            <a
+              href={PAGINA_DE_RELEASES}
+              rel="noreferrer"
+              target="_blank"
+              className="text-mineral underline decoration-line-strong underline-offset-4 hover:text-paper"
+            >
+              Ver todas as versões
+            </a>
+            .
+          </p>
+        ) : null}
 
         {/* O aviso vem junto do botão, e não numa nota de rodapé: quem se assusta
             com a tela azul do Windows fecha a aba antes de procurar explicação. */}

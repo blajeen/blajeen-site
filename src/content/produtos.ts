@@ -12,13 +12,21 @@ import { ROTAS } from '@/lib/routes';
 /**
  * Onde os arquivos ficam hospedados.
  *
- * O código do Clearlio está num repositório privado, e anexo de release em repositório
- * privado não é baixável sem login — então o binário precisa de um endereço público
- * próprio. Enquanto ele não existir, esta constante fica vazia de propósito: a página
- * mostra o programa e diz que o download está sendo preparado, em vez de publicar um
- * botão que leva a lugar nenhum.
+ * O código do Clearlio é fechado, e anexo de release em repositório privado não é
+ * baixável sem login — então os binários moram num repositório público separado, que
+ * guarda só os arquivos, os hashes e o texto de quem vai baixar. O código continua onde
+ * estava.
+ *
+ * A URL aponta para a etiqueta da versão, e não para `latest`, porque o nome de cada
+ * arquivo carrega o número da versão: apontar para `latest` daria 404 no dia em que
+ * saísse a 0.2.0. Versão nova, uma linha para trocar aqui — junto dos hashes, que também
+ * mudam.
  */
-export const BASE_DE_DOWNLOAD = '';
+export const BASE_DE_DOWNLOAD =
+  'https://github.com/blajeen/clearlio-download/releases/download/v0.1.0';
+
+/** A página de todas as versões, para quem quiser uma anterior ou conferir o histórico. */
+export const PAGINA_DE_RELEASES = 'https://github.com/blajeen/clearlio-download/releases';
 
 export type ArquivoParaBaixar = {
   id: string;

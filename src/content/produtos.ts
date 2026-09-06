@@ -401,9 +401,9 @@ export const notalio: Aplicativo = {
   ],
   imagem: {
     src: '/produtos/notalio/tela.webp',
-    alt: 'A janela do Notalio no caderno de texto, com o interruptor que troca entre texto e tabela no alto, e a barra de baixo mostrando a hora em que ele guardou sozinho.',
+    alt: 'A janela do Notalio no caderno de texto, com três linhas escritas: uma delas tem um trecho marcado com um retângulo cinza atrás das letras, e o número dez aparece numa cor diferente do resto. No alto fica o interruptor que troca entre texto e tabela.',
     legenda:
-      'O caderno de texto. No alto, o interruptor que troca pro de tabela; embaixo, a hora em que ele guardou por conta própria.',
+      'O caderno de texto, com um trecho marcado e o número saindo na cor dele. No alto, o interruptor que troca pro caderno de tabela; embaixo, a hora em que ele guardou por conta própria.',
   },
   faz: [
     {
@@ -422,9 +422,19 @@ export const notalio: Aplicativo = {
         'Duas colunas com linhas de grade visíveis. Vírgula, aspas e quebra de linha dentro de uma célula são tratadas certo — e um arquivo salvo pelo Excel em português, que usa ponto e vírgula, continua abrindo.',
     },
     {
-      titulo: 'Arrumar e numerar',
+      titulo: 'Arruma sem mudar a sua ordem',
       texto:
-        'Arrumar tira linha repetida, deixa todo marcador de lista igual e aperta o espaçamento — sem nunca mudar a ordem do que você escreveu. Numerar põe 1-, 2-, 3- na frente das linhas que você marcou.',
+        'Tira linha repetida, deixa todo marcador de lista igual e aperta o espaçamento. Num brainstorm a ordem é o seu pensamento, e ele nunca mexe nela.',
+    },
+    {
+      titulo: 'Lista, marca-texto e limpar',
+      texto:
+        'Vira as linhas em lista com marcadores ou numerada. Destaca um trecho com um retângulo cinza atrás das letras — e essa marca fica dentro do arquivo, entre crases, então ela sobrevive a fechar o programa e continua abrindo no Bloco de Notas. E um botão que limpa tudo isso de volta.',
+    },
+    {
+      titulo: 'A letra é do jeito que você quiser',
+      texto:
+        'Quatro cores de letra, uma escolha por caderno. E os números sempre saem numa cor própria, com qualquer tema e qualquer cor de letra — porque número no meio do texto é o que o olho procura primeiro.',
     },
     {
       titulo: 'Acha e troca o que você quiser',
@@ -518,9 +528,21 @@ export const notalio: Aplicativo = {
             'Tira linha repetida, deixa todo marcador de lista igual e aperta o espaçamento. Nunca muda a ordem do que você escreveu — se não gostar, é só desfazer.',
         },
         {
-          nome: 'Numerar',
-          teclas: 'Ctrl+L',
-          texto: 'Põe 1-, 2-, 3- na frente das linhas que você marcou.',
+          nome: 'Lista',
+          teclas: 'Ctrl+L, ou Shift+Ctrl+L',
+          texto:
+            'Vira as linhas que você marcou numa lista numerada — 1-, 2-, 3-. Com Shift, a lista sai com marcadores em vez de números.',
+        },
+        {
+          nome: 'Limpar a formatação',
+          teclas: 'Ctrl+D',
+          texto: 'Tira as marcas e a formatação do trecho, deixando o texto puro de novo.',
+        },
+        {
+          nome: 'Marca-texto',
+          teclas: 'Ctrl+M',
+          texto:
+            'Destaca o trecho com um retângulo cinza atrás das letras. A marca fica dentro do arquivo, escrita entre crases: ela sobrevive a fechar o programa, e o arquivo continua abrindo no Bloco de Notas do Windows.',
         },
         {
           nome: 'Trazer um arquivo',
@@ -552,6 +574,11 @@ export const notalio: Aplicativo = {
             'Mostra o que estava escrito antes, até 100 por caderno. Trazer uma de volta guarda a de agora antes — nem isso é caminho sem volta.',
         },
         { nome: 'sobre', texto: 'O que o programa é, e onde ficam os seus arquivos.' },
+        {
+          nome: 'cor',
+          texto:
+            'Quatro cores de letra, uma escolha por caderno. Os números saem numa cor própria de qualquer jeito — com qualquer tema e qualquer cor escolhida —, porque número no meio do texto é o que o olho procura primeiro.',
+        },
         { nome: 'tema', teclas: 'Shift+X', texto: 'Troca entre escuro e claro.' },
         {
           nome: 'português / English',
@@ -581,7 +608,9 @@ export const notalio: Aplicativo = {
     { teclas: 'Ctrl+Tab', faz: 'troca de caderno' },
     { teclas: 'Ctrl+Z / Ctrl+Y', faz: 'desfaz e avança' },
     { teclas: 'Ctrl+E', faz: 'arruma' },
-    { teclas: 'Ctrl+L', faz: 'numera' },
+    { teclas: 'Ctrl+L', faz: 'numera (com Shift, marcadores)' },
+    { teclas: 'Ctrl+M', faz: 'marca o trecho' },
+    { teclas: 'Ctrl+D', faz: 'limpa a formatação' },
     { teclas: 'Ctrl+O', faz: 'traz um arquivo' },
     { teclas: 'Ctrl+S', faz: 'salva uma cópia' },
     { teclas: 'Ctrl+P', faz: 'tira a foto da janela' },
@@ -604,7 +633,7 @@ export const notalio: Aplicativo = {
       paraQuem:
         'O normal. Instala pro seu usuário sem pedir senha de administrador, e aparece em "Adicionar ou remover programas" como qualquer programa. Pergunta o idioma na instalação, e em Windows 10 sem o WebView2 ele resolve isso sozinho.',
       recomendado: true,
-      hash: 'b419ddbc9421c45a5911e6fcce25ed524641c19f5fb81b3681c9b3a3f11a5a2a',
+      hash: '3789be6327a8f2ed6bc6cf6cdcbcdff8f96800e852cbb3e5331e8d79cac3198c',
     },
     {
       id: 'portatil',
@@ -613,7 +642,7 @@ export const notalio: Aplicativo = {
       tamanho: '3,1 MB',
       paraQuem:
         'Não instala nada: roda direto, inclusive de pendrive. Seus arquivos continuam indo pra Documentos\\Notalio.',
-      hash: '6c46985052a55a5f7ccbe5e194e4be22c947b031e609ae8e43082e4a3953897d',
+      hash: '349440b247c98547a90f6340bc54aaf4c41d90d61cb3ccbac17c066781d3ce29',
     },
   ],
   avisoDoWindows: {

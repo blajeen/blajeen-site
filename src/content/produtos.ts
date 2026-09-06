@@ -21,7 +21,7 @@ import { ROTAS } from '@/lib/routes';
  * nova, uma linha pra trocar aqui — junto dos hashes, que também mudam.
  */
 export const BASE_DE_DOWNLOAD =
-  'https://github.com/blajeen/clearlio-download/releases/download/v0.1.0';
+  'https://github.com/blajeen/clearlio-download/releases/download/v0.2.0';
 
 /** A página de todas as versões, pra quem quiser uma anterior ou conferir o histórico. */
 export const PAGINA_DE_RELEASES = 'https://github.com/blajeen/clearlio-download/releases';
@@ -233,22 +233,23 @@ export const clearlio: Aplicativo = {
   id: 'clearlio',
   nome: 'Clearlio',
   simbolo: 'limpeza',
-  versao: '0.1.0',
+  versao: '0.2.0',
   rota: ROTAS.produtoClearlio,
   estado: 'ATIVO · GRATUITO',
   requisitos: 'Windows 10 ou 11, 64 bits',
   lema: 'Limpeza de verdade. Sem susto, sem cobrança, sem letra miúda.',
   resumo:
-    'Acha o que não serve mais no seu computador, explica em português o que é cada coisa, e limpa só o que você mandar. Nada é apagado: vai pra uma lixeira dele, fica 30 dias, e volta inteiro com um clique.',
+    'Acha o que não serve mais no seu computador, explica em português o que é cada coisa, e limpa só o que você mandar. Nada é apagado: vai pra uma lixeira dele, fica 30 dias, e volta inteiro com um clique. Também desinstala programa de verdade, mostra o que abre junto com o Windows e confere o antivírus que você já tem.',
   descricao: [
     'A maioria dos limpadores de disco funciona no escuro: eles varrem, mostram um número grande, e você aperta um botão confiando que nada importante vai junto. Quando alguma coisa quebra, não tem volta e não tem explicação.',
     'O Clearlio inverte isso. Cada coisa que ele encontra vem com uma frase dizendo o que é aquilo, por que dá pra tirar e como aquilo volta. Nada sai sem você marcar. E o que sai não é apagado: é movido pra uma lixeira dele, onde fica trinta dias esperando você mudar de ideia.',
     'Ele também segura a própria mão. Se uma pasta de projeto tem trabalho que ainda não foi salvo no Git, ele não encosta nela — e escreve na tela por que deixou aquilo de fora.',
+    'E ele deixou de ser só um limpador. Desinstalar um programa por completo, ver o que liga junto com o Windows, conferir o Defender, tirar os avisos que os sites ganharam permissão de mandar, trocar enfeite por velocidade — tudo isso mora nele agora, cada coisa na sua tela, e tudo com desfazer.',
   ],
   imagem: {
     src: '/produtos/clearlio/tela.webp',
-    alt: 'A tela inicial do Clearlio, com a pergunta "Por onde vamos começar?" e os lugares do computador que costumam acumular arquivo, cada um com uma explicação do que tem ali.',
-    legenda: 'A primeira tela: os lugares que costumam acumular coisa, cada um explicado antes de você clicar.',
+    alt: 'A tela inicial do Clearlio, com a pergunta "Por onde vamos começar?" e os lugares do computador que costumam acumular arquivo, cada um com uma explicação do que tem ali. À esquerda, o trilho com as seis seções do programa e, ao lado dele, a seção aberta por inteiro.',
+    legenda: 'A primeira tela. À esquerda, as seis seções do programa sempre à vista — nada fica atrás de um clique.',
   },
   faz: [
     {
@@ -277,6 +278,36 @@ export const clearlio: Aplicativo = {
         'A página inicial que mudou sozinha, o atalho do navegador que abre propaganda antes, o programa que passou a ligar junto com o Windows. Ele mostra e ensina a tirar; não mexe em nada disso sozinho.',
     },
     {
+      titulo: 'Desinstala de verdade',
+      texto:
+        'Chama o desinstalador do fabricante e, quando ele termina, vai atrás da pasta, dos dados e das anotações que ficaram no Windows. O Painel de Controle para na primeira parte — é por isso que sobra tanta coisa de programa que você já tirou.',
+    },
+    {
+      titulo: 'Mostra o que abre com o Windows',
+      texto:
+        'Tudo que liga junto com o sistema, com o nome de quem é de verdade e não a sigla. Você desliga o que não precisa, e desligar não desinstala nada.',
+    },
+    {
+      titulo: 'Confere o antivírus que você já tem',
+      texto:
+        'Se o Windows Defender está ligado, se as definições estão em dia e quando foi a última verificação — e manda ele verificar daqui. Não instala antivírus nenhum.',
+    },
+    {
+      titulo: 'Avisos e extensões do navegador',
+      texto:
+        'Os sites que ganharam permissão de te mandar notificação, quase sempre sem você perceber que deu, e as extensões instaladas em cada navegador. Aviso ele tira; extensão ele só mostra, porque tirar por fora estraga o navegador.',
+    },
+    {
+      titulo: 'Troca enfeite por velocidade',
+      texto:
+        'Desliga animação, transparência e gravação de fundo, e troca o plano de energia. Ajuda mais em computador antigo do que em novo, e tem desfazer pra tudo. Não promete número de quadro por segundo, porque não dá pra prometer.',
+    },
+    {
+      titulo: 'Uma lista do que ele não pode tocar',
+      texto:
+        'Você escreve o que é intocável, e aquilo fica de fora de toda limpeza — sem exceção, nem se você mandar limpar a pasta que tem aquilo dentro.',
+    },
+    {
       titulo: 'Português e inglês',
       texto: 'Troca o idioma sem fechar o programa. Ele começa no idioma do seu Windows.',
     },
@@ -293,29 +324,29 @@ export const clearlio: Aplicativo = {
     {
       id: 'instalador',
       nome: 'Instalador',
-      arquivo: 'Clearlio-0.1.0-instalador.exe',
-      tamanho: '2,1 MB',
+      arquivo: 'Clearlio-0.2.0-instalador.exe',
+      tamanho: '2,3 MB',
       paraQuem:
         'O normal. Instala pro seu usuário sem pedir senha de administrador, põe o atalho no menu Iniciar e aparece em "Adicionar ou remover programas" como qualquer programa.',
       recomendado: true,
-      hash: '0654fee37de50d30c250b8a842d5c35cebe0d7c43008fb68c862908ab89cad95',
+      hash: 'fa5863200e68bdc9c2c39aa7a367ddb2c875c64d08886074023315ab844452b6',
     },
     {
       id: 'portatil',
       nome: 'Portátil',
-      arquivo: 'Clearlio-0.1.0-portatil.exe',
-      tamanho: '10 MB',
+      arquivo: 'Clearlio-0.2.0-portatil.exe',
+      tamanho: '10,9 MB',
       paraQuem:
         'Não instala nada: roda direto, inclusive de pendrive. É o formato pra quem vai arrumar o computador de outra pessoa e não quer deixar programa instalado na máquina dela.',
-      hash: '15b2449568b5365b496a9e3ec6025833857c475a37a2bbfce87b1adee1fb68a3',
+      hash: '3741db24467f06c8181bbeccb87566e3e86445ce4f4437caeee3ce216e96b968',
     },
     {
       id: 'terminal',
       nome: 'Terminal',
-      arquivo: 'clearlio-0.1.0-cli.exe',
-      tamanho: '2,2 MB',
+      arquivo: 'clearlio-0.2.0-cli.exe',
+      tamanho: '2,4 MB',
       paraQuem: 'A mesma coisa por linha de comando, pra quem prefere assim.',
-      hash: '873326f960beed2b35659357baf2cace69483e6893ffdf8288df78f1f3c48129',
+      hash: '0ce3a342e3a6bd06333bd4b53f0b31664ed5001b4fb74e40414a92bae6c62fd3',
     },
   ],
   avisoDoWindows: {

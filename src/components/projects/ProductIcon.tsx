@@ -9,7 +9,8 @@ export type ProductIconId =
   | 'admin'
   | 'limpeza'
   | 'planilha'
-  | 'notas';
+  | 'notas'
+  | 'vistas';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -107,6 +108,19 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <path d="M17 7h14M15 13h18l-2.4 26a3 3 0 0 1-3 2.7h-7.2a3 3 0 0 1-3-2.7Z" />
         <path d="M13 13h22M21 21v12M27 21v12" />
+      </svg>
+    );
+  }
+
+  if (id === 'vistas') {
+    // Duas montanhas e o sol atrás: o que se fotografa, e não a câmera que fotografa.
+    // Câmera seria o ícone de um app de foto — e o Vistalio não tira foto nenhuma,
+    // ele diz onde ir.
+    return (
+      <svg {...comum}>
+        <path d="M6 34h36M6 34l11-15 7 9M24 34l8-11 10 11" />
+        <circle cx="31" cy="13" r="4" />
+        <path d="M6 40h36" />
       </svg>
     );
   }

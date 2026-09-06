@@ -33,6 +33,7 @@ export const ROTAS = {
   notalioPrivacidade: '/notalio/privacy',
   notalioTermos: '/notalio/terms',
   notalioSuporte: '/notalio/support',
+  produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
   barbearia: '/projects/barbelio',
@@ -152,6 +153,7 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.produtos ||
     rota === ROTAS.produtoClearlio ||
     rota === ROTAS.produtoNotalio ||
+    rota === ROTAS.produtoVistalio ||
     rota === ROTAS.produtoPlanilhaFinanceira
   )
     return 0.9;

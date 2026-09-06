@@ -78,6 +78,34 @@ export type Aplicativo = Comum & {
   };
   codigoAberto: boolean;
   /**
+   * O terceiro caderno, quando o produto tem um que precisa de explicação própria.
+   *
+   * A lista de coisas pra fazer não cabe na vitrine (`faz`) por um motivo: o formato do
+   * arquivo é metade da promessa. Dizer "tem lista de tarefas" e não mostrar que ela é
+   * Markdown de caixinhas, legível no Bloco de Notas, é esconder justamente a parte que
+   * separa este produto de qualquer aplicativo de tarefas com banco de dados próprio.
+   */
+  lista?: {
+    titulo: string;
+    resumo: string;
+    detalhes: readonly string[];
+    exemplo: { arquivo: string; texto: string };
+    fecho: string;
+  };
+  /**
+   * O pedido de contribuição, quando existe.
+   *
+   * Ganha bloco no fim da página, e não um botão no alto, porque a ordem é a mesma que o
+   * programa usa: primeiro o que ele faz e o que ele custa (nada), e só então o pedido.
+   * Um pedido antes da entrega é cobrança.
+   */
+  apoiar?: {
+    titulo: string;
+    texto: string;
+    canais: readonly { nome: string; valor: string }[];
+    fecho: readonly string[];
+  };
+  /**
    * A anotação à parte que dá pra trancar, e o preço de trancar.
    *
    * Ganha bloco próprio na página porque é a única coisa do programa que cobra algo da
@@ -96,7 +124,18 @@ export type Aplicativo = Comum & {
    * Só existe em produto que guarda alguma coisa da pessoa. O Clearlio não guarda nada
    * dela — ele tira coisa do lugar —, então não preenche este campo.
    */
-  ondeFicam?: { titulo: string; texto: string };
+  ondeFicam?: {
+    titulo: string;
+    texto: string;
+    /**
+     * A pasta desenhada, quando a lista de arquivos passou de dois ou três.
+     *
+     * Prosa dá conta de "um texto.txt e uma tabela.csv". Não dá conta de quatro cadernos
+     * numerados, mais a gaveta, mais as versões anteriores: aí a pessoa precisa ver a
+     * forma da pasta, e não ler a descrição dela.
+     */
+    arvore?: readonly string[];
+  };
   /**
    * As promessas que organizam a página, quando o produto tem uma lista dessas.
    *
@@ -399,41 +438,41 @@ const NOTALIO_DOWNLOAD = 'https://github.com/blajeen/notalio-download/releases';
 
 /** Base dos arquivos do Notalio. Mesma regra do Clearlio: aponta pra etiqueta da versão. */
 export const BASE_DE_DOWNLOAD_NOTALIO =
-  'https://github.com/blajeen/notalio-download/releases/download/v0.1.0';
+  'https://github.com/blajeen/notalio-download/releases/download/v0.2.0';
 
 export const notalio: Aplicativo = {
   tipo: 'aplicativo',
   id: 'notalio',
   nome: 'Notalio',
   simbolo: 'notas',
-  versao: '0.1.0',
+  versao: '0.2.0',
   rota: ROTAS.produtoNotalio,
   estado: 'ATIVO · GRATUITO',
   requisitos: 'Windows 10 ou 11, 64 bits',
   lema: 'Escreve e pronto. Eu guardo sozinho, e o arquivo é seu.',
   resumo:
-    'Um bloco de notas simples e leve, com dois cadernos que se alternam por um interruptor: um de texto corrido e um de tabela de duas colunas. A folha se parte em até quatro blocos, e tem uma gaveta à parte que dá pra trancar com senha. Ele guarda sozinho — não tem botão de salvar, não tem conta e não abre junto com o Windows.',
+    'Um bloco de notas simples e leve pra Windows, com três cadernos que se alternam por um interruptor: texto corrido, tabela de duas colunas e lista de coisas pra fazer. A folha se parte em até quatro blocos, e tem uma gaveta à parte que dá pra trancar com senha. Ele guarda sozinho — não tem botão de salvar, não tem conta e não abre junto com o Windows.',
   descricao: [
     'Bloco de notas costuma pedir uma coisa estranha da pessoa: lembrar de salvar. É um pedido antigo, que sobrou de uma época em que gravar no disco era caro, e que hoje só serve pra fazer alguém perder meia hora de escrita por ter fechado a janela sem pensar.',
     'O Notalio não pede isso. Você escreve, ele guarda — sete décimos de segundo depois que você para de digitar. Fechar a janela, trocar de caderno ou clicar fora guardam na hora.',
-    'E o que ele guarda são dois arquivos comuns, numa pasta que você acha sozinho: um texto.txt e uma tabela.csv, dentro de Documentos. Se o Notalio sumir do mundo amanhã, os dois continuam abrindo — um no Bloco de Notas do Windows, o outro no Excel.',
+    'E o que ele guarda são arquivos comuns, numa pasta que você acha sozinho: um texto.txt, uma tabela.csv e um checklist.md, dentro de Documentos. Se o Notalio sumir do mundo amanhã, os três continuam abrindo — o texto no Bloco de Notas do Windows, a tabela no Excel, e a lista em qualquer coisa que leia Markdown, inclusive o próprio Bloco de Notas.',
   ],
   imagem: {
-    src: '/produtos/notalio/tela.webp',
-    alt: 'A janela do Notalio com a folha partida em quatro blocos, cada um com um texto diferente e numerado no canto. No alto fica o interruptor que troca entre texto e tabela, e ao lado dele o ícone da divisão, desenhado em quatro quadrados.',
+    src: '/produtos/notalio/notalio-1-texto.webp',
+    alt: 'A janela do Notalio no caderno de texto, com a folha partida em dois blocos numerados no canto. No alto, o interruptor de três posições — texto, tabela e lista — com "texto" aceso em verde. No texto, os números aparecem numa cor própria, a pontuação num cinza-azulado, e há trechos com marca-texto e trechos riscados.',
     legenda:
-      'A folha partida em quatro. Cada bloco tem barra de rolagem, arquivo e história próprios — no alto, o ícone da divisão mostra em quantos pedaços ela está.',
+      'O caderno de texto, com a folha partida em dois. Cada bloco tem barra de rolagem, arquivo e história próprios — e os números e a pontuação saem em cores próprias, em qualquer tema.',
   },
   faz: [
     {
       titulo: 'Um interruptor, e só',
       texto:
-        'Ele troca entre o caderno de texto e o de tabela. É o gesto central do programa e a única navegação que existe nele. A cor da janela inteira muda junto: verde-limão no texto, azul na tabela.',
+        'Ele troca entre os três cadernos: texto, tabela e lista. É o gesto central do programa e a única navegação que existe nele. A cor da janela inteira muda junto — verde-limão no texto, azul na tabela, roxo na lista — pra você saber onde está sem precisar ler.',
     },
     {
-      titulo: 'Dois cadernos separados de verdade',
+      titulo: 'Três cadernos separados de verdade',
       texto:
-        'O que está escrito num não aparece no outro, e cada um tem a própria história de versões. São dois cadernos dividindo a mesma janela, não duas vistas da mesma anotação.',
+        'O que está escrito num não aparece no outro, e cada um tem a própria história de versões. São três cadernos dividindo a mesma janela, não três vistas da mesma anotação.',
     },
     {
       titulo: 'A tabela abre no Excel',
@@ -451,9 +490,14 @@ export const notalio: Aplicativo = {
         'Vira as linhas em lista com marcadores ou numerada. Destaca um trecho com um retângulo cinza atrás das letras — e essa marca fica dentro do arquivo, entre crases, então ela sobrevive a fechar o programa e continua abrindo no Bloco de Notas. E um botão que limpa tudo isso de volta.',
     },
     {
+      titulo: 'Riscar, e o risco fica no arquivo',
+      texto:
+        'Ctrl+R, do lado do marca-texto: um til de cada lado dentro do arquivo. É texto puro, então o risco sobrevive a fechar o programa e continua lá quando você abre o arquivo em qualquer outro lugar.',
+    },
+    {
       titulo: 'A letra é do jeito que você quiser',
       texto:
-        'Quatro cores de letra, uma escolha por caderno. E os números sempre saem numa cor própria, com qualquer tema e qualquer cor de letra — porque número no meio do texto é o que o olho procura primeiro.',
+        'Quatro cores de letra, uma escolha por caderno. Os números sempre saem numa cor própria, com qualquer tema e qualquer cor de letra — porque número no meio do texto é o que o olho procura primeiro. E a pontuação sai num cinza-azulado de propósito: ela é o esqueleto da frase, não o conteúdo dela, e com uma cor forte o olho pularia pras vírgulas.',
     },
     {
       titulo: 'Acha e troca o que você quiser',
@@ -468,7 +512,7 @@ export const notalio: Aplicativo = {
     {
       titulo: 'A folha se parte em até quatro',
       texto:
-        'O botão de divisão, na direita, parte a folha em 2, 3 ou 4 blocos. Cada bloco tem barra de rolagem, arquivo e história de versões próprios: não é o mesmo texto visto de quatro jeitos, são quatro anotações lado a lado. O bloco 1 continua se chamando texto.txt, então quem já usava não vê nada mudar de lugar.',
+        'O botão de divisão, na direita, parte a folha em 2, 3 ou 4 blocos — nos três cadernos. Cada bloco tem barra de rolagem, arquivo e história de versões próprios: não é o mesmo texto visto de quatro jeitos, são quatro anotações lado a lado. O bloco 1 continua se chamando texto.txt, então quem já usava não vê nada mudar de lugar.',
     },
     {
       titulo: 'O ícone é o estado',
@@ -485,11 +529,33 @@ export const notalio: Aplicativo = {
       texto:
         'Troca o idioma sem reiniciar, e o tema também. Ele começa no idioma do seu Windows.',
     },
+    {
+      titulo: 'Voltar ao padrão de fábrica',
+      texto:
+        'Na tela Sobre. Volta tema, idioma, divisão da folha e cor da letra — e não encosta em nenhuma palavra escrita, nem apaga nenhuma versão anterior.',
+    },
   ],
+  lista: {
+    titulo: 'A lista de coisas pra fazer',
+    resumo:
+      'O terceiro caderno. Uma lista com subtarefa, prioridade, prazo e quanto já foi feito — e com a mesma divisão em blocos dos outros dois.',
+    detalhes: [
+      'A subtarefa entra pelo botão de seta ou com Tab. Reordenar é arrastar pelo punho, e arrastar o item de cima leva as subtarefas junto — o que estava dentro de uma tarefa continua dentro dela.',
+      'Prioridade e prazo são etiquetas ao lado do item. Prazo vencido fica em âmbar, que é a única cor de alarme do programa inteiro.',
+      'A porcentagem é contada das caixas na hora, e nunca guardada. Um número guardado pode discordar do que você está vendo na tela, e aí ele deixa de ser informação e vira ruído.',
+    ],
+    exemplo: {
+      arquivo: 'checklist.md',
+      texto:
+        '- [ ] Fechar o orçamento da gráfica !alta @2026-09-12\n  - [x] Pedir as três cotações\n  - [ ] Comparar prazo de entrega\n- [x] Enviar o contrato assinado',
+    },
+    fecho:
+      'É Markdown de verdade — a mesma lista de caixinhas que o GitHub e o Obsidian desenham. Abre no Bloco de Notas e se lê inteiro, sem programa nenhum no meio.',
+  },
   gaveta: {
     titulo: 'A gaveta, e o que trancar ela custa',
     resumo:
-      'O pergaminho ao lado do interruptor abre uma anotação à parte. O botão da direita nela é colocar senha: aí o arquivo é fechado com Argon2id e XChaCha20-Poly1305 — nada inventado por mim — e ninguém lê o que está dentro sem a senha, inclusive eu.',
+      'Um pergaminho grudado no interruptor. Abre por cima, escreve, fecha — pro que você não quer no meio do resto. O botão da direita nela é colocar senha: aí o arquivo é fechado com Argon2id e XChaCha20-Poly1305 — nada inventado por mim — e ninguém lê o que está dentro sem a senha, inclusive eu.',
     avisos: [
       {
         titulo: 'Não existe recuperação',
@@ -511,7 +577,15 @@ export const notalio: Aplicativo = {
   ondeFicam: {
     titulo: 'Os seus arquivos são arquivos de verdade',
     texto:
-      'Em Documentos\\Notalio ficam o texto.txt, a tabela.csv e uma pasta "Versões anteriores". Nada de formato só dele: os dois abrem em qualquer programa. E desinstalar não leva isso junto — moram fora da pasta do programa, de propósito.',
+      'Nada de formato só dele: os três abrem em qualquer programa. E desinstalar não leva isso junto — moram fora da pasta do programa, de propósito. Quando a folha está partida, cada bloco ganha o próprio arquivo numerado.',
+    arvore: [
+      'Documentos\\Notalio\\',
+      '├── texto.txt        texto 2.txt   texto 3.txt   texto 4.txt',
+      '├── tabela.csv       tabela 2.csv  …',
+      '├── checklist.md     checklist 2.md …',
+      '├── gaveta.txt       ← trancada, ela mesma diz que está trancada',
+      '└── Versões anteriores\\',
+    ],
   },
   promessas: [
     {
@@ -541,6 +615,19 @@ export const notalio: Aplicativo = {
         'Não abre junto com o Windows, não tem atualizador, não conta quantas vezes você usou e não pede avaliação.',
     },
   ],
+  apoiar: {
+    titulo: 'Apoiar',
+    texto:
+      'O Notalio é de graça e vai continuar sendo. Nada fica trancado esperando alguém pagar. Quem quiser ajudar tem um botão "de graça · apoiar" no rodapé do programa — e ele fica quieto ali: nunca abre sozinho, nunca depois de um número de usos, nunca ao fechar.',
+    canais: [
+      { nome: 'Pix', valor: 'brg.ftw@gmail.com' },
+      { nome: 'PayPal', valor: 'brenoricardoudi@yahoo.com.br' },
+    ],
+    fecho: [
+      'O QR do Pix é desenhado na sua máquina. Nem pra pedir doação este programa fala com a internet — um pedido de doação que sabe quem pensou em doar é pior do que não pedir.',
+      'E não existe valor sugerido: quem paga escolhe quanto.',
+    ],
+  },
   naoPromete: {
     titulo: 'E o que ele não promete',
     texto:
@@ -697,6 +784,7 @@ export const notalio: Aplicativo = {
     { teclas: 'Ctrl+M', faz: 'marca o trecho' },
     { teclas: 'Ctrl+D', faz: 'limpa a formatação' },
     { teclas: 'Ctrl+O', faz: 'traz um arquivo' },
+    { teclas: 'Ctrl+R', faz: 'risca o trecho selecionado' },
     { teclas: 'Ctrl+S', faz: 'salva uma cópia' },
     { teclas: 'Ctrl+P', faz: 'tira a foto da janela' },
     { teclas: 'Ctrl+H', faz: 'mostra as versões' },
@@ -704,7 +792,7 @@ export const notalio: Aplicativo = {
   ],
   naoFaz: [
     'Não tem conta, não tem cadastro e não tem nuvem. Não existe uma linha de rede no programa: nada do que você escreve sai da sua máquina.',
-    'Não guarda o que você escreve num formato só dele. São dois arquivos comuns, numa pasta que você acha sozinho.',
+    'Não guarda o que você escreve num formato só dele. São arquivos comuns — .txt, .csv e .md —, numa pasta que você acha sozinho. A gaveta trancada é a única exceção, e ela é escolha sua.',
     'Não abre junto com o Windows e não fica rodando no fundo.',
     'Não tem atualizador, não conta quantas vezes você usou e não pede avaliação.',
     'Não tem anúncio, não tem versão paga e não tem função trancada.',
@@ -713,21 +801,21 @@ export const notalio: Aplicativo = {
     {
       id: 'instalador',
       nome: 'Instalador',
-      arquivo: 'Notalio-0.1.0-instalador.exe',
-      tamanho: '1,1 MB',
+      arquivo: 'Notalio-0.2.0-instalador.exe',
+      tamanho: '1,2 MB',
       paraQuem:
         'O normal. Instala pro seu usuário sem pedir senha de administrador, e aparece em "Adicionar ou remover programas" como qualquer programa. Pergunta o idioma na instalação, e em Windows 10 sem o WebView2 ele resolve isso sozinho.',
       recomendado: true,
-      hash: 'aba63792421b18b85469b00ad58f0c49041a30441920ff8454dbbca46bc1720b',
+      hash: '7469cf2830f45be5699c354dffe0c4f17ac0b57abd7a97d5a581d654dc992185',
     },
     {
       id: 'portatil',
       nome: 'Portátil',
-      arquivo: 'Notalio-0.1.0-portatil.exe',
-      tamanho: '3,2 MB',
+      arquivo: 'Notalio-0.2.0-portatil.exe',
+      tamanho: '3,3 MB',
       paraQuem:
         'Não instala nada: roda direto, inclusive de pendrive. Seus arquivos continuam indo pra Documentos\\Notalio.',
-      hash: '7118a9d0015537161f88d0d185244540cffe3d4512a85e964c01664161b59d0b',
+      hash: '471b1677a47a91257dabe51d53370d5336b1848833cf0b1f3f55f0a00db5e77d',
     },
   ],
   avisoDoWindows: {

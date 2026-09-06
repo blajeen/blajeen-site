@@ -10,7 +10,7 @@ import { ROTAS } from '@/lib/routes';
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Notalio — bloco de notas que guarda sozinho | Blajeen Labs',
   descricao:
-    'Um bloco de notas simples e leve, com dois cadernos que se alternam por um interruptor: texto e tabela. Ele guarda sozinho, e os seus arquivos são um .txt e um .csv comuns. Gratuito, sem conta e sem anúncio.',
+    'Um bloco de notas simples e leve, com três cadernos que se alternam por um interruptor: texto, tabela e lista de coisas pra fazer. Ele guarda sozinho, e os seus arquivos são um .txt, um .csv e um .md comuns. Gratuito, sem conta e sem anúncio.',
   rota: ROTAS.produtoNotalio,
 });
 
@@ -164,9 +164,30 @@ export default function NotalioPage() {
                 {app.ondeFicam.titulo}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-mineral">{app.ondeFicam.texto}</p>
+              {/* A pasta desenhada. Ela rola sozinha porque as linhas são largas e o
+                  aside é estreito — quebrar a árvore no meio destruiria o desenho dela. */}
+              {app.ondeFicam.arvore ? (
+                <pre className="mt-4 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-4 text-[11.5px] leading-[1.7] text-mineral">
+                  {app.ondeFicam.arvore.join('\n')}
+                </pre>
+              ) : null}
             </aside>
           ) : null}
         </div>
+
+        <figure className="mt-12">
+          <Image
+            src="/produtos/notalio/notalio-3-tabela.webp"
+            alt="O caderno de tabela do Notalio, com duas colunas e linhas de grade visíveis. No alto, o interruptor de três posições com tabela aceso em azul."
+            width={1180}
+            height={760}
+            className="mx-auto w-full max-w-[1000px] rounded-[var(--radius-panel)] border border-line"
+          />
+          <figcaption className="mt-4 text-xs leading-relaxed text-mineral-dim">
+            O caderno de tabela. Duas colunas, linhas de grade visíveis, e um arquivo .csv
+            que abre no Excel sem conversão nenhuma.
+          </figcaption>
+        </figure>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {app.faz.map((item) => (
@@ -181,9 +202,57 @@ export default function NotalioPage() {
         </div>
       </Section>
 
+      {/* ---------------------------------------------------------------- a lista */}
+      {app.lista ? (
+        <Section indice="03 / A LISTA" rotulo="A lista de coisas pra fazer do Notalio">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
+                {app.lista.titulo}
+              </h2>
+              <p className="medida-texto mt-5 text-[1.05rem] leading-relaxed text-paper/80">
+                {app.lista.resumo}
+              </p>
+              <ul className="mt-6 grid gap-3">
+                {app.lista.detalhes.map((detalhe) => (
+                  <li
+                    key={detalhe.slice(0, 32)}
+                    className="border-l border-line pl-4 text-sm leading-relaxed text-mineral"
+                  >
+                    {detalhe}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* O arquivo ao lado do que ele faz. A promessa desta tela é "isso vira
+                Markdown de verdade" — e promessa de formato só se prova mostrando o
+                formato. */}
+            <div className="lg:col-span-6 lg:col-start-7">
+              <figure className="rounded-[var(--radius-panel)] border border-line bg-raised/50 p-3">
+                <Image
+                  src="/produtos/notalio/notalio-2-lista.webp"
+                  alt="O caderno de lista do Notalio. No alto, o interruptor de três posições com lista aceso em roxo; abaixo, a barra de quanto já foi feito. Cada item tem punho de arrastar, caixa de marcar, e etiquetas de prioridade e prazo à direita. Duas subtarefas aparecem recuadas sob o primeiro item, e o que já foi feito fica riscado."
+                  width={1180}
+                  height={760}
+                  className="w-full rounded-[var(--radius-control)]"
+                />
+              </figure>
+              <p className="tecnica mt-6 text-mineral-dim">{app.lista.exemplo.arquivo}</p>
+              <pre className="mt-2 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-5 text-[12.5px] leading-[1.75] text-mineral">
+                {app.lista.exemplo.texto}
+              </pre>
+              <p className="medida-texto mt-4 text-sm leading-relaxed text-mineral">
+                {app.lista.fecho}
+              </p>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
       {/* ---------------------------------------------------------------- a gaveta */}
       {app.gaveta ? (
-        <Section indice="03 / A GAVETA" rotulo="A gaveta do Notalio">
+        <Section indice="04 / A GAVETA" rotulo="A gaveta do Notalio">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-5">
               <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
@@ -212,12 +281,22 @@ export default function NotalioPage() {
           <p className="medida-texto mt-8 text-sm leading-relaxed text-mineral">
             {app.gaveta.fecho}
           </p>
+
+          <figure className="mt-10">
+            <Image
+              src="/produtos/notalio/notalio-4-gaveta.webp"
+              alt="A gaveta do Notalio aberta por cima da folha, como um painel estreito grudado no interruptor, com uma anotação curta dentro e o botão de colocar senha na direita."
+              width={1180}
+              height={760}
+              className="mx-auto w-full max-w-[1000px] rounded-[var(--radius-panel)] border border-line"
+            />
+          </figure>
         </Section>
       ) : null}
 
       {/* ---------------------------------------------------------------- promessas */}
       {app.promessas ? (
-        <Section indice="04 / O QUE ELE PROMETE" rotulo="As promessas do Notalio">
+        <Section indice="05 / O QUE ELE PROMETE" rotulo="As promessas do Notalio">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
               Um bloco de notas guarda o que você escreveu. São estas cinco frases que
@@ -261,7 +340,7 @@ export default function NotalioPage() {
 
       {/* ---------------------------------------------------------------- o guia */}
       {app.guia ? (
-        <Section indice="05 / GUIA DAS FUNÇÕES" rotulo="Guia das funções do Notalio">
+        <Section indice="06 / GUIA DAS FUNÇÕES" rotulo="Guia das funções do Notalio">
           <p className="medida-texto mb-10 text-[1.05rem] leading-relaxed text-paper/80">
             O programa cabe numa tela e não tem menu. Isto aqui é cada botão dele, na ordem
             em que aparecem, com o que faz e o atalho.
@@ -314,9 +393,8 @@ export default function NotalioPage() {
 
       {/* ---------------------------------------------------------------- não faz */}
       <Section
-        indice="06 / O QUE ELE NÃO FAZ"
+        indice="07 / O QUE ELE NÃO FAZ"
         rotulo="O que o Notalio não faz"
-        className="pb-[clamp(4rem,9vw,9rem)]"
       >
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
@@ -338,6 +416,48 @@ export default function NotalioPage() {
           </ul>
         </div>
       </Section>
+
+      {/* ---------------------------------------------------------------- apoiar */}
+      {app.apoiar ? (
+        <Section
+          indice="08 / APOIAR"
+          rotulo="Apoiar o Notalio"
+          className="pb-[clamp(4rem,9vw,9rem)]"
+        >
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
+                {app.apoiar.titulo}
+              </h2>
+              <p className="medida-texto mt-5 text-[1.05rem] leading-relaxed text-paper/80">
+                {app.apoiar.texto}
+              </p>
+            </div>
+
+            <div className="lg:col-span-6 lg:col-start-7">
+              <dl className="grid gap-3">
+                {app.apoiar.canais.map((canal) => (
+                  <div
+                    key={canal.nome}
+                    className="flex flex-wrap items-baseline gap-x-4 gap-y-1 rounded-[var(--radius-control)] border border-line bg-raised/50 p-5"
+                  >
+                    <dt className="tecnica text-signal">{canal.nome}</dt>
+                    <dd className="font-mono text-sm break-all text-paper">{canal.valor}</dd>
+                  </div>
+                ))}
+              </dl>
+              {app.apoiar.fecho.map((paragrafo) => (
+                <p
+                  key={paragrafo.slice(0, 32)}
+                  className="medida-texto mt-4 text-sm leading-relaxed text-mineral"
+                >
+                  {paragrafo}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
     </>
   );
 }

@@ -12,7 +12,7 @@ export const hero = {
 
 export const laboratorio = {
   id: 'laboratorio',
-  indice: '03 / O ESTÚDIO',
+  indice: '04 / O ESTÚDIO',
   titulo: 'Ideias autorais, construídas até virarem produto.',
   paragrafos: [
     'A Blajeen Labs é um estúdio independente de software. Criamos produtos próprios e transformamos necessidades de clientes em experiências digitais completas.',
@@ -23,13 +23,13 @@ export const laboratorio = {
 
 export const experimentos = {
   id: 'jogos',
-  indice: '04 / JOGOS',
+  indice: '05 / JOGOS',
   titulo: 'Oito mundos. Oito perguntas diferentes.',
 } as const;
 
 export const produtosComerciais = {
   id: 'produtos',
-  indice: '05 / SAAS',
+  indice: '06 / SAAS',
   titulo: 'Sistemas próprios para rotinas reais.',
   texto:
     'Seis SaaS ativos para consultórios, beleza, barbearias, estúdios, restaurantes e lojas. Conheça os recursos, explore as demos e encontre o sistema para a sua operação.',
@@ -38,7 +38,7 @@ export const produtosComerciais = {
 
 export const proximo = {
   id: 'proximo',
-  indice: '06 / EM ABERTO',
+  indice: '07 / EM ABERTO',
   titulo: 'O laboratório continua em movimento.',
   paragrafos: [
     'Publicamos o que aprendemos, o que muda e o que ganha forma. Sem promessas vazias: mostramos quando existe algo real para mostrar.',
@@ -56,9 +56,26 @@ export const servicoPrincipal = {
   cta: { rotulo: 'CRIE SEU PROJETO', href: ROTAS.crieSeuProjeto },
 } as const;
 
+/**
+ * Os produtos na home.
+ *
+ * Eles entram em segundo, logo depois do serviço, e antes dos projetos de cliente. São a
+ * única coisa do site que a pessoa pode usar agora mesmo, de graça e sem falar com
+ * ninguém — e até hoje só existiam atrás de um menu. Pra um estúdio pequeno, "aqui tem
+ * três coisas prontas, baixa e testa" prova mais do que qualquer frase sobre método.
+ */
+export const produtosHome = {
+  id: 'produtos-home',
+  indice: '02 / PRODUTOS',
+  titulo: 'Coisas prontas, de graça, pra você usar hoje.',
+  texto:
+    'Programas e planilhas que a gente fez, publicou e usa. Sem conta, sem mensalidade e sem nada saindo da sua máquina.',
+  cta: { rotulo: 'VER TODOS OS PRODUTOS', href: ROTAS.produtos },
+} as const;
+
 export const trabalhosHome = {
   id: 'trabalhos',
-  indice: '02 / PROJETOS FEITOS',
+  indice: '03 / PROJETOS FEITOS',
   titulo: 'Projetos que saíram da bancada e chegaram ao mundo real.',
   texto:
     'Alguns dos projetos feitos para clientes, reunindo estratégia, identidade, experiência e engenharia para resolver necessidades reais.',

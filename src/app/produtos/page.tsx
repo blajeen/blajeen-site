@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
@@ -61,13 +62,35 @@ export default function ProdutosPage() {
         className="pb-[clamp(4rem,9vw,9rem)]"
       >
         <div className="grid gap-5">
-          {produtos.map((produto) => (
+          {produtos.map((produto, i) => (
             <article
               key={produto.id}
               className="rounded-[var(--radius-panel)] border border-line bg-raised/60 p-7 sm:p-10"
             >
+              {/* A miniatura antes do texto: sem ela, dois programas diferentes viram
+                  dois blocos de texto iguais, e a pessoa precisa ler pra saber qual é
+                  qual. As imagens já existiam — só não estavam aqui. */}
               <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-                <div className="lg:col-span-7">
+                <Link
+                  href={produto.rota}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className="group block overflow-hidden rounded-[var(--radius-control)] border border-line lg:col-span-4"
+                >
+                  <Image
+                    src={produto.imagem.src}
+                    alt=""
+                    width={900}
+                    height={700}
+                    sizes="(min-width: 64rem) 24rem, 100vw"
+                    // A primeira entra sem esperar: ela divide a dobra com o título e é
+                    // a maior coisa que a página desenha ali.
+                    priority={i === 0}
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </Link>
+
+                <div className="lg:col-span-5">
                   <div className="flex items-center gap-3">
                     <ProductIcon id={produto.simbolo} className="size-7 text-signal" />
                     <p className="tecnica text-signal">{produto.estado}</p>
@@ -83,7 +106,7 @@ export default function ProdutosPage() {
                   </p>
                 </div>
 
-                <div className="lg:col-span-4 lg:col-start-9">
+                <div className="lg:col-span-3 lg:col-start-10">
                   <dl className="grid gap-3 text-sm">
                     {ficha(produto).map((linha, i, todas) => (
                       <div
@@ -103,7 +126,7 @@ export default function ProdutosPage() {
                     href={produto.rota}
                     className="alvo-toque tecnica mt-7 inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow"
                   >
-                    {produto.tipo === 'aplicativo' ? 'VER E BAIXAR' : 'VER E PEGAR'} →
+                    {produto.tipo === 'aplicativo' ? 'VER O PROGRAMA' : 'VER A PLANILHA'} →
                   </Link>
                 </div>
               </div>

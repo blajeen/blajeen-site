@@ -161,7 +161,7 @@ export default function NotalioPage() {
           <Image
             src={app.imagem.src}
             alt={app.imagem.alt}
-            width={900}
+            width={1000}
             height={691}
             className="w-full rounded-[var(--radius-panel)] border border-line"
           />
@@ -204,9 +204,43 @@ export default function NotalioPage() {
         </div>
       </Section>
 
+      {/* ---------------------------------------------------------------- a gaveta */}
+      {app.gaveta ? (
+        <Section indice="03 / A GAVETA" rotulo="A gaveta do Notalio">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
+                {app.gaveta.titulo}
+              </h2>
+              <p className="medida-texto mt-5 text-[1.05rem] leading-relaxed text-paper/80">
+                {app.gaveta.resumo}
+              </p>
+            </div>
+
+            {/* Os três avisos ficam do lado do que a gaveta faz, e não numa nota lá
+                embaixo: quem lê "dá pra trancar" precisa ler o preço na mesma respirada. */}
+            <ul className="grid gap-3 lg:col-span-6 lg:col-start-7">
+              {app.gaveta.avisos.map((aviso) => (
+                <li
+                  key={aviso.titulo}
+                  className="rounded-[var(--radius-control)] border border-line border-l-2 border-l-signal/50 bg-raised/50 p-5"
+                >
+                  <p className="text-sm font-medium text-paper">{aviso.titulo}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-mineral">{aviso.texto}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="medida-texto mt-8 text-sm leading-relaxed text-mineral">
+            {app.gaveta.fecho}
+          </p>
+        </Section>
+      ) : null}
+
       {/* ---------------------------------------------------------------- promessas */}
       {app.promessas ? (
-        <Section indice="03 / O QUE ELE PROMETE" rotulo="As promessas do Notalio">
+        <Section indice="04 / O QUE ELE PROMETE" rotulo="As promessas do Notalio">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
               Um bloco de notas guarda o que você escreveu. São estas cinco frases que
@@ -222,6 +256,13 @@ export default function NotalioPage() {
                   <div>
                     <p className="text-sm font-medium text-paper">{promessa.titulo}</p>
                     <p className="mt-1 text-sm leading-relaxed text-mineral">{promessa.texto}</p>
+                    {/* Colada na promessa, e não numa nota de rodapé: quem lê a lista e
+                        para ali sairia com a informação errada. */}
+                    {promessa.excecao ? (
+                      <p className="mt-3 border-l border-signal/40 pl-4 text-sm leading-relaxed text-mineral-dim">
+                        {promessa.excecao}
+                      </p>
+                    ) : null}
                   </div>
                 </li>
               ))}
@@ -243,7 +284,7 @@ export default function NotalioPage() {
 
       {/* ---------------------------------------------------------------- o guia */}
       {app.guia ? (
-        <Section indice="04 / GUIA DAS FUNÇÕES" rotulo="Guia das funções do Notalio">
+        <Section indice="05 / GUIA DAS FUNÇÕES" rotulo="Guia das funções do Notalio">
           <p className="medida-texto mb-10 text-[1.05rem] leading-relaxed text-paper/80">
             O programa cabe numa tela e não tem menu. Isto aqui é cada botão dele, na ordem
             em que aparecem, com o que faz e o atalho.
@@ -296,7 +337,7 @@ export default function NotalioPage() {
 
       {/* ---------------------------------------------------------------- não faz */}
       <Section
-        indice="05 / O QUE ELE NÃO FAZ"
+        indice="06 / O QUE ELE NÃO FAZ"
         rotulo="O que o Notalio não faz"
         className="pb-[clamp(4rem,9vw,9rem)]"
       >

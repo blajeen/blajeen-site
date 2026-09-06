@@ -78,6 +78,19 @@ export type Aplicativo = Comum & {
   };
   codigoAberto: boolean;
   /**
+   * A anotação à parte que dá pra trancar, e o preço de trancar.
+   *
+   * Ganha bloco próprio na página porque é a única coisa do programa que cobra algo da
+   * pessoa em troca: a senha sem recuperação, e as versões anteriores que somem. Enterrar
+   * isso numa lista de recursos seria vender a parte boa e esconder a conta.
+   */
+  gaveta?: {
+    titulo: string;
+    resumo: string;
+    avisos: readonly { titulo: string; texto: string }[];
+    fecho: string;
+  };
+  /**
    * Onde ficam os arquivos que a pessoa cria, e por que isso importa.
    *
    * Só existe em produto que guarda alguma coisa da pessoa. O Clearlio não guarda nada
@@ -90,7 +103,13 @@ export type Aplicativo = Comum & {
    * O Clearlio organiza a dele pelo posicionamento; o Notalio nasceu com cinco promessas
    * escritas, e são elas que dizem o que ele é.
    */
-  promessas?: readonly { titulo: string; texto: string }[];
+  /**
+   * A `excecao` existe pra promessa que tem uma, e ela mora colada na promessa.
+   *
+   * Promessa com exceção escrita noutro lugar da página é promessa quebrada: quem lê a
+   * lista e para ali sai com a informação errada.
+   */
+  promessas?: readonly { titulo: string; texto: string; excecao?: string }[];
   /**
    * O buraco conhecido, medido, dito antes de a pessoa esbarrar nele.
    *
@@ -393,7 +412,7 @@ export const notalio: Aplicativo = {
   requisitos: 'Windows 10 ou 11, 64 bits',
   lema: 'Escreve e pronto. Eu guardo sozinho, e o arquivo é seu.',
   resumo:
-    'Um bloco de notas simples e leve, com dois cadernos que se alternam por um interruptor: um de texto corrido e um de tabela de duas colunas. Ele guarda sozinho — não tem botão de salvar, não tem conta e não abre junto com o Windows.',
+    'Um bloco de notas simples e leve, com dois cadernos que se alternam por um interruptor: um de texto corrido e um de tabela de duas colunas. A folha se parte em até quatro blocos, e tem uma gaveta à parte que dá pra trancar com senha. Ele guarda sozinho — não tem botão de salvar, não tem conta e não abre junto com o Windows.',
   descricao: [
     'Bloco de notas costuma pedir uma coisa estranha da pessoa: lembrar de salvar. É um pedido antigo, que sobrou de uma época em que gravar no disco era caro, e que hoje só serve pra fazer alguém perder meia hora de escrita por ter fechado a janela sem pensar.',
     'O Notalio não pede isso. Você escreve, ele guarda — sete décimos de segundo depois que você para de digitar. Fechar a janela, trocar de caderno ou clicar fora guardam na hora.',
@@ -401,9 +420,9 @@ export const notalio: Aplicativo = {
   ],
   imagem: {
     src: '/produtos/notalio/tela.webp',
-    alt: 'A janela do Notalio no caderno de texto, com três linhas escritas: uma delas tem um trecho marcado com um retângulo cinza atrás das letras, e o número dez aparece numa cor diferente do resto. No alto fica o interruptor que troca entre texto e tabela.',
+    alt: 'A janela do Notalio com a folha partida em quatro blocos, cada um com um texto diferente e numerado no canto. No alto fica o interruptor que troca entre texto e tabela, e ao lado dele o ícone da divisão, desenhado em quatro quadrados.',
     legenda:
-      'O caderno de texto, com um trecho marcado e o número saindo na cor dele. No alto, o interruptor que troca pro caderno de tabela; embaixo, a hora em que ele guardou por conta própria.',
+      'A folha partida em quatro. Cada bloco tem barra de rolagem, arquivo e história próprios — no alto, o ícone da divisão mostra em quantos pedaços ela está.',
   },
   faz: [
     {
@@ -447,11 +466,48 @@ export const notalio: Aplicativo = {
         'Traz um arquivo de fora pra dentro (.txt, .md, .markdown, .text, .log) sem nunca tocar no arquivo de origem, e leva uma cópia pra onde você escolher. Tem também uma foto da janela, que sai em JPEG direto na Área de trabalho.',
     },
     {
+      titulo: 'A folha se parte em até quatro',
+      texto:
+        'O botão de divisão, na direita, parte a folha em 2, 3 ou 4 blocos. Cada bloco tem barra de rolagem, arquivo e história de versões próprios: não é o mesmo texto visto de quatro jeitos, são quatro anotações lado a lado. O bloco 1 continua se chamando texto.txt, então quem já usava não vê nada mudar de lugar.',
+    },
+    {
+      titulo: 'O ícone é o estado',
+      texto:
+        'O desenho da divisão mostra em quantos pedaços a folha está, sem rótulo nenhum. E o botão de salvar txt pergunta de qual bloco — com quatro textos na tela, adivinhar errado quer dizer você abrir o arquivo depois e encontrar outra coisa.',
+    },
+    {
+      titulo: 'Uma gaveta à parte',
+      texto:
+        'O pergaminho, grudado no interruptor, abre uma anotação separada: pro que você não quer no meio do resto. Escreve, fecha, e ela volta pro lugar. Dá pra trancar com senha — está explicado aqui embaixo, com o que isso custa.',
+    },
+    {
       titulo: 'Português e inglês, claro e escuro',
       texto:
         'Troca o idioma sem reiniciar, e o tema também. Ele começa no idioma do seu Windows.',
     },
   ],
+  gaveta: {
+    titulo: 'A gaveta, e o que trancar ela custa',
+    resumo:
+      'O pergaminho ao lado do interruptor abre uma anotação à parte. O botão da direita nela é colocar senha: aí o arquivo é fechado com Argon2id e XChaCha20-Poly1305 — nada inventado por mim — e ninguém lê o que está dentro sem a senha, inclusive eu.',
+    avisos: [
+      {
+        titulo: 'Não existe recuperação',
+        texto: 'Esqueceu a senha, acabou. Não tem segunda chave.',
+      },
+      {
+        titulo: 'Trancar apaga as versões anteriores da gaveta',
+        texto:
+          'Elas ficam em texto aberto na pasta, e trancar a porta com a janela aberta não é trancar.',
+      },
+      {
+        titulo: 'Sem senha, a gaveta é um arquivo de texto comum',
+        texto: 'Ela serve pra separar, não pra esconder.',
+      },
+    ],
+    fecho:
+      'A senha não é guardada em lugar nenhum. A chave fica na memória enquanto a gaveta está aberta, e some quando ela fecha. Estas três linhas também estão escritas dentro do programa, antes do clique e não depois.',
+  },
   ondeFicam: {
     titulo: 'Os seus arquivos são arquivos de verdade',
     texto:
@@ -461,12 +517,14 @@ export const notalio: Aplicativo = {
     {
       titulo: 'Você nunca perde o que escreveu',
       texto:
-        'Ele guarda sozinho, sete décimos de segundo depois que você para de digitar. Fechar a janela, trocar de caderno ou clicar fora guardam na hora.',
+        'Ele guarda sozinho, sete décimos de segundo depois que você para de digitar. Fechar a janela, trocar de caderno ou clicar fora guardam na hora. Na tela Sobre tem "voltar ao padrão de fábrica", que volta tema, idioma, divisão da folha e cor da letra — sem encostar em nenhuma palavra escrita e sem apagar nenhuma versão anterior.',
     },
     {
       titulo: 'O arquivo é um arquivo de verdade',
       texto:
         'Documentos\\Notalio\\texto.txt e Documentos\\Notalio\\tabela.csv. Se o Notalio sumir do mundo amanhã, os dois abrem no Bloco de Notas do Windows.',
+      excecao:
+        'A gaveta com senha é a única exceção, e ela é escolha sua: o arquivo continua sendo um .txt que abre no Bloco de Notas, e a primeira coisa que ele diz é o que ele é — que está trancado, com o quê, e que não existe segunda chave. O que não dá pra ler é só o conteúdo.',
     },
     {
       titulo: 'Dá pra voltar atrás',
@@ -509,6 +567,17 @@ export const notalio: Aplicativo = {
           teclas: 'Ctrl+F',
           texto:
             'Abre a busca, com um contador de quantos resultados apareceram e setas pra andar de um pro outro. Do lado dela dá pra substituir um por um, ou todos de uma vez — e substituir todos guarda uma versão anterior antes de mexer, pra você poder voltar atrás.',
+        },
+      ],
+    },
+    {
+      grupo: 'O pergaminho, grudado no interruptor',
+      itens: [
+        {
+          nome: 'A gaveta',
+          teclas: 'Ctrl+G',
+          texto:
+            'Abre uma anotação à parte, pro que você não quer no meio do resto. Escreve, fecha, e ela volta pro lugar. O botão da direita dentro dela coloca senha.',
         },
       ],
     },
@@ -557,6 +626,12 @@ export const notalio: Aplicativo = {
             'Guarda uma cópia num arquivo escolhido por você — .txt no caderno de texto, .csv no de tabela. É cópia: o seu arquivo de sempre continua onde está, e você não precisa disso pra não perder nada.',
         },
         {
+          nome: 'Divisão da folha',
+          teclas: 'Ctrl+1 a Ctrl+4, com Shift',
+          texto:
+            'Parte a folha em 2, 3 ou 4 blocos, cada um com arquivo e história próprios. O próprio desenho do botão mostra em quantos pedaços ela está — não tem rótulo. Sem Shift, o mesmo número pula pro bloco em vez de dividir.',
+        },
+        {
           nome: 'Foto da janela',
           teclas: 'Ctrl+P',
           texto:
@@ -573,15 +648,21 @@ export const notalio: Aplicativo = {
           texto:
             'Mostra o que estava escrito antes, até 100 por caderno. Trazer uma de volta guarda a de agora antes — nem isso é caminho sem volta.',
         },
-        { nome: 'sobre', texto: 'O que o programa é, e onde ficam os seus arquivos.' },
+        {
+          nome: 'sobre',
+          texto:
+            'O que o programa é, e onde ficam os seus arquivos. Ali também fica o "voltar ao padrão de fábrica", que devolve tema, idioma, divisão da folha e cor da letra ao que eram — sem encostar em nenhuma palavra escrita e sem apagar nenhuma versão anterior.',
+        },
         {
           nome: 'cor',
+          teclas: 'Ctrl+K',
           texto:
             'Quatro cores de letra, uma escolha por caderno. Os números saem numa cor própria de qualquer jeito — com qualquer tema e qualquer cor escolhida —, porque número no meio do texto é o que o olho procura primeiro.',
         },
         { nome: 'tema', teclas: 'Shift+X', texto: 'Troca entre escuro e claro.' },
         {
           nome: 'português / English',
+          teclas: 'Shift+I',
           texto: 'Troca o idioma na hora, sem fechar o programa.',
         },
       ],
@@ -605,6 +686,10 @@ export const notalio: Aplicativo = {
   ],
   atalhos: [
     { teclas: 'Ctrl+F', faz: 'localiza e substitui' },
+    { teclas: 'Ctrl+G', faz: 'abre e fecha a gaveta' },
+    { teclas: 'Ctrl+1 a Ctrl+4', faz: 'pula pro bloco (com Shift, divide a folha)' },
+    { teclas: 'Ctrl+K', faz: 'a cor da letra' },
+    { teclas: 'Shift+I', faz: 'troca de idioma' },
     { teclas: 'Ctrl+Tab', faz: 'troca de caderno' },
     { teclas: 'Ctrl+Z / Ctrl+Y', faz: 'desfaz e avança' },
     { teclas: 'Ctrl+E', faz: 'arruma' },
@@ -633,16 +718,16 @@ export const notalio: Aplicativo = {
       paraQuem:
         'O normal. Instala pro seu usuário sem pedir senha de administrador, e aparece em "Adicionar ou remover programas" como qualquer programa. Pergunta o idioma na instalação, e em Windows 10 sem o WebView2 ele resolve isso sozinho.',
       recomendado: true,
-      hash: '3789be6327a8f2ed6bc6cf6cdcbcdff8f96800e852cbb3e5331e8d79cac3198c',
+      hash: 'aba63792421b18b85469b00ad58f0c49041a30441920ff8454dbbca46bc1720b',
     },
     {
       id: 'portatil',
       nome: 'Portátil',
       arquivo: 'Notalio-0.1.0-portatil.exe',
-      tamanho: '3,1 MB',
+      tamanho: '3,2 MB',
       paraQuem:
         'Não instala nada: roda direto, inclusive de pendrive. Seus arquivos continuam indo pra Documentos\\Notalio.',
-      hash: '349440b247c98547a90f6340bc54aaf4c41d90d61cb3ccbac17c066781d3ce29',
+      hash: '7118a9d0015537161f88d0d185244540cffe3d4512a85e964c01664161b59d0b',
     },
   ],
   avisoDoWindows: {

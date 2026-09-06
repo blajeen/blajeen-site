@@ -26,10 +26,12 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // 16 do plano original + `/novidades` + Gramelio, Clínica Médica, Produtos e dois novos jogos.
-    expect(TODAS_AS_ROTAS).toHaveLength(64);
+    expect(TODAS_AS_ROTAS).toHaveLength(70);
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/notalio');
+    expect(TODAS_AS_ROTAS).toContain('/clearlio/privacy');
+    expect(TODAS_AS_ROTAS).toContain('/notalio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/produtos/planilha-financeira');
     expect(TODAS_AS_ROTAS).toContain('/crie-seu-projeto');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos');
@@ -96,6 +98,13 @@ describe('rotas públicas', () => {
       '/socialio/terms',
       '/socialio/support',
       '/socialio/delete-account',
+      // Os programas de Windows: estas vão para o Partner Center da Microsoft.
+      '/clearlio/privacy',
+      '/clearlio/terms',
+      '/clearlio/support',
+      '/notalio/privacy',
+      '/notalio/terms',
+      '/notalio/support',
     ]);
   });
 

@@ -408,6 +408,8 @@ describe('documentos legais', () => {
       Morvelio: 'brg.ftw@gmail.com',
       Mazelio: 'brg.ftw@gmail.com',
       Socialio: 'brg.ftw@gmail.com',
+      Clearlio: 'brg.ftw@gmail.com',
+      Notalio: 'brg.ftw@gmail.com',
       'Blajeen Labs': 'brg.ftw@gmail.com',
     };
 

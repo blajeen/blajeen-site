@@ -51,6 +51,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
     descricao: 'Programas de computador do laboratório, pra baixar e usar sem conta.',
     href: ROTAS.produtos,
     icone: 'produtos',
+    menu: 'produtos',
   },
   {
     indice: '04',
@@ -58,6 +59,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
     descricao: 'Sistemas próprios adaptados a negócios reais.',
     href: ROTAS.projetos,
     icone: 'produtos',
+    menu: 'projetos',
   },
   {
     indice: '05',
@@ -65,6 +67,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
     descricao: 'Jogos autorais da Blajeen Labs: experiências de estratégia, exploração, convivência e mundos próprios.',
     href: ROTAS.projetoRevalio,
     icone: 'jogos',
+    menu: 'jogos',
   },
   {
     indice: '06',

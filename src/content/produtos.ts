@@ -611,7 +611,7 @@ export const notalio: Aplicativo = {
     {
       titulo: 'O arquivo é um arquivo de verdade',
       texto:
-        'Documentos\\Notalio\\texto.txt e Documentos\\Notalio\\tabela.csv. Se o Notalio sumir do mundo amanhã, os dois abrem no Bloco de Notas do Windows.',
+        'Documentos\\Notalio\\texto.txt, tabela.csv e checklist.md. Se o Notalio sumir do mundo amanhã, os três continuam abrindo: o texto e a lista no Bloco de Notas do Windows, a tabela no Excel.',
       excecao:
         'A gaveta com senha é a única exceção, e ela é escolha sua: o arquivo continua sendo um .txt que abre no Bloco de Notas, e a primeira coisa que ele diz é o que ele é — que está trancado, com o quê, e que não existe segunda chave. O que não dá pra ler é só o conteúdo.',
     },
@@ -657,7 +657,7 @@ export const notalio: Aplicativo = {
           nome: 'texto / tabela',
           teclas: 'Ctrl+Tab',
           texto:
-            'Troca entre os dois cadernos. A cor da janela inteira muda junto — verde-limão no texto, azul na tabela — pra você saber onde está sem precisar ler. O que estava escrito fica guardado antes da troca.',
+            'Passa pelos três cadernos, em ordem. A cor da janela inteira muda junto — verde-limão no texto, azul na tabela, roxo na lista — pra você saber onde está sem precisar ler. O que estava escrito fica guardado antes da troca.',
         },
       ],
     },

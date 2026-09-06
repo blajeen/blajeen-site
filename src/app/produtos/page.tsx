@@ -18,15 +18,22 @@ export const metadata: Metadata = metadadosDaRota({
 /**
  * A ficha muda com o tipo do produto.
  *
- * Programa tem versão e sistema mínimo; planilha tem formato e onde ela roda. Mostrar
- * "Windows 10 ou 11" numa planilha que abre no celular seria mentira, e mostrar um campo
- * vazio seria pior.
+ * Programa tem versão e sistema mínimo; planilha tem formato e onde ela roda; site tem
+ * quantos lugares ele cobre. Mostrar "Windows 10 ou 11" numa planilha que abre no celular
+ * seria mentira, e mostrar um campo vazio seria pior.
  */
 function ficha(produto: (typeof produtos)[number]) {
   if (produto.tipo === 'aplicativo') {
     return [
       { rotulo: 'Versão', valor: produto.versao },
       { rotulo: 'Roda em', valor: produto.requisitos },
+      { rotulo: 'Preço', valor: 'Nenhum' },
+    ];
+  }
+  if (produto.tipo === 'site') {
+    return [
+      { rotulo: 'Cobre', valor: '628 pontos, nos 27 estados' },
+      { rotulo: 'Roda em', valor: 'Qualquer navegador' },
       { rotulo: 'Preço', valor: 'Nenhum' },
     ];
   }
@@ -37,20 +44,28 @@ function ficha(produto: (typeof produtos)[number]) {
   ];
 }
 
+/** O que o botão do cartão diz, que muda com o que a pessoa vai encontrar do outro lado. */
+function chamada(produto: (typeof produtos)[number]) {
+  if (produto.tipo === 'aplicativo') return 'VER O PROGRAMA';
+  if (produto.tipo === 'site') return 'VER O SITE';
+  return 'VER A PLANILHA';
+}
+
 export default function ProdutosPage() {
   return (
     <>
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
         <LabBackdrop />
         <Container>
-          <p className="tecnica text-signal">PRA BAIXAR E USAR / SEM CONTA E SEM MENSALIDADE</p>
+          <p className="tecnica text-signal">PRA USAR HOJE / SEM CONTA E SEM MENSALIDADE</p>
           <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
             <h1 className="max-w-[14ch] text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em] lg:col-span-8">
               Coisas que ficam com você.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Um programa e uma planilha. Você leva pra sua máquina, usa como quiser, e nada do
-              que você faz neles passa por um servidor nosso.
+              Dois programas, um site e uma planilha. O que é seu fica com você — no seu
+              computador ou no seu aparelho —, e nada do que você faz neles passa por um
+              servidor nosso.
             </p>
           </div>
         </Container>
@@ -126,7 +141,7 @@ export default function ProdutosPage() {
                     href={produto.rota}
                     className="alvo-toque tecnica mt-7 inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow"
                   >
-                    {produto.tipo === 'aplicativo' ? 'VER O PROGRAMA' : 'VER A PLANILHA'} →
+                    {chamada(produto)} →
                   </Link>
                 </div>
               </div>

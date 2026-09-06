@@ -199,7 +199,39 @@ export type Planilha = Comum & {
   diferencaDoExcel: string;
 };
 
-export type Produto = Aplicativo | Planilha;
+/**
+ * Um site: não se baixa, se visita.
+ *
+ * Ele entra nesta página e não na de projetos porque compartilha com os outros dois o
+ * que a página promete — sem conta, sem mensalidade, sem função trancada. O que ele não
+ * compartilha é o "fica com você" literal: o que fica na máquina da pessoa são os
+ * favoritos dela, guardados no próprio aparelho e em mais lugar nenhum.
+ */
+export type Site = Comum & {
+  tipo: 'site';
+  /**
+   * Onde ele está no ar, ou `null` enquanto não estiver.
+   *
+   * `null` de propósito, e não uma string vazia: um endereço vazio vira um link que não
+   * leva a lugar nenhum, e a página precisa poder decidir entre mostrar um botão e
+   * mostrar uma frase dizendo que ainda não dá.
+   */
+  endereco: string | null;
+  /** O que ele se recusa a fazer, como nos programas. */
+  naoFaz: readonly string[];
+  /** O tamanho da base, em números que dá pra conferir abrindo o site. */
+  numeros: readonly { valor: string; rotulo: string }[];
+  /**
+   * O que ainda não está pronto, dito aqui e não descoberto lá dentro.
+   *
+   * Um produto que se apresenta antes de estar completo tem duas saídas: esconder o que
+   * falta, ou dizer. A segunda é a única que continua valendo quando a pessoa chegar na
+   * parte que falta.
+   */
+  aindaNao: { titulo: string; texto: string };
+};
+
+export type Produto = Aplicativo | Planilha | Site;
 
 export const clearlio: Aplicativo = {
   tipo: 'aplicativo',
@@ -844,4 +876,78 @@ export const notalio: Aplicativo = {
 
 export { NOTALIO_DOWNLOAD };
 
-export const produtos: readonly Produto[] = [clearlio, notalio, planilhaFinanceira];
+export const vistalio: Site = {
+  tipo: 'site',
+  id: 'vistalio',
+  nome: 'Vistalio',
+  simbolo: 'vistas',
+  rota: ROTAS.produtoVistalio,
+  estado: 'EM BREVE · GRATUITO',
+  endereco: null,
+  lema: 'Onde tirar fotos com as melhores vistas do Brasil.',
+  resumo:
+    'Um mapa do Brasil onde você escolhe um estado e encontra mirantes, praias, cachoeiras e arquitetura — cada lugar com foto, descrição e o caminho até lá no Google Maps. São 628 pontos nos 27 estados. Sem conta, sem cadastro e sem mensalidade.',
+  descricao: [
+    'Procurar "onde tirar foto em Minas" devolve lista de blog, post patrocinado e a mesma cachoeira em dez sites. O que falta não é lugar bonito: é uma lista que diga onde é, o que se vê e como chegar, sem você abrir quinze abas pra montar isso na mão.',
+    'O Vistalio é essa lista. A home é o mapa do Brasil, e cada estado mostra quantos pontos tem antes de você clicar. Dentro do estado, busca e filtros; dentro do ponto, a foto, a descrição, as categorias e o botão que abre o caminho no Google Maps.',
+    'Os favoritos ficam no seu aparelho, e em mais lugar nenhum. Não existe login pra fazer, conta pra criar nem lista sua num servidor nosso.',
+  ],
+  imagem: {
+    src: '/produtos/vistalio/tela.webp',
+    alt: 'A home do Vistalio: sobre um fundo azul-noite, o título "Onde tirar fotos com as melhores vistas do Brasil" e o mapa do Brasil em relevo, cada estado como um ladrilho com a sigla e a quantidade de pontos. Os estados pequenos do Nordeste têm o rótulo puxado por linha de chamada até a margem.',
+    legenda:
+      'A home. O mapa são 27 caminhos vetoriais das malhas do IBGE, e não um mapa de servidor — nenhuma requisição de tiles, nenhuma biblioteca de mapa.',
+  },
+  numeros: [
+    { valor: '628', rotulo: 'pontos fotográficos' },
+    { valor: '27', rotulo: 'estados, sem nenhum vazio' },
+    { valor: '482', rotulo: 'com fotografia de verdade' },
+    { valor: '24 KB', rotulo: 'o mapa inteiro do Brasil' },
+  ],
+  faz: [
+    {
+      titulo: 'O mapa é o menu',
+      texto:
+        'A home é o Brasil em relevo, e cada estado já diz quantos pontos tem antes do clique. São 27 caminhos vetoriais tirados das malhas do IBGE, num arquivo de 24 KB — sem servidor de mapa no meio, o que mantém a página leve em 3G.',
+    },
+    {
+      titulo: 'Estado pequeno também tem nome',
+      texto:
+        'Alagoas, Sergipe e os vizinhos não cabem num rótulo dentro do próprio desenho. Em vez de encolher a letra até ninguém ler, o nome sai por linha de chamada até a margem — como numa planta, e não como num mapa que desistiu.',
+    },
+    {
+      titulo: 'Foto certa, ou desenho',
+      texto:
+        'As fotos vêm do Wikimedia Commons com autor e licença. Toda candidata passa por uma conferência de nome antes de entrar, porque a busca solta erra feio — "Praça da Revolução" devolvia o escudo de um time. O que não passa fica com uma ilustração gerada do próprio lugar. Nenhum card fica vazio, e nenhum mostra outro lugar.',
+    },
+    {
+      titulo: 'O caminho até lá',
+      texto:
+        'Cada ponto tem um botão que abre o Google Maps. Enquanto o lugar não foi conferido em campo, ele busca pelo nome e pela cidade em vez da coordenada: o nome sempre chega no lugar certo, a coordenada aproximada não.',
+    },
+    {
+      titulo: 'Favoritos que não pedem conta',
+      texto:
+        'Você marca o que quiser e a lista fica no seu aparelho. Sem login, sem cadastro e sem lista sua guardada num servidor nosso.',
+    },
+    {
+      titulo: 'Busca e filtro por estado',
+      texto:
+        'Dentro do estado dá pra procurar pelo nome e filtrar por categoria — mirante, praia, cachoeira, arquitetura. Os pontos com ficha completa aparecem primeiro.',
+    },
+  ],
+  naoFaz: [
+    'Não tem conta, não tem cadastro e não tem login. Os favoritos ficam no seu aparelho.',
+    'Não vende ingresso, não agenda passeio e não indica guia. Ele diz onde é e como chegar; o resto é com você.',
+    'Não usa servidor de mapa nem biblioteca de mapa. O desenho do Brasil é um arquivo de 24 KB que vem junto da página.',
+    'Não inventa foto. Quando a imagem certa não existe ou não passa na conferência, entra uma ilustração — nunca a foto de outro lugar.',
+    'Não tem anúncio e não tem versão paga.',
+  ],
+  aindaNao: {
+    titulo: 'O que ainda não está pronto',
+    texto:
+      'As descrições dizem o que se vê em cada lugar, mas não foram conferidas em campo: todo ponto entra marcado como não revisado, e a interface diz isso na home, na ficha e no rodapé. Os campos de melhor horário, melhor época, dificuldade e acessibilidade já existem e estão preenchidos em 175 pontos — mas nenhuma tela os mostra ainda, porque mostrá-los agora encheria a maioria das fichas de "a definir" e diria menos, não mais.',
+  },
+};
+
+export const produtos: readonly Produto[] = [clearlio, notalio, vistalio, planilhaFinanceira];

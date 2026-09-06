@@ -25,11 +25,13 @@ describe('rotaAtiva', () => {
 
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
-    // 16 do plano original + `/novidades` + Gramelio, Clínica Médica, Produtos e dois novos jogos.
-    expect(TODAS_AS_ROTAS).toHaveLength(70);
+    // 16 do plano original + `/novidades` + Gramelio, Clínica Médica, Produtos, dois novos
+    // jogos e o Vistalio.
+    expect(TODAS_AS_ROTAS).toHaveLength(71);
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/notalio');
+    expect(TODAS_AS_ROTAS).toContain('/produtos/vistalio');
     expect(TODAS_AS_ROTAS).toContain('/clearlio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/notalio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/produtos/planilha-financeira');

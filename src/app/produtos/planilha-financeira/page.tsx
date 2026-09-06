@@ -9,19 +9,21 @@ import { ROTAS } from '@/lib/routes';
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Planilha de Controle Financeiro | Blajeen Labs',
   descricao:
-    'Planilha de controle financeiro pessoal, pronta pra usar e gratuita. O que se repete você cadastra uma vez; o painel se vira sozinho. Copie pro seu Google Drive ou baixe em Excel.',
+    'Planilha de controle financeiro pessoal para Google Sheets. Solicite uma licença por e-mail, receba seu código e faça uma cópia no seu próprio Google Drive.',
   rota: ROTAS.produtoPlanilhaFinanceira,
 });
 
 export default function PlanilhaFinanceiraPage() {
   const p = planilhaFinanceira;
+  const solicitarLicencaHref =
+    'mailto:brg.ftw@gmail.com?subject=Solicita%C3%A7%C3%A3o%20de%20licen%C3%A7a%20%E2%80%94%20Planilha%20Financeira%20Blajeen&body=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20licen%C3%A7a%20para%20a%20Planilha%20de%20Controle%20Financeiro%20da%20Blajeen%20Labs.';
 
   return (
     <>
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
         <LabBackdrop />
         <Container>
-          <p className="tecnica text-signal">{p.estado} / GOOGLE SHEETS E EXCEL</p>
+          <p className="tecnica text-signal">{p.estado} / GOOGLE SHEETS</p>
           <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
               <h1 className="max-w-[16ch] text-[clamp(2.6rem,6vw,5.6rem)] leading-[0.94] tracking-[-0.06em]">
@@ -38,57 +40,61 @@ export default function PlanilhaFinanceiraPage() {
         </Container>
       </header>
 
-      {/* ---------------------------------------------------------------- pegar */}
-      <Section indice="01 / PEGAR A SUA CÓPIA" rotulo="Pegar a planilha">
+      {/* ---------------------------------------------------------------- licença */}
+      <Section indice="01 / SOLICITAR LICENÇA" rotulo="Solicitar e ativar">
         <div className="grid gap-4 lg:grid-cols-2">
           <article className="flex flex-col rounded-[var(--radius-panel)] border border-signal/40 bg-raised/80 p-7 sm:p-9">
             <div className="flex items-baseline justify-between gap-3">
-              <h2 className="text-[1.5rem] leading-none tracking-[-0.03em]">Google Sheets</h2>
-              <span className="tecnica text-signal">RECOMENDADO</span>
+              <h2 className="text-[1.5rem] leading-none tracking-[-0.03em]">Solicite seu código</h2>
+              <span className="tecnica text-signal">PASSO 01</span>
             </div>
             <p className="mt-4 flex-1 text-sm leading-relaxed text-mineral">
-              O link abre a caixa <strong className="font-medium text-paper">Fazer uma cópia</strong>.
-              A partir daí a planilha é sua, fica no seu Drive e você usa do computador ou do
-              celular. Precisa de uma conta do Google, e o que você escreve nela não passa por
-              nenhum servidor nosso.
+              Envie um e-mail para{' '}
+              <strong className="font-medium text-paper">brg.ftw@gmail.com</strong> solicitando uma
+              licença da Planilha de Controle Financeiro. A Blajeen responde com o código que será
+              usado para ativar sua cópia.
+            </p>
+            <a
+              href={solicitarLicencaHref}
+              className="alvo-toque tecnica mt-7 inline-flex items-center justify-center rounded-full bg-signal px-5 text-ink hover:bg-glow"
+            >
+              SOLICITAR LICENÇA POR E-MAIL →
+            </a>
+          </article>
+
+          <article className="flex flex-col rounded-[var(--radius-panel)] border border-line bg-raised/50 p-7 sm:p-9">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 className="text-[1.5rem] leading-none tracking-[-0.03em]">Já recebeu a licença?</h2>
+              <span className="tecnica text-mineral">PASSO 02</span>
+            </div>
+            <p className="mt-4 flex-1 text-sm leading-relaxed text-mineral">
+              Faça uma cópia no seu Google Drive. Depois de abrir a cópia, use o menu{' '}
+              <strong className="font-medium text-paper">Blajeen → Ativar licença</strong> e cole o
+              código recebido por e-mail. A planilha original da Blajeen não é alterada.
             </p>
             <a
               href={p.links.copiar}
               target="_blank"
               rel="noreferrer"
-              className="alvo-toque tecnica mt-7 inline-flex items-center justify-center rounded-full bg-signal px-5 text-ink hover:bg-glow"
-            >
-              FAZER UMA CÓPIA →
-            </a>
-          </article>
-
-          <article className="flex flex-col rounded-[var(--radius-panel)] border border-line bg-raised/50 p-7 sm:p-9">
-            <h2 className="text-[1.5rem] leading-none tracking-[-0.03em]">Excel</h2>
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-mineral">
-              O mesmo arquivo em <code className="font-mono text-paper/80">.xlsx</code>, pra abrir
-              no Excel, no LibreOffice ou em qualquer programa de planilha. Não precisa de conta
-              nenhuma, e funciona sem internet depois de baixado. Com uma diferença, que fica
-              logo abaixo.
-            </p>
-            <a
-              href={p.links.excel}
               className="alvo-toque tecnica mt-7 inline-flex items-center justify-center rounded-full border border-line-strong px-5 text-paper hover:border-signal/40"
             >
-              BAIXAR EM EXCEL
+              JÁ TENHO A LICENÇA — FAZER UMA CÓPIA →
             </a>
           </article>
         </div>
 
         <div className="mt-8 rounded-[var(--radius-control)] border border-line bg-raised/40 p-6 sm:p-7">
-          <h3 className="text-[1rem] leading-snug tracking-[-0.02em]">
-            A diferença entre as duas
-          </h3>
-          <p className="medida-texto mt-3 text-sm leading-relaxed text-mineral">
-            {p.diferencaDoExcel}
-          </p>
-          <p className="medida-texto mt-3 text-sm leading-relaxed text-mineral">
-            Fora isso, é o mesmo arquivo, e os dois são de graça. Na dúvida, comece pela cópia no
-            Google: dá pra baixar em Excel depois, a qualquer momento.
+          <h3 className="text-[1rem] leading-snug tracking-[-0.02em]">Como a ativação funciona</h3>
+          <ol className="medida-texto mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-mineral">
+            <li>Solicite a licença pelo e-mail acima.</li>
+            <li>Receba da Blajeen um código individual de ativação.</li>
+            <li>Faça a sua cópia da planilha no Google Drive.</li>
+            <li>Na cópia, abra Blajeen → Ativar licença e cole o código.</li>
+          </ol>
+          <p className="medida-texto mt-4 text-xs leading-relaxed text-mineral-dim">
+            Seus lançamentos ficam na sua própria planilha do Google Drive. Quando você usa uma
+            automação protegida, a planilha envia ao serviço da Blajeen somente os dados necessários
+            para validar a licença e executar aquela ação.
           </p>
         </div>
       </Section>

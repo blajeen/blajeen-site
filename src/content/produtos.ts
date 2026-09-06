@@ -4,10 +4,9 @@ import { ROTAS } from '@/lib/routes';
 /**
  * Produtos do estúdio: coisa que a pessoa leva pra máquina dela e usa.
  *
- * Categoria própria porque não é jogo nem SaaS — não tem conta, não tem servidor no meio
- * e não tem mensalidade. Isso muda tudo o que a página precisa dizer: em vez de preço e
- * plano, ela precisa dizer o que aquilo faz com os arquivos de quem instalou, e como
- * desfazer.
+ * Categoria própria porque não é jogo nem SaaS. Isso muda o que a página precisa dizer:
+ * em vez de prometer uma experiência abstrata, ela precisa explicar como o produto é entregue,
+ * onde ficam os arquivos e, quando houver serviço remoto, exatamente em que momento ele é usado.
  */
 
 /**
@@ -276,7 +275,7 @@ export const clearlio: Aplicativo = {
   codigoAberto: false,
 };
 
-const PLANILHA_ID = '1p9PekmcDt7nGOPetWt_pbwstjwBw899_VhAZRnUDjcs';
+const PLANILHA_ID = '1Cn21INdvyvpJwAPQZitDBdPSrVeX0yx0afSFjn7L_wQ';
 
 export const planilhaFinanceira: Planilha = {
   tipo: 'planilha',
@@ -284,14 +283,14 @@ export const planilhaFinanceira: Planilha = {
   nome: 'Planilha de Controle Financeiro',
   simbolo: 'planilha',
   rota: ROTAS.produtoPlanilhaFinanceira,
-  estado: 'ATIVO · GRATUITO',
+  estado: 'ATIVO · LICENÇA POR E-MAIL',
   lema: 'Saber pra onde o seu dinheiro foi, sem virar contador.',
   resumo:
-    'Uma planilha de controle financeiro pessoal, pronta pra usar. Você cadastra uma vez o que se repete todo mês, lança o resto conforme acontece, e o painel se vira sozinho. Tire uma cópia pro seu Google Drive, ou baixe em Excel.',
+    'Uma planilha de controle financeiro pessoal, pronta pra usar no Google Sheets. Solicite sua licença por e-mail, receba o código de ativação e então faça uma cópia no seu próprio Google Drive.',
   descricao: [
     'Quase toda planilha de finanças que existe por aí é um de dois extremos: ou é uma folha em branco com três colunas, que não ajuda em nada, ou é um monstro de vinte abas com fórmula que ninguém entende — e que a pessoa abandona na segunda semana.',
     'Esta fica no meio. Ela tem o que faz diferença de verdade — o que entra, o que sai, o que se repete todo mês, a fatura do cartão separada das contas fixas, as metas com prazo — e para por aí. As contas se fazem sozinhas.',
-    'A primeira aba é uma página de instruções que se lê uma vez e não se lê mais. Ela também diz o que fazer se alguma coisa parar de funcionar, o que é raro numa planilha e faz falta em todas.',
+    'A primeira aba é uma página de instruções que se lê uma vez e não se lê mais. A automação usa uma licença emitida pela Blajeen: quando você pede uma ação automatizada, a planilha envia ao serviço da Blajeen somente os dados necessários para validar a licença e executar aquela ação.',
   ],
   imagem: {
     src: '/produtos/planilha-financeira/tela.webp',
@@ -392,7 +391,7 @@ export const planilhaFinanceira: Planilha = {
    * digitado. Não dizer isso seria deixar a pessoa descobrir sozinha depois de escolher.
    */
   diferencaDoExcel:
-    'A versão do Excel calcula tudo igual — as fórmulas vão junto. O que não vai é o script que preenche as contas fixas sozinho quando você troca de mês: no Excel, essas linhas você digita. Se isso for importante pra você, prefira a cópia no Google.',
+    'A distribuição oficial com licença e automações é feita pelo Google Sheets. Uma exportação em Excel não leva o cliente de ativação nem as automações protegidas da Blajeen.',
 };
 
 const NOTALIO_DOWNLOAD = 'https://github.com/blajeen/notalio-download/releases';

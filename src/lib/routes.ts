@@ -21,6 +21,18 @@ export const ROTAS = {
   produtos: '/produtos',
   produtoClearlio: '/produtos/clearlio',
   produtoNotalio: '/produtos/notalio',
+  /**
+   * As páginas legais dos programas ficam na raiz, como as dos jogos.
+   *
+   * A loja pede uma URL de privacidade que responda em HTTPS, sem login e sem depender
+   * de JavaScript, e é ela que vai ser colada no formulário de envio.
+   */
+  clearlioPrivacidade: '/clearlio/privacy',
+  clearlioTermos: '/clearlio/terms',
+  clearlioSuporte: '/clearlio/support',
+  notalioPrivacidade: '/notalio/privacy',
+  notalioTermos: '/notalio/terms',
+  notalioSuporte: '/notalio/support',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
   barbearia: '/projects/barbelio',
@@ -121,6 +133,14 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.socialioTermos,
   ROTAS.socialioSuporte,
   ROTAS.socialioExclusao,
+  // Os programas de Windows entram por último: as de cima já foram para as lojas
+  // de aplicativo e mudar a ordem delas não traz benefício nenhum.
+  ROTAS.clearlioPrivacidade,
+  ROTAS.clearlioTermos,
+  ROTAS.clearlioSuporte,
+  ROTAS.notalioPrivacidade,
+  ROTAS.notalioTermos,
+  ROTAS.notalioSuporte,
 ];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */

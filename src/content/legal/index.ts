@@ -1,4 +1,6 @@
 import type { LegalDocument } from '../types';
+import { privacidadeClearlio, suporteClearlio, termosClearlio } from './clearlio';
+import { privacidadeNotalio, suporteNotalio, termosNotalio } from './notalio';
 import { privacidadeEstudio, suporteEstudio, termosEstudio } from './blajeen';
 import {
   exclusaoDocalio,
@@ -38,6 +40,15 @@ import {
   suporteRevalio,
   termosRevalio,
 } from './revalio';
+
+export {
+  privacidadeClearlio,
+  termosClearlio,
+  suporteClearlio,
+  privacidadeNotalio,
+  termosNotalio,
+  suporteNotalio,
+};
 
 export {
   privacidadeEstudio,
@@ -114,4 +125,10 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosSocialio,
   suporteSocialio,
   exclusaoSocialio,
+  privacidadeClearlio,
+  termosClearlio,
+  suporteClearlio,
+  privacidadeNotalio,
+  termosNotalio,
+  suporteNotalio,
 ];

@@ -31,9 +31,21 @@ export default function VistalioPage() {
                 {app.lema}
               </p>
             </div>
-            <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              {app.resumo}
-            </p>
+            <div className="lg:col-span-3 lg:col-start-10 lg:pb-2">
+              <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
+                {app.resumo}
+              </p>
+              {app.endereco ? (
+                <a
+                  href={app.endereco}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="tecnica mt-5 inline-flex items-center gap-2 rounded-[var(--radius-control)] border border-signal/40 bg-raised/60 px-5 py-3 text-signal transition-colors hover:border-signal hover:bg-raised"
+                >
+                  ABRIR O VISTALIO <span aria-hidden="true">→</span>
+                </a>
+              ) : null}
+            </div>
           </div>
         </Container>
       </header>
@@ -107,13 +119,26 @@ export default function VistalioPage() {
           </p>
         </div>
 
-        {/* Enquanto não há endereço, a página diz isso em vez de oferecer um botão que
-            não leva a lugar nenhum. Botão morto é pior que ausência de botão: um custa
-            um clique e a descoberta de que não funciona, o outro custa nada. */}
+        {/* Ele está no ar e continua sendo construído. Dizer só a primeira metade
+            venderia como pronto o que ainda não está; dizer só a segunda esconderia que
+            já dá pra usar hoje. As duas cabem na mesma frase. */}
         <p className="medida-texto mt-10 border-l border-line pl-5 text-sm leading-relaxed text-mineral">
-          {app.endereco
-            ? 'Ele está no ar e é de graça — o endereço fica aqui em cima.'
-            : 'Ele ainda não está no ar. Quando estiver, o endereço aparece aqui, e continua sem conta, sem cadastro e sem mensalidade.'}
+          {app.endereco ? (
+            <>
+              Ele já está no ar e dá pra usar hoje, de graça e sem conta — em{' '}
+              <a
+                href={app.endereco}
+                target="_blank"
+                rel="noreferrer"
+                className="text-signal underline underline-offset-4"
+              >
+                vistalio-chi.vercel.app
+              </a>
+              . O endereço ainda é o provisório da hospedagem, e a lista continua crescendo.
+            </>
+          ) : (
+            'Ele ainda não está no ar. Quando estiver, o endereço aparece aqui, e continua sem conta, sem cadastro e sem mensalidade.'
+          )}
         </p>
       </Section>
 

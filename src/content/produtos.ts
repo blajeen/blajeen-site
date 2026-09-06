@@ -882,8 +882,8 @@ export const vistalio: Site = {
   nome: 'Vistalio',
   simbolo: 'vistas',
   rota: ROTAS.produtoVistalio,
-  estado: 'EM BREVE · GRATUITO',
-  endereco: null,
+  estado: 'EM CONSTRUÇÃO · GRATUITO',
+  endereco: 'https://vistalio-chi.vercel.app',
   lema: 'Onde tirar fotos com as melhores vistas do Brasil.',
   resumo:
     'Um mapa do Brasil onde você escolhe um estado e encontra mirantes, praias, cachoeiras e arquitetura — cada lugar com foto, descrição e o caminho até lá no Google Maps. São 628 pontos nos 27 estados. Sem conta, sem cadastro e sem mensalidade.',

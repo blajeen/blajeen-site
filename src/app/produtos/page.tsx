@@ -47,7 +47,9 @@ function ficha(produto: (typeof produtos)[number]) {
 /** O que o botão do cartão diz, que muda com o que a pessoa vai encontrar do outro lado. */
 function chamada(produto: (typeof produtos)[number]) {
   if (produto.tipo === 'aplicativo') return 'VER O PROGRAMA';
-  if (produto.tipo === 'site') return 'VER O SITE';
+  // "VER O SITE" seria ambíguo: o botão leva pra página do projeto aqui, e é lá que
+  // mora o link que abre o Vistalio de verdade.
+  if (produto.tipo === 'site') return 'VER O PROJETO';
   return 'VER A PLANILHA';
 }
 

@@ -152,11 +152,7 @@ export type Planilha = Comum & {
      * planilha dela, na conta dela, sem encostar no original.
      */
     copiar: string;
-    /** Pra quem não usa Google: o mesmo arquivo em formato de Excel. */
-    excel: string;
   };
-  /** O que se perde ao baixar em Excel em vez de copiar no Google. */
-  diferencaDoExcel: string;
 };
 
 export type Produto = Aplicativo | Planilha;
@@ -379,19 +375,7 @@ export const planilhaFinanceira: Planilha = {
   ],
   links: {
     copiar: `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/copy`,
-    excel: `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/export?format=xlsx`,
   },
-  /**
-   * A diferença entre as duas versões, dita antes de a pessoa escolher.
-   *
-   * A planilha tem um script que preenche as contas fixas sozinho quando você troca o mês.
-   * Script é do Google Sheets: ele não atravessa a exportação pro Excel. As 112 fórmulas
-   * atravessam — conferi abrindo o arquivo exportado — então a versão do Excel calcula
-   * tudo igual; o que ela perde é o preenchimento automático das fixas, que passa a ser
-   * digitado. Não dizer isso seria deixar a pessoa descobrir sozinha depois de escolher.
-   */
-  diferencaDoExcel:
-    'A distribuição oficial com licença e automações é feita pelo Google Sheets. Uma exportação em Excel não leva o cliente de ativação nem as automações protegidas da Blajeen.',
 };
 
 const NOTALIO_DOWNLOAD = 'https://github.com/blajeen/notalio-download/releases';

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
+import { ConferirArquivo } from '@/components/produtos/ConferirArquivo';
 import { BASE_DE_DOWNLOAD_NOTALIO, notalio, NOTALIO_DOWNLOAD } from '@/content/produtos';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -128,31 +129,7 @@ export default function NotalioPage() {
           </ol>
         </div>
 
-        <div className="mt-6 overflow-x-auto">
-          <table className="w-full min-w-[42rem] border-collapse text-left text-xs">
-            <caption className="sr-only">
-              SHA-256 de cada arquivo publicado do Notalio {app.versao}
-            </caption>
-            <thead>
-              <tr className="border-b border-line-strong">
-                <th scope="col" className="tecnica py-3 pr-6 text-mineral">
-                  ARQUIVO
-                </th>
-                <th scope="col" className="tecnica py-3 text-mineral">
-                  SHA-256
-                </th>
-              </tr>
-            </thead>
-            <tbody className="font-mono text-mineral-dim">
-              {app.arquivos.map((arquivo) => (
-                <tr key={arquivo.id} className="border-b border-line align-top">
-                  <td className="py-3 pr-6 whitespace-nowrap">{arquivo.arquivo}</td>
-                  <td className="py-3 break-all">{arquivo.hash}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ConferirArquivo arquivos={app.arquivos} produto={app.nome} versao={app.versao} />
       </Section>
 
       {/* ---------------------------------------------------------------- o que é */}
@@ -163,7 +140,7 @@ export default function NotalioPage() {
             alt={app.imagem.alt}
             width={1000}
             height={691}
-            className="w-full rounded-[var(--radius-panel)] border border-line"
+            className="mx-auto w-full max-w-[1000px] rounded-[var(--radius-panel)] border border-line"
           />
           <figcaption className="mt-4 text-xs leading-relaxed text-mineral-dim">
             {app.imagem.legenda}

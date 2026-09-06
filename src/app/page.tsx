@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
@@ -8,7 +9,8 @@ import { saas, avisoDemonstracao } from '@/content/saas';
 import { Reveal } from '@/components/motion/Reveal';
 import { ProjectShowcase } from '@/components/projects/ProjectShowcase';
 import { WorkCard } from '@/components/portfolio/WorkCard';
-import { experimentos, laboratorio, produtosComerciais, proximo, servicoPrincipal, trabalhosHome } from '@/content/home';
+import { experimentos, laboratorio, produtosComerciais, proximo, servicoPrincipal, trabalhosHome, produtosHome } from '@/content/home';
+import { produtos } from '@/content/produtos';
 import { trabalhos } from '@/content/portfolio';
 import { projetos } from '@/content/projects';
 
@@ -41,6 +43,42 @@ export default function Home() {
             <AppliedEngineeringIcon className="!w-[clamp(10rem,20vw,16rem)]" />
           </div>
         </div>
+      </Section>
+
+      <Section id={produtosHome.id} indice={produtosHome.indice} rotuladaPor="produtos-home-titulo">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <TituloSecao id="produtos-home-titulo" className="max-w-[20ch] lg:col-span-8">{produtosHome.titulo}</TituloSecao>
+          <p className="medida-texto text-[1rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10">{produtosHome.texto}</p>
+        </div>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {produtos.map((produto) => (
+            <Link
+              key={produto.id}
+              href={produto.rota}
+              className="group flex flex-col overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/50 transition-colors hover:border-signal/35"
+            >
+              <Image
+                src={produto.imagem.src}
+                alt=""
+                width={900}
+                height={700}
+                sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, 92vw"
+                className="aspect-[16/10] w-full border-b border-line object-cover object-top"
+              />
+              <div className="flex flex-1 flex-col p-6">
+                <p className="tecnica text-signal">{produto.estado}</p>
+                <h3 className="mt-3 text-[1.4rem] leading-none tracking-[-0.03em]">{produto.nome}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-mineral">{produto.lema}</p>
+                <span className="tecnica mt-5 text-paper transition-colors group-hover:text-signal">
+                  VER <span aria-hidden="true">→</span>
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <Link href={produtosHome.cta.href} className="alvo-toque tecnica mt-10 inline-flex items-center gap-3 border-b border-signal pb-2 text-paper transition-colors hover:text-signal">
+          {produtosHome.cta.rotulo} <span aria-hidden="true">→</span>
+        </Link>
       </Section>
 
       <Section id={trabalhosHome.id} indice={trabalhosHome.indice} rotuladaPor="trabalhos-home-titulo">

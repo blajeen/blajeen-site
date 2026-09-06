@@ -37,15 +37,18 @@ export function Hero() {
     <section
       ref={bloco}
       aria-labelledby="hero-titulo"
-      className="relative isolate flex min-h-[max(30rem,74svh)] flex-col justify-center overflow-hidden border-b border-line px-[var(--gutter)] py-12 sm:py-16"
+      // `clamp` no próprio `min-height`, e não um `max-height` ao lado: em CSS o
+      // mínimo ganha do máximo quando os dois brigam, então o teto ficaria decorativo.
+      // Num monitor alto, `74svh` fazia a abertura empurrar o resto da página pra fora
+      // da vista; agora ela para em 46rem.
+      className="relative isolate flex min-h-[clamp(30rem,74svh,46rem)] flex-col justify-center overflow-hidden border-b border-line px-[var(--gutter)] py-12 sm:py-16"
       style={{ ['--halo-x' as string]: '50%', ['--halo-y' as string]: '40%' }}
     >
       {/*
         A cena do laboratório é o fundo do hero — é o lugar de onde os projetos saem, então ela
         fica atrás da marca em vez de virar uma faixa solta no meio da página.
 
-        Decorativa: `alt` vazio. Entra com prioridade porque divide o alto da dobra com a logo, e
-        vem coberta por um véu escuro que garante o contraste do texto por cima.
+        Decorativa: `alt` vazio. Entra com prioridade porque divide o alto da dobra com a logo.
       */}
       <Image
         src="/brand/banner-lab.png"
@@ -53,11 +56,24 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="pointer-events-none -z-10 object-cover object-center opacity-40"
+        className="pointer-events-none -z-10 object-cover object-center opacity-[0.58]"
+      />
+
+      {/*
+        O véu escurece onde o texto está, e não a cena inteira.
+
+        Antes ele era um degradê só, de cima pra baixo, chapado na largura toda: o robô e o
+        esqueleto ficavam a um quinto do brilho, e a arte que sustenta a página virava um borrão.
+        Agora são dois. O de baixo garante o contraste da manchete, que fica ali. O da esquerda
+        cobre a coluna do texto e solta a direita, onde não tem letra nenhuma pra proteger.
+      */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 [background:linear-gradient(180deg,color-mix(in_srgb,var(--color-ink)_58%,transparent)_0%,color-mix(in_srgb,var(--color-ink)_34%,transparent)_42%,color-mix(in_srgb,var(--color-ink)_88%,transparent)_88%,var(--color-ink)_100%)]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 [background:linear-gradient(180deg,color-mix(in_srgb,var(--color-ink)_72%,transparent)_0%,color-mix(in_srgb,var(--color-ink)_58%,transparent)_45%,var(--color-ink)_100%)]"
+        className="pointer-events-none absolute inset-0 -z-10 [background:linear-gradient(100deg,var(--color-ink)_0%,color-mix(in_srgb,var(--color-ink)_74%,transparent)_34%,color-mix(in_srgb,var(--color-ink)_18%,transparent)_68%,transparent_100%)]"
       />
 
       {/* Grade técnica e halo: decorativos, marcados como tal. */}

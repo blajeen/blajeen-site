@@ -38,19 +38,31 @@
  * O frasco é um easter egg funcional, então fica acima do conteúdo e oferece uma área de toque
  * confortável. A aura e a oscilação dão vida sem disputar atenção com a navegação.
  */
+/*
+ * Ele some no celular, e encolhe no computador.
+ *
+ * Sendo `fixed`, ele fica sempre no mesmo canto da tela — e num telefone aquele canto é
+ * texto na maior parte das páginas. Na página de produtos ele cobria o parágrafo de um
+ * dos cartões; na do Notalio, o aviso do Windows. Enfeite que tapa a linha que a pessoa
+ * está lendo cobra caro por uma piada que poucos vão achar.
+ *
+ * Da largura do menu de abas pra cima sobra margem de verdade nas laterais, e aí ele
+ * cabe sem atrapalhar ninguém. Abaixo disso, não cabe.
+ */
 .frasco {
   position: fixed;
   z-index: 45;
-  inset-inline-start: clamp(0.6rem, 1.8vw, 1.5rem);
-  inset-block-end: clamp(0.6rem, 1.8vw, 1.5rem);
-  width: clamp(4.25rem, 5.4vw, 5.4rem);
+  display: none;
+  inset-inline-start: clamp(0.5rem, 1.2vw, 1.1rem);
+  inset-block-end: clamp(0.5rem, 1.2vw, 1.1rem);
+  width: clamp(3.1rem, 3.6vw, 4rem);
   aspect-ratio: 560 / 613;
   border: 0;
   border-radius: 45%;
   padding: 0.25rem;
   background: transparent;
   cursor: pointer;
-  opacity: 0.88;
+  opacity: 0.72;
   filter: drop-shadow(0 0 0.5rem rgb(157 255 20 / 28%));
   transform-origin: 47% 82%;
   transition:
@@ -69,6 +81,12 @@
   background: radial-gradient(circle, rgb(162 255 19 / 23%), transparent 69%);
   transform: scale(0.88);
   animation: pulsoFrasco 2.8s ease-in-out infinite;
+}
+
+@media (min-width: 80rem) {
+  .frasco {
+    display: block;
+  }
 }
 
 .frasco:hover {

@@ -7,6 +7,7 @@ import {
   laboratorio,
   metadados,
   produtosComerciais,
+  produtosHome,
   proximo,
   rodapeCopy,
   servicoPrincipal,
@@ -216,9 +217,10 @@ describe('projetos', () => {
   });
 });
 
-/** As quatro seções da home, na ordem em que a página as apresenta. */
+/** As seções da home, na ordem em que a página as apresenta. */
 const secoesDaHome = [
   servicoPrincipal,
+  produtosHome,
   trabalhosHome,
   laboratorio,
   experimentos,
@@ -287,7 +289,7 @@ describe('idioma da interface', () => {
 describe('seções da home', () => {
   it('segue a ordem numerada do plano mestre', () => {
     const indices = secoesDaHome.map((secao) => secao.indice.split(' / ')[0]);
-    expect(indices).toEqual(['01', '02', '03', '04', '05', '06']);
+    expect(indices).toEqual(['01', '02', '03', '04', '05', '06', '07']);
   });
 
   it('não repete âncora entre seções', () => {

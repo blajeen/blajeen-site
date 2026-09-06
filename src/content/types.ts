@@ -140,12 +140,24 @@ export type LegalDocument = {
   readonly metaDescricao: string;
 };
 
+/**
+ * Qual gaveta este destino abre no celular.
+ *
+ * No desktop, Produtos, SaaS e Jogos são menus que abrem. No celular eles eram link
+ * simples: tocar em "Jogos" levava direto pro Revalio, e os outros cinco jogos não
+ * existiam na navegação. Este campo é o que deixa a barra do celular saber que ali tem
+ * uma lista embaixo — e ele sai da mesma fonte que alimenta o menu do desktop.
+ */
+export type MenuId = 'produtos' | 'projetos' | 'jogos';
+
 export type NavLink = {
   readonly indice: string;
   readonly rotulo: string;
   readonly descricao: string;
   readonly href: string;
   readonly icone: NavIconId;
+  /** Quando existe, o destino abre uma gaveta no celular em vez de navegar direto. */
+  readonly menu?: MenuId;
 };
 
 export type NavIconId =

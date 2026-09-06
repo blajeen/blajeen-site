@@ -50,7 +50,11 @@
      * mas em 56–104 px no mobile e até 112 px no desktop, em vez de 180.
      */
     --section-gap: clamp(2.75rem, 5.5vw, 5.5rem);
-    --mobile-rail-width: clamp(4.5rem, 20vw, 5.5rem);
+    /* Era `clamp(4.5rem, 20vw, 5.5rem)`: num telefone de 390 pontos a barra comia 78
+       deles, um quinto da tela, em toda página. O que sobrava pro texto dava linhas de
+       trinta letras, e um título curto virava quatro linhas. O ícone e o rótulo cabem
+       em 62, e os 16 que voltam são 6% de largura em cada parágrafo do site. */
+    --mobile-rail-width: clamp(3.9rem, 16vw, 5.5rem);
   }
 
   html {

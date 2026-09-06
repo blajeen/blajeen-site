@@ -28,7 +28,7 @@
   gap: 0.22rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.45rem 0.32rem calc(0.6rem + env(safe-area-inset-bottom));
+  padding: 0.45rem 0.24rem calc(0.6rem + env(safe-area-inset-bottom));
   scrollbar-width: none;
 }
 
@@ -39,13 +39,13 @@
 .link {
   position: relative;
   display: flex;
-  min-height: 4rem;
-  flex: 1 0 4rem;
+  min-height: 4.15rem;
+  flex: 1 0 4.15rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.32rem;
-  padding: 0.42rem 0.22rem;
+  padding: 0.42rem 0.12rem;
   overflow: hidden;
   border: 1px solid transparent;
   border-radius: 15px;
@@ -69,6 +69,33 @@
   transform: scale(0.97);
 }
 
+/* O botão de gaveta é um `button`, e `button` não herda nada do `a`. */
+.link {
+  width: 100%;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* A setinha diz que ali embaixo tem lista, antes de a pessoa precisar tocar pra
+   descobrir. É o que o `▼` faz no menu do desktop. */
+.seta {
+  width: 0;
+  height: 0;
+  margin-block-start: -0.1rem;
+  border-block-start: 4px solid currentColor;
+  border-inline: 3.5px solid transparent;
+  color: var(--color-mineral-dim);
+  transition: transform 160ms var(--ease-lab);
+}
+
+.link[data-aberta] .seta {
+  transform: rotate(180deg);
+  color: var(--color-signal);
+}
+
+.link[data-ativo],
+.link[data-aberta],
 .link[aria-current='page'] {
   color: var(--color-paper);
   border-color: color-mix(in srgb, var(--color-signal) 46%, transparent);
@@ -76,6 +103,8 @@
   box-shadow: inset 0 0 24px rgba(201, 255, 61, 0.05);
 }
 
+.link[data-ativo]::before,
+.link[data-aberta]::before,
 .link[aria-current='page']::before {
   content: '';
   position: absolute;
@@ -99,29 +128,191 @@
   filter: drop-shadow(0 0 8px rgba(85, 191, 255, 0.22));
 }
 
+.link[data-servico='true'][data-ativo],
 .link[data-servico='true'][aria-current='page'] {
   border-color: rgba(85, 191, 255, 0.46);
   background: linear-gradient(145deg, rgba(85, 191, 255, 0.14), rgba(23, 26, 21, 0.86));
 }
 
+.link[data-servico='true'][data-ativo]::before,
 .link[data-servico='true'][aria-current='page']::before {
   background: #8bddff;
   box-shadow: 0 0 10px #55bfff;
 }
 
+/* `overflow-wrap` porque o botão tem `overflow: hidden`: sem poder quebrar, "NOVIDADES"
+   não cabia na barra estreita e era cortado no meio, virando "NOVIDADE". E o espaçamento
+   entre letras cede um pouco — numa palavra de nove letras dentro de cinquenta pontos,
+   cada centésimo conta. */
 .rotulo {
   max-width: 100%;
   font-family: var(--font-mono);
-  font-size: clamp(0.48rem, 2.15vw, 0.58rem);
+  font-size: clamp(0.44rem, 1.98vw, 0.58rem);
   font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: 0.055em;
+  line-height: 1.12;
+  letter-spacing: 0.028em;
   text-transform: uppercase;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* ---------------------------------------------------------------- a gaveta */
+
+/* A cortina é um botão, e não uma `div` com `onClick`: tocar fora pra fechar precisa
+   funcionar no teclado e no leitor de tela igual funciona no dedo. */
+.cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  border: 0;
+  background: rgba(9, 10, 8, 0.72);
+  backdrop-filter: blur(2px);
+  animation: aparecer 160ms var(--ease-lab);
+}
+
+.gaveta {
+  position: fixed;
+  z-index: 46;
+  inset-block: 4rem 0;
+  inset-inline-start: var(--mobile-rail-width);
+  display: flex;
+  width: min(19rem, calc(100vw - var(--mobile-rail-width) - 1.25rem));
+  flex-direction: column;
+  gap: 0.9rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-inline-end: 1px solid var(--color-line-strong);
+  border-start-end-radius: var(--radius-panel);
+  border-end-end-radius: var(--radius-panel);
+  background: var(--color-raised);
+  box-shadow: var(--shadow-panel);
+  padding: 1.1rem 1rem calc(1.4rem + env(safe-area-inset-bottom));
+  animation: entrar 200ms var(--ease-lab);
+}
+
+/* O painel recebe foco por programação; o anel dele seria só ruído. */
+.gaveta:focus {
+  outline: none;
+}
+
+.cabecalho {
+  border-block-end: 1px solid var(--color-line);
+  padding-block-end: 0.8rem;
+}
+
+.tituloGaveta {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  color: var(--color-paper);
+}
+
+.resumoGaveta {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-mineral);
+}
+
+.itens {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.item {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  gap: 0.7rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  padding: 0.55rem 0.6rem;
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.item:hover,
+.item:focus-visible {
+  border-color: var(--color-line-strong);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+}
+
+.item[aria-current='page'] {
+  border-color: color-mix(in srgb, var(--color-signal) 42%, transparent);
+  background: linear-gradient(145deg, rgba(201, 255, 61, 0.12), rgba(23, 26, 21, 0.8));
+}
+
+.itemIcone {
+  width: 2.1rem;
+  height: 2.1rem;
+  flex: none;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.itemSimbolo {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 9px;
+  color: var(--color-signal);
+}
+
+.itemTexto {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.itemNome {
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.itemEstado {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.todos {
+  margin-block-start: auto;
+  border-block-start: 1px solid var(--color-line);
+  padding-block-start: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  text-decoration: none;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateX(-0.75rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cortina,
+  .gaveta {
+    animation: none;
+  }
 }
 
 @media (min-width: 40rem) {
-  .raiz {
+  .raiz,
+  .gaveta {
     inset-block-start: 4.5rem;
   }
 
@@ -136,8 +327,11 @@
   }
 }
 
+/* Da largura do menu do desktop pra cima, quem manda é ele. */
 @media (min-width: 80rem) {
-  .raiz {
+  .raiz,
+  .cortina,
+  .gaveta {
     display: none;
   }
 }

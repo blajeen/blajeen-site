@@ -101,7 +101,7 @@ export default function PlanilhaFinanceiraPage() {
             alt={p.imagem.alt}
             width={958}
             height={872}
-            className="w-full rounded-[var(--radius-panel)] border border-line"
+            className="mx-auto w-full max-w-[958px] rounded-[var(--radius-panel)] border border-line"
           />
           <figcaption className="mt-4 text-xs leading-relaxed text-mineral-dim">
             {p.imagem.legenda}

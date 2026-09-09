@@ -26,6 +26,12 @@ export const BASE_DE_DOWNLOAD =
 /** A página de todas as versões, pra quem quiser uma anterior ou conferir o histórico. */
 export const PAGINA_DE_RELEASES = 'https://github.com/blajeen/clearlio-download/releases';
 
+const EDITALIO_DOWNLOAD = 'https://github.com/blajeen/editalio-download/releases';
+
+/** Base dos arquivos do Editalio. Mesma regra dos outros: aponta pra etiqueta da versão. */
+export const BASE_DE_DOWNLOAD_EDITALIO =
+  'https://github.com/blajeen/editalio-download/releases/download/v0.1.0';
+
 export type ArquivoParaBaixar = {
   id: string;
   nome: string;
@@ -76,6 +82,14 @@ export type Aplicativo = Comum & {
     passos: readonly { onde: string; texto: string }[];
   };
   codigoAberto: boolean;
+  /**
+   * O mesmo programa numa loja, quando ele está lá.
+   *
+   * `url` em `null` quer dizer "enviado, ainda não publicado" — e a página diz isso em
+   * vez de mostrar um botão que não leva a lugar nenhum. Botão morto custa um clique e a
+   * descoberta de que não funciona; a ausência dele custa nada.
+   */
+  loja?: { nome: string; url: string | null; nota: string };
   /**
    * O terceiro caderno, quando o produto tem um que precisa de explicação própria.
    *
@@ -155,7 +169,12 @@ export type Aplicativo = Comum & {
    * promessa de uma propaganda: quem lista só as duas primeiras está escondendo a
    * terceira.
    */
-  naoPromete?: { titulo: string; texto: string };
+  naoPromete?: {
+    titulo: string;
+    texto: string;
+    /** Quando são vários, um por linha. Cinco buracos num parágrafo só viram um borrão. */
+    itens?: readonly string[];
+  };
   /** Os atalhos de teclado, pra quem já usa e quer ir rápido. */
   atalhos?: readonly { teclas: string; faz: string }[];
   /**
@@ -349,6 +368,11 @@ export const clearlio: Aplicativo = {
       hash: '0ce3a342e3a6bd06333bd4b53f0b31664ed5001b4fb74e40414a92bae6c62fd3',
     },
   ],
+  loja: {
+    nome: 'Microsoft Store',
+    url: 'https://apps.microsoft.com/detail/9npk65wrqcv0',
+    nota: 'Instala e atualiza sozinho pela loja, e o Windows não pergunta nada — a Microsoft assina o pacote.',
+  },
   avisoDoWindows: {
     porque:
       'Este programa ainda não tem assinatura de código, então o Windows vai dizer "Editor desconhecido" na primeira vez que você abrir. Isso não quer dizer que tem alguma coisa errada com o arquivo: quer dizer que ninguém pagou o certificado que faz o Windows reconhecer quem publicou. Certificado é caro e é anual, e enquanto ele não existe o que a gente publica no lugar é o SHA-256 de cada arquivo, aqui embaixo — dá pra conferir que o que você baixou é exatamente o que saiu daqui.',
@@ -864,6 +888,11 @@ export const notalio: Aplicativo = {
       hash: '471b1677a47a91257dabe51d53370d5336b1848833cf0b1f3f55f0a00db5e77d',
     },
   ],
+  loja: {
+    nome: 'Microsoft Store',
+    url: 'https://apps.microsoft.com/detail/9nhwjxg45cd3',
+    nota: 'Instala e atualiza sozinho pela loja, e o Windows não pergunta nada — a Microsoft assina o pacote.',
+  },
   avisoDoWindows: {
     porque:
       'Este programa ainda não tem assinatura de código, então o Windows vai dizer "Editor desconhecido" na primeira vez que você abrir. Isso não quer dizer que tem alguma coisa errada com o arquivo: quer dizer que ninguém pagou o certificado que faz o Windows reconhecer quem publicou. Certificado é caro e é anual, e enquanto ele não existe o que a gente publica no lugar é o SHA-256 de cada arquivo, aqui embaixo — dá pra conferir que o que você baixou é exatamente o que saiu daqui.',
@@ -964,4 +993,187 @@ export const vistalio: Site = {
   },
 };
 
-export const produtos: readonly Produto[] = [clearlio, notalio, vistalio, planilhaFinanceira];
+export const editalio: Aplicativo = {
+  tipo: 'aplicativo',
+  id: 'editalio',
+  nome: 'Editalio',
+  simbolo: 'editar',
+  versao: '0.1.0',
+  rota: ROTAS.produtoEditalio,
+  estado: 'ATIVO · GRATUITO',
+  requisitos: 'Windows 10 ou 11, 64 bits, com WebView2',
+  lema: 'Edita e exporta. O original fica intacto, e o arquivo é o que estava na tela.',
+  resumo:
+    'Editor de foto, vídeo e áudio com sete áreas: editar, montar trend em cima da batida da música, banner pronto, grade de fotos e transcrever fala. Tudo acontece na sua máquina — sem conta, sem nuvem e sem rastreamento.',
+  descricao: [
+    'Editor costuma escolher um lado: ou é simples e não faz o que você precisa, ou faz tudo e você passa uma tarde procurando o botão. O Editalio tenta o meio — sete áreas na coluna da esquerda, e é essa a navegação inteira do programa.',
+    'O que ele faz com o seu arquivo é a parte que importa: nenhuma edição escreve no original. Exportar cria arquivo novo, e ele se recusa a escrever por cima da origem mesmo se alguém mandar. O projeto é um arquivo de texto que abre no Bloco de Notas.',
+    'E tem uma coisa que separa a prévia do resultado na maioria dos editores: aqui não separa. Tudo que é espacial é fração e não pixel, e existe uma função só para desenhar a prévia e para exportar. É isso que garante que o arquivo salvo é o que estava na tela.',
+    'A única vez que ele vai à internet é se você pedir o modelo de reconhecimento de fala — e ele avisa antes, dizendo o que é, de onde vem, quanto pesa e onde vai ficar.',
+  ],
+  imagem: {
+    src: '/produtos/editalio/2-editor-de-foto.webp',
+    alt: 'A janela do Editalio com uma imagem aberta. À esquerda, a coluna com as sete áreas — Início, Editar, Trend, Banner, Grade, Transcrever e Sobre. No painel do meio, desfazer, refazer, antes e voltar ao original, seguidos das ferramentas do quadro e da imagem: luz, cor, detalhe, filtros e recorte. À direita, a prévia da foto.',
+    legenda:
+      'A área de edição. A coluna da esquerda é a navegação inteira do programa, e o painel do meio agrupa as ferramentas por onde elas agem: no quadro, na imagem, por cima.',
+  },
+  faz: [
+    {
+      titulo: 'Foto, com o traço guardado como receita',
+      texto:
+        'JPG, PNG, WebP, TIFF, BMP, GIF e HEIC — a foto do iPhone, pelo leitor do próprio Windows. Quinze controles de luz e cor, 27 filtros em nove categorias com intensidade, tirar o fundo, apagar um objeto, desenhar e texto. O traço não vira pixel: fica guardado no projeto e dá pra desfazer amanhã.',
+    },
+    {
+      titulo: 'Vídeo, com as ferramentas da foto',
+      texto:
+        'MP4, MOV, M4V e WebM. Cortar no tempo, velocidade de 0,25× a 4×, volume, juntar outro vídeo no fim e guardar só o som. Todas as ferramentas de imagem valem aqui, quadro a quadro — inclusive desenhar.',
+    },
+    {
+      titulo: 'Corta o silêncio medindo a sua gravação',
+      texto:
+        'Ele mede os quantis alto e baixo do próprio arquivo em vez de usar um limite fixo. Limite fixo significa coisas diferentes num microfone de celular e num de mesa, e é por isso que ele erra tanto nos outros programas.',
+    },
+    {
+      titulo: 'Tira o chiado por baixo da voz',
+      texto:
+        'MP3, WAV, M4A, AAC, FLAC, OGG e Opus. A redução de ruído mede o chiado que fica o tempo todo — ar-condicionado, zumbido da tomada, microfone barato — e tira ele, inclusive por baixo da fala. Nada pra marcar, nada pra escolher.',
+    },
+    {
+      titulo: 'Trend montada em cima da batida',
+      texto:
+        'Cinco roteiros guiados. O programa mede a batida da música no seu arquivo e monta o vídeo com os cortes caindo nela. Você grava cena por cena, com a instrução escrita antes de sair pra gravar e sabendo que efeito cada uma vai receber.',
+    },
+    {
+      titulo: 'Banner com prévia ao vivo',
+      texto:
+        'Cinco modelos prontos, com tamanho, cores e posições já decididos. Sobra escolher a foto e escrever a frase, com a prévia ao lado mudando a cada tecla — e um aviso quando o texto passa do espaço reservado.',
+    },
+    {
+      titulo: 'Grade, e transcrever',
+      texto:
+        'Juntar duas, três ou quatro fotos num quadro só, com vão e cantos arredondados, cortadas pelo centro e nunca espremidas. E escrever a fala de uma gravação de som ou de vídeo, com correção linha a linha, saindo em .srt com os tempos ou em texto corrido.',
+    },
+    {
+      titulo: 'Português e inglês, claro e escuro',
+      texto:
+        'Os dois idiomas desde o primeiro commit, com paridade conferida por teste. E o tema segue o do sistema, se você quiser.',
+    },
+  ],
+  promessas: [
+    {
+      titulo: 'Você nunca perde o original',
+      texto:
+        'Nenhuma edição escreve no arquivo que entrou. Exportar cria arquivo novo, e o programa se recusa a escrever por cima da origem mesmo se alguém mandar.',
+    },
+    {
+      titulo: 'Arquivo de verdade, projeto legível',
+      texto:
+        'O que sai é JPG, PNG, MP4, WAV — formato que abre em qualquer lugar. E o projeto é um arquivo de texto que abre no Bloco de Notas e dá pra ler.',
+    },
+    {
+      titulo: 'Dá pra voltar atrás',
+      texto:
+        'Desfazer, refazer, e as 20 versões anteriores de cada projeto guardadas numa pasta que dá pra achar.',
+    },
+    {
+      titulo: 'Sem conta, sem nuvem, sem rastreamento',
+      texto:
+        'Nada sai da sua máquina. A única exceção é o modelo de reconhecimento de fala, que só é baixado se você pedir — e a tela diz o que é, de onde vem e quanto pesa antes.',
+      excecao:
+        'O modelo pesa 465 MB, mais que o programa inteiro, e por isso não vem no instalador. Ele é baixado uma vez, fica em %APPDATA%\\Editalio, e dá pra apagar depois.',
+    },
+    {
+      titulo: 'Ele não insiste',
+      texto:
+        'Sem marca d\u2019água, sem limite de exportação, sem função trancada e sem aviso pedindo nada.',
+    },
+  ],
+  naoPromete: {
+    titulo: 'O que ele ainda não faz',
+    texto:
+      'Está escrito na própria tela do programa, e não como promessa de versão futura. Um editor que esconde o que não faz vende bem uma vez e decepciona no primeiro arquivo que a pessoa realmente precisava abrir.',
+    itens: [
+      'RAW de câmera (CR2, NEF, ARW, DNG…) não abre. Todo decodificador bom é copyleft, e o programa é permissivo.',
+      'Camadas, máscaras e quadros-chave não existem.',
+      'Árabe, hebraico, hindi e tailandês saem errados: o desenho é letra por letra, sem ligadura e sem direita-para-esquerda.',
+      'A trend pega "o trecho do meio" de cada gravação, e não "o melhor trecho": ela não mede movimento nem estabilidade.',
+      'Juntar dois vídeos existe, mas o primeiro manda no tamanho e na taxa de quadros; o segundo é encaixado neles.',
+    ],
+  },
+  ondeFicam: {
+    titulo: 'Os seus arquivos são arquivos de verdade',
+    texto:
+      'Se você usa OneDrive, ele acha a pasta Documentos sincronizada e usa ela. Desinstalar não leva nada disso junto — mora fora da pasta do programa, de propósito. E nenhum lugar que grava escreve por cima calado: todos conferem antes se já existe arquivo com aquele nome, e perguntam.',
+    arvore: [
+      'Documentos\\Editalio\\',
+      '├── Exportados\\        o que você exporta',
+      '└── Projetos\\          e as versões anteriores dentro de cada um',
+      '',
+      '%APPDATA%\\Editalio\\',
+      '├── preferências.toml',
+      '└── (o modelo de fala, se você baixar)',
+    ],
+  },
+  atalhos: [
+    { teclas: 'Ctrl+Z', faz: 'desfaz' },
+    { teclas: 'Ctrl+Y', faz: 'refaz' },
+    { teclas: 'Ctrl+S', faz: 'guarda o projeto' },
+  ],
+  naoFaz: [
+    'Não põe marca d\u2019água em nada que você exporta.',
+    'Não limita quantas vezes você exporta, nem tranca ferramenta atrás de assinatura.',
+    'Não tem conta, cadastro nem login, e não manda seu arquivo pra servidor nenhum.',
+    'Não escreve por cima do arquivo original, nem se você mandar.',
+    'Não põe número na tela que ninguém mediu. Quando ele diz "139,7 batidas por minuto", ele mediu no seu arquivo.',
+    'Não tem anúncio, não tem versão paga e não tem função trancada.',
+  ],
+  arquivos: [
+    {
+      id: 'instalador',
+      nome: 'Instalador',
+      arquivo: 'Editalio-0.1.0-instalador.exe',
+      tamanho: '12,1 MB',
+      paraQuem:
+        'Instala pro seu usuário, sem pedir senha de administrador, e aparece em "Adicionar ou remover programas" como qualquer programa. Pergunta o idioma na primeira tela.',
+      recomendado: true,
+      hash: 'e123e4740f113b91e7947d9768a47265ec3a55b2350e7e5d9b50cda2780af125',
+    },
+  ],
+  loja: {
+    nome: 'Microsoft Store',
+    url: null,
+    nota: 'Em breve. Quando sair, instala e atualiza sozinho pela loja, e o Windows não pergunta nada.',
+  },
+  avisoDoWindows: {
+    porque:
+      'Este programa ainda não tem assinatura de código, então o Windows vai dizer "Editor desconhecido" na primeira vez que você abrir. Isso não quer dizer que tem alguma coisa errada com o arquivo: quer dizer que ninguém pagou o certificado que faz o Windows reconhecer quem publicou. Certificado é caro e é anual, e enquanto ele não existe o que a gente publica no lugar é o SHA-256 do arquivo, aqui embaixo — dá pra conferir que o que você baixou é exatamente o que saiu daqui.',
+    passos: [
+      {
+        onde: 'No navegador, ao terminar de baixar',
+        texto:
+          'O Chrome e o Edge costumam esconder o arquivo dizendo que ele "não é baixado com frequência". Clique na setinha ao lado do download e escolha **Manter assim mesmo**.',
+      },
+      {
+        onde: 'Ao abrir o arquivo',
+        texto:
+          'O Windows mostra uma tela azul escrita "O Windows protegeu o seu PC". Clique em **Mais informações** — o aviso cresce e aparece um botão novo — e depois em **Executar assim mesmo**.',
+      },
+      {
+        onde: 'Só isso',
+        texto:
+          'Esses dois cliques acontecem uma vez. Da segunda em diante o Windows não pergunta mais nada.',
+      },
+    ],
+  },
+  codigoAberto: false,
+};
+
+export { EDITALIO_DOWNLOAD };
+
+export const produtos: readonly Produto[] = [
+  clearlio,
+  notalio,
+  editalio,
+  vistalio,
+  planilhaFinanceira,
+];

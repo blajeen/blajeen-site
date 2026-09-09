@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
 import { ConferirArquivo } from '@/components/produtos/ConferirArquivo';
+import { LojaDoProduto } from '@/components/produtos/LojaDoProduto';
 import { BASE_DE_DOWNLOAD, clearlio, PAGINA_DE_RELEASES } from '@/content/produtos';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -138,6 +139,8 @@ export default function ClearlioPage() {
             ))}
           </ol>
         </div>
+
+        {app.loja ? <LojaDoProduto loja={app.loja} produto={app.nome} /> : null}
 
         <ConferirArquivo arquivos={app.arquivos} produto={app.nome} versao={app.versao} />
       </Section>

@@ -10,7 +10,8 @@ export type ProductIconId =
   | 'limpeza'
   | 'planilha'
   | 'notas'
-  | 'vistas';
+  | 'vistas'
+  | 'editar';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -108,6 +109,18 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <path d="M17 7h14M15 13h18l-2.4 26a3 3 0 0 1-3 2.7h-7.2a3 3 0 0 1-3-2.7Z" />
         <path d="M13 13h22M21 21v12M27 21v12" />
+      </svg>
+    );
+  }
+
+  if (id === 'editar') {
+    // Marcas de corte: o gesto que todo editor tem, e o único que uma pessoa reconhece
+    // sem legenda. O ponto no meio é o ajuste — o que muda dentro do quadro depois que
+    // o quadro foi decidido.
+    return (
+      <svg {...comum}>
+        <path d="M14 6v28h28M34 42V14H6" />
+        <circle cx="24" cy="24" r="3.5" />
       </svg>
     );
   }

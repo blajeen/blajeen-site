@@ -357,9 +357,21 @@ describe('documentos legais', () => {
     }
   });
 
-  it('se declara versão de trabalho enquanto houver revisão jurídica pendente', () => {
+  /**
+   * Publicar um documento legal é decisão do titular, não do código.
+   *
+   * O teste antigo travava todos em `preparacao`. Isso valia enquanto nenhum tinha sido
+   * revisado, e deixou de valer quando a política de privacidade do Notalio foi aprovada
+   * para o envio à App Store. Trocar a trava por uma lista mantém a mesma proteção — nada
+   * vai ao ar por acidente — e obriga quem publicar o próximo a dizer aqui que a revisão
+   * aconteceu.
+   */
+  const APROVADOS_PELO_TITULAR = new Set(['/notalio/privacy']);
+
+  it('só publica documento que o titular aprovou', () => {
     for (const documento of documentosLegais) {
-      expect(documento.estado).toBe('preparacao');
+      const esperado = APROVADOS_PELO_TITULAR.has(documento.rota) ? 'publicado' : 'preparacao';
+      expect(documento.estado, documento.rota).toBe(esperado);
     }
   });
 

@@ -12,16 +12,18 @@ import type { LegalDocument } from '../types';
  * A ausência de controlador não é omissão. Sem coleta de dado pessoal não há operação de
  * tratamento, e nomear um controlador para uma relação que não existe seria inventar
  * responsabilidade jurídica onde não há fato. *
- * Marcados como versão de trabalho, como todos os outros documentos legais do site.
- * O conteúdo aqui é fato verificável — não existe rede no programa, e dá pra conferir
- * abrindo o código —, mas a revisão jurídica do titular continua em aberto, e é o teste
- * `se declara versão de trabalho enquanto houver revisão jurídica pendente` que segura
- * isso. Quando ele ler e aprovar, é trocar `preparacao` por `publicado` aqui e ajustar
- * aquele teste. Não sou eu que decido que a revisão dele aconteceu.
+ * A POLÍTICA DE PRIVACIDADE está publicada. O titular leu e aprovou o texto em
+ * 07/09/2026, para o envio à App Store — a Apple abre a URL durante a análise, e uma
+ * página que se declara rascunho é motivo de recusa.
+ *
+ * Os TERMOS e o SUPORTE continuam como versão de trabalho, e o teste
+ * `só publica documento que o titular aprovou` segura isso: publicar mais algum exige
+ * editar a lista daquele teste, de propósito. Não sou eu que decido que a revisão
+ * aconteceu.
  */
 
-const VERSAO = '6 de setembro de 2026';
-const FONTE_DATA = 'Escrito a partir do código publicado do Notalio 0.1.0.';
+const VERSAO = '7 de setembro de 2026';
+const FONTE_DATA = 'Escrito a partir do código publicado do Notalio 0.2.0.';
 
 const relacionados = [
   { href: ROTAS.produtoNotalio, rotulo: 'Sobre o Notalio' },
@@ -35,132 +37,108 @@ export const privacidadeNotalio: LegalDocument = {
   rota: ROTAS.notalioPrivacidade,
   kind: 'privacidade',
   produto: 'Notalio',
-  titulo: 'Privacidade do Notalio',
-  resumo: 'O programa não coleta nada, não envia nada e não tem conta.',
-  estado: 'preparacao',
+  titulo: 'Política de privacidade — Notalio',
+  resumo: 'O Notalio não coleta nada.',
+  /*
+   * Aprovado pelo titular em 07/09/2026, para o envio à App Store. O texto abaixo é o
+   * que ele revisou, palavra por palavra — as seções aqui só dão forma de página ao que
+   * ele escreveu, sem acrescentar nem tirar afirmação nenhuma.
+   */
+  estado: 'publicado',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
     {
       id: 'resumo',
-      titulo: '1. Em uma frase',
+      titulo: 'O Notalio não coleta nada',
       blocos: [
         {
           tipo: 'destaque',
           texto:
-            'O Notalio não coleta, não guarda e não envia nenhum dado seu. Ele não tem conta, não tem cadastro e não fala com servidor nenhum — nem nosso, nem de terceiro.',
+            'Não é uma promessa de intenção: não existe uma única linha de código de rede no programa. Ele não tem como enviar dado nenhum para lugar nenhum, nem se quisesse.',
         },
       ],
     },
     {
-      id: 'internet',
-      titulo: '2. Ele não usa a internet',
+      id: 'no-aparelho',
+      titulo: 'O que fica no seu aparelho',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Não existe uma linha de rede no programa. Ele não tem biblioteca de rede embutida, não abre conexão, não busca atualização e não envia relatório de erro. Depois de instalado, funciona igual com o computador desconectado.',
-        },
-        {
-          tipo: 'paragrafo',
-          texto:
-            'Isso quer dizer que não há como o que você escreve sair da sua máquina por meio dele — não por promessa nossa, mas porque o caminho não existe.',
+            'Tudo. O que você escreve é gravado em arquivos comuns — .txt, .csv e .md — dentro da pasta do Notalio no seu aparelho. Esses arquivos são seus, ficam visíveis no aplicativo Arquivos, e podem ser abertos, copiados ou apagados por você a qualquer momento, com ou sem o Notalio instalado.',
         },
       ],
     },
     {
-      id: 'arquivos',
-      titulo: '3. O que ele grava, e onde',
-      blocos: [
-        {
-          tipo: 'paragrafo',
-          texto:
-            'O que você escreve é gravado em arquivos comuns dentro da sua pasta Documentos, em uma pasta chamada Notalio: um arquivo de texto, um de tabela e uma pasta com as versões anteriores. Eles são seus, ficam no seu computador e abrem em qualquer programa.',
-        },
-        {
-          tipo: 'paragrafo',
-          texto:
-            'O programa também guarda as suas preferências — tema, idioma, divisão da folha e cor da letra. São ajustes de aparência, não informação sobre você.',
-        },
-        {
-          tipo: 'destaque',
-          texto:
-            'Se você puser senha na gaveta, a chave não é guardada em lugar nenhum: ela existe na memória enquanto a gaveta está aberta e some quando ela fecha. Não existe recuperação, e isso está escrito dentro do programa antes de você escolher.',
-        },
-      ],
-    },
-    {
-      id: 'terceiros',
-      titulo: '4. Terceiros, anúncio e medição',
+      id: 'nao-existe',
+      titulo: 'O que não existe',
       blocos: [
         {
           tipo: 'lista',
           itens: [
-            'não há anúncio de nenhum tipo;',
-            'não há medição de uso, contagem de sessão nem identificador de aparelho;',
-            'não há serviço de terceiro embutido;',
-            'nada é vendido nem compartilhado, porque nada é coletado.',
-          ],
-        },
-        {
-          tipo: 'paragrafo',
-          texto:
-            'Se você instalar pela Microsoft Store, a própria loja mede a instalação do jeito dela e sob a política dela. Isso acontece fora do programa e nós não recebemos dado individual de ninguém.',
-        },
-      ],
-    },
-    {
-      id: 'crianca',
-      titulo: '5. Crianças',
-      blocos: [
-        {
-          tipo: 'paragrafo',
-          texto:
-            'O Notalio não é dirigido a crianças e não pede idade, porque não pede nada. Como não há coleta, não há dado de criança a proteger.',
-        },
-      ],
-    },
-    {
-      id: 'apagar',
-      titulo: '6. Como apagar tudo',
-      blocos: [
-        {
-          tipo: 'passos',
-          itens: [
-            'Apague a pasta Notalio dentro dos seus Documentos: ali está tudo o que você escreveu.',
-            'Desinstale o programa pelo "Adicionar ou remover programas" do Windows.',
-            'Pronto. Não existe conta nossa a encerrar nem pedido a fazer, porque não temos nada seu.',
+            'Não há conta, cadastro nem login.',
+            'Não há servidor, nuvem nem sincronização.',
+            'Não há anúncio, rastreador nem ferramenta de análise de uso.',
+            'Não há contagem de quantas vezes você abriu o programa.',
+            'Não há notificação nem pedido de avaliação.',
           ],
         },
       ],
     },
     {
-      id: 'mudanca',
-      titulo: '7. Se isto mudar',
+      id: 'gaveta',
+      titulo: 'A gaveta com senha',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Uma versão futura que passe a usar a internet por qualquer motivo terá esta página atualizada antes de ser publicada, e a mudança será dita na página do produto. Um programa que muda o que faz com os seus dados sem avisar não merece confiança, mesmo quando a mudança é pequena.',
+            'O Notalio permite proteger uma anotação com senha. A chave é derivada da sua senha com Argon2id e o conteúdo é fechado com XChaCha20-Poly1305, tudo dentro do seu aparelho. A senha não é guardada em lugar nenhum e não é transmitida para lugar nenhum.',
+        },
+        {
+          tipo: 'destaque',
+          texto:
+            'Como consequência, não existe recuperação: se a senha for esquecida, o conteúdo é perdido, e nem a Blajeen Labs pode abri-lo.',
+        },
+      ],
+    },
+    {
+      id: 'criancas',
+      titulo: 'Crianças',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto: 'O Notalio não coleta dados de ninguém, de nenhuma idade.',
+        },
+      ],
+    },
+    {
+      id: 'mudancas',
+      titulo: 'Mudanças',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto: 'Se esta política mudar, a data no topo muda junto.',
         },
       ],
     },
     {
       id: 'contato',
-      titulo: '8. Dúvidas',
+      titulo: 'Contato',
       blocos: [
         {
-          tipo: 'contato',
-          rotulo: 'Privacidade do Notalio',
-          email: site.emailEstudio,
-          assunto: 'Privacidade Notalio',
+          tipo: 'paragrafo',
+          texto: 'Blajeen Labs — https://www.blajeen.com.br',
         },
       ],
     },
   ],
-  relacionados: [...relacionados],
-  metaTitulo: 'Privacidade do Notalio — Blajeen Labs',
+  relacionados,
+  metaTitulo: 'Política de privacidade — Notalio | Blajeen Labs',
+  /* A descrição acompanha o texto aprovado. A anterior citava uma seção "como apagar
+     tudo" que não existe mais nele, e meta que promete seção inexistente é a primeira
+     coisa que quem revisa uma loja percebe. */
   metaDescricao:
-    'O Notalio não coleta, não envia e não guarda dado nenhum: não existe rede no programa. Onde ficam os seus arquivos e como apagar tudo.',
+    'O Notalio não coleta nada: não existe uma linha de código de rede no programa. O que você escreve fica em arquivos comuns no seu aparelho, sem conta, sem nuvem e sem rastreador.',
 };
 
 export const termosNotalio: LegalDocument = {

@@ -35,6 +35,23 @@ const nextConfig: NextConfig = {
    * preservam as URLs sem extensão exigidas pelas lojas, enquanto mantêm o texto e a estrutura
    * legal exatamente iguais aos arquivos revisados no repositório do jogo.
    */
+  /**
+   * `/notalio/privacidade` leva à mesma página de `/notalio/privacy`.
+   *
+   * A URL canônica é a em inglês, porque é ela que já foi entregue à Microsoft e trocar
+   * agora quebraria o que está no envio de lá. Mas o endereço em português é o que se
+   * escreve de cabeça, e uma loja que abre um 404 recusa sem ler o texto.
+   */
+  async redirects() {
+    return [
+      { source: '/notalio/privacidade', destination: '/notalio/privacy', permanent: true },
+      { source: '/notalio/termos', destination: '/notalio/terms', permanent: true },
+      { source: '/notalio/suporte', destination: '/notalio/support', permanent: true },
+      { source: '/clearlio/privacidade', destination: '/clearlio/privacy', permanent: true },
+      { source: '/clearlio/termos', destination: '/clearlio/terms', permanent: true },
+      { source: '/clearlio/suporte', destination: '/clearlio/support', permanent: true },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [

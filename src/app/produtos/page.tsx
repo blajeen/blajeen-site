@@ -65,7 +65,7 @@ export default function ProdutosPage() {
               Coisas que ficam com você.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Dois programas, um site e uma planilha. O que é seu fica com você — no seu
+              Três programas, um site e uma planilha. O que é seu fica com você — no seu
               computador ou no seu aparelho —, e nada do que você faz neles passa por um
               servidor nosso.
             </p>

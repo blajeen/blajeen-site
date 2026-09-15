@@ -9,11 +9,11 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   // O React usa eval apenas para reconstruir stack traces no servidor de desenvolvimento.
   // A política publicada continua sem `unsafe-eval`.
-  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
+  `script-src 'self' 'unsafe-inline' https://collector.guardelio.com.br${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://collector.guardelio.com.br",
   "form-action 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",

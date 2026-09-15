@@ -111,6 +111,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           // Dados estruturados estáticos, gerados a partir do conteúdo tipado do repositório.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrganizacao()) }}
         />
+        {/* Guardelio: observação de tráfego do próprio site (tag pública, fail-open). */}
+        <script async src="https://collector.guardelio.com.br/v1/guardelio.js" data-site="site_pk_pBRwFhkdKsvQrpnT9XMPDsST2DqdpavA" data-collector="https://collector.guardelio.com.br" data-consent="limited"></script>
       </body>
     </html>
   );

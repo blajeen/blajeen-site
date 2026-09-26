@@ -42,7 +42,7 @@ export function ProjectPage({ projeto }: { projeto: Project }) {
         <Container>
           <p className="tecnica text-signal">{projeto.eyebrow}</p>
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start">
             <h1
               id="projeto-titulo"
               className="text-[clamp(3rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.055em] lg:col-span-6"

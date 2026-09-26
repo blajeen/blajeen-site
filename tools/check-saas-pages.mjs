@@ -69,10 +69,10 @@ assert.match(admin, /DISPONÍVEL NOS SAAS/);
 const home = await (await get('/')).text();
 await checkRenderedImages(home, '/');
 assert.match(home, /Seis SaaS ativos/);
-const dogolio = await (await get('/projects/dogolio')).text();
-assert.match(dogolio, /dogolio-icon-cartoon-light-gray-512\.webp/);
-await checkRenderedImages(dogolio, '/projects/dogolio');
-console.log(`OK catálogo, Pipelio em breve, painéis, home e Dogolio; ${checkedImages.size} imagens renderizadas válidas`);
+const morvelio = await (await get('/projects/morvelio')).text();
+assert.match(morvelio, /morvelio-icon-montanha-toon-512\.webp/);
+await checkRenderedImages(morvelio, '/projects/morvelio');
+console.log(`OK catálogo, Pipelio em breve, painéis, home e Morvelio; ${checkedImages.size} imagens renderizadas válidas`);
 
 for (const id of ['docalio', 'gramelio']) {
   const html = await (await get(`/projects/${id}`)).text();

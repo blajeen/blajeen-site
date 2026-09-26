@@ -10,6 +10,9 @@ export const ROTAS = {
   trabalhos: '/trabalhos',
   trabalhoDomGuima: '/trabalhos/dom-guima',
   trabalhoLinaArtPet: '/trabalhos/lina-art-pet',
+  trabalhoDonaLia: '/trabalhos/dona-lia',
+  trabalhoSpotHotel: '/trabalhos/spot-hotel',
+  trabalhoAgroWeld: '/trabalhos/agro-weld',
   projetos: '/projects',
   /**
    * Produtos: programa de computador que a pessoa baixa e roda na máquina dela.
@@ -49,7 +52,6 @@ export const ROTAS = {
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
   projetoCatelio: '/projects/catelio',
-  projetoDogolio: '/projects/dogolio',
   projetoMorvelio: '/projects/morvelio',
   projetoMazelio: '/projects/mazelio',
   projetoSocialio: '/projects/socialio',
@@ -75,10 +77,6 @@ export const ROTAS = {
   catelioTermos: '/catelio/terms',
   catelioSuporte: '/catelio/support',
   catelioExclusao: '/catelio/delete-account',
-  dogolioPrivacidade: '/dogolio/privacy',
-  dogolioTermos: '/dogolio/terms',
-  dogolioSuporte: '/dogolio/support',
-  dogolioExclusao: '/dogolio/delete-account',
   morvelioPrivacidade: '/morvelio/privacy',
   morvelioTermos: '/morvelio/terms',
   morvelioSuporte: '/morvelio/support',
@@ -119,10 +117,6 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.catelioTermos,
   ROTAS.catelioSuporte,
   ROTAS.catelioExclusao,
-  ROTAS.dogolioPrivacidade,
-  ROTAS.dogolioTermos,
-  ROTAS.dogolioSuporte,
-  ROTAS.dogolioExclusao,
   ROTAS.morvelioPrivacidade,
   ROTAS.morvelioTermos,
   ROTAS.morvelioSuporte,
@@ -159,7 +153,13 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.produtoPlanilhaFinanceira
   )
     return 0.9;
-  if (rota === ROTAS.trabalhoDomGuima || rota === ROTAS.trabalhoLinaArtPet) return 0.85;
+  if (
+    rota === ROTAS.trabalhoDomGuima ||
+    rota === ROTAS.trabalhoLinaArtPet ||
+    rota === ROTAS.trabalhoDonaLia ||
+    rota === ROTAS.trabalhoSpotHotel ||
+    rota === ROTAS.trabalhoAgroWeld
+  ) return 0.85;
   if (
     rota === ROTAS.projetoRevalio ||
     rota === ROTAS.projetoDocalio ||
@@ -173,7 +173,6 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.pipelio ||
     rota === ROTAS.painelAdministrativo ||
     rota === ROTAS.projetoCatelio ||
-    rota === ROTAS.projetoDogolio ||
     rota === ROTAS.projetoMorvelio ||
     rota === ROTAS.projetoMazelio ||
     rota === ROTAS.projetoSocialio

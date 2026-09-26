@@ -15,8 +15,8 @@ import type { LegalDocument } from '../types';
  * diferente do build, o que `CLAUDE.md` proíbe.
  */
 
-const VERSAO = '16 de agosto de 2026';
-const FONTE_DATA = 'Data de redação desta versão de trabalho, após auditoria do repositório do Docalio.';
+const VERSAO = '26 de setembro de 2026';
+const FONTE_DATA = 'Disponibilidade conferida na App Store; revisão do inventário de dados da versão distribuída ainda pendente.';
 
 const relacionadosDocalio = [
   { href: ROTAS.projetoDocalio, rotulo: 'Sobre o Docalio' },
@@ -27,14 +27,14 @@ const relacionadosDocalio = [
 ] as const;
 
 const AVISO_SEM_BUILD =
-  'O Docalio está em desenvolvimento e ainda não foi distribuído em nenhuma loja. Este documento descreve o estado atual do projeto e os compromissos assumidos para o primeiro build público; ele será substituído pela versão definitiva quando esse build existir e for auditado.';
+  'O Docalio está disponível na App Store. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição do aplicativo atual.';
 
 export const privacidadeDocalio: LegalDocument = {
   rota: ROTAS.docalioPrivacidade,
   kind: 'privacidade',
   produto: 'Docalio',
   titulo: 'Política de Privacidade do Docalio',
-  resumo: 'O que o Docalio trata hoje, o que ainda não existe e o que já está decidido para quando existir.',
+  resumo: 'Privacidade do Docalio e canal para solicitações. Documento em revisão.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
@@ -52,47 +52,27 @@ export const privacidadeDocalio: LegalDocument = {
     },
     {
       id: 'hoje',
-      titulo: '2. O que o projeto trata hoje',
+      titulo: '2. Versão distribuída',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Na versão em desenvolvimento, o jogo guarda progresso, preferências, escolhas da partida, inventário e cosméticos no armazenamento local do próprio aparelho.',
+            'O inventário de dados, permissões e prestadores da versão distribuída está em revisão. Para dúvidas ou solicitações relacionadas aos seus dados, use o contato abaixo.',
         },
         {
-          tipo: 'lista',
-          itens: [
-            'não existe conta, cadastro ou login;',
-            'não existe servidor, nuvem, placar ou ranking on-line;',
-            'nenhum dado da partida é enviado para fora do aparelho;',
-            'não há anúncios, rastreamento publicitário ou venda de dados.',
-          ],
+          tipo: 'paragrafo',
+          texto: 'A navegação nesta página pertence ao site da Blajeen Labs e é coberta pela política geral do site.',
         },
       ],
     },
     {
       id: 'compromissos',
-      titulo: '3. Compromissos para o primeiro build público',
+      titulo: '3. Revisão da versão publicada',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Estes requisitos foram fixados antes da implementação. Se o código divergir de qualquer um deles, esta política e os formulários das lojas mudam antes do envio:',
-        },
-        {
-          tipo: 'lista',
-          itens: [
-            'jogar localmente sem conta sempre que tecnicamente possível;',
-            'conta opcional por e-mail ou provedor aprovado, nunca obrigatória para jogar;',
-            'sincronizar apenas progresso, inventário, decisões ficcionais e estado do jogo necessários;',
-            'proibir entrada e envio de nome, prontuário, imagem ou qualquer dado de paciente real;',
-            'não usar dados de saúde do aparelho, HealthKit ou Health Connect na versão inicial;',
-            'não solicitar localização, contatos, câmera ou microfone sem função documentada;',
-            'sem anúncios comportamentais ou venda de dados;',
-            'compras digitais somente pelos mecanismos das lojas;',
-            'exclusão de conta e dados dentro do jogo e por URL pública;',
-            'casos, personagens e resultados declarados como ficcionais e educacionais.',
-          ],
+            'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.',
         },
       ],
     },
@@ -114,12 +94,12 @@ export const privacidadeDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Nenhum prestador processa dados do Docalio hoje, porque nada sai do aparelho. Quando existir build distribuído, a lista efetiva de autenticação, banco, relatório de falhas, hospedagem, lojas e serviço de compras será publicada aqui após auditoria do ambiente de produção.',
+            'A compra no aplicativo usa a infraestrutura da loja e RevenueCat, conforme a documentação do jogo. Outros prestadores e o fluxo completo de dados ainda precisam ser conferidos na versão distribuída.',
         },
         {
           tipo: 'paragrafo',
           texto:
-            'Compras digitais, se existirem, serão processadas pela App Store ou pelo Google Play; o Docalio não receberá o número completo do cartão.',
+            'A disponibilidade e as condições da compra são apresentadas na App Store e no próprio jogo.',
         },
       ],
     },
@@ -130,13 +110,13 @@ export const privacidadeDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Enquanto todos os dados forem locais, apagar os dados do aplicativo ou desinstalá-lo remove o que existe. Não há cópia remota a solicitar.',
+            'Para pedir informações ou exclusão de dados relacionados ao Docalio, use o contato abaixo. A descrição específica de retenção e exclusão da versão distribuída ainda está em revisão.',
         },
         {
           tipo: 'pendente',
           bloqueador: 'contaDocalio',
           explicacao:
-            'Conta, nuvem, compras e telemetria ainda não foram decididas para o Docalio. Enquanto essa decisão não existir, esta política não pode descrever fluxo de conta, prazo de retenção ou compartilhamento como se já funcionassem.',
+            'O inventário de dados e os procedimentos da versão distribuída precisam de validação antes de serem descritos como definitivos.',
         },
         {
           tipo: 'pendente',
@@ -156,7 +136,7 @@ export const privacidadeDocalio: LegalDocument = {
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Privacidade do Docalio — Blajeen Labs',
   metaDescricao:
-    'Política de privacidade do Docalio: estado atual do projeto, dados locais e compromissos para o primeiro build público.',
+    'Privacidade do Docalio, disponível na App Store. Documento em revisão e canal de contato.',
 };
 
 export const termosDocalio: LegalDocument = {
@@ -164,7 +144,7 @@ export const termosDocalio: LegalDocument = {
   kind: 'termos',
   produto: 'Docalio',
   titulo: 'Termos de Uso do Docalio',
-  resumo: 'Finalidade, limites e regras de uso do jogo em desenvolvimento.',
+  resumo: 'Finalidade e limites do jogo publicado. Documento em revisão.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
@@ -236,13 +216,13 @@ export const termosDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Não existe conta, assinatura ou compra no projeto atual. Se qualquer um desses recursos for implementado, estes termos passarão a informar preço, renovação, cancelamento, restauração e reembolso antes de a funcionalidade ficar disponível.',
+            'Docalio está disponível na App Store e oferece uma compra opcional no aplicativo. As condições da oferta aparecem na loja e no jogo; esta seção aguarda revisão editorial e jurídica da versão distribuída.',
         },
         {
           tipo: 'pendente',
           bloqueador: 'contaDocalio',
           explicacao:
-            'A decisão sobre conta, nuvem, compras e telemetria ainda não foi tomada; ela define quais cláusulas desta seção passam a existir.',
+            'Conta, nuvem e telemetria da versão distribuída ainda precisam ser conferidas antes de serem descritas aqui.',
         },
       ],
     },
@@ -265,7 +245,7 @@ export const termosDocalio: LegalDocument = {
   ],
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Termos do Docalio — Blajeen Labs',
-  metaDescricao: 'Termos de uso do Docalio, jogo de simulação médica ficcional em desenvolvimento.',
+  metaDescricao: 'Termos de uso do Docalio, jogo de estratégia médica ficcional disponível na App Store.',
 };
 
 export const suporteDocalio: LegalDocument = {
@@ -273,7 +253,7 @@ export const suporteDocalio: LegalDocument = {
   kind: 'suporte',
   produto: 'Docalio',
   titulo: 'Suporte do Docalio',
-  resumo: 'O que existe hoje e o que será publicado junto com o primeiro build.',
+  resumo: 'Suporte do Docalio publicado na App Store.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
@@ -285,7 +265,7 @@ export const suporteDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Como não há build distribuído, não existe instalação a recuperar, conta a restaurar, compra a reembolsar ou progresso salvo em servidor.',
+            'Em pedidos de ajuda, informe aparelho, versão do jogo e o que aconteceu, sem enviar dados reais de pacientes ou informações pessoais desnecessárias.',
         },
       ],
     },
@@ -313,14 +293,14 @@ export const suporteDocalio: LegalDocument = {
         {
           tipo: 'destaque',
           texto:
-            'Quando o canal existir, não envie dados reais de pacientes, prontuários, imagens clínicas ou resultados de exames. O Docalio trabalha apenas com casos ficcionais.',
+            'Não envie dados reais de pacientes, prontuários, imagens clínicas ou resultados de exames. O Docalio trabalha apenas com casos ficcionais.',
         },
       ],
     },
   ],
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Suporte do Docalio — Blajeen Labs',
-  metaDescricao: 'Estado do suporte do Docalio, jogo em desenvolvimento na Blajeen Labs.',
+  metaDescricao: 'Canal de suporte do Docalio, disponível na App Store.',
 };
 
 export const exclusaoDocalio: LegalDocument = {
@@ -328,47 +308,36 @@ export const exclusaoDocalio: LegalDocument = {
   kind: 'exclusao',
   produto: 'Docalio',
   titulo: 'Excluir sua conta do Docalio',
-  resumo: 'Como os dados do Docalio são apagados hoje e como serão apagados quando existir conta.',
+  resumo: 'Canal para pedidos relacionados à exclusão de dados do Docalio.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
     {
       id: 'hoje',
-      titulo: 'Hoje não existe conta a excluir',
+      titulo: 'Versão publicada',
       blocos: [
         { tipo: 'destaque', texto: AVISO_SEM_BUILD },
         {
           tipo: 'paragrafo',
           texto:
-            'A versão em desenvolvimento não cria conta e não envia nada para servidores. Todo o progresso fica no armazenamento local do aparelho, e apagar os dados do aplicativo ou desinstalá-lo remove tudo o que existe.',
+            'Para solicitar informações ou exclusão de dados relacionados ao Docalio, use o contato abaixo. O procedimento específico da versão distribuída está em revisão.',
         },
       ],
     },
     {
       id: 'quando-existir',
-      titulo: 'Quando a conta existir',
+      titulo: 'Como solicitar',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'A criação de conta só será habilitada depois que a exclusão dentro do jogo estiver implementada e testada. Esta página passará a descrever, com o comportamento real do build:',
-        },
-        {
-          tipo: 'lista',
-          itens: [
-            'o caminho exato de exclusão dentro do jogo;',
-            'como pedir a exclusão sem acesso ao jogo;',
-            'como a identidade da pessoa é confirmada;',
-            'quais categorias de dados são apagadas e quais são retidas por obrigação legal;',
-            'o prazo de conclusão do pedido;',
-            'o canal de contato para acompanhar o pedido.',
-          ],
+            'Descreva sua solicitação ao canal abaixo. Para localizarmos seus dados, informe apenas os identificadores que o suporte solicitar; nunca envie dados de pacientes reais.',
         },
         {
           tipo: 'pendente',
           bloqueador: 'contaDocalio',
           explicacao:
-            'Descrever agora um caminho de menu que não existe no jogo criaria uma instrução falsa para quem precisar apagar dados — exatamente o que a exigência de exclusão de conta do Google Play pretende evitar.',
+            'O procedimento e as categorias de dados da versão distribuída precisam ser validados antes de constarem como definitivos nesta página.',
         },
         {
           tipo: 'contato',
@@ -385,7 +354,7 @@ export const exclusaoDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Não existem compras no Docalio. Se existirem, excluir a conta não cancelará assinatura administrada pela loja: o cancelamento será feito diretamente na App Store ou no Google Play.',
+            'Compras no aplicativo são geridas pela loja. Para dúvidas sobre restauração ou reembolso, entre em contato com o suporte e consulte as regras da App Store.',
         },
       ],
     },
@@ -393,5 +362,5 @@ export const exclusaoDocalio: LegalDocument = {
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Excluir conta do Docalio — Blajeen Labs',
   metaDescricao:
-    'Página pública de exclusão de dados do Docalio: estado atual do projeto e o processo previsto quando houver conta.',
+    'Canal público para pedidos relacionados à exclusão de dados do Docalio.',
 };

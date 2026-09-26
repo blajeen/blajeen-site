@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import nextConfig from '../../next.config';
-import { dogolio } from '@/content/projects';
+import { morvelio } from '@/content/projects';
 import { OG } from '@/lib/metadata';
 
 describe('Entrega de imagens', () => {
@@ -10,9 +10,9 @@ describe('Entrega de imagens', () => {
     expect(nextConfig.images?.unoptimized).toBe(true);
   });
 
-  it('usa o novo ícone versionado do Dogolio no site e no compartilhamento', () => {
-    expect(dogolio.icone?.src).toBe('/projects/dogolio/dogolio-icon-cartoon-light-gray-512.webp');
-    expect(OG.dogolio).toBe(dogolio.icone?.src);
-    expect(existsSync(join(process.cwd(), 'public', OG.dogolio))).toBe(true);
+  it('usa o ícone oficial do Morvelio no site e no compartilhamento', () => {
+    expect(morvelio.icone?.src).toBe('/projects/morvelio/morvelio-icon-montanha-toon-512.webp');
+    expect(OG.morvelio).toBe(morvelio.icone?.src);
+    expect(existsSync(join(process.cwd(), 'public', OG.morvelio))).toBe(true);
   });
 });

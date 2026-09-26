@@ -175,7 +175,7 @@ export function ProjectPage({ projeto }: { projeto: Project }) {
           <h2 id="galeria-titulo" className="sr-only">
             Capturas do {projeto.nome}
           </h2>
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className={`grid gap-6 sm:grid-cols-2 ${projeto.galeria.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
             {projeto.galeria.map((captura) => (
               <li key={captura.src}>
                 <figure>

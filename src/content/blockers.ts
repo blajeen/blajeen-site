@@ -110,12 +110,6 @@ export const BLOQUEADORES = {
     // TODO(bloqueador): o ícone oficial existe, mas capturas de gameplay ainda não foram
     // selecionadas para comunicação pública.
   },
-  conceptArtDogolio: {
-    titulo: 'Capturas reais ou concept art autorizada do Dogolio',
-    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',
-    // TODO(bloqueador): a logo do Dogolio foi criada para a apresentação do conceito;
-    // capturas de gameplay ainda não foram selecionadas para comunicação pública.
-  },
   conceptArtMorvelio: {
     titulo: 'Capturas reais ou concept art autorizada do Morvelio',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',

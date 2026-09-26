@@ -16,7 +16,7 @@ import {
 import { documentosLegais } from './legal';
 import { atalhosDeJogo, rodape } from './navigation';
 import { contato, sobre } from './pages';
-import { catelio, docalio, dogolio, gramelio, projetos, revalio, rotasDoProjeto } from './projects';
+import { catelio, docalio, gramelio, mazelio, morvelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
 import { ROTAS_DE_LOJA } from '@/lib/routes';
 
@@ -29,7 +29,7 @@ import { ROTAS_DE_LOJA } from '@/lib/routes';
 
 describe('projetos', () => {
   it('apresenta apenas os produtos reais do estúdio', () => {
-    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Dogolio', 'Morvelio', 'Mazelio', 'Socialio']);
+    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Morvelio', 'Mazelio', 'Socialio']);
   });
 
   it('usa os banners finais aprovados, sem versão numerada', () => {
@@ -43,9 +43,8 @@ describe('projetos', () => {
       docalio: { src: '/projects/docalio/docalio-banner-final.png', largura: 1672, altura: 941 },
       gramelio: { src: '/projects/gramelio/gramelio-banner-final.png', largura: 1536, altura: 1024 },
       catelio: { src: '/projects/catelio/catelio-banner-city.png', largura: 1672, altura: 941 },
-      dogolio: { src: '/projects/dogolio/dogolio-banner-city.png', largura: 1672, altura: 941 },
-      morvelio: { src: '/projects/morvelio/morvelio-banner.png', largura: 1536, altura: 1024 },
-      mazelio: { src: '/projects/mazelio/mazelio-banner-apocalypse-lab.webp', largura: 1536, altura: 1024 },
+      morvelio: { src: '/projects/morvelio/morvelio-banner-2026.webp', largura: 1600, altura: 900 },
+      mazelio: { src: '/projects/mazelio/mazelio-gameplay-banner.webp', largura: 1600, altura: 900 },
       socialio: { src: '/projects/socialio/socialio-banner-cafe.webp', largura: 1672, altura: 941 },
     };
 
@@ -75,8 +74,12 @@ describe('projetos', () => {
     expect(revalio.estado).toBe('ATIVO');
     expect(docalio.estado).toBe('ATIVO');
     expect(gramelio.estado).toBe('ATIVO');
+    expect(catelio.estado).toBe('ATIVO');
+    expect(mazelio.estado).toBe('ATIVO');
     expect(docalio.status).toBe('DISPONÍVEL');
     expect(gramelio.status).toBe('DISPONÍVEL');
+    expect(catelio.status).toBe('DISPONÍVEL');
+    expect(mazelio.status).toBe('DISPONÍVEL');
   });
 
   it('não transforma disponibilidade em link antes de ter a URL da ficha', () => {
@@ -92,8 +95,8 @@ describe('projetos', () => {
   });
 
   it('só anuncia "em breve" sem data', () => {
-    for (const projeto of [docalio, gramelio, catelio, dogolio]) {
-      const texto = JSON.stringify(projeto.disponibilidade);
+    for (const projeto of [docalio, gramelio, catelio, mazelio]) {
+      const texto = JSON.stringify(projeto.disponibilidade.filter((loja) => loja.estado === 'em-breve'));
       expect(texto, projeto.nome).not.toMatch(/\d{4}|janeiro|fevereiro|mar[çc]o|trimestre/i);
     }
   });
@@ -146,7 +149,6 @@ describe('projetos', () => {
       'Docalio',
       'Gramelio',
       'Catelio',
-      'Dogolio',
       'Morvelio',
       'Mazelio',
       'Socialio',
@@ -158,9 +160,15 @@ describe('projetos', () => {
     }
   });
 
-  it('mantém a galeria vazia enquanto não houver mídia selecionada pelo titular', () => {
+  it('mostra capturas atuais no Morvelio e Mazelio e mantém vazias as galerias sem seleção', () => {
     for (const projeto of projetos) {
-      expect(projeto.galeria).toEqual([]);
+      if (projeto.id === 'morvelio') {
+        expect(projeto.galeria).toHaveLength(3);
+        expect(projeto.galeria.every((captura) => captura.legenda.includes('protótipo'))).toBe(true);
+      } else if (projeto.id === 'mazelio') {
+        expect(projeto.galeria).toHaveLength(4);
+        expect(projeto.galeria.every((captura) => captura.legenda.includes('captura atual'))).toBe(true);
+      } else expect(projeto.galeria).toEqual([]);
       expect(BLOQUEADORES[projeto.galeriaBloqueador]).toBeDefined();
     }
   });
@@ -172,15 +180,15 @@ describe('projetos', () => {
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });
 
-  it('apresenta Gramelio e Docalio disponíveis sem inventar links ou retirar os avisos', () => {
-    for (const projeto of [gramelio, docalio]) {
+  it('liga os quatro jogos publicados às fichas confirmadas da App Store', () => {
+    for (const projeto of [gramelio, docalio, catelio, mazelio]) {
       expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
-      expect(projeto.notaCurta).toMatch(/já disponível/i);
-      expect(projeto.disponibilidade).toEqual([]);
+      expect(projeto.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({ estado: 'disponivel', url: expect.stringContaining('apps.apple.com') });
+      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'em-breve', url: null });
     }
+    expect(morvelio.aviso).toMatch(/protótipo jogável interno/i);
     expect(gramelio.aviso).toMatch(/ficcionais/i);
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
-    expect(dogolio.aviso).toMatch(/cachorro caramelo/i);
   });
 
   it('só afirma estar nas lojas quando está', () => {
@@ -416,7 +424,6 @@ describe('documentos legais', () => {
       Docalio: 'contato.docalio@gmail.com',
       Gramelio: 'contato.gramelio@gmail.com',
       Catelio: 'brg.ftw@gmail.com',
-      Dogolio: 'brg.ftw@gmail.com',
       Morvelio: 'brg.ftw@gmail.com',
       Mazelio: 'brg.ftw@gmail.com',
       Socialio: 'brg.ftw@gmail.com',

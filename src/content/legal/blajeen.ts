@@ -189,7 +189,6 @@ export const privacidadeEstudio: LegalDocument = {
     { href: ROTAS.docalioPrivacidade, rotulo: 'Privacidade do Docalio' },
     { href: ROTAS.gramelioPrivacidade, rotulo: 'Privacidade do Gramelio' },
     { href: ROTAS.catelioPrivacidade, rotulo: 'Privacidade do Catelio' },
-    { href: ROTAS.dogolioPrivacidade, rotulo: 'Privacidade do Dogolio' },
     { href: ROTAS.morvelioPrivacidade, rotulo: 'Privacidade do Morvelio' },
     { href: ROTAS.mazelioPrivacidade, rotulo: 'Privacidade do Mazelio' },
     { href: ROTAS.socialioPrivacidade, rotulo: 'Privacidade do Socialio' },
@@ -217,7 +216,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto e páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Dogolio, Morvelio, Mazelio e Socialio.',
+            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto e páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio.',
         },
         {
           tipo: 'paragrafo',
@@ -243,7 +242,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'destaque',
           texto:
-            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio, Dogolio, Morvelio, Mazelio e Socialio são jogos; os produtos SaaS são bases de software adaptáveis e não substituem orientação profissional específica de cada operação.',
+            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio, Morvelio, Mazelio e Socialio são jogos; os produtos SaaS são bases de software adaptáveis e não substituem orientação profissional específica de cada operação.',
         },
       ],
     },
@@ -254,7 +253,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Dogolio, Morvelio, Mazelio, Socialio e das linhas SaaS, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros.',
+            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio, Socialio e das linhas SaaS, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros.',
         },
         {
           tipo: 'paragrafo',
@@ -356,7 +355,7 @@ export const suporteEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O Docalio está em desenvolvimento e ainda não tem build público. Não existe conta, servidor ou dado sincronizado a recuperar, mas o canal já está aberto para dúvidas sobre o projeto.',
+            'O Docalio está disponível na App Store. Para dúvidas sobre instalação, uso, compras ou dados do jogo, consulte o suporte do Docalio ou escreva para o canal abaixo.',
         },
         {
           tipo: 'contato',
@@ -373,7 +372,7 @@ export const suporteEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O Gramelio está em desenvolvimento e ainda não foi distribuído: não existe instalação, conta ou compra a atender. O canal já está aberto para dúvidas sobre o projeto e para pedidos relacionados a dados.',
+            'O Gramelio está disponível na App Store. Para ajuda com instalação, progresso, compras ou dados do jogo, consulte a página de suporte do Gramelio ou entre em contato pelo canal informado abaixo.',
         },
         {
           tipo: 'contato',
@@ -456,7 +455,6 @@ export const suporteEstudio: LegalDocument = {
     { href: ROTAS.docalioSuporte, rotulo: 'Suporte do Docalio' },
       { href: ROTAS.gramelioSuporte, rotulo: 'Suporte do Gramelio' },
       { href: ROTAS.catelioSuporte, rotulo: 'Suporte do Catelio' },
-      { href: ROTAS.dogolioSuporte, rotulo: 'Suporte do Dogolio' },
       { href: ROTAS.morvelioSuporte, rotulo: 'Suporte do Morvelio' },
       { href: ROTAS.mazelioSuporte, rotulo: 'Suporte do Mazelio' },
       { href: ROTAS.socialioSuporte, rotulo: 'Suporte do Socialio' },
@@ -465,5 +463,5 @@ export const suporteEstudio: LegalDocument = {
   ],
   metaTitulo: 'Suporte — Blajeen Labs',
   metaDescricao:
-    'Suporte de Revalio, Docalio, Gramelio, Catelio, Dogolio, Morvelio, Mazelio e Socialio: ajuda com os produtos, dúvidas de uso e como reportar um bug.',
+    'Suporte de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio: ajuda com os produtos, dúvidas de uso e como reportar um bug.',
 };

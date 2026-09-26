@@ -21,7 +21,6 @@ const rotasDeJogos = [
   ROTAS.projetoDocalio,
   ROTAS.projetoGramelio,
   ROTAS.projetoCatelio,
-  ROTAS.projetoDogolio,
   ROTAS.projetoMorvelio,
 ];
 const rotasDeProdutos = [

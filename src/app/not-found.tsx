@@ -15,7 +15,6 @@ const destinos = [
   { href: ROTAS.projetoDocalio, rotulo: 'Docalio', texto: 'Estratégia e prioridade na emergência.' },
   { href: ROTAS.projetoGramelio, rotulo: 'Gramelio', texto: 'Jogo casual de fazenda, a um toque.' },
   { href: ROTAS.projetoCatelio, rotulo: 'Catelio', texto: 'Exploração casual em uma cidade colorida.' },
-  { href: ROTAS.projetoDogolio, rotulo: 'Dogolio', texto: 'Um cachorro caramelo e novas histórias pela cidade.' },
   { href: ROTAS.projetoMorvelio, rotulo: 'Morvelio', texto: 'Uma fortaleza fantástica e um mundo em formação.' },
   { href: ROTAS.suporte, rotulo: 'Suporte', texto: 'Ajuda, privacidade e exclusão de dados.' },
 ];

@@ -14,7 +14,10 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
           <Link href={ROTAS.trabalhos} className="tecnica inline-flex items-center gap-3 text-mineral transition-colors hover:text-signal">
             <span aria-hidden="true">←</span> TODOS OS TRABALHOS
           </Link>
-          <p className="tecnica mt-12 text-signal">{trabalho.categoria}</p>
+          <div className="mt-12 flex flex-wrap items-center gap-4">
+            <p className="tecnica text-signal">{trabalho.categoria}</p>
+            {trabalho.fase ? <span className="tecnica rounded-full border border-line-strong px-3 py-1 text-mineral">{trabalho.fase}</span> : null}
+          </div>
           <div className="mt-7 grid gap-8 lg:grid-cols-12 lg:items-end">
             <h1 className="max-w-[12ch] text-[clamp(3rem,8vw,7.5rem)] leading-[0.9] tracking-[-0.06em] lg:col-span-8">
               {trabalho.cliente}
@@ -24,7 +27,7 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
             </p>
           </div>
           <div className="media-pattern relative mt-12 aspect-[32/15] min-h-72 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-            <Image src={trabalho.capa} alt={trabalho.capaAlt} fill priority sizes="100vw" quality={95} className="object-contain object-top" />
+            <Image src={trabalho.capa} alt={trabalho.capaAlt} fill priority sizes="100vw" quality={90} className="object-cover object-top" />
           </div>
         </Container>
       </header>
@@ -47,7 +50,7 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
 
       <Section indice="02 / O QUE FOI CONSTRUÍDO" rotuladaPor="entrega-titulo">
         <div className="grid gap-10 lg:grid-cols-12">
-          <TituloSecao id="entrega-titulo" className="lg:col-span-5">Produto, operação e marca no mesmo sistema.</TituloSecao>
+          <TituloSecao id="entrega-titulo" className="lg:col-span-5">{trabalho.tituloEntrega ?? 'Produto, operação e marca no mesmo sistema.'}</TituloSecao>
           <ul className="grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
             {trabalho.contribuicoes.map((item, indice) => (
               <li key={item} className="flex min-h-28 gap-4 bg-surface p-5">
@@ -60,15 +63,13 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
       </Section>
 
       <Section indice="03 / MATERIAL REAL" rotulo={`Imagens do projeto ${trabalho.cliente}`}>
-        <div className={`grid gap-4 ${trabalho.imagens.length === 3 ? 'md:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
-          {trabalho.imagens.map((imagem) => (
+        <div className={`grid gap-4 ${trabalho.formatoImagens === 'telas' ? 'md:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+          {trabalho.imagens.map((imagem, indice) => (
             <figure
               key={imagem.src}
-              className={`media-pattern relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised ${
-                trabalho.imagens.length === 3 ? 'aspect-square' : 'aspect-[4/5]'
-              }`}
+              className={`media-pattern relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised ${trabalho.formatoImagens === 'telas' ? `aspect-[16/10] ${indice === 0 && trabalho.imagens.length === 3 ? 'md:col-span-2' : ''}` : 'aspect-[4/5]'}`}
             >
-              <Image src={imagem.src} alt={imagem.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" quality={95} className="object-cover" />
+              <Image src={imagem.src} alt={imagem.alt} fill sizes={trabalho.formatoImagens === 'telas' ? '(min-width: 1024px) 70vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'} quality={90} className={trabalho.formatoImagens === 'telas' ? 'object-contain object-top' : 'object-cover'} />
             </figure>
           ))}
         </div>

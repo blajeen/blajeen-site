@@ -25,7 +25,7 @@ export default function TrabalhosPage() {
               Projetos que saíram da bancada e chegaram ao mundo real.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Estratégia, identidade, experiência e engenharia reunidas para resolver necessidades concretas de cada cliente.
+              Alguns projetos feitos para clientes, com estratégia, identidade, experiência e tecnologia conectadas às necessidades de cada operação.
             </p>
           </div>
         </Container>
@@ -33,14 +33,14 @@ export default function TrabalhosPage() {
 
       <Section indice="01 / PROJETOS FEITOS" rotulo="Alguns projetos feitos para clientes" className="pb-[clamp(3rem,6vw,6rem)]">
         <div className="grid gap-5 lg:grid-cols-2">
-          {trabalhos.map((trabalho) => <WorkCard key={trabalho.id} trabalho={trabalho} />)}
+          {trabalhos.map((trabalho, indice) => <WorkCard key={trabalho.id} trabalho={trabalho} destaque={indice === 0} />)}
         </div>
       </Section>
 
       <Section indice="02 / SUA IDEIA" className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Crie seu projeto">
         <div className="grid gap-8 rounded-[var(--radius-panel)] border border-[#55bfff]/25 bg-raised/70 p-7 sm:p-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="tecnica text-[#8bddff]">ENGENHARIA DE SOFTWARE COM IA APLICADA</p>
+            <p className="tecnica text-[#8bddff]">PRODUTOS DIGITAIS COM IDENTIDADE PRÓPRIA</p>
             <h2 className="mt-5 max-w-[15ch] text-[clamp(2.2rem,5vw,4.5rem)] leading-[0.96] tracking-[-0.055em]">O próximo trabalho pode começar com a sua ideia.</h2>
           </div>
           <div className="lg:col-span-3 lg:col-start-10">

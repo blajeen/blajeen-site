@@ -15,8 +15,8 @@ import type { LegalDocument } from '../types';
  * conforme `docs/LEGAL_LOJAS_E_DADOS.md`.
  */
 
-const VERSAO = '20 de agosto de 2026';
-const FONTE_DATA = 'Data desta versão de trabalho, revisada quando o canal do jogo foi confirmado.';
+const VERSAO = '26 de setembro de 2026';
+const FONTE_DATA = 'Disponibilidade conferida na App Store; privacidade e suporte seguem os documentos aprovados do jogo.';
 
 const relacionadosGramelio = [
   { href: ROTAS.projetoGramelio, rotulo: 'Sobre o Gramelio' },
@@ -28,7 +28,7 @@ const relacionadosGramelio = [
 ] as const;
 
 const AVISO_SEM_BUILD =
-  'O Gramelio está em desenvolvimento e não foi distribuído em nenhuma loja. Não existe aplicativo público, build de teste ou ficha de loja. Este documento descreve o estado do projeto e os compromissos assumidos para o primeiro build público; ele será substituído pela versão definitiva quando esse build existir e for auditado.';
+  'O Gramelio está disponível na App Store. As páginas de privacidade e suporte publicadas neste site reproduzem os documentos revisados do repositório do jogo. Estes termos e a página de exclusão ainda aguardam revisão jurídica final.';
 
 export const privacidadeGramelio: LegalDocument = {
   rota: ROTAS.gramelioPrivacidade,
@@ -138,7 +138,7 @@ export const termosGramelio: LegalDocument = {
   kind: 'termos',
   produto: 'Gramelio',
   titulo: 'Termos de Uso do Gramelio',
-  resumo: 'Finalidade, limites e regras de uso do jogo em desenvolvimento.',
+  resumo: 'Finalidade e limites do jogo publicado. Termos em revisão.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
@@ -209,18 +209,18 @@ export const termosGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Não existe conta, assinatura ou compra no projeto atual. A loja de cosméticos faz parte do desenho do jogo, e nada nela está implementado, precificado ou disponível.',
+            'O primeiro mundo pode ser jogado gratuitamente. Uma compra opcional no aplicativo libera o restante da campanha, conforme a apresentação na App Store e no próprio jogo.',
         },
         {
           tipo: 'paragrafo',
           texto:
-            'Se compras forem implementadas, estes termos passarão a informar preço, moeda virtual, renovação, cancelamento, restauração e reembolso antes de a funcionalidade ficar disponível.',
+            'A compra é processada pela App Store, com intermediação da RevenueCat. Para dúvidas sobre restauração, cobrança ou reembolso, consulte o suporte e as condições da loja.',
         },
         {
           tipo: 'pendente',
           bloqueador: 'escopoGramelio',
           explicacao:
-            'A decisão sobre conta, nuvem, compras e telemetria ainda não foi tomada; ela define quais cláusulas desta seção passam a existir.',
+            'O jogo cria uma conta anônima automática para cópia do progresso na nuvem; detalhes constam da política de privacidade aprovada.',
         },
       ],
     },
@@ -243,7 +243,7 @@ export const termosGramelio: LegalDocument = {
   ],
   relacionados: [...relacionadosGramelio],
   metaTitulo: 'Termos do Gramelio — Blajeen Labs',
-  metaDescricao: 'Termos de uso do Gramelio, jogo casual de fazenda em desenvolvimento na Blajeen Labs.',
+  metaDescricao: 'Termos de uso do Gramelio, jogo casual de fazenda disponível na App Store.',
 };
 
 export const suporteGramelio: LegalDocument = {
@@ -263,7 +263,7 @@ export const suporteGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Como não há build distribuído, não existe instalação a recuperar, conta a restaurar, compra a reembolsar ou progresso salvo a devolver.',
+            'O Gramelio está disponível na App Store. Para problemas de instalação, progresso ou compra, informe aparelho, versão do jogo e o que aconteceu.',
         },
       ],
     },
@@ -315,47 +315,36 @@ export const exclusaoGramelio: LegalDocument = {
   kind: 'exclusao',
   produto: 'Gramelio',
   titulo: 'Excluir sua conta do Gramelio',
-  resumo: 'Por que hoje não existe conta a excluir e como a exclusão funcionará quando existir.',
+  resumo: 'Como pedir a exclusão da cópia de progresso e da conta anônima do Gramelio.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
     {
       id: 'hoje',
-      titulo: 'Hoje não existe conta a excluir',
+      titulo: 'Conta anônima e progresso',
       blocos: [
         { tipo: 'destaque', texto: AVISO_SEM_BUILD },
         {
           tipo: 'paragrafo',
           texto:
-            'O jogo não foi distribuído, não cria conta e não envia nada para servidores. Não há cópia de dados a solicitar nem cadastro a encerrar.',
+            'O jogo cria uma conta anônima automática e guarda uma cópia do progresso na nuvem, conforme a política de privacidade aprovada. Não é necessário fornecer nome ou e-mail para jogar.',
         },
       ],
     },
     {
       id: 'quando-existir',
-      titulo: 'Quando a conta existir',
+      titulo: 'Como solicitar exclusão',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'A criação de conta só será habilitada depois que a exclusão dentro do jogo estiver implementada e testada. Esta página passará a descrever, com o comportamento real do build:',
-        },
-        {
-          tipo: 'lista',
-          itens: [
-            'o caminho exato de exclusão dentro do jogo;',
-            'como pedir a exclusão sem acesso ao jogo;',
-            'como a identidade da pessoa é confirmada;',
-            'quais categorias de dados são apagadas e quais são retidas por obrigação legal;',
-            'o prazo de conclusão do pedido;',
-            'o canal de contato para acompanhar o pedido.',
-          ],
+            'Para apagar a cópia de nuvem, escreva para o contato abaixo informando o identificador de jogador visível em Ajustes, conforme orienta a política de privacidade do jogo.',
         },
         {
           tipo: 'pendente',
           bloqueador: 'escopoGramelio',
           explicacao:
-            'Descrever agora um caminho de menu que não existe no jogo criaria uma instrução falsa para quem precisar apagar dados — exatamente o que a exigência de exclusão de conta do Google Play pretende evitar.',
+            'O prazo e o procedimento completo da versão distribuída ainda precisam de revisão jurídica e operacional antes de serem descritos como definitivos.',
         },
         {
           tipo: 'contato',
@@ -372,7 +361,7 @@ export const exclusaoGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Não existem compras no Gramelio. Se existirem, excluir a conta não cancelará assinatura administrada pela loja: o cancelamento será feito diretamente na App Store ou no Google Play.',
+            'A compra opcional é administrada pela loja. Excluir a cópia do progresso não equivale a solicitar reembolso da compra; consulte o suporte e as regras da App Store.',
         },
       ],
     },
@@ -380,5 +369,5 @@ export const exclusaoGramelio: LegalDocument = {
   relacionados: [...relacionadosGramelio],
   metaTitulo: 'Excluir conta do Gramelio — Blajeen Labs',
   metaDescricao:
-    'Página pública de exclusão de dados do Gramelio: estado atual do projeto e o processo previsto quando houver conta.',
+    'Como solicitar a exclusão da cópia de progresso e da conta anônima do Gramelio.',
 };

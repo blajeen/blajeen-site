@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         { source: '/gramelio/privacy', destination: '/gramelio/privacy.html' },
+        { source: '/gramelio/support', destination: '/gramelio/suporte.html' },
         { source: '/gramelio/suporte', destination: '/gramelio/suporte.html' },
       ],
     };

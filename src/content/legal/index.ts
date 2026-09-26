@@ -21,12 +21,6 @@ import {
   termosCatelio,
 } from './catelio';
 import {
-  exclusaoDogolio,
-  privacidadeDogolio,
-  suporteDogolio,
-  termosDogolio,
-} from './dogolio';
-import {
   exclusaoMorvelio,
   privacidadeMorvelio,
   suporteMorvelio,
@@ -70,10 +64,6 @@ export {
   termosCatelio,
   suporteCatelio,
   exclusaoCatelio,
-  privacidadeDogolio,
-  termosDogolio,
-  suporteDogolio,
-  exclusaoDogolio,
   privacidadeMorvelio,
   termosMorvelio,
   suporteMorvelio,
@@ -109,10 +99,6 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosCatelio,
   suporteCatelio,
   exclusaoCatelio,
-  privacidadeDogolio,
-  termosDogolio,
-  suporteDogolio,
-  exclusaoDogolio,
   privacidadeMorvelio,
   termosMorvelio,
   suporteMorvelio,

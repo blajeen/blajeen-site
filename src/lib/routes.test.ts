@@ -25,9 +25,8 @@ describe('rotaAtiva', () => {
 
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
-    // 16 do plano original + `/novidades` + Gramelio, Clínica Médica, Produtos, dois novos
-    // jogos, o Vistalio e o Editalio.
-    expect(TODAS_AS_ROTAS).toHaveLength(72);
+    // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio.
+    expect(TODAS_AS_ROTAS).toHaveLength(70);
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/notalio');
@@ -40,6 +39,9 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/trabalhos');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/lina-art-pet');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos/dona-lia');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos/spot-hotel');
+    expect(TODAS_AS_ROTAS).toContain('/trabalhos/agro-weld');
     expect(TODAS_AS_ROTAS).toContain('/projects');
     expect(TODAS_AS_ROTAS).toContain('/projects/barbelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/studelio');
@@ -49,7 +51,6 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/catelio');
-    expect(TODAS_AS_ROTAS).toContain('/projects/dogolio');
     expect(TODAS_AS_ROTAS).toContain('/projects/morvelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/mazelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/socialio');
@@ -85,10 +86,6 @@ describe('rotas públicas', () => {
       '/catelio/terms',
       '/catelio/support',
       '/catelio/delete-account',
-      '/dogolio/privacy',
-      '/dogolio/terms',
-      '/dogolio/support',
-      '/dogolio/delete-account',
       '/morvelio/privacy',
       '/morvelio/terms',
       '/morvelio/support',
@@ -118,7 +115,6 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.trabalhoDomGuima)).toBe(0.85);
     expect(prioridadeSitemap(ROTAS.projetoRevalio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoGramelio)).toBe(0.9);
-    expect(prioridadeSitemap(ROTAS.projetoDogolio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMorvelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMazelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoSocialio)).toBe(0.9);

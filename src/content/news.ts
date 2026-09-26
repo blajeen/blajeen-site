@@ -25,6 +25,41 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'jogos-app-store-setembro-2026',
+    data: '2026-09-26',
+    rotulo: 'Jogos publicados',
+    titulo: 'Quatro mundos da Blajeen Labs já estão na App Store',
+    texto: [
+      'Catelio, Docalio, Gramelio e Mazelio já têm páginas públicas na App Store. Cada jogo explora uma ideia diferente: cidade e descoberta, triagem sob pressão, planejamento no pasto e labirintos de defesa.',
+      'As páginas de cada jogo agora mostram os links diretos para baixar no iPhone e iPad. As versões para Google Play estão em preparação; ainda não anunciamos uma data.',
+    ],
+    href: ROTAS.projetos,
+    cta: 'Explorar os jogos',
+  },
+  {
+    id: 'morvelio-prototipo-2026',
+    data: '2026-09-26',
+    rotulo: 'Em desenvolvimento',
+    projeto: 'morvelio',
+    titulo: 'Morvelio já tem protótipo jogável',
+    texto: [
+      'A campanha solo de Morvelio ganhou mapas, encontros e combates em um protótipo jogável. A página do projeto agora mostra capturas reais do desenvolvimento, incluindo encontro com chefe e área de treino.',
+      'O jogo ainda está em testes internos e não tem data de lançamento. A experiência, a arte e o equilíbrio continuam em evolução.',
+    ],
+  },
+  {
+    id: 'novos-projetos-clientes-2026',
+    data: '2026-09-26',
+    rotulo: 'Projetos feitos',
+    titulo: 'Novos trabalhos no portfólio: hospedagem, comércio e operação',
+    texto: [
+      'Pousada Dona Lia, Spot Hotel e Pousada e Agro Weld entram na seleção de projetos para clientes. Os dois projetos de hospedagem estão em homologação; a Agro Weld já apresenta publicamente seu catálogo.',
+      'Também atualizamos o caso Dom Guima para mostrar o e-commerce atual e o painel sob medida que acompanha produtos, estoque e pedidos.',
+    ],
+    href: ROTAS.trabalhos,
+    cta: 'Ver projetos feitos',
+  },
+  {
     id: 'gramelio-disponivel',
     data: '2026-09-03',
     rotulo: 'Lançamento',

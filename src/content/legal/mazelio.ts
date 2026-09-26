@@ -2,8 +2,8 @@ import { ROTAS } from '@/lib/routes';
 import { site } from '../site';
 import type { LegalDocument } from '../types';
 
-const VERSAO = '5 de setembro de 2026';
-const AVISO = 'Mazelio está em desenvolvimento e ainda não foi distribuído em nenhuma loja. O vertical slice é usado internamente para testes. Não existe build público, conta de jogador, compra ou serviço online anunciado.';
+const VERSAO = '26 de setembro de 2026';
+const AVISO = 'Mazelio está disponível na App Store. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição da publicação atual.';
 const relacionados = [
   { href: ROTAS.projetoMazelio, rotulo: 'Sobre o Mazelio' },
   { href: ROTAS.mazelioSuporte, rotulo: 'Suporte do Mazelio' },
@@ -15,31 +15,31 @@ const contato = (rotulo: string, assunto: string) => ({ tipo: 'contato' as const
 
 export const privacidadeMazelio: LegalDocument = {
   rota: ROTAS.mazelioPrivacidade, kind: 'privacidade', produto: 'Mazelio', titulo: 'Política de Privacidade do Mazelio',
-  resumo: 'O jogo está em desenvolvimento; esta página descreve o estado atual.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Versão de trabalho baseada no estado atual do protótipo.' },
+  resumo: 'Privacidade do Mazelio e canal de contato. Documento em revisão.', estado: 'preparacao',
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do inventário de dados ainda pendente.' },
   secoes: [
     { id: 'estado', titulo: '1. Estado atual', blocos: [{ tipo: 'destaque', texto: AVISO }] },
-    { id: 'dados', titulo: '2. Dados tratados hoje', blocos: [{ tipo: 'paragrafo', texto: 'O build interno funciona offline. Como não há aplicativo público, conta ou serviço online anunciado, o Mazelio não recebe cadastro, progresso ou compra em um servidor próprio.' }, { tipo: 'paragrafo', texto: 'A navegação nesta página pertence ao site da Blajeen Labs e é coberta pela política geral do site.' }] },
-    { id: 'futuro', titulo: '3. Antes de uma distribuição', blocos: [{ tipo: 'lista', itens: ['publicar uma política atualizada antes de qualquer distribuição;', 'explicar qualquer coleta necessária para uma função do jogo;', 'não solicitar permissões sem função documentada;', 'oferecer caminho público de exclusão caso uma conta venha a existir.'] }] },
+    { id: 'dados', titulo: '2. Versão distribuída', blocos: [{ tipo: 'paragrafo', texto: 'O inventário de dados, permissões e prestadores da versão publicada está em revisão. Para perguntas ou solicitações sobre seus dados, use o contato abaixo.' }, { tipo: 'paragrafo', texto: 'A navegação nesta página pertence ao site da Blajeen Labs e é coberta pela política geral do site.' }] },
+    { id: 'futuro', titulo: '3. Revisão', blocos: [{ tipo: 'paragrafo', texto: 'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.' }] },
     { id: 'contato', titulo: '4. Dúvidas sobre dados', blocos: [contato('Privacidade do Mazelio', 'Privacidade Mazelio')] },
-  ], relacionados: [...relacionados], metaTitulo: 'Privacidade do Mazelio — Blajeen Labs', metaDescricao: 'Política de privacidade do Mazelio, jogo em desenvolvimento na Blajeen Labs.',
+  ], relacionados: [...relacionados], metaTitulo: 'Privacidade do Mazelio — Blajeen Labs', metaDescricao: 'Privacidade do Mazelio, disponível na App Store. Documento em revisão.',
 };
 
 export const termosMazelio: LegalDocument = {
   rota: ROTAS.mazelioTermos, kind: 'termos', produto: 'Mazelio', titulo: 'Termos de Uso do Mazelio',
-  resumo: 'Finalidade e estado atual do jogo em desenvolvimento.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Versão de trabalho baseada no estado atual do protótipo.' },
+  resumo: 'Finalidade e estado do jogo publicado. Documento em revisão.', estado: 'preparacao',
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do documento ainda pendente.' },
   secoes: [
     { id: 'estado', titulo: '1. Estado do projeto', blocos: [{ tipo: 'destaque', texto: AVISO }, contato('Contato', 'Termos Mazelio')] },
-    { id: 'finalidade', titulo: '2. Finalidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio é um jogo de entretenimento em desenvolvimento. Torres, criaturas, elementos, fases e cenários são ficcionais e podem mudar durante os testes.' }] },
-    { id: 'disponibilidade', titulo: '3. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Não existem conta, assinatura ou compras disponíveis no projeto atual. Se essas funções forem implementadas, estes termos serão atualizados antes da publicação.' }] },
-  ], relacionados: [...relacionados], metaTitulo: 'Termos do Mazelio — Blajeen Labs', metaDescricao: 'Termos de uso do Mazelio, jogo em desenvolvimento na Blajeen Labs.',
+    { id: 'finalidade', titulo: '2. Finalidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio é um jogo de entretenimento. Torres, criaturas, elementos, fases e cenários são ficcionais.' }] },
+    { id: 'disponibilidade', titulo: '3. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio está disponível na App Store. Condições de conta e compras devem ser verificadas na versão distribuída e na ficha da loja; esta seção aguarda revisão editorial e jurídica.' }] },
+  ], relacionados: [...relacionados], metaTitulo: 'Termos do Mazelio — Blajeen Labs', metaDescricao: 'Termos de uso do Mazelio, disponível na App Store. Documento em revisão.',
 };
 
 export const suporteMazelio: LegalDocument = {
   rota: ROTAS.mazelioSuporte, kind: 'suporte', produto: 'Mazelio', titulo: 'Suporte do Mazelio',
-  resumo: 'Canal para dúvidas sobre o projeto e futuros builds.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Versão de trabalho baseada no estado atual do protótipo.' },
+  resumo: 'Canal para dúvidas e relatos sobre o jogo publicado.', estado: 'preparacao',
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store.' },
   secoes: [
     { id: 'estado', titulo: 'Estado atual', blocos: [{ tipo: 'destaque', texto: AVISO }] },
     { id: 'canal', titulo: 'Canal de atendimento', blocos: [contato('E-mail de suporte do Mazelio', 'Suporte Mazelio')] },
@@ -48,10 +48,10 @@ export const suporteMazelio: LegalDocument = {
 
 export const exclusaoMazelio: LegalDocument = {
   rota: ROTAS.mazelioExclusao, kind: 'exclusao', produto: 'Mazelio', titulo: 'Excluir sua conta do Mazelio',
-  resumo: 'Hoje não existe conta a excluir; a página será atualizada para o primeiro build público.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Versão de trabalho baseada no estado atual do protótipo.' },
+  resumo: 'Canal para pedidos relacionados à exclusão de dados do Mazelio.', estado: 'preparacao',
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do procedimento ainda pendente.' },
   secoes: [
-    { id: 'hoje', titulo: 'Hoje não existe conta a excluir', blocos: [{ tipo: 'destaque', texto: AVISO }, { tipo: 'paragrafo', texto: 'O projeto não cria conta nem envia progresso para um servidor próprio.' }] },
-    { id: 'futuro', titulo: 'Quando uma conta existir', blocos: [{ tipo: 'paragrafo', texto: 'A criação de conta só será habilitada depois que houver um processo público e testado para exclusão.' }, contato('Dúvidas sobre dados do Mazelio', 'Exclusão Mazelio')] },
+    { id: 'hoje', titulo: 'Versão publicada', blocos: [{ tipo: 'destaque', texto: AVISO }, { tipo: 'paragrafo', texto: 'Para solicitar informações ou exclusão de dados relacionados ao Mazelio, use o contato abaixo. O procedimento específico da versão distribuída está em revisão.' }] },
+    { id: 'futuro', titulo: 'Solicitação', blocos: [contato('Dúvidas sobre dados do Mazelio', 'Exclusão Mazelio')] },
   ], relacionados: [...relacionados], metaTitulo: 'Excluir conta do Mazelio — Blajeen Labs', metaDescricao: 'Página de exclusão de conta do Mazelio e estado atual do projeto.',
 };

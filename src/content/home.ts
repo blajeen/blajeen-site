@@ -24,7 +24,7 @@ export const laboratorio = {
 export const experimentos = {
   id: 'jogos',
   indice: '05 / JOGOS',
-  titulo: 'Oito mundos. Oito perguntas diferentes.',
+  titulo: 'Sete mundos. Sete perguntas diferentes.',
 } as const;
 
 export const produtosComerciais = {
@@ -78,7 +78,7 @@ export const trabalhosHome = {
   indice: '03 / PROJETOS FEITOS',
   titulo: 'Projetos que saíram da bancada e chegaram ao mundo real.',
   texto:
-    'Alguns dos projetos feitos para clientes, reunindo estratégia, identidade, experiência e engenharia para resolver necessidades reais.',
+    'Alguns dos projetos feitos para clientes, reunindo estratégia, identidade, experiência e tecnologia para resolver necessidades reais.',
   cta: { rotulo: 'VER PROJETOS FEITOS', href: ROTAS.trabalhos },
 } as const;
 

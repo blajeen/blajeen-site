@@ -17,12 +17,13 @@ export function WorkCard({ trabalho, destaque = false }: { trabalho: Trabalho; d
             alt={trabalho.capaAlt}
             fill
             sizes={destaque ? '(min-width: 1024px) 58vw, 100vw' : '(min-width: 1024px) 45vw, 100vw'}
-            className="object-contain object-top transition-transform duration-500 group-hover:scale-[1.01]"
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-transparent to-transparent" />
         </div>
         <div className="flex flex-col p-7 sm:p-9">
           <p className="tecnica text-signal">{trabalho.categoria}</p>
+          {trabalho.fase ? <p className="tecnica mt-3 text-mineral-dim">{trabalho.fase}</p> : null}
           <h3 className="mt-5 text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] tracking-[-0.05em]">
             {trabalho.cliente}
           </h3>

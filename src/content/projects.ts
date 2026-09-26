@@ -400,7 +400,7 @@ export const mazelio: Project = {
     { titulo: 'Partidas verticais', texto: 'O primeiro formato usa um tabuleiro 10×14: portal no topo, Rei embaixo e preparação antes de cada onda.' },
   ],
   aviso: 'Mazelio é um jogo de entretenimento disponível na App Store. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
-  banner: { src: '/projects/mazelio/mazelio-gameplay-banner.webp', alt: 'Captura atual do Mazelio: torres defendem o Rei no tabuleiro, com a marca do jogo em destaque.', largura: 1600, altura: 900 },
+  banner: { src: '/projects/mazelio/mazelio-banner-key-art.webp', alt: 'Arte promocional de Mazelio: torres elementais formam um labirinto aberto para proteger o Rei, com o símbolo oficial do jogo à esquerda.', largura: 1600, altura: 900 },
   icone: { src: '/projects/mazelio/mazelio-icon-512.webp', alt: '', tamanho: 512 },
   galeria: [
     { src: '/projects/mazelio/mazelio-preparo-real.webp', alt: 'Tela atual do Mazelio durante a preparação da onda, com torres disponíveis na base do tabuleiro.', largura: 720, altura: 1558, legenda: 'Prepare a defesa · captura atual' },

@@ -44,7 +44,7 @@ describe('projetos', () => {
       gramelio: { src: '/projects/gramelio/gramelio-banner-final.png', largura: 1536, altura: 1024 },
       catelio: { src: '/projects/catelio/catelio-banner-city.png', largura: 1672, altura: 941 },
       morvelio: { src: '/projects/morvelio/morvelio-banner-2026.webp', largura: 1600, altura: 900 },
-      mazelio: { src: '/projects/mazelio/mazelio-gameplay-banner.webp', largura: 1600, altura: 900 },
+      mazelio: { src: '/projects/mazelio/mazelio-banner-key-art.webp', largura: 1600, altura: 900 },
       socialio: { src: '/projects/socialio/socialio-banner-cafe.webp', largura: 1672, altura: 941 },
     };
 

@@ -65,6 +65,11 @@ export const metadata: Metadata = {
     apple: [{ url: '/brand/blajeen-labs-icon-512.png', sizes: '512x512', type: 'image/png' }],
   },
   formatDetection: { telephone: false, email: false, address: false },
+  /* Prova de posse do domínio para a Meta (Facebook). É só uma meta tag estática: não carrega pixel,
+     script nem cookie. */
+  verification: {
+    other: { 'facebook-domain-verification': '4uhgwfrlf2pmqdkcogjz0lipnxm3ms' },
+  },
   openGraph: {
     type: 'website',
     siteName: site.nome,

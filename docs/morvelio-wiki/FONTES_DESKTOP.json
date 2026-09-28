@@ -1,0 +1,136 @@
+{
+  "purpose": "Inventário privado das fontes para implementação da wiki; não distribuir automaticamente em public/.",
+  "recordedAt": "2026-09-26T23:21:45.666438+00:00",
+  "sourceRoot": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação",
+  "status": "Planejamento; dados de fichas ainda não importados.",
+  "files": [
+    {
+      "path": "01_MORVELIO_Plantas_e_Assets.pdf",
+      "bytes": 25772234,
+      "sha256": "b281ed26c8d60f4468d33afe964979ed5963c09db2e973f98ff453ebd55e6f86",
+      "pages": 208
+    },
+    {
+      "path": "02_MORVELIO_Elenco_e_Combate.pdf",
+      "bytes": 664119,
+      "sha256": "df2ea424c9881029a16924d813429e269645ca5d2c46b04992943f0e4459c73a",
+      "pages": 53
+    },
+    {
+      "path": "03_MORVELIO_Questline.pdf",
+      "bytes": 325913,
+      "sha256": "55c8937f6e4a5298ea5e5983458b166d8ca074d478fd8ca05cc1971492a6c38e",
+      "pages": 72
+    },
+    {
+      "path": "04_MORVELIO_Mundo_e_Lore.pdf",
+      "bytes": 500135,
+      "sha256": "505f4e206c7ed65d0e32545b7d14e36dd645dee2c53d83ee1b56e51f5a9f1298",
+      "pages": 28
+    },
+    {
+      "path": "05_MORVELIO_Itens_Equipamento_e_Economia.pdf",
+      "bytes": 593535,
+      "sha256": "24394e5582dc8e4c186cb64e761b1152c9513033f6ce0fca824905b40588d5b9",
+      "pages": 22
+    },
+    {
+      "path": "06_MORVELIO_Regras_e_Sistemas.pdf",
+      "bytes": 120180,
+      "sha256": "8a9fcfb372c35e285e515b41d3b99d4ff844234664be70d4335d8627ca51b5cc",
+      "pages": 16
+    },
+    {
+      "path": "07_MORVELIO_Roteiro_e_Falas.pdf",
+      "bytes": 186638,
+      "sha256": "64d3650067145cfdf843af2adc2e7d5a9e280eedb0fe75cf874eea22ebf83709",
+      "pages": 24
+    },
+    {
+      "path": "08_MORVELIO_Guia_de_Arte.pdf",
+      "bytes": 947078,
+      "sha256": "5c1e0f8efea2926659f9af11cb24077c0b11de15fa070313a4c6a85ef1fb0423",
+      "pages": 15
+    },
+    {
+      "path": "Direção atual/01_Classes_origens_e_nome.md",
+      "bytes": 12519,
+      "sha256": "14e547ba22581b5e921c32c395bd0893a5f2a029187fc71be7beaf222b6580a5"
+    },
+    {
+      "path": "Direção atual/02_Broches_e_gemas.md",
+      "bytes": 9901,
+      "sha256": "54fbc0e7489608ef0bd9868cce1edcef85ddeb1c2418d3129678db45eb7a7982"
+    },
+    {
+      "path": "Direção atual/03_Catalogo_de_itens.md",
+      "bytes": 51045,
+      "sha256": "3db21edfa63218dd5865adce2c58cc14c1e6b1593174ef2210b7feb48e6e189c"
+    },
+    {
+      "path": "Direção atual/04_Itens_e_economia.md",
+      "bytes": 37616,
+      "sha256": "11645b728be56579455c6ed9647cefe1216d33d7bec469dcbe2ffa612ed065cc"
+    },
+    {
+      "path": "Direção atual/05_Sistemas.md",
+      "bytes": 40718,
+      "sha256": "b58594213ecd00bad66b03ec2c94e2b64265f8a4389d3de30515817802a722d1"
+    },
+    {
+      "path": "Direção atual/06_Fila_de_implementacao.md",
+      "bytes": 93034,
+      "sha256": "dd9eceb35b0455533edcdf2073d1de05f72f1a558b1073d2de5d0600e8f02323"
+    },
+    {
+      "path": "Direção atual/07_Biblia_da_franquia.md",
+      "bytes": 28251,
+      "sha256": "e5d9394064d63ee4358410201bc0984295245648eeca4af06cc6d207792c5586"
+    },
+    {
+      "path": "Direção atual/08_Familias_e_cronologia.md",
+      "bytes": 15415,
+      "sha256": "bf8172e5ea9799069920b5e1619e2f09b6a3be7b75083f3a688ccaf4e61bdeb5"
+    },
+    {
+      "path": "Direção atual/09_Adaptacao_e_endgame.md",
+      "bytes": 10615,
+      "sha256": "396876493dd4b8f4b00d4d3726e4a59ec20bcd103af07aea5a589de21b96e5ba"
+    },
+    {
+      "path": "Direção atual/10_Relatorio_da_edicao.md",
+      "bytes": 12749,
+      "sha256": "09220a768ea5cbbc2cece3214f92269ce644b52914d9d948463c2eed7669328c"
+    },
+    {
+      "path": "Direção atual/11_Icones_de_equipamento.md",
+      "bytes": 13075,
+      "sha256": "65bb401290acc4c3b7d974c2b9aba3fb8680f9b6138f7c75f4aa1cd94d1a6581"
+    },
+    {
+      "path": "Direção atual/12_Situacoes_dos_mapas.md",
+      "bytes": 38177,
+      "sha256": "56955e2a2bc5929e7e2cf9214b109425934319ad2cf4103258e3c7460d648ae9"
+    },
+    {
+      "path": "Direção atual/13_Revisao_do_livro.md",
+      "bytes": 4076,
+      "sha256": "86bf93b742e2647e55e96bdbd78c159dd9df772ac1190c43b33e46a75113418a"
+    },
+    {
+      "path": "Mapas e atlas/Atlas dos cinco reinos/BASE_CANONICA.md",
+      "bytes": 18953,
+      "sha256": "d1dfdfa258e88a1a21cffd8bd0b33a047a4a97126af41e86caee77588a29d699"
+    },
+    {
+      "path": "Mapas e atlas/Atlas dos cinco reinos/README.md",
+      "bytes": 7198,
+      "sha256": "8caec15c7abea9842d521df9d40fb9005d77dea8b0c19083d74bdedb46808402"
+    },
+    {
+      "path": "Divulgação/Nova identidade - Orbe/02B_ICONE_MORVELIO_MONTANHA_TOON_v02_COM_NOME.png",
+      "bytes": 2030978,
+      "sha256": "d51eb055145050f793f6986c1efff4f092e5f3e50b735c5913bbfbc29d7f0e40"
+    }
+  ]
+}

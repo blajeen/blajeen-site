@@ -6,9 +6,9 @@ import { usePiscada } from '@/components/motion/usePiscada';
 import styles from './BrandLogo.module.css';
 
 const ARTE = {
-  src: '/brand/blajeen-logo.png',
-  largura: 2164,
-  altura: 727,
+  src: '/brand/blajeen-logo-web.webp',
+  largura: 1000,
+  altura: 336,
 } as const;
 
 type Props = {

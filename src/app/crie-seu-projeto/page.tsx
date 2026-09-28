@@ -14,7 +14,9 @@ export const metadata: Metadata = metadadosDaRota({
   rota: ROTAS.crieSeuProjeto,
 });
 
-export default function CrieSeuProjetoPage() {
+export default async function CrieSeuProjetoPage({ searchParams }: { searchParams: Promise<{ ideia?: string | string[] }> }) {
+  const query = await searchParams;
+  const ideiaInicial = typeof query.ideia === 'string' ? query.ideia.slice(0, 600) : '';
   return (
     <>
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
@@ -89,7 +91,7 @@ export default function CrieSeuProjetoPage() {
       </Section>
 
       <Section indice="05 / VAMOS COMEÇAR" className="pb-[clamp(4rem,9vw,9rem)]" rotulo="Formulário de primeiro contato">
-        <CustomProjectForm />
+        <CustomProjectForm ideiaInicial={ideiaInicial} />
       </Section>
     </>
   );

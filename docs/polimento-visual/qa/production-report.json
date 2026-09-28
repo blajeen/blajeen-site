@@ -1,0 +1,42 @@
+{
+  "base": "https://www.blajeen.com.br",
+  "pages": [
+    {
+      "route": "/",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/"
+    },
+    {
+      "route": "/morvelio/wiki",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/morvelio/wiki"
+    },
+    {
+      "route": "/projects/morvelio",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/projects/morvelio"
+    },
+    {
+      "route": "/projects/docalio",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/projects/docalio"
+    },
+    {
+      "route": "/projects/mazelio",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/projects/mazelio"
+    },
+    {
+      "route": "/trabalhos",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/trabalhos"
+    },
+    {
+      "route": "/contact",
+      "status": 200,
+      "url": "https://www.blajeen.com.br/contact"
+    }
+  ],
+  "errors": [],
+  "checkedAt": "2026-09-27T01:06:38.337Z"
+}

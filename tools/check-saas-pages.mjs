@@ -70,7 +70,7 @@ const home = await (await get('/')).text();
 await checkRenderedImages(home, '/');
 assert.match(home, /Seis SaaS ativos/);
 const morvelio = await (await get('/projects/morvelio')).text();
-assert.match(morvelio, /morvelio-icon-montanha-toon-512\.webp/);
+assert.match(morvelio, /morvelio-icon-montanha-nome-v04\.webp/);
 await checkRenderedImages(morvelio, '/projects/morvelio');
 console.log(`OK catálogo, Pipelio em breve, painéis, home e Morvelio; ${checkedImages.size} imagens renderizadas válidas`);
 

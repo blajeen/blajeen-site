@@ -6,6 +6,7 @@ import { GithubIcon } from '@/components/brand/GithubIcon';
 import { rodape } from '@/content/navigation';
 import { site } from '@/content/site';
 import { rodapeCopy } from '@/content/home';
+import { FooterGroup } from './FooterGroup';
 
 const grupos = [
   { titulo: 'Jogos', links: rodape.jogos },
@@ -18,30 +19,30 @@ const grupos = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-surface/40">
+    <footer className="site-footer border-t border-line bg-surface/40">
       {/* Compacto de propósito: a home cabe em uma tela, e o rodapé não pode virar uma segunda. */}
       <Container className="py-[clamp(2.25rem,4vw,3.5rem)]">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
           <div>
-            <p className="text-[clamp(1.25rem,2.4vw,1.7rem)] leading-tight tracking-[-0.04em]">
+            <p className="footer-brand text-[clamp(1.25rem,2.4vw,1.7rem)] leading-tight tracking-[-0.04em]">
               {site.nome}
             </p>
+            <Link href="/crie-seu-projeto" className="footer-contact">Vamos dar forma à sua ideia <span aria-hidden="true">↗</span></Link>
             <p className="medida-texto mt-2 text-sm leading-relaxed text-mineral">
               {rodapeCopy.linha}
             </p>
           </div>
 
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 xl:grid-cols-5">
+          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-5">
             {grupos.map((grupo) => (
-              <div key={grupo.titulo}>
-                <h2 className="tecnica text-mineral-dim">{grupo.titulo}</h2>
-                <ul className="mt-2 flex flex-col">
+              <FooterGroup key={grupo.titulo} title={grupo.titulo}>
+                <ul className="mt-2 flex flex-col gap-0.5">
                   {grupo.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
                         {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
-                        className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
+                        className="inline-flex min-h-11 items-center py-1 text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal md:min-h-0"
                       >
                         {grupo.titulo === 'Social' ? (
                           link.href.includes('instagram.com') ? (
@@ -59,12 +60,12 @@ export function SiteFooter() {
                 {'subgrupo' in grupo ? (
                   <div className="mt-3 border-l border-line pl-3">
                     <h3 className="tecnica text-mineral-dim">{grupo.subgrupo.titulo}</h3>
-                    <ul className="mt-1 flex flex-col">
+                    <ul className="mt-1 flex flex-col gap-0.5">
                       {grupo.subgrupo.links.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
+                            className="inline-flex min-h-11 items-center py-1 text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal md:min-h-0"
                           >
                             {link.rotulo}
                           </Link>
@@ -73,14 +74,14 @@ export function SiteFooter() {
                     </ul>
                   </div>
                 ) : null}
-              </div>
+              </FooterGroup>
             ))}
           </nav>
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pr-24 pt-5 xl:pr-0">
           <p className="tecnica text-mineral-dim">
-            © {site.ano} {site.nome.toUpperCase()}
+            © {site.ano} {site.nome.toUpperCase()} · CNPJ {site.cnpj} · Todos os direitos reservados
           </p>
           <p className="tecnica hidden text-mineral-dim sm:block">{rodapeCopy.base}</p>
           <div className="flex items-center gap-1">

@@ -188,7 +188,7 @@ async function buildDomGuima() {
 }
 
 async function buildGames() {
-  const docalio = await logo(asset('projects', 'docalio', 'docalio-icon-512.png'), 128, 128);
+  const docalio = await logo(asset('projects', 'docalio', 'docalio-icon-mochila-v2.webp'), 128, 128);
   const gramelio = await logo(asset('projects', 'gramelio', 'gramelio-icon-512.png'), 128, 128);
   const overlay = commonOverlay({
     eyebrow: 'O LABORATÓRIO NÃO PARA',

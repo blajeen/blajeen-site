@@ -53,6 +53,7 @@ export const ROTAS = {
   projetoGramelio: '/projects/gramelio',
   projetoCatelio: '/projects/catelio',
   projetoMorvelio: '/projects/morvelio',
+  morvelioWiki: '/morvelio/wiki',
   projetoMazelio: '/projects/mazelio',
   projetoSocialio: '/projects/socialio',
   novidades: '/novidades',

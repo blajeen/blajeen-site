@@ -26,7 +26,8 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio.
-    expect(TODAS_AS_ROTAS).toHaveLength(70);
+    expect(TODAS_AS_ROTAS).toHaveLength(71);
+    expect(TODAS_AS_ROTAS).toContain('/morvelio/wiki');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/notalio');

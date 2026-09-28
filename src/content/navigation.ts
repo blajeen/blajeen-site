@@ -146,6 +146,7 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
     { rotulo: 'Catelio', href: ROTAS.projetoCatelio },
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
+    { rotulo: 'Morvelio Wiki', href: ROTAS.morvelioWiki },
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],

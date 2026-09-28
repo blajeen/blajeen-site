@@ -1,0 +1,42 @@
+{
+  "base": "http://127.0.0.1:3018",
+  "checks": [
+    "14 rotas em 390 e 1440 px: HTTP 200, largura mobile completa, um h1/main e sem overflow",
+    "Menu mobile: abre, prende foco, bloqueia fundo, fecha por Escape, devolve foco e navega para wiki",
+    "Rodapé mobile: grupo Legal expande e preserva links públicos",
+    "Captura completa do case acessível; moldura compartilhada aplicada",
+    "Cabeçalho desktop também cabe no limite de 1280 px"
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs/polimento-visual/qa/home-390.png",
+    "docs/polimento-visual/qa/trabalhos-390.png",
+    "docs/polimento-visual/qa/case-390.png",
+    "docs/polimento-visual/qa/sistemas-390.png",
+    "docs/polimento-visual/qa/saas-390.png",
+    "docs/polimento-visual/qa/produtos-390.png",
+    "docs/polimento-visual/qa/produto-390.png",
+    "docs/polimento-visual/qa/morvelio-390.png",
+    "docs/polimento-visual/qa/wiki-390.png",
+    "docs/polimento-visual/qa/contato-390.png",
+    "docs/polimento-visual/qa/briefing-390.png",
+    "docs/polimento-visual/qa/estudio-390.png",
+    "docs/polimento-visual/qa/novidades-390.png",
+    "docs/polimento-visual/qa/privacidade-390.png",
+    "docs/polimento-visual/qa/home-1440.png",
+    "docs/polimento-visual/qa/trabalhos-1440.png",
+    "docs/polimento-visual/qa/case-1440.png",
+    "docs/polimento-visual/qa/sistemas-1440.png",
+    "docs/polimento-visual/qa/saas-1440.png",
+    "docs/polimento-visual/qa/produtos-1440.png",
+    "docs/polimento-visual/qa/produto-1440.png",
+    "docs/polimento-visual/qa/morvelio-1440.png",
+    "docs/polimento-visual/qa/wiki-1440.png",
+    "docs/polimento-visual/qa/contato-1440.png",
+    "docs/polimento-visual/qa/briefing-1440.png",
+    "docs/polimento-visual/qa/estudio-1440.png",
+    "docs/polimento-visual/qa/novidades-1440.png",
+    "docs/polimento-visual/qa/privacidade-1440.png"
+  ],
+  "passed": true
+}

@@ -78,6 +78,7 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
         </ul>
 
         <p className="tecnica mt-10 text-mineral-dim">Jogos</p>
+        <Link href="/morvelio/wiki" onClick={aoFechar} className="drawer-wiki-link">Morvelio Wiki <span>Atlas, classes e histórias ↗</span></Link>
         <ul className="mt-4 flex flex-col gap-2">
           {atalhosDeJogo.map((atalho) => (
             <li key={atalho.href}>

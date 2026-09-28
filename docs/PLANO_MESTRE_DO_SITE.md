@@ -1,5 +1,11 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda aprovada pelo titular — home interativa
+
+**Polimento visual posterior autorizado pelo titular:** largura editorial máxima de 1.440 px; navegação mobile pelo cabeçalho e gaveta acessível, liberando a largura antes ocupada pela barra lateral; rodapé expansível no celular; apresentação unificada de capturas reais com `SystemScreenshot` e `ScreenshotFrame`. Fotos e artes de jogos não recebem o filtro de interfaces. Evidências em `docs/polimento-visual/IMPLEMENTACAO.md`. O componente antigo `MobileSideNav` permanece no repositório como legado, sem ser montado pelo cabeçalho.
+
+Após revisar a wiki de Morvelio, o titular aprovou uma nova home com três experiências: laboratório 3D, configurador de produtos e desafio curto de Morvelio. Essa autorização substitui a antiga home em abas e a exposição de todos os projetos em sequência. A nova ordem é: laboratório → configurador → três trabalhos reais → desafio → contato. Implementação e evidências em `docs/home-interativa/IMPLEMENTACAO.md`. O estilo da marca, as rotas de produtos e as páginas legais continuam válidos. A demonstração de combate pertence ao site; não é um build do jogo mobile. A prévia deve ser revisada antes da publicação.
+
 Versão de planejamento: 16 de agosto de 2026.
 Emenda do titular: 17 de agosto de 2026 — ver "Decisões que substituem este plano", logo abaixo.
 

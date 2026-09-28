@@ -1,0 +1,926 @@
+[
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_brann_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-brann.webp",
+    "width": 384,
+    "entity": "class.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_rurik_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-rurik.webp",
+    "width": 384,
+    "entity": "class.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_nara_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-nara.webp",
+    "width": 384,
+    "entity": "class.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_lyra_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-lyra.webp",
+    "width": 384,
+    "entity": "class.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_sylren_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-sylren.webp",
+    "width": 384,
+    "entity": "class.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_elowen_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-elowen.webp",
+    "width": 384,
+    "entity": "class.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Portraits\\Generated\\mvl_avatar_torvik_v03.png",
+    "output": "/projects/morvelio/wiki/portraits/class-torvik.webp",
+    "width": 384,
+    "entity": "class.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Currency\\currency.shadow_fragment.png",
+    "output": "/projects/morvelio/wiki/icons/currency-shadow-fragment.webp",
+    "width": 512,
+    "entity": "currency.shadow_fragment"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Currency\\currency.light_fragment.png",
+    "output": "/projects/morvelio/wiki/icons/currency-light-fragment.webp",
+    "width": 512,
+    "entity": "currency.light_fragment"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Currency\\currency.gem.png",
+    "output": "/projects/morvelio/wiki/icons/currency-gem.webp",
+    "width": 512,
+    "entity": "currency.gem"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.training.weapon.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.bronze.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.iron.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.silver.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.platinum.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.sacred.weapon.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.training.weapon.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.bronze.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.iron.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.silver.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.platinum.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.sacred.weapon.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.training.weapon.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.bronze.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.iron.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.silver.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.platinum.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.sacred.weapon.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.training.weapon.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.bronze.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.iron.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.silver.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.platinum.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.sacred.weapon.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.training.weapon.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.bronze.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.iron.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.silver.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.platinum.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.sacred.weapon.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.training.weapon.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.bronze.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.iron.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.silver.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.platinum.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.sacred.weapon.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.training.weapon.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-weapon-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.training.weapon.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.bronze.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-bronze-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.bronze.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.iron.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-iron-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.iron.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.silver.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-silver-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.silver.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.platinum.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-platinum-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.platinum.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.sacred.weapon.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-sacred-weapon-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.sacred.weapon.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.training.brooch.png",
+    "output": "/projects/morvelio/wiki/icons/item-training-brooch.webp",
+    "width": 512,
+    "entity": "item.training.brooch"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.guard.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-guard.webp",
+    "width": 512,
+    "entity": "item.brooch.guard"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.scout.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-scout.webp",
+    "width": 512,
+    "entity": "item.brooch.scout"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.spring.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-spring.webp",
+    "width": 512,
+    "entity": "item.brooch.spring"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.thorns.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-thorns.webp",
+    "width": 512,
+    "entity": "item.brooch.thorns"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.vigor.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-vigor.webp",
+    "width": 512,
+    "entity": "item.brooch.vigor"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.wind.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-wind.webp",
+    "width": 512,
+    "entity": "item.brooch.wind"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.platinum.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-platinum.webp",
+    "width": 512,
+    "entity": "item.brooch.platinum"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Brooches\\item.brooch.sacred.png",
+    "output": "/projects/morvelio/wiki/icons/item-brooch-sacred.webp",
+    "width": 512,
+    "entity": "item.brooch.sacred"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.ruby.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.sapphire.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.aquamarine.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.topaz.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.amber.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.quartz.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Knight\\item.weapon.emerald.hero.knight.brann.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-knight-brann.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.knight.brann"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.ruby.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.sapphire.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.aquamarine.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.topaz.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.amber.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.quartz.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Barbarian\\item.weapon.emerald.hero.barbarian.rurik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-barbarian-rurik.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.barbarian.rurik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.ruby.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.sapphire.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.aquamarine.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.topaz.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.amber.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.quartz.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Rogue\\item.weapon.emerald.hero.rogue.nara.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-rogue-nara.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.rogue.nara"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.ruby.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.sapphire.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.aquamarine.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.topaz.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.amber.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.quartz.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Mage\\item.weapon.emerald.hero.mage.lyra.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-mage-lyra.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.mage.lyra"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.ruby.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.sapphire.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.aquamarine.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.topaz.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.amber.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.quartz.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Ranger\\item.weapon.emerald.hero.ranger.sylren.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-ranger-sylren.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.ranger.sylren"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.ruby.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.sapphire.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.aquamarine.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.topaz.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.amber.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.quartz.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Druid\\item.weapon.emerald.hero.druid.elowen.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-druid-elowen.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.druid.elowen"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.ruby.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-ruby-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.ruby.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.sapphire.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-sapphire-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.sapphire.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.aquamarine.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-aquamarine-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.aquamarine.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.topaz.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-topaz-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.topaz.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.amber.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-amber-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.amber.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.quartz.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-quartz-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.quartz.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\dev\\morvelio\\Assets\\Morvelio\\UI\\Icons\\Equipment\\Weapons\\Engineer\\item.weapon.emerald.hero.engineer.torvik.png",
+    "output": "/projects/morvelio/wiki/icons/item-weapon-emerald-hero-engineer-torvik.webp",
+    "width": 512,
+    "entity": "item.weapon.emerald.hero.engineer.torvik"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\01_VELIDOR.png",
+    "output": "/projects/morvelio/wiki/maps/kingdom-velidor.webp",
+    "width": 1600,
+    "entity": "kingdom.velidor"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\02_CALDRIA.png",
+    "output": "/projects/morvelio/wiki/maps/kingdom-caldria.webp",
+    "width": 1600,
+    "entity": "kingdom.caldria"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\03_DURNAGAL.png",
+    "output": "/projects/morvelio/wiki/maps/kingdom-durnagal.webp",
+    "width": 1600,
+    "entity": "kingdom.durnagal"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\04_SAHRAM.png",
+    "output": "/projects/morvelio/wiki/maps/kingdom-sahram.webp",
+    "width": 1600,
+    "entity": "kingdom.sahram"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\05_ORISSEL.png",
+    "output": "/projects/morvelio/wiki/maps/kingdom-orissel.webp",
+    "width": 1600,
+    "entity": "kingdom.orissel"
+  },
+  {
+    "source": "C:\\Users\\brgft\\OneDrive\\Área de Trabalho\\Morvelio - Documentação\\Mapas e atlas\\Atlas dos cinco reinos\\00_ERDAVIA.png",
+    "output": "/projects/morvelio/wiki/maps/world-erdavia.webp",
+    "width": 1800,
+    "entity": "world.erdavia"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-1.webp",
+    "width": 1240,
+    "entity": "region.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R1_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-1-1.webp",
+    "width": 1240,
+    "entity": "region.1.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R2.svg",
+    "output": "/projects/morvelio/wiki/maps/region-2.webp",
+    "width": 1240,
+    "entity": "region.2"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R2_2.svg",
+    "output": "/projects/morvelio/wiki/maps/region-2-2.webp",
+    "width": 1240,
+    "entity": "region.2.2"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R3_2.svg",
+    "output": "/projects/morvelio/wiki/maps/region-3-2.webp",
+    "width": 1240,
+    "entity": "region.3.2"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R3.svg",
+    "output": "/projects/morvelio/wiki/maps/region-3.webp",
+    "width": 1240,
+    "entity": "region.3"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R2_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-2-1.webp",
+    "width": 1240,
+    "entity": "region.2.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R4.svg",
+    "output": "/projects/morvelio/wiki/maps/region-4.webp",
+    "width": 1240,
+    "entity": "region.4"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R5.svg",
+    "output": "/projects/morvelio/wiki/maps/region-5.webp",
+    "width": 1240,
+    "entity": "region.5"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R5_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-5-1.webp",
+    "width": 1240,
+    "entity": "region.5.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R6.svg",
+    "output": "/projects/morvelio/wiki/maps/region-6.webp",
+    "width": 1240,
+    "entity": "region.6"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R6_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-6-1.webp",
+    "width": 1240,
+    "entity": "region.6.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R7.svg",
+    "output": "/projects/morvelio/wiki/maps/region-7.webp",
+    "width": 1240,
+    "entity": "region.7"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R7_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-7-1.webp",
+    "width": 1240,
+    "entity": "region.7.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R8.svg",
+    "output": "/projects/morvelio/wiki/maps/region-8.webp",
+    "width": 1240,
+    "entity": "region.8"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\R8_1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-8-1.webp",
+    "width": 1240,
+    "entity": "region.8.1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\CAMP.svg",
+    "output": "/projects/morvelio/wiki/maps/region-camp.webp",
+    "width": 1240,
+    "entity": "region.CAMP"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\HOME.svg",
+    "output": "/projects/morvelio/wiki/maps/region-home.webp",
+    "width": 1240,
+    "entity": "region.HOME"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\C1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-c1.webp",
+    "width": 1240,
+    "entity": "region.C1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\C2.svg",
+    "output": "/projects/morvelio/wiki/maps/region-c2.webp",
+    "width": 1240,
+    "entity": "region.C2"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\C3.svg",
+    "output": "/projects/morvelio/wiki/maps/region-c3.webp",
+    "width": 1240,
+    "entity": "region.C3"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\C4.svg",
+    "output": "/projects/morvelio/wiki/maps/region-c4.webp",
+    "width": 1240,
+    "entity": "region.C4"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\C5.svg",
+    "output": "/projects/morvelio/wiki/maps/region-c5.webp",
+    "width": 1240,
+    "entity": "region.C5"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\P1.svg",
+    "output": "/projects/morvelio/wiki/maps/region-p1.webp",
+    "width": 1240,
+    "entity": "region.P1"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\P2.svg",
+    "output": "/projects/morvelio/wiki/maps/region-p2.webp",
+    "width": 1240,
+    "entity": "region.P2"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\P3.svg",
+    "output": "/projects/morvelio/wiki/maps/region-p3.webp",
+    "width": 1240,
+    "entity": "region.P3"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\P4.svg",
+    "output": "/projects/morvelio/wiki/maps/region-p4.webp",
+    "width": 1240,
+    "entity": "region.P4"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\P5.svg",
+    "output": "/projects/morvelio/wiki/maps/region-p5.webp",
+    "width": 1240,
+    "entity": "region.P5"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M01.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m01.webp",
+    "width": 1240,
+    "entity": "region.M01"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M02.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m02.webp",
+    "width": 1240,
+    "entity": "region.M02"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M03.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m03.webp",
+    "width": 1240,
+    "entity": "region.M03"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M04.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m04.webp",
+    "width": 1240,
+    "entity": "region.M04"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M05.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m05.webp",
+    "width": 1240,
+    "entity": "region.M05"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M06.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m06.webp",
+    "width": 1240,
+    "entity": "region.M06"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M07.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m07.webp",
+    "width": 1240,
+    "entity": "region.M07"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M08.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m08.webp",
+    "width": 1240,
+    "entity": "region.M08"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M09.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m09.webp",
+    "width": 1240,
+    "entity": "region.M09"
+  },
+  {
+    "source": "C:\\dev\\blajeen-labs\\docs\\morvelio-wiki\\diagramas\\M10.svg",
+    "output": "/projects/morvelio/wiki/maps/region-m10.webp",
+    "width": 1240,
+    "entity": "region.M10"
+  }
+]

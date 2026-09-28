@@ -18,10 +18,12 @@ export const site = {
   ano: 2026,
   idioma: 'pt-BR',
   /**
-   * CNPJ do titular (Breno Ricardo Guimaraes, Empresário Individual), confirmado via Cartão CNPJ
-   * em 28/09/2026. Exibido no rodapé; não resolve sozinho o bloqueador `titularDocumento` dos
-   * textos jurídicos, que ainda depende da decisão pessoa física x jurídica em `titularNome`.
+   * Nome empresarial e CNPJ do titular (Breno Ricardo Guimaraes, Empresário Individual),
+   * confirmados via Cartão CNPJ em 28/09/2026. Exibidos no rodapé; não resolvem sozinhos o
+   * bloqueador `titularDocumento` dos textos jurídicos, que ainda depende da decisão pessoa
+   * física x jurídica em `titularNome`.
    */
+  razaoSocial: '57.194.521 BRENO RICARDO GUIMARAES',
   cnpj: '57.194.521/0001-44',
   instagram: {
     rotulo: '@blajeenlab',

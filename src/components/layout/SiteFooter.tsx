@@ -81,7 +81,7 @@ export function SiteFooter() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pr-24 pt-5 xl:pr-0">
           <p className="tecnica text-mineral-dim">
-            © {site.ano} {site.nome.toUpperCase()} · CNPJ {site.cnpj} · Todos os direitos reservados
+            © {site.ano} {site.nome.toUpperCase()} · {site.razaoSocial} · CNPJ {site.cnpj} · Todos os direitos reservados
           </p>
           <p className="tecnica hidden text-mineral-dim sm:block">{rodapeCopy.base}</p>
           <div className="flex items-center gap-1">

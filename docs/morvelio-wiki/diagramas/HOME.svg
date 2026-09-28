@@ -1,0 +1,88 @@
+<svg width="620" height="670" preserveAspectRatio="xMinYMin meet" viewBox="0 0 620 670" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="620" height="670"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-670)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="620" height="670" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(98%,97%,94%); fill-rule: evenodd;"/>
+			<path d="M 116,46 L 116,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 213,46 L 213,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 310,46 L 310,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 407,46 L 407,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 504,46 L 504,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,46 L 552.5,46 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,143 L 552.5,143 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,240 L 552.5,240 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,337 L 552.5,337 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,434 L 552.5,434 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,531 L 552.5,531 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<path d="M 67.5,628 L 552.5,628 Z" style="stroke: rgb(86%,87%,83%); stroke-linecap: butt; stroke-width: 0.35;"/>
+			<rect x="67.5" y="46.0" width="485.0" height="582.0" style="stroke: rgb(66%,71%,67%); stroke-linecap: butt; stroke-width: 0.8; fill: none; fill-rule: evenodd;"/>
+			<text x="112.2265625" y="32.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,64) scale(1,-1)">26</text>
+			<text x="209.2265625" y="32.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,64) scale(1,-1)">28</text>
+			<text x="306.2265625" y="32.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,64) scale(1,-1)">30</text>
+			<text x="403.2265625" y="32.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,64) scale(1,-1)">32</text>
+			<text x="500.2265625" y="32.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,64) scale(1,-1)">34</text>
+			<text x="53.92724609375" y="44.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,88) scale(1,-1)">-4</text>
+			<text x="53.92724609375" y="141.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,282) scale(1,-1)">-2</text>
+			<text x="56.7265625" y="238.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,476) scale(1,-1)">0</text>
+			<text x="56.7265625" y="335.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,670) scale(1,-1)">2</text>
+			<text x="56.7265625" y="432.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,864) scale(1,-1)">4</text>
+			<text x="56.7265625" y="529.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,1058) scale(1,-1)">6</text>
+			<text x="56.7265625" y="626.0" style="font-family: Atlas; font-size: 7px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,1252) scale(1,-1)">8</text>
+			<rect x="164.5" y="143.0" width="291.0" height="339.5" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(83%,89%,79%); fill-rule: evenodd;"/>
+			<text x="305.271484375" y="314.75" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,629) scale(1,-1)">Z1</text>
+			<rect x="140.25" y="506.75" width="363.75" height="48.5" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(65%,71%,74%); fill-rule: evenodd;"/>
+			<text x="317.396484375" y="533.0" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,1066) scale(1,-1)">Z2</text>
+			<rect x="183.89999999999992" y="230.29999999999998" width="58.19999999999999" height="58.20000000000002" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(95%,87%,65%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="208.271484375" y="261.4" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,522) scale(1,-1)">Z3</text>
+			<rect x="280.8999999999999" y="443.7" width="58.19999999999999" height="48.5" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(95%,87%,65%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="305.271484375" y="469.95" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,939) scale(1,-1)">Z4</text>
+			<rect x="169.35000000000008" y="307.90000000000003" width="48.5" height="58.19999999999999" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(95%,87%,65%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="188.87148437500008" y="339.0" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,678) scale(1,-1)">Z5</text>
+			<rect x="377.8999999999999" y="404.90000000000003" width="58.19999999999999" height="58.19999999999999" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(95%,87%,65%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="402.271484375" y="436.0" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,872) scale(1,-1)">Z6</text>
+			<rect x="377.8999999999999" y="259.4" width="58.19999999999999" height="58.19999999999999" style="stroke: rgb(49%,55%,51%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(95%,87%,65%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="402.271484375" y="290.5" style="font-family: AtlasBold; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,581) scale(1,-1)">Z7</text>
+			<polyline points="310 181.8, 310 366.1" style="stroke: rgb(44%,35%,19%); stroke-linecap: round; stroke-width: 67.89999999999999; fill: None; fill-rule: evenodd;"/>
+			<polyline points="310 181.8, 310 366.1" style="stroke: rgb(44%,35%,19%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<polyline points="310 366.1, 310 404.9" style="stroke: rgb(44%,35%,19%); stroke-linecap: round; stroke-width: 67.89999999999999; fill: None; fill-rule: evenodd;"/>
+			<polyline points="310 366.1, 310 404.9" style="stroke: rgb(44%,35%,19%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<text x="314.0" y="186.79999999999998" style="font-family: AtlasBold; font-size: 7px;fill: rgb(44%,35%,19%); stroke:none;" transform="translate(0,373) scale(1,-1)">A</text>
+			<polyline points="310 288.5, 271.2 288.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: round; stroke-width: 48.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="310 288.5, 271.2 288.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<polyline points="271.2 288.5, 271.2 385.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: round; stroke-width: 48.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="271.2 288.5, 271.2 385.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<text x="314.0" y="293.5" style="font-family: AtlasBold; font-size: 7px;fill: rgb(7%,41%,47%); stroke:none;" transform="translate(0,587) scale(1,-1)">B</text>
+			<polyline points="310 288.5, 348.8 288.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: round; stroke-width: 48.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="310 288.5, 348.8 288.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<polyline points="348.8 288.5, 348.8 385.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: round; stroke-width: 48.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="348.8 288.5, 348.8 385.5" style="stroke: rgb(7%,41%,47%); stroke-linecap: butt; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+			<text x="314.0" y="293.5" style="font-family: AtlasBold; font-size: 7px;fill: rgb(7%,41%,47%); stroke:none;" transform="translate(0,587) scale(1,-1)">C</text>
+			<circle cx="213.0" cy="259.4" r="3.8" style="stroke: rgb(13%,35%,52%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="218.0" y="252.39999999999998" style="font-family: AtlasBold; font-size: 7px;fill: rgb(13%,35%,52%); stroke:none;" transform="translate(0,504) scale(1,-1)">K1</text>
+			<circle cx="310.0" cy="467.95" r="3.8" style="stroke: rgb(13%,35%,52%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="315.0" y="460.95" style="font-family: AtlasBold; font-size: 7px;fill: rgb(13%,35%,52%); stroke:none;" transform="translate(0,921) scale(1,-1)">K2</text>
+			<circle cx="193.60000000000008" cy="337.0" r="3.8" style="stroke: rgb(13%,35%,52%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="198.60000000000008" y="330.0" style="font-family: AtlasBold; font-size: 7px;fill: rgb(13%,35%,52%); stroke:none;" transform="translate(0,660) scale(1,-1)">K3</text>
+			<circle cx="407.0" cy="434.0" r="3.8" style="stroke: rgb(13%,35%,52%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="412.0" y="427.0" style="font-family: AtlasBold; font-size: 7px;fill: rgb(13%,35%,52%); stroke:none;" transform="translate(0,854) scale(1,-1)">K4</text>
+			<circle cx="407.0" cy="288.5" r="3.8" style="stroke: rgb(13%,35%,52%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="412.0" y="281.5" style="font-family: AtlasBold; font-size: 7px;fill: rgb(13%,35%,52%); stroke:none;" transform="translate(0,563) scale(1,-1)">K5</text>
+			<polygon points="310 537, 316 531, 310 525, 304 531" style="stroke: rgb(50%,35%,15%); stroke-linecap: butt; stroke-width: 1; fill: rgb(79%,56%,26%); fill-rule: evenodd;"/>
+			<text x="317.0" y="538.0" style="font-family: AtlasBold; font-size: 9px;fill: rgb(43%,26%,6%); stroke:none;" transform="translate(0,1076) scale(1,-1)">L1</text>
+			<polygon points="310 149, 316 143, 310 137, 304 143" style="stroke: rgb(50%,35%,15%); stroke-linecap: butt; stroke-width: 1; fill: rgb(79%,56%,26%); fill-rule: evenodd;"/>
+			<text x="317.0" y="150.0" style="font-family: AtlasBold; font-size: 9px;fill: rgb(43%,26%,6%); stroke:none;" transform="translate(0,300) scale(1,-1)">L2</text>
+			<polygon points="310 473.95, 316 467.95, 310 461.95, 304 467.95" style="stroke: rgb(50%,35%,15%); stroke-linecap: butt; stroke-width: 1; fill: rgb(79%,56%,26%); fill-rule: evenodd;"/>
+			<text x="317.0" y="474.95" style="font-family: AtlasBold; font-size: 9px;fill: rgb(43%,26%,6%); stroke:none;" transform="translate(0,949) scale(1,-1)">L3</text>
+			<text x="586.71044921875" y="643" style="font-family: Atlas; font-size: 9px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,1286) scale(1,-1)">+Z</text>
+			<path d="M 594,622 L 594,638 Z" style="stroke: rgb(14%,20%,18%); stroke-linecap: butt; stroke-width: 1;"/>
+			<polygon points="594 640, 591 634, 597 634" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(14%,20%,18%); fill-rule: evenodd;"/>
+			<path d="M 67.5,18 L 164.5,18 Z" style="stroke: rgb(14%,20%,18%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="90.32421875" y="5" style="font-family: Atlas; font-size: 8px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,10) scale(1,-1)">2m | grade 2m</text>
+			<text x="492.2158203125" y="17" style="font-family: AtlasBold; font-size: 9px;fill: rgb(14%,20%,18%); stroke:none;" transform="translate(0,34) scale(1,-1)">COMPOSIÇÃO PROPOSTA</text>
+		</g>
+	</g>
+</svg>

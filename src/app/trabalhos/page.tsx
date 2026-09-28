@@ -21,8 +21,8 @@ export default function TrabalhosPage() {
         <Container>
           <p className="tecnica text-signal">PROJETOS FEITOS PARA CLIENTES / PRODUTOS REAIS</p>
           <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
-            <h1 className="max-w-[13ch] text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em] lg:col-span-8">
-              Projetos que saíram da bancada e chegaram ao mundo real.
+            <h1 className="max-w-[17ch] text-[clamp(3rem,6vw,6rem)] leading-[0.98] tracking-[-0.055em] lg:col-span-8">
+              Ideias que chegaram ao mundo real.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
               Alguns projetos feitos para clientes, com estratégia, identidade, experiência e tecnologia conectadas às necessidades de cada operação.

@@ -1,3 +1,4 @@
+import { ScreenshotFrame } from '@/components/projects/ScreenshotFrame';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
@@ -6,6 +7,7 @@ import type { Trabalho } from '@/content/portfolio';
 import { ROTAS } from '@/lib/routes';
 
 export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
+  const painelPrincipal = trabalho.painel?.imagens[0];
   return (
     <article>
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
@@ -26,9 +28,7 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
               {trabalho.resumo}
             </p>
           </div>
-          <div className="media-pattern relative mt-12 aspect-[32/15] min-h-72 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised">
-            <Image src={trabalho.capa} alt={trabalho.capaAlt} fill priority sizes="100vw" quality={90} className="object-cover object-top" />
-          </div>
+          <div className="mt-12"><ScreenshotFrame src={trabalho.capa} alt={trabalho.capaAlt} label={trabalho.cliente} priority wide original /></div>
         </Container>
       </header>
 
@@ -62,7 +62,36 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
         </div>
       </Section>
 
-      <Section indice="03 / MATERIAL REAL" rotulo={`Imagens do projeto ${trabalho.cliente}`}>
+      {trabalho.painel && painelPrincipal ? (
+        <Section indice="03 / SITE E PAINEL" rotuladaPor="duas-experiencias">
+          <TituloSecao id="duas-experiencias">O cliente navega. A equipe tem o controle.</TituloSecao>
+          <p className="mt-5 max-w-2xl leading-relaxed text-mineral">{trabalho.painel.descricao}</p>
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <figure className="min-w-0 rounded-2xl border border-line bg-raised p-4">
+              <figcaption className="tecnica mb-4 text-signal">01 / SITE PARA O CLIENTE</figcaption>
+              <ScreenshotFrame src={trabalho.capa} alt={trabalho.capaAlt} label="Site público" original />
+            </figure>
+            <figure className="min-w-0 rounded-2xl border border-line bg-raised p-4">
+              <figcaption className="tecnica mb-4 text-signal">{trabalho.painel.demonstracao ? "02 / DEMONSTRATIVO DO PAINEL" : "02 / PAINEL PARA A EQUIPE"}</figcaption>
+              <a href={painelPrincipal.src} target="_blank" rel="noreferrer" className="block focus-visible:outline-2 focus-visible:outline-signal">
+                <div className="relative aspect-[16/10]">
+                  <Image src={painelPrincipal.src} alt={painelPrincipal.alt} fill sizes="(min-width:1024px) 45vw, 90vw" className="object-contain" />
+                </div>
+                <span className="mt-4 block text-sm text-signal">Ampliar painel ↗</span>
+              </a>
+              <p className="mt-3 text-sm leading-relaxed text-mineral">{painelPrincipal.alt}</p>
+            </figure>
+          </div>
+          {trabalho.painel.imagens.slice(1).map(imagem => (
+            <figure key={imagem.src} className="mt-6 rounded-2xl border border-line bg-raised p-5">
+              <a href={imagem.src} target="_blank" rel="noreferrer"><Image src={imagem.src} alt={imagem.alt} width={imagem.src.includes("painel-guia") ? 780 : 1800} height={imagem.src.includes("painel-guia") ? 1688 : 493} className="mx-auto h-auto max-h-[600px] w-auto max-w-full" /></a>
+              <figcaption className="mt-4 text-sm text-mineral">{imagem.alt}</figcaption>
+            </figure>
+          ))}
+        </Section>
+      ) : null}
+
+      <Section indice="04 / GALERIA DO PROJETO" rotulo={`Imagens do projeto ${trabalho.cliente}`}>
         <div className={`grid gap-4 ${trabalho.formatoImagens === 'telas' ? 'md:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
           {trabalho.imagens.map((imagem, indice) => (
             <figure
@@ -75,7 +104,7 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
         </div>
       </Section>
 
-      <Section indice="04 / PRÓXIMO PASSO" className="pb-[clamp(4rem,9vw,9rem)]" rotuladaPor="proximo-trabalho-titulo">
+      <Section indice="05 / PRÓXIMO PASSO" className="pb-[clamp(4rem,9vw,9rem)]" rotuladaPor="proximo-trabalho-titulo">
         <div className="grid gap-8 rounded-[var(--radius-panel)] border border-line-strong bg-raised/75 p-7 sm:p-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <p className="tecnica text-signal">SEU PROJETO PODE SER O PRÓXIMO</p>

@@ -232,6 +232,7 @@ export function MobileSideNav() {
             <Link href={gaveta.todos.href} className={styles.todos}>
               {gaveta.todos.rotulo} →
             </Link>
+            {gaveta.itens.some(item => item.href === '/projects/morvelio') ? <Link href="/morvelio/wiki" className={styles.todos}>Morvelio Wiki →</Link> : null}
           </div>
         </>
       ) : null}

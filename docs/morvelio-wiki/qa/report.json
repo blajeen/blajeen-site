@@ -1,0 +1,40 @@
+{
+  "base": "http://127.0.0.1:3018",
+  "edition": "27/09/2026",
+  "checks": [
+    "Busca por J13 → missão e objetivos",
+    "Filtro de 9 broches → ficha → comparação compatível",
+    "Desfecho ausente do HTML e da busca sem consentimento; revelação explícita funciona",
+    "Atlas com zoom, retorno e acesso à imagem inteira",
+    "Five pages at 360, 390, 768 and 1440 px: no page overflow; one main and one h1",
+    "Ficha e links legíveis sem JavaScript",
+    "Slugs e categorias desconhecidos retornam 404",
+    "534 fichas respondem HTTP 200",
+    "Todas as fichas constam no sitemap",
+    "154 imagens entregues como WebP"
+  ],
+  "screenshots": [
+    "docs/morvelio-wiki/qa/home-360.png",
+    "docs/morvelio-wiki/qa/jogo-360.png",
+    "docs/morvelio-wiki/qa/itens-360.png",
+    "docs/morvelio-wiki/qa/broche-360.png",
+    "docs/morvelio-wiki/qa/mapa-360.png",
+    "docs/morvelio-wiki/qa/home-390.png",
+    "docs/morvelio-wiki/qa/jogo-390.png",
+    "docs/morvelio-wiki/qa/itens-390.png",
+    "docs/morvelio-wiki/qa/broche-390.png",
+    "docs/morvelio-wiki/qa/mapa-390.png",
+    "docs/morvelio-wiki/qa/home-768.png",
+    "docs/morvelio-wiki/qa/jogo-768.png",
+    "docs/morvelio-wiki/qa/itens-768.png",
+    "docs/morvelio-wiki/qa/broche-768.png",
+    "docs/morvelio-wiki/qa/mapa-768.png",
+    "docs/morvelio-wiki/qa/home-1440.png",
+    "docs/morvelio-wiki/qa/jogo-1440.png",
+    "docs/morvelio-wiki/qa/itens-1440.png",
+    "docs/morvelio-wiki/qa/broche-1440.png",
+    "docs/morvelio-wiki/qa/mapa-1440.png"
+  ],
+  "errors": [],
+  "passed": true
+}

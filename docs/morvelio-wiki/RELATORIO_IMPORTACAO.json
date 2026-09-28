@@ -1,0 +1,235 @@
+{
+  "edition": "27/09/2026",
+  "pdfsMatched": [
+    {
+      "file": "01_MORVELIO_Plantas_e_Assets.pdf",
+      "sha256": "b281ed26c8d60f4468d33afe964979ed5963c09db2e973f98ff453ebd55e6f86",
+      "pages": 208
+    },
+    {
+      "file": "02_MORVELIO_Elenco_e_Combate.pdf",
+      "sha256": "df2ea424c9881029a16924d813429e269645ca5d2c46b04992943f0e4459c73a",
+      "pages": 53
+    },
+    {
+      "file": "03_MORVELIO_Questline.pdf",
+      "sha256": "55c8937f6e4a5298ea5e5983458b166d8ca074d478fd8ca05cc1971492a6c38e",
+      "pages": 72
+    },
+    {
+      "file": "04_MORVELIO_Mundo_e_Lore.pdf",
+      "sha256": "505f4e206c7ed65d0e32545b7d14e36dd645dee2c53d83ee1b56e51f5a9f1298",
+      "pages": 28
+    },
+    {
+      "file": "05_MORVELIO_Itens_Equipamento_e_Economia.pdf",
+      "sha256": "24394e5582dc8e4c186cb64e761b1152c9513033f6ce0fca824905b40588d5b9",
+      "pages": 22
+    },
+    {
+      "file": "06_MORVELIO_Regras_e_Sistemas.pdf",
+      "sha256": "8a9fcfb372c35e285e515b41d3b99d4ff844234664be70d4335d8627ca51b5cc",
+      "pages": 16
+    },
+    {
+      "file": "07_MORVELIO_Roteiro_e_Falas.pdf",
+      "sha256": "64d3650067145cfdf843af2adc2e7d5a9e280eedb0fe75cf874eea22ebf83709",
+      "pages": 24
+    },
+    {
+      "file": "08_MORVELIO_Guia_de_Arte.pdf",
+      "sha256": "5c1e0f8efea2926659f9af11cb24077c0b11de15fa070313a4c6a85ef1fb0423",
+      "pages": 15
+    }
+  ],
+  "counts": {
+    "classes": 7,
+    "habilidades": 133,
+    "regioes": 18,
+    "dungeons": 20,
+    "missoes": 93,
+    "personagens": 19,
+    "itens": 120,
+    "receitas": 16,
+    "criaturas": 87,
+    "reinos": 5,
+    "mundo": 1,
+    "guias": 8,
+    "cronicas": 7
+  },
+  "records": 534,
+  "relations": 1101,
+  "omissions": [
+    {
+      "id": "quest.p169.j11.carta_beiral",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j11.carta_horta",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j11.carta_serraria",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j13.peca",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j17.contrapeso1",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j17.contrapeso2",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j21.correct_piece",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j23.reagent1",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j23.reagent2",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j23.reagent3",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j24.core",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j29.carta",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j30.kit",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j33.cell1",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j33.cell2",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j33.cell3",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j34.gear_pickup",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j35.fuse_pickup",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j37.cell1",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j37.cell2",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j37.cell3",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j39.estandarte",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j40.peca1",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j40.peca2",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j48.prisoner_record",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j50.order",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j51.proof",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j52.adventurer_page",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j53.record",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.j55.classification",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.o02.letter",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.o04.hidden_map",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.o05.tool",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.o07.nets",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "quest.p169.o08.cargo",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gold.small",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gold.medium",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gold.large",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gems.small",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gems.medium",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    },
+    {
+      "id": "pack.gems.large",
+      "reason": "Objetivo de missão ou oferta comercial fechada; não é uma peça equipável."
+    }
+  ],
+  "reconciliations": [
+    "Classes e armas atualizadas conforme Direção atual 01.",
+    "Broches, receitas e moedas conforme Direção atual 02/03; JSON legado de itens não publicado.",
+    "Relatos com desfechos isolados; missões tardias e chefes finais exigem spoilers.",
+    "Estatísticas documentadas não recebem selo de build atual.",
+    "Nomes de referência de fauna preservados como referências, sem canonização de nomes inventados."
+  ]
+}

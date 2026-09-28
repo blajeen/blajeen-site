@@ -131,7 +131,7 @@ export const docalio: Project = {
     altura: 941,
   },
   icone: {
-    src: '/projects/docalio/docalio-icon-512.png',
+    src: '/projects/docalio/docalio-icon-mochila-v2.webp',
     alt: '',
     tamanho: 512,
   },
@@ -308,11 +308,11 @@ export const morvelio: Project = {
   nome: 'Morvelio',
   indice: 'EXPERIMENTO 05',
   estado: 'EM FORMAÇÃO',
-  categoria: 'ACTION-ROGUELITE PARA CELULAR',
+  categoria: 'RPG DE AÇÃO SOLO',
   status: 'EM DESENVOLVIMENTO',
-  frase: 'Explore, enfrente encontros e descubra até onde avançar.',
+  frase: 'Em Velidor o mal já venceu, e só os aventureiros se recusam a aceitar.',
   descricao:
-    'Um action-roguelite mobile em desenvolvimento, com campanha solo, exploração, combates e decisões de progressão. O protótipo já é jogável e está em fase de testes.',
+    'Um RPG de ação solo em desenvolvimento: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro. Explore a wiki de missões, equipamentos, criaturas e mapas.',
   cta: 'CONHECER MORVELIO',
   notaCurta:
     'Protótipo jogável em testes. Capturas reais do desenvolvimento; ainda sem lançamento público.',
@@ -352,7 +352,7 @@ export const morvelio: Project = {
     altura: 900,
   },
   icone: {
-    src: '/projects/morvelio/morvelio-icon-montanha-toon-512.webp',
+    src: '/projects/morvelio/morvelio-icon-montanha-nome-v04.webp',
     alt: '',
     tamanho: 512,
   },
@@ -367,10 +367,10 @@ export const morvelio: Project = {
     { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
     { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
   ],
-  ogDescricao: 'Morvelio: campanha solo, exploração e combate em um protótipo já jogável.',
+  ogDescricao: 'Morvelio: sete classes, Velidor sob as sombras e um mundo de histórias. Conheça o jogo e explore a wiki.',
   metaTitulo: 'Morvelio — Blajeen Labs',
   metaDescricao:
-    'Morvelio é um action-roguelite mobile da Blajeen Labs com campanha solo, exploração e combate. Veja capturas reais do protótipo em desenvolvimento.',
+    'Morvelio é um RPG de ação solo em desenvolvimento. Conheça Velidor, as sete classes e a wiki oficial de itens, missões, criaturas e mapas de Erdávia.',
 };
 
 export const mazelio: Project = {
@@ -401,7 +401,7 @@ export const mazelio: Project = {
   ],
   aviso: 'Mazelio é um jogo de entretenimento disponível na App Store. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/mazelio/mazelio-banner-key-art.webp', alt: 'Arte promocional de Mazelio: torres elementais formam um labirinto aberto para proteger o Rei, com o símbolo oficial do jogo à esquerda.', largura: 1600, altura: 900 },
-  icone: { src: '/projects/mazelio/mazelio-icon-512.webp', alt: '', tamanho: 512 },
+  icone: { src: '/projects/mazelio/mazelio-icon-rei-v2.webp', alt: '', tamanho: 512 },
   galeria: [
     { src: '/projects/mazelio/mazelio-preparo-real.webp', alt: 'Tela atual do Mazelio durante a preparação da onda, com torres disponíveis na base do tabuleiro.', largura: 720, altura: 1558, legenda: 'Prepare a defesa · captura atual' },
     { src: '/projects/mazelio/mazelio-batalha-real.webp', alt: 'Tela atual do Mazelio em combate, com criaturas cruzando as torres.', largura: 720, altura: 1558, legenda: 'Acompanhe a onda · captura atual' },

@@ -1,0 +1,632 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Morvelio Wiki · Plano de implementação</title><style>
+:root{color-scheme:dark;--bg:#101211;--paper:#f1eee6;--muted:#b6bbae;--gold:#e4c386;--line:#3a4038}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--paper);font:17px/1.75 'Segoe UI',Arial,sans-serif}a{color:var(--gold);text-underline-offset:4px}a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}header{border-bottom:1px solid var(--line);padding:25px max(24px,calc((100vw - 1400px)/2));display:flex;gap:20px;flex-wrap:wrap;align-items:center}header strong{letter-spacing:.13em;font-size:14px}header span{color:var(--muted);font-size:14px}.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:50px;padding:35px 28px 100px}nav{position:sticky;top:22px;align-self:start;max-height:calc(100vh - 44px);overflow:auto;font-size:13px}nav ul{padding-left:16px}nav li{margin:10px 0}nav>p{letter-spacing:.1em;color:var(--muted)}main{min-width:0;max-width:1000px}h1{font-size:clamp(32px,5vw,58px);letter-spacing:-.045em;line-height:1.08;margin:0 0 35px}h2{font-size:28px;line-height:1.25;margin:65px 0 24px;padding-top:25px;border-top:1px solid var(--line);scroll-margin-top:25px}h3{font-size:21px;margin-top:35px}p,li{max-width:82ch}strong{color:#fff9ed}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5;margin:24px 0;display:block;overflow-x:auto}th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:13px 15px;min-width:135px}th{background:#232922;color:var(--gold)}td{color:#dde0d7}code{font-size:.87em;overflow-wrap:anywhere;color:#e2d2b0}pre{overflow:auto;background:#1b201b;border:1px solid var(--line);padding:24px;font-size:13px;line-height:1.7}pre code{overflow-wrap:normal}blockquote{border-left:3px solid var(--gold);margin-left:0;padding-left:22px}footer{color:var(--muted);border-top:1px solid var(--line);padding:25px}.toolbar{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:30px;font-size:14px}@media(max-width:900px){.layout{grid-template-columns:1fr;gap:25px;padding:24px 20px 60px}nav{position:static;max-height:none}nav .toc ul{columns:2}h2{font-size:24px;margin-top:45px}}@media(max-width:540px){nav .toc ul{columns:1}body{font-size:16px}th,td{padding:10px;min-width:120px}}@media print{body{background:white;color:#111;font-size:11pt}nav,header,.toolbar{display:none}.layout{display:block;padding:0}main{max-width:none}h1,h2,h3,strong{color:#111}td,code{color:#222}th{color:#111;background:#eee}table{display:table;font-size:9pt}pre{white-space:pre-wrap;background:#f5f5f5}h2{break-after:avoid}a{color:#333}}
+</style></head><body><header><strong>BLAJEEN LABS / MORVELIO</strong><span>Plano de implementação · Wiki e apresentação do jogo</span></header><div class="layout"><nav aria-label="Seções do plano"><p>NESTE DOCUMENTO</p><div class="toc">
+<ul>
+<li><a href="#morvelio-wiki-plano-de-implementacao">Morvelio Wiki — plano de implementação</a><ul>
+<li><a href="#1-decisao-de-produto">1. Decisão de produto</a></li>
+<li><a href="#2-o-que-foi-conferido">2. O que foi conferido</a></li>
+<li><a href="#3-arquitetura-de-informacao-e-enderecos">3. Arquitetura de informação e endereços</a></li>
+<li><a href="#4-experiencia-visual">4. Experiência visual</a></li>
+<li><a href="#5-modelo-das-fichas">5. Modelo das fichas</a></li>
+<li><a href="#6-regras-canonicas-obrigatorias">6. Regras canônicas obrigatórias</a></li>
+<li><a href="#7-versao-implementacao-e-spoilers">7. Versão, implementação e spoilers</a></li>
+<li><a href="#8-busca-filtros-e-comparacao">8. Busca, filtros e comparação</a></li>
+<li><a href="#9-atlas-e-mapas">9. Atlas e mapas</a></li>
+<li><a href="#10-fonte-unica-e-atualizacao-dos-dados">10. Fonte única e atualização dos dados</a></li>
+<li><a href="#11-arquitetura-tecnica-de-implementacao">11. Arquitetura técnica de implementação</a></li>
+<li><a href="#12-atualizacao-da-apresentacao-de-morvelio">12. Atualização da apresentação de Morvelio</a></li>
+<li><a href="#13-plano-por-lotes-com-entregas-e-aceite">13. Plano por lotes, com entregas e aceite</a></li>
+<li><a href="#14-criterios-de-pronto">14. Critérios de pronto</a></li>
+<li><a href="#15-publicacao-manutencao-e-limites">15. Publicação, manutenção e limites</a></li>
+<li><a href="#16-ordem-de-execucao-para-retomada">16. Ordem de execução para retomada</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav><main><div class="toolbar"><a href="PLANO_IMPLEMENTACAO.md">Fonte em Markdown</a><a href="FONTES_DESKTOP.json">Manifesto das fontes</a></div><h1 id="morvelio-wiki-plano-de-implementacao">Morvelio Wiki — plano de implementação</h1>
+<p><strong>Destino:</strong> Blajeen Labs · <strong>Endereço proposto:</strong> <code>https://blajeen.com.br/morvelio/wiki</code><br />
+<strong>Estado:</strong> plano para implementação; nenhuma página foi publicada neste trabalho.<br />
+<strong>Base editorial:</strong> documentos vigentes da pasta <strong>Morvelio - Documentação</strong>, na Área de Trabalho, incluindo as revisões de 27/09/2026.<br />
+<strong>Projeto do site:</strong> <code>C:/dev/blajeen-labs</code>.</p>
+<h2 id="1-decisao-de-produto">1. Decisão de produto</h2>
+<p>Criar uma área exclusiva de consulta chamada <strong>Morvelio Wiki</strong>, dentro do domínio e da identidade do Blajeen Labs. Ela terá banco de conteúdo navegável, busca, filtros, fichas individuais, relações entre registros, atlas e guias. A referência de experiência é o <a href="https://www.wowhead.com/">Wowhead</a>: encontrar uma informação e seguir suas conexões. Layout, textos, imagens, nomes e dados serão próprios de Morvelio.</p>
+<p>A página <code>/projects/morvelio</code> continua sendo a apresentação do jogo. A wiki ocupa <code>/morvelio/wiki</code>, com navegação própria e retorno claro ao estúdio. O leitor deve entender onde está sem perder o contexto do jogo.</p>
+<p><strong>Resultado esperado:</strong> alguém procura um broche, entende seu efeito, descobre como obtê-lo, abre a missão necessária e encontra o personagem ou lugar relacionado. Outro leitor explora os cinco reinos e compreende quais pertencem à campanha mobile e quais pertencem à saga.</p>
+<h3 id="prioridades">Prioridades</h3>
+<ol>
+<li>Dados corretos e conectados, com fonte e estado de implementação.</li>
+<li>Consulta rápida no celular: busca, filtros úteis, números legíveis e links diretos.</li>
+<li>Identidade visual de Morvelio, com arte toon e mapas existentes.</li>
+<li>Cobertura dos documentos autorizados, acompanhada por inventário de lacunas.</li>
+<li>Atualização sustentável: mudar uma receita uma vez e refletir a alteração em todas as páginas relacionadas.</li>
+</ol>
+<h2 id="2-o-que-foi-conferido">2. O que foi conferido</h2>
+<p>O site usa <strong>Next.js App Router, React, TypeScript e Tailwind</strong>, com conteúdo local tipado, testes Vitest e ferramentas Playwright. A página atual de Morvelio usa o componente genérico <code>ProjectPage</code>. O ícone cadastrado é a versão da montanha sem nome. O site mantém Morvelio como protótipo em desenvolvimento, sem URL de loja cadastrada.</p>
+<table>
+<thead>
+<tr>
+<th>Fonte na Área de Trabalho</th>
+<th style="text-align: right;">Extensão conferida</th>
+<th>Uso na wiki</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 · Plantas e Assets</td>
+<td style="text-align: right;">208 páginas</td>
+<td>Ambientes, conexões, dungeons, acampamento, casa e portais; adaptar plantas técnicas para consulta</td>
+</tr>
+<tr>
+<td>02 · Elenco e Combate</td>
+<td style="text-align: right;">53 páginas</td>
+<td>Classes, habilidades, personagens, monstros e chefes</td>
+</tr>
+<tr>
+<td>03 · Questline</td>
+<td style="text-align: right;">72 páginas</td>
+<td>Missões, objetivos, requisitos, recompensas e encadeamento</td>
+</tr>
+<tr>
+<td>04 · Mundo e Lore</td>
+<td style="text-align: right;">28 páginas</td>
+<td>Erdávia, reinos, famílias, lugares e cronologia</td>
+</tr>
+<tr>
+<td>05 · Itens, Equipamento e Economia</td>
+<td style="text-align: right;">22 páginas</td>
+<td>Armas, nove broches, moedas, receitas e casa</td>
+</tr>
+<tr>
+<td>06 · Regras e Sistemas</td>
+<td style="text-align: right;">16 páginas</td>
+<td>Controles, combate, progressão, modos e guias</td>
+</tr>
+<tr>
+<td>07 · Roteiro e Falas</td>
+<td style="text-align: right;">24 páginas</td>
+<td>Diálogos e cenas, com proteção de spoilers</td>
+</tr>
+<tr>
+<td>08 · Guia de Arte</td>
+<td style="text-align: right;">15 páginas</td>
+<td>Paletas, silhuetas, identidade toon e uso coerente das imagens</td>
+</tr>
+<tr>
+<td>Direção atual · documentos 01–13</td>
+<td style="text-align: right;">Markdown/HTML</td>
+<td>Correções e decisões posteriores aos volumes; precedência editorial</td>
+</tr>
+<tr>
+<td>Atlas dos cinco reinos</td>
+<td style="text-align: right;">Cartas e notas</td>
+<td>Mapa mundial e mapas de Velidor, Caldria, Sahram, Durnagal e Orissel</td>
+</tr>
+<tr>
+<td>Divulgação · Nova identidade - Orbe</td>
+<td style="text-align: right;">PNGs e manifestos</td>
+<td>Ícone atual com MORVELIO, capa e artes promocionais</td>
+</tr>
+</tbody>
+</table>
+<p>As capas documentam <strong>93 missões</strong>: 63 principais, 19 opcionais, sete diárias e quatro semanais. O volume de plantas anuncia <strong>39 ambientes e 118 plantas</strong>; isso descreve o material de produção, não 39 mapas comprovadamente disponíveis ao jogador. Não converter essas contagens em promessa comercial.</p>
+<p>Os hashes das fontes lidas ficam em <code>FONTES_DESKTOP.json</code>. Os PDFs permanecem preservados. A wiki será alimentada por registros revisados, sem depender de ler PDFs no navegador ou acessar a Área de Trabalho em produção.</p>
+<h2 id="3-arquitetura-de-informacao-e-enderecos">3. Arquitetura de informação e endereços</h2>
+<table>
+<thead>
+<tr>
+<th>Endereço</th>
+<th>Finalidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/projects/morvelio</code></td>
+<td>Apresentação do jogo, novo ícone, capturas e entrada da wiki</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki</code></td>
+<td>Portal: busca, categorias, guias iniciais, atlas e novidades da documentação</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/busca?q=broche</code></td>
+<td>Resultados gerais, com grupos e filtros</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/classes</code></td>
+<td>Sete classes; arma, estilo e habilidades</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/classes/cavaleiro</code></td>
+<td>Ficha de classe e conteúdo relacionado</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/habilidades/[slug]</code></td>
+<td>Ataque, especial, passiva ou talento com fonte e condições</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/itens</code></td>
+<td>Armas, broches, materiais, moedas e decoração documentada</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/itens/broche-da-guarda</code></td>
+<td>Efeito, obtenção, requisitos e relações</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/receitas/[slug]</code></td>
+<td>Ingredientes, quantidades, custo e responsável pela forja</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/personagens/[slug]</code></td>
+<td>NPCs, serviços, aparições e missões</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/criaturas/[slug]</code></td>
+<td>Monstros e chefes: ataques, encontros e recompensas comprovadas</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/missoes/[slug]</code></td>
+<td>Objetivos, sequência, lugares e recompensas</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/regioes/[slug]</code></td>
+<td>Lugares da campanha, mapas e pontos de interesse</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/dungeons/[slug]</code></td>
+<td>Caverna, Factory e Castelo; salas, requisitos e encontros</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/mundo</code></td>
+<td>Erdávia, atlas geral, continentes e cinco reinos</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/reinos/[slug]</code></td>
+<td>Um reino, sua casa real, geografia e participação na saga</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/guias/[slug]</code></td>
+<td>Começar, combate, forja, casa e progressão</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/cronicas/[slug]</code></td>
+<td>História, famílias, eras e desfechos sob aviso de spoiler</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/atualizacoes</code></td>
+<td>Mudanças editoriais e de dados, sem confundir com patch do jogo</td>
+</tr>
+<tr>
+<td><code>/morvelio/wiki/sobre</code></td>
+<td>Como usar, origem dos dados, versões e correções</td>
+</tr>
+</tbody>
+</table>
+<p>Cada categoria com fichas também terá sua página de listagem. Slugs são legíveis e estáveis; IDs internos não aparecem como título. Renomear uma ficha preserva redirecionamento do endereço antigo. Slugs inexistentes retornam 404 real.</p>
+<p><strong>Entradas de navegação:</strong> botão “Explorar a wiki” no topo da página do jogo; atalho na prévia de Morvelio; submenu do jogo no menu do estúdio; link no rodapé. Não substituir nenhuma URL existente de suporte, termos, privacidade ou exclusão.</p>
+<h2 id="4-experiencia-visual">4. Experiência visual</h2>
+<h3 id="portal-da-wiki">Portal da wiki</h3>
+<p>Uma abertura compacta com o ícone novo, <strong>MORVELIO WIKI</strong>, descrição curta e campo de busca dominante. Abaixo, atalhos para Classes, Itens, Missões, Criaturas, Dungeons e Mundo; um bloco editorial para começar; uma prévia do atlas; últimas alterações reais.</p>
+<p>Não obrigar o visitante a atravessar um banner grande antes de pesquisar. As ilustrações aparecem onde ajudam a reconhecer conteúdo. Contadores, quando usados, vêm dos registros publicados e nunca de metas de produção.</p>
+<h3 id="ficha-no-desktop">Ficha no desktop</h3>
+<pre><code class="language-text">Blajeen Labs                         Morvelio / Wiki / Busca
+Início &gt; Itens &gt; Broches &gt; Broche da Guarda
+
+Navegação        Ícone + nome + estado              Nesta página
+da wiki          Resumo / atributos                 Efeito
+                 Efeito e condições                 Obtenção
+                 Onde obter                         Requisitos
+                 Requisitos e missões               Relacionados
+                 Tabelas relacionadas
+                 Fontes, edição e alterações
+</code></pre>
+<p>Em telas largas, navegação de aproximadamente 220–240 px, corpo flexível e sumário opcional de 180–220 px, dentro do limite do site. Em tablet, retirar a terceira coluna. No celular, busca e botão “Categorias” ficam próximos do título; filtros abrem um painel acessível; sumário vira controle recolhível. Evitar barras fixas empilhadas consumindo a tela.</p>
+<h3 id="identidade-e-leitura">Identidade e leitura</h3>
+<ul>
+<li>Herdar fundo escuro, tipografia local, foco e linguagem visual do Blajeen Labs.</li>
+<li>Usar dourado para acentos de Morvelio, marfim para leitura e ilustrações toon. Violeta sinaliza Orbe/corrupção, nunca aura de broche do aventureiro.</li>
+<li>Fichas usam tabelas compactas, divisores e hierarquia editorial. Reservar imagens maiores para mapas, personagens e lugares.</li>
+<li>Raridade e estado recebem texto/ícone além da cor. Não inventar uma escala de raridades para preencher a interface.</li>
+<li>A prévia de item funciona por foco/clique e toque, além de hover; sempre existe link normal para a ficha.</li>
+<li>Imagens incluem legenda que distingue captura de jogo, ilustração e planta proposta.</li>
+</ul>
+<h2 id="5-modelo-das-fichas">5. Modelo das fichas</h2>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Informações essenciais</th>
+<th>Relações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classe</td>
+<td>Nome, arma, função, estilo, ataques, habilidades, progressão documentada</td>
+<td>Habilidades, armas compatíveis, guias</td>
+</tr>
+<tr>
+<td>Habilidade</td>
+<td>Tipo, efeito, condições, alcance, recarga, duração e valores conhecidos</td>
+<td>Classe, talento, estados aplicados</td>
+</tr>
+<tr>
+<td>Item</td>
+<td>Tipo, raridade se definida, efeito, restrição e obtenção</td>
+<td>Receita, vendedor, missão, criatura</td>
+</tr>
+<tr>
+<td>Receita</td>
+<td>Resultado, ingredientes, quantidades, custos e desbloqueio</td>
+<td>Itens, forjador, missão</td>
+</tr>
+<tr>
+<td>Personagem</td>
+<td>Papel, localização por etapa, serviços e história breve</td>
+<td>Missões, receitas, região, crônicas</td>
+</tr>
+<tr>
+<td>Criatura/chefe</td>
+<td>Família, aparições, ataques, perigos e estratégia sustentada pelos dados</td>
+<td>Dungeon, região, missão, recompensas</td>
+</tr>
+<tr>
+<td>Missão</td>
+<td>Tipo, pré-requisitos, objetivos, entrega e recompensas</td>
+<td>Anterior/próxima, NPC, região, portão</td>
+</tr>
+<tr>
+<td>Região</td>
+<td>Identidade, acessos, mapa, pontos de interesse e perigos</td>
+<td>NPCs, missões, criaturas, dungeons</td>
+</tr>
+<tr>
+<td>Dungeon</td>
+<td>Requisito de entrada, sequência, salas, chefes, saída/refúgio</td>
+<td>Missões, encontros, recompensas</td>
+</tr>
+<tr>
+<td>Reino</td>
+<td>Raça predominante, casa real, continente, lugares e contexto</td>
+<td>Atlas, personagens e cronologia</td>
+</tr>
+<tr>
+<td>Guia</td>
+<td>Objetivo, pré-requisitos, etapas e limites de versão</td>
+<td>Fichas usadas em cada etapa</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Valores ausentes:</strong> exibir “Não documentado” quando a informação fizer falta; omitir campos irrelevantes. Distinguir ausência de valor zero e “não se aplica”. Não transformar uma chance de drop desconhecida em 100%, nem usar nível recomendado como requisito obrigatório.</p>
+<p><strong>Variações:</strong> estatísticas que dependem de nível, dificuldade ou etapa ficam associadas ao contexto. Uma ficha de chefe pode ter múltiplos encontros; não escolher silenciosamente um número universal.</p>
+<h3 id="exemplo-de-consulta-broche-da-guarda">Exemplo de consulta: Broche da Guarda</h3>
+<ul>
+<li>Tipo: broche; direção aprovada para o mobile.</li>
+<li>Efeito documentado: −12% de dano recebido; aura azul-aço.</li>
+<li>Obtenção prevista: loja após J13. Nome e local do vendedor dependem da confirmação da fonte; não assumir Bento como vendedor de todos os broches.</li>
+<li>Relações: missão J13, guia de equipamento e outras opções de broche.</li>
+<li>Não atribuir receita à peça se o catálogo não a documentar. Bento entra diretamente nas fichas de Platina e Sagrado.</li>
+</ul>
+<h2 id="6-regras-canonicas-obrigatorias">6. Regras canônicas obrigatórias</h2>
+<ol>
+<li><strong>Aventureiros são classes:</strong> Cavaleiro, Bárbaro, Ladina, Maga, Patrulheira, Druida e Engenheiro. O jogador escolhe o nome. Nomes literários e IDs legados não viram nomes obrigatórios da seleção.</li>
+<li><strong>Dois espaços de equipamento:</strong> Arma e Broche. Arma muda a aparência; broche produz aura discreta, com treino sem aura. Não restaurar catálogo de armaduras.</li>
+<li><strong>Origem não concede poder racial:</strong> Velidor, Caldria e Sahram humanos; Durnagal anão; Orissel elfo. As mesmas sete classes existem nas origens definidas; a implementação visual deve ser identificada conforme a versão.</li>
+<li><strong>Cinco reinos não equivalem a cinco reinos jogáveis no mobile.</strong> Velidor e a campanha atual têm seu escopo; Erdávia e a saga abrangem mais eras e territórios.</li>
+<li><strong>Casa no acampamento:</strong> começa vazia; compras com ouro fazem os móveis aparecerem em posições estabelecidas. Não anunciar editor livre de decoração.</li>
+<li><strong>Gemas e moedas são conceitos diferentes:</strong> gemas elementais naturais, gemas premium, Fragmentos de Luz e Fragmentos de Sombra não compartilham a mesma definição.</li>
+<li><strong>Ônix ativo de sombra/vazio:</strong> reservado ao Orbe e portadores corrompidos segundo a direção atual. Não listar arma heroica de ônix como oferta.</li>
+<li><strong>Receitas futuras:</strong> preservar o escopo de 30 Sombra já documentado para rubi/safira; não espalhar esse preço automaticamente pelas demais gemas. Sagrada elemental: 100 Sombra + 10 Luz no total, em expansão planejada.</li>
+<li><strong>Portais:</strong> usar a identidade autorizada de cada acesso/refúgio nas ilustrações disponíveis. Território revelado não significa passagem liberada; requisitos vêm das missões.</li>
+<li><strong>Crônicas:</strong> distinguir o desfecho da campanha mobile das mortes, sucessões e conquistas posteriores. Orissel permanece separado dos quatro reinos continentais conquistados na saga.</li>
+</ol>
+<h2 id="7-versao-implementacao-e-spoilers">7. Versão, implementação e spoilers</h2>
+<p>Cada registro precisa de três dimensões independentes:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Exemplos</th>
+<th>Para que serve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Escopo</td>
+<td>Mobile, livro, expansão futura</td>
+<td>Evita misturar produto e saga</td>
+</tr>
+<tr>
+<td>Evidência</td>
+<td>Verificado em versão identificada; documentado; planejado; histórico</td>
+<td>Evita apresentar plano como recurso disponível</td>
+</tr>
+<tr>
+<td>Spoiler</td>
+<td>Nenhum; campanha; desfecho; saga posterior</td>
+<td>Controla a revelação de história</td>
+</tr>
+</tbody>
+</table>
+<p>Uma regra aprovada pode ainda estar pendente de implementação. A wiki mostra isso com linguagem simples. A data de edição de um documento não é uma versão de build. Se não houver build identificado, não exibir selo “confirmado no jogo atual”.</p>
+<p><strong>Padrão:</strong> busca geral, portal, sugestões, relacionados e prévias sem desfechos. O visitante habilita spoilers conscientemente para a camada escolhida. Títulos públicos e imagens sociais de páginas sensíveis usam formulação neutra.</p>
+<p>Não basta esconder um parágrafo com CSS: o índice público de busca, os snippets, os metadados e os dados enviados à página inicial também precisam ser livres de revelações. O conteúdo sensível é carregado apenas depois de uma ação explícita; respostas e caches devem respeitar o escopo. A preferência não exige conta.</p>
+<h2 id="8-busca-filtros-e-comparacao">8. Busca, filtros e comparação</h2>
+<h3 id="busca-global">Busca global</h3>
+<ul>
+<li>Consultar nome, aliases, termos de efeito e códigos de missão, normalizando acentos: “platina”, “broche”, “J13”, “Bento”, “cavaleiro” e “gelo”.</li>
+<li>Ranking: nome exato, prefixo de nome, alias, termos e resumo. Dar prioridade ao conteúdo vigente no escopo selecionado.</li>
+<li>Resultados mostram nome, tipo, resumo curto e estado. Não misturar versões como se fossem duplicatas atuais.</li>
+<li>Campo funciona com Enter; autocomplete é melhoria adicional. Teclado, Escape e foco seguem comportamento acessível.</li>
+<li>Estado vazio explica filtros ativos e oferece “Limpar filtros”; não inventa resposta ou resultado aproximado como fato.</li>
+</ul>
+<h3 id="filtros-por-categoria">Filtros por categoria</h3>
+<table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Filtros que fazem sentido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Itens</td>
+<td>Tipo, classe compatível, obtenção, raridade conhecida, estado</td>
+</tr>
+<tr>
+<td>Habilidades</td>
+<td>Classe, tipo, elemento documentado, estado</td>
+</tr>
+<tr>
+<td>Missões</td>
+<td>Principal/opcional/diária/semanal, ato, região, faixa de nível quando definida</td>
+</tr>
+<tr>
+<td>Criaturas</td>
+<td>Monstro/chefe, família, região/dungeon, nível documentado</td>
+</tr>
+<tr>
+<td>Mapas</td>
+<td>Campanha/dungeon/acampamento/mundo; território; estado de produção</td>
+</tr>
+<tr>
+<td>História</td>
+<td>Era, reino e nível de spoiler</td>
+</tr>
+</tbody>
+</table>
+<p>Combinar dimensões com AND; múltiplas opções na mesma dimensão usam OR. URL preserva busca, filtros, ordenação e página. Voltar no navegador restaura a consulta. Valores desconhecidos não entram em faixas numéricas; oferecer filtro específico quando útil.</p>
+<p>Ordenar por nome e valores pertinentes; colocar desconhecidos ao final. Paginação evita carregar todo o catálogo e todas as imagens. Começar com 25 registros por página, ajustável após ensaio real.</p>
+<p><strong>Comparação incluída na primeira entrega completa:</strong> duas armas compatíveis ou dois broches, com colunas paralelas, efeitos e obtenção. Comparação informa a mesma versão/contexto; não calcula DPS, defesa efetiva ou “melhor item” sem fórmula e premissas verificadas.</p>
+<h2 id="9-atlas-e-mapas">9. Atlas e mapas</h2>
+<p>Separar <strong>Atlas de Erdávia</strong> de <strong>Mapas da campanha</strong>. Um visitante pode conhecer os cinco reinos sem interpretar o atlas como seletor de viagem disponível no mobile.</p>
+<p>Usar as cartas existentes como base, com leitura ampliada e imagem completa. Para campanha/dungeons, sobrepor marcadores apenas onde houver posição sustentada pela planta, com legenda de escala e aviso “composição proposta” quando aplicável. Um marcador abre NPC, missão, entrada ou encontro correspondente.</p>
+<p>Coordenadas de planta e posição na imagem ficam em campos separados, com transformação registrada; não converter pixels em metros sem escala. Quando só houver localização descritiva, usar lista textual de pontos em vez de inventar um pin preciso. Todo marcador tem alternativa em lista para teclado e leitor de tela.</p>
+<p>Primeiro lote: atlas mundial, cinco cartas regionais e mapas existentes de campanha/dungeons que passarem pela revisão. Planta ainda sem imagem utilizável recebe ficha textual e indicação da lacuna; não recebe mapa genérico para parecer pronta.</p>
+<h2 id="10-fonte-unica-e-atualizacao-dos-dados">10. Fonte única e atualização dos dados</h2>
+<h3 id="ordem-editorial">Ordem editorial</h3>
+<ol>
+<li>Decisão explícita mais recente do PO.</li>
+<li>Documentos correspondentes da pasta <strong>Direção atual</strong>.</li>
+<li>Volumes de consulta vigentes na raiz da pasta da Área de Trabalho.</li>
+<li>Fontes estruturadas equivalentes do projeto, somente se conferidas contra essa edição.</li>
+<li>Arquivos históricos, consultados para contexto e nunca promovidos automaticamente.</li>
+</ol>
+<p>Conflito vira registro de conciliação. O estado efetivamente implementado exige evidência própria; a precedência editorial não permite afirmar que uma mudança de design já está no aplicativo.</p>
+<h3 id="pipeline-proposto">Pipeline proposto</h3>
+<pre><code class="language-text">Documentos da Área de Trabalho preservados
+  → inventário, edição e hash
+  → extração para área privada de trabalho
+  → conciliação, unidades, IDs e relações
+  → JSON tipado + guias em Markdown revisado
+  → validação automática
+  → fichas, listagens, busca, atlas e sitemap
+  → prévia visual → publicação → histórico
+</code></pre>
+<p>PDFs com tabelas exigem conferência visual: uma linha quebrada pode deslocar preço, requisito ou dano para o item seguinte. Não fazer publicação automática a partir do texto extraído. Importação deve ser idempotente, mostrar diferenças e preservar a edição anterior.</p>
+<p>Cada registro usa ID editorial estável, separado de <code>sourceId</code>/ID legado do jogo, slug, título, categoria, escopo, estado, spoiler, versão, atributos e referências. IDs técnicos nunca viram nomes do jogador.</p>
+<p>Cada atributo numérico material pode trazer unidade, contexto e origem. Relações como “vende”, “requer”, “recompensa”, “ocorre em”, “forja” e “desbloqueia” são tipadas; as relações inversas são calculadas. Não digitar listas de drops separadas na criatura e no item.</p>
+<p>Referência pública: título do documento, edição, página/seção e nota de revisão. Caminho local, hash e decisão de conciliação ficam no manifesto de manutenção. Não publicar a pasta de produção inteira, caminhos pessoais, instruções de agentes, scripts ou arquivos-fonte de assets.</p>
+<p>Usar os documentos como base não implica disponibilizar todos os PDFs para download. O conteúdo editorial relevante será transformado em páginas. O livro integral e os bastidores técnicos exigem decisão editorial própria antes de serem oferecidos como arquivos públicos.</p>
+<h2 id="11-arquitetura-tecnica-de-implementacao">11. Arquitetura técnica de implementação</h2>
+<p>Manter a aplicação Next.js existente e começar com dados versionados no repositório. O volume documental não justifica introduzir banco externo, login ou CMS antes de existir uma necessidade real de edição simultânea.</p>
+<h3 id="estrutura-proposta">Estrutura proposta</h3>
+<pre><code class="language-text">src/app/morvelio/wiki/
+  layout.tsx
+  page.tsx
+  busca/page.tsx
+  [categoria]/page.tsx
+  [categoria]/[slug]/page.tsx
+src/components/morvelio/wiki/
+  WikiShell, WikiSearch, WikiFilters, WikiTable
+  EntityHeader, FactTable, RelatedEntries, SourceNote
+  SpoilerGate, AtlasViewer, ItemCompare
+src/content/morvelio/wiki/
+  schema.ts, categories.ts, registry.ts
+  entities/*.json
+  guides/                      # conteúdo revisado, sem execução arbitrária
+  sources.public.json
+src/lib/morvelio/wiki/
+  queries.ts, relations.ts, search.ts, routes.ts
+tools/morvelio-wiki/
+  import, validate, build-search
+docs/morvelio-wiki/
+  plano, manifesto privado de fontes, conciliações e QA
+public/projects/morvelio/wiki/
+  icons/, portraits/, maps/
+</code></pre>
+<p>As páginas especiais como busca, mundo e atualizações têm resolução explícita; não são aceitas como categorias genéricas por acidente. Tipos e registry controlam quais categorias existem.</p>
+<ul>
+<li><strong>Renderização:</strong> fichas e páginas editoriais pré-renderizadas quando possível; listagens têm HTML útil; interatividade fica restrita a busca, filtros, spoilers, comparação e mapas.</li>
+<li><strong>Consulta:</strong> índice compacto gerado no build. A página de resultados resolve a consulta no servidor para links compartilháveis; sugestões no cliente carregam índice resumido sob demanda. Sem enviar todas as fichas e todos os spoilers no JavaScript inicial.</li>
+<li><strong>Segurança:</strong> campos validados por lista permitida; texto renderizado como texto; Markdown sanitizado; sem importar HTML bruto dos PDFs. Nenhuma chave privada ou caminho local entra no bundle público.</li>
+<li><strong>SEO:</strong> título e descrição próprios, canonical, breadcrumbs e sitemap das fichas publicadas. Buscas e combinações arbitrárias de filtros ficam fora do sitemap e com política de indexação própria. Respeitar o bloqueio global existente do site.</li>
+<li><strong>Performance:</strong> imagens responsivas e carregamento tardio, dimensões explícitas, mapa em alta resolução somente ao solicitar. Evitar carregar o livro de aproximadamente 80 MB para abrir a wiki.</li>
+<li><strong>Métricas de aceite:</strong> Lighthouse de produção ≥90 nas quatro categorias já exigidas pelo site; sem regressão visível de CLS, LCP ou navegação. Registrar ambiente e medições, não prometer resultado antes do teste.</li>
+</ul>
+<h3 id="pontos-reais-do-repositorio-que-precisam-mudar">Pontos reais do repositório que precisam mudar</h3>
+<table>
+<thead>
+<tr>
+<th>Arquivo/área existente</th>
+<th>Alteração planejada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/app/projects/morvelio/page.tsx</code></td>
+<td>Apresentação específica e entrada clara para a wiki</td>
+</tr>
+<tr>
+<td><code>src/content/projects.ts</code></td>
+<td>Ícone, apresentação, pilares e links de Morvelio</td>
+</tr>
+<tr>
+<td><code>src/content/types.ts</code></td>
+<td>Extensões mínimas para CTA/área de conteúdo se necessárias</td>
+</tr>
+<tr>
+<td><code>src/content/navigation.ts</code> e componentes de navegação</td>
+<td>Descoberta da wiki no contexto de Morvelio</td>
+</tr>
+<tr>
+<td><code>src/lib/routes.ts</code></td>
+<td>Registrar raiz e utilitários das rotas da wiki</td>
+</tr>
+<tr>
+<td><code>src/app/sitemap.ts</code></td>
+<td>Acrescentar URLs geradas dos registros publicados</td>
+</tr>
+<tr>
+<td><code>src/lib/routes.test.ts</code></td>
+<td>Substituir pressuposto de página física para cada URL por validação adequada das rotas dinâmicas; manter cobertura das rotas estáticas</td>
+</tr>
+<tr>
+<td><code>src/lib/metadata.ts</code></td>
+<td>Ícone/arte social atual, com dimensões reais por asset</td>
+</tr>
+<tr>
+<td><code>src/lib/image-delivery.test.ts</code> e <code>tools/check-saas-pages.mjs</code></td>
+<td>Atualizar a expectativa do arquivo de ícone e conferir entrega da nova imagem</td>
+</tr>
+<tr>
+<td>Novos módulos de conteúdo e validação</td>
+<td>Integridade, versões, relações, fontes e busca</td>
+</tr>
+</tbody>
+</table>
+<p>Hoje o teste de rotas fixa 70 URLs e procura <code>page.tsx</code> literal para todas. Não desativá-lo para acomodar a wiki: dividir cobertura estática e geração dinâmica, testar slugs conhecidos/desconhecidos e o sitemap gerado. Evitar reescrever o componente genérico de todos os jogos para atender uma necessidade exclusiva de Morvelio.</p>
+<h2 id="12-atualizacao-da-apresentacao-de-morvelio">12. Atualização da apresentação de Morvelio</h2>
+<h3 id="composicao-proposta">Composição proposta</h3>
+<ol>
+<li>Novo ícone com <strong>MORVELIO</strong>, título e frase: “Em Velidor o mal já venceu, e só os aventureiros se recusam a aceitar.”</li>
+<li>Introdução sobre campanha solo, identidade das sete classes e luta por Velidor, com estado do projeto visível.</li>
+<li>CTAs: <strong>Explorar a wiki</strong> e <strong>Conhecer o mundo</strong>; loja somente quando houver ficha e estado confirmados.</li>
+<li>Blocos sobre combate, dungeons/Castelo, equipamento/forja e refúgio/casa, marcados conforme implementação.</li>
+<li>Capturas reais do protótipo separadas de ilustrações promocionais.</li>
+<li>Erdávia e o livro como universo da saga; continentes, cinco reinos e famílias apresentados no escopo literário correto.</li>
+<li>Entrada editorial para classes, mapas, itens e missões, seguida dos links de suporte já existentes.</li>
+</ol>
+<p>A ambição deve aparecer na riqueza e na conexão do conteúdo. Não anunciar MMO disponível, mundo inteiro explorável, horas de campanha, lançamento, qualidade AAA comprovada ou quantidade ilimitada de conteúdo sem evidência.</p>
+<p><strong>Ícone fonte:</strong> <code>Divulgação/Nova identidade - Orbe/02B_ICONE_MORVELIO_MONTANHA_TOON_v02_COM_NOME.png</code>, na Área de Trabalho. Criar derivados web com nomes novos e cache seguro, preservar o master e conferir legibilidade em tamanho real. A imagem quadrada não deve declarar dimensões 1200×630 em metadados; gerar uma composição social adequada ou declarar dimensões verdadeiras.</p>
+<p>Há uma divergência a resolver na implementação: banners anteriormente aprovados dizem App Store disponível, enquanto o código atual não tem URL de loja e informa protótipo. Preparar toda a página sem bloqueio; só fechar o botão/status público com a ficha correta verificada. Não inferir endereço de loja ou usar banner contraditório como evidência de distribuição.</p>
+<h2 id="13-plano-por-lotes-com-entregas-e-aceite">13. Plano por lotes, com entregas e aceite</h2>
+<table>
+<thead>
+<tr>
+<th>Lote</th>
+<th>Trabalho</th>
+<th>Entrega verificável</th>
+<th>Dependência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W0 · Inventário</td>
+<td>Congelar edições, extrair fontes, conciliar classes/broches/eras e listar lacunas</td>
+<td>Manifesto, matriz de entidades, relatório de conflitos</td>
+<td>Documentos da Área de Trabalho</td>
+</tr>
+<tr>
+<td>W1 · Fundação</td>
+<td>Rotas, shell, navegação, schema, registry e ficha base</td>
+<td>Portal e fichas navegáveis em prévia; 404 e fontes funcionando</td>
+<td>W0</td>
+</tr>
+<tr>
+<td>W2 · Corte completo</td>
+<td>Cavaleiro, uma habilidade documentada, broche, missão J13, Bento/receita confirmada e lugar relacionado</td>
+<td>Busca → ficha → requisito → lugar; relações inversas; ensaio mobile</td>
+<td>W1 e relações confirmadas</td>
+</tr>
+<tr>
+<td>W3 · Catálogos</td>
+<td>Todas as classes, habilidades, itens, receitas, NPCs, criaturas e chefes extraídos e revisados</td>
+<td>Listagens com filtros e cobertura conciliada com fontes</td>
+<td>W2 aprovado tecnicamente</td>
+</tr>
+<tr>
+<td>W4 · Jornada e atlas</td>
+<td>93 missões documentadas, regiões, C/P/M, atlas e cinco reinos</td>
+<td>Cadeias navegáveis, mapas e ligações com encontros</td>
+<td>W3 e dados de mapas</td>
+</tr>
+<tr>
+<td>W5 · Guias e crônicas</td>
+<td>Controles, progressão, forja, casa, endgame e história</td>
+<td>Guias relacionados; spoilers sem vazamento na busca/prévias</td>
+<td>W3–W4</td>
+</tr>
+<tr>
+<td>W6 · Página e ícone</td>
+<td>Nova apresentação, iconografia, prévias sociais e acessos globais</td>
+<td>Página do jogo integrada à wiki, com status correto</td>
+<td>W1; conteúdo final de W3–W5</td>
+</tr>
+<tr>
+<td>W7 · Qualidade e publicação</td>
+<td>Comparação de itens, revisão integral, testes, prévia e implantação</td>
+<td>Relatório, URL de prévia, build e versão recuperável</td>
+<td>W0–W6</td>
+</tr>
+</tbody>
+</table>
+<p>W2 é um ensaio de ponta a ponta para corrigir o modelo antes de cadastrar tudo. <strong>Não é a entrega final pedida.</strong> A primeira versão completa só termina com W0–W7 e a cobertura dos documentos conciliada. Não criar centenas de páginas vazias para contar volume.</p>
+<p>Sem prazo artificial neste plano: estimar duração depois de W0, quando houver contagem real de registros, tabelas problemáticas e imagens prontas. Cada lote encerra com evidência, sem necessidade de perguntar novamente sobre decisões já tomadas neste plano.</p>
+<h2 id="14-criterios-de-pronto">14. Critérios de pronto</h2>
+<h3 id="conteudo-e-coerencia">Conteúdo e coerência</h3>
+<ul>
+<li>Sete classes corretas; nove broches; nomes pessoais do livro preservados como personagens.</li>
+<li>As 93 missões da edição consultada têm registro ou exceção individual justificada. Se uma versão posterior alterar o total, registrar a diferença.</li>
+<li>Todo registro publicado possui fonte e estado; todo número tem unidade e contexto suficientes.</li>
+<li>IDs únicos; relações sem destino inexistente; cadeias de missão sem ciclos acidentais. Recorrência diária/semanal é modelada separadamente dos pré-requisitos.</li>
+<li>Drops, receitas e vendedores não são inventados; itens futuros não aparecem como obtidos no build.</li>
+<li>Diagramas/planta proposta não são rotulados como captura ou localização comprovada.</li>
+</ul>
+<h3 id="fluxos-a-testar">Fluxos a testar</h3>
+<ol>
+<li>Buscar “broche da guarda”, abrir a ficha e chegar à missão J13.</li>
+<li>Abrir Bento, encontrar os equipamentos que ele realmente forja e consultar custos documentados.</li>
+<li>Abrir uma classe, navegar por habilidade e arma compatível, voltando à consulta anterior.</li>
+<li>Seguir uma cadeia de missão até a entrada de dungeon e conferir o requisito.</li>
+<li>Comparar dois broches sem misturar números de edições diferentes.</li>
+<li>Explorar Erdávia sem concluir que os cinco reinos estão jogáveis no mobile.</li>
+<li>Buscar e navegar com spoilers desligados sem revelar finais em texto, imagens ou metadados.</li>
+</ol>
+<h3 id="interface-e-engenharia">Interface e engenharia</h3>
+<ul>
+<li>Mobile em 360/390 px, tablet e desktop; zoom de 200%; nenhuma rolagem horizontal da página por tabelas ou nomes longos.</li>
+<li>Busca/filtros navegáveis por teclado; foco restaurado nos painéis; controles com alvos adequados; contraste AA; movimento reduzido respeitado.</li>
+<li>Conteúdo principal e links úteis sem JavaScript; nenhuma página depende exclusivamente de tooltip.</li>
+<li>Fichas, imagens, links, filtros compartilháveis, Back, 404, canonical e sitemap conferidos no build de produção.</li>
+<li>Rodar lint, typecheck, testes, auditor de conteúdo e build existentes. Antes do build, conferir o <code>prebuild</code>: ele invoca migração de onboarding quando configurada; usar ambiente de prévia isolado, sem apontar uma validação editorial a dados de produção.</li>
+<li>Não expor fontes internas, informações pessoais, credenciais ou assets de terceiros redistribuíveis apenas dentro do jogo.</li>
+</ul>
+<h2 id="15-publicacao-manutencao-e-limites">15. Publicação, manutenção e limites</h2>
+<p>Implementar em branch/check-out isolado se houver outro trabalho em andamento. Há dois arquivos de ícone do Gramelio não rastreados no site; eles são alheios a esta tarefa e devem ser preservados.</p>
+<p>Gerar prévia revisável e registrar commit, versão do conjunto de dados e resultados. A autorização deste pedido é para <strong>preparar o plano</strong>; nenhuma mudança em produção faz parte desta entrega. Na futura implementação, a promoção para o domínio deve ocorrer depois da revisão do resultado concreto e da autorização aplicável.</p>
+<p>Publicação futura mantém a implantação anterior disponível para recuperação; verificar <code>/projects/morvelio</code>, raiz da wiki, fichas, busca, imagens e rotas legais após promover. Se falhar, recuperar a implantação anterior sem apagar os dados editoriais revisados.</p>
+<p>Atualizações posteriores: detectar fontes alteradas por hash, importar para staging, revisar diferenças, validar relações, regenerar índices e registrar resumo em “Atualizações da wiki”. Não alterar a data de todas as fichas quando somente uma receita mudar.</p>
+<p><strong>Fora da primeira entrega:</strong> contas de leitores, comentários, fórum, builds de usuários, votação, anúncios, calculadora de dano sem fórmulas verificadas e integração automática ao save. Podem ser expansões posteriores; não são necessários para entregar uma wiki de consulta completa e profissional.</p>
+<h2 id="16-ordem-de-execucao-para-retomada">16. Ordem de execução para retomada</h2>
+<p>Começar por <strong>W0 e W1</strong>, preservando a base Desktop e gerando um inventário revisável. Em seguida, completar W2 para validar o modelo de dados e a navegação. Expandir pelo conteúdo real até W7. Se houver conflito, registrar a divergência e manter a informação com estado correto; não preencher lacunas com invenções.</p>
+<p><strong>Entrega deste planejamento:</strong> este Markdown, uma versão HTML de leitura e o manifesto de fontes, copiados para o projeto do jogo e para <strong>Morvelio - Documentação/Wiki do site</strong> na Área de Trabalho. Nenhum código de jogo, site em produção ou PDF original foi modificado.</p></main></div><footer>Planejamento de implementação. Esta entrega não altera o site em produção.</footer></body></html>

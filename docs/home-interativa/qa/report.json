@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:3018",
+  "checks": [
+    "WebGL inicializa; estações mudam câmera, texto e destino",
+    "Três negócios, troca de identidade, carrinho, reserva e briefing preservado",
+    "Expedição completa por controles reais: pausa, combate, coleta e vitória",
+    "360/390/768/1440 px, prévia celular, uma região main e um título h1",
+    "Movimento reduzido respeitado; conteúdo e contato disponíveis sem JavaScript",
+    "Sem WebGL: imagem alternativa, estações e links continuam funcionando"
+  ],
+  "errors": [],
+  "shots": [
+    "docs/home-interativa/qa/home-360.png",
+    "docs/home-interativa/qa/home-390.png",
+    "docs/home-interativa/qa/home-768.png",
+    "docs/home-interativa/qa/home-1440.png"
+  ],
+  "passed": true
+}

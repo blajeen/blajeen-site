@@ -87,6 +87,7 @@ export function ProjectPreview({ projeto }: { projeto: Project }) {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
+            {projeto.id === 'morvelio' ? <Link href="/morvelio/wiki" className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper">Explorar a wiki →</Link> : null}
             <Link
               href={rotas.pagina}
               className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full bg-signal px-5 text-ink transition-opacity duration-150 hover:opacity-88"

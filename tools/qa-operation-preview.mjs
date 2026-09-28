@@ -1,0 +1,38 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch();
+try{
+const page=await browser.newPage({viewport:{width:1440,height:1050},reducedMotion:'reduce'});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto((process.argv[2]??'http://127.0.0.1:3017')+'/#configurador');
+await page.getByLabel('Nome na prévia').fill('CASA BOTÂNICA');
+await page.getByRole('button',{name:'Adicionar Bowl da estação'}).click();
+await page.getByRole('button',{name:'Simular pedido'}).click();
+assert.equal(await page.getByRole('button',{name:'Simular pedido'}).isDisabled(),true);
+await page.getByRole('button',{name:'Ver pedido no painel da operação'}).click();
+assert.equal(await page.locator('.hx-control-card').count(),6);
+assert.match(await page.locator('.hx-operation header').innerText(),/CASA BOTÂNICA/);
+assert.match(await page.locator('.hx-operation-order').innerText(),/38,00/);
+for(let i=0;i<3;i++)await page.getByRole('button',{name:'Avançar etapa'}).click();
+assert.match(await page.locator('.hx-operation-order-footer').innerText(),/Fluxo concluído/);
+await page.locator('.hx-preview-area').screenshot({path:'docs/polimento-visual/qa/operation-desktop.png'});
+await page.getByRole('button',{name:/^Loja/}).click();
+assert.equal(await page.locator('.hx-operation-order').count(),0);
+await page.getByRole('button',{name:'Experimentar o site'}).click();
+await page.getByRole('button',{name:'Adicionar Luminária Arco'}).click();
+await page.getByRole('button',{name:'Simular pedido'}).click();
+await page.getByRole('button',{name:'Ver pedido no painel da operação'}).click();
+assert.match(await page.locator('.hx-operation-order').innerText(),/289,00/);
+await page.getByRole('button',{name:/^Servi/}).click();
+await page.getByRole('button',{name:'Experimentar o site'}).click();
+await page.getByRole('button',{name:'Escolher Consulta inicial'}).click();
+await page.locator('.hx-demo-checkout select').selectOption('17:00');
+await page.getByRole('button',{name:'Simular reserva'}).click();
+await page.getByRole('button',{name:'Ver reserva no painel da operação'}).click();
+assert.match(await page.locator('.hx-operation-order').innerText(),/17:00/);
+await page.setViewportSize({width:390,height:844});
+await page.locator('.hx-preview-area').screenshot({path:'docs/polimento-visual/qa/operation-mobile.png'});
+assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+assert.deepEqual(errors,[]);
+console.log('Brand, orders, stages, business separation, booking and mobile passed.');
+}finally{await browser.close();}

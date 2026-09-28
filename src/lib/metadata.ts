@@ -7,8 +7,8 @@ export const OG = {
   docalio: '/og/docalio.png',
   gramelio: '/og/gramelio.png',
   catelio: '/projects/catelio/catelio-icon-512.png',
-  morvelio: '/projects/morvelio/morvelio-icon-montanha-toon-512.webp',
-  mazelio: '/projects/mazelio/mazelio-icon-512.webp',
+  morvelio: '/projects/morvelio/morvelio-icon-montanha-nome-v04.webp',
+  mazelio: '/projects/mazelio/mazelio-icon-rei-v2.webp',
   socialio: '/projects/socialio/socialio-icon-cafe.webp',
 } as const;
 
@@ -54,7 +54,7 @@ export function metadadosDaRota({
       url,
       title: ogTitulo ?? titulo,
       description: ogDescricao ?? descricao,
-      images: semImagem ? [] : [{ url: urlAbsoluta(imagem), width: 1200, height: 630, alt: imagemAlt }],
+      images: semImagem ? [] : [{ url: urlAbsoluta(imagem), width: imagem === OG.morvelio ? 512 : 1200, height: imagem === OG.morvelio ? 512 : 630, alt: imagemAlt }],
     },
     twitter: {
       card: 'summary_large_image',

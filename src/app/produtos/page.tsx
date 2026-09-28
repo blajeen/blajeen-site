@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import { ScreenshotFrame } from '@/components/projects/ScreenshotFrame';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
@@ -94,17 +94,7 @@ export default function ProdutosPage() {
                   aria-hidden="true"
                   className="group block overflow-hidden rounded-[var(--radius-control)] border border-line lg:col-span-4"
                 >
-                  <Image
-                    src={produto.imagem.src}
-                    alt=""
-                    width={900}
-                    height={700}
-                    sizes="(min-width: 64rem) 24rem, 100vw"
-                    // A primeira entra sem esperar: ela divide a dobra com o título e é
-                    // a maior coisa que a página desenha ali.
-                    priority={i === 0}
-                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
+                  <ScreenshotFrame src={produto.imagem.src} alt="" label={produto.nome} priority={i === 0}/>
                 </Link>
 
                 <div className="lg:col-span-5">

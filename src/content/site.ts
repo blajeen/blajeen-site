@@ -17,6 +17,12 @@ export const site = {
   footerLinha: 'Produtos digitais, jogos e soluções personalizadas para ideias e negócios reais.',
   ano: 2026,
   idioma: 'pt-BR',
+  /**
+   * CNPJ do titular (Breno Ricardo Guimaraes, Empresário Individual), confirmado via Cartão CNPJ
+   * em 28/09/2026. Exibido no rodapé; não resolve sozinho o bloqueador `titularDocumento` dos
+   * textos jurídicos, que ainda depende da decisão pessoa física x jurídica em `titularNome`.
+   */
+  cnpj: '57.194.521/0001-44',
   instagram: {
     rotulo: '@blajeenlab',
     url: 'https://www.instagram.com/blajeenlab/',

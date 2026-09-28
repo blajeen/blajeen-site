@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { ScreenshotFrame } from './ScreenshotFrame';
 import Link from 'next/link';
 import type { SaasProduct } from '@/content/saas';
 import { ProductIcon } from './ProductIcon';
@@ -12,12 +12,7 @@ export function SaasCard({ produto, nivel = 3 }: { produto: SaasProduct; nivel?:
   return (
     <article id={produto.id} className="flex h-full min-w-0 scroll-mt-28 flex-col overflow-hidden rounded-[var(--radius-panel)] border border-line bg-raised/80">
       <Link href={produto.rota} aria-label={`Conhecer ${produto.nome}`} className="group block border-b border-line bg-surface p-3 sm:p-4">
-        <div className="media-pattern relative aspect-[8/5] overflow-hidden rounded-[var(--radius-control)] border border-line bg-[#f4f4f0]">
-          <Image src={produto.imagens[0].src} alt={produto.imagens[0].descricao} fill
-            sizes="(min-width: 1800px) 820px, (min-width: 1024px) 46vw, calc(100vw - 7rem)"
-            quality={95}
-            className="object-contain transition-opacity group-hover:opacity-90" />
-        </div>
+        <ScreenshotFrame src={produto.imagens[0].src} alt={produto.imagens[0].descricao} label={produto.nome}/>
       </Link>
       <div className="flex flex-1 flex-col p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">

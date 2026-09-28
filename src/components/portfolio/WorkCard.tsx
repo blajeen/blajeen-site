@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { ScreenshotFrame } from '@/components/projects/ScreenshotFrame';
 import Link from 'next/link';
 import type { Trabalho } from '@/content/portfolio';
 
@@ -11,19 +11,14 @@ export function WorkCard({ trabalho, destaque = false }: { trabalho: Trabalho; d
           destaque ? 'lg:grid-cols-[1.2fr_0.8fr]' : ''
         }`}
       >
-        <div className={`relative overflow-hidden bg-surface ${destaque ? 'min-h-72 lg:min-h-[30rem]' : 'min-h-52 sm:aspect-[32/15] sm:min-h-0'}`}>
-          <Image
-            src={trabalho.capa}
-            alt={trabalho.capaAlt}
-            fill
-            sizes={destaque ? '(min-width: 1024px) 58vw, 100vw' : '(min-width: 1024px) 45vw, 100vw'}
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-transparent to-transparent" />
+        <div className={trabalho.painel ? 'grid grid-cols-2 gap-2 bg-surface p-3' : ''}>
+          <ScreenshotFrame src={trabalho.capa} alt={trabalho.capaAlt} label={trabalho.painel ? 'Site público' : trabalho.cliente} />
+          {trabalho.painel?.imagens[0] ? <ScreenshotFrame src={trabalho.painel.imagens[0].src} alt={trabalho.painel.imagens[0].alt} label={trabalho.painel.demonstracao ? "Painel · demonstrativo" : "Painel de gestão"} /> : null}
         </div>
         <div className="flex flex-col p-7 sm:p-9">
           <p className="tecnica text-signal">{trabalho.categoria}</p>
           {trabalho.fase ? <p className="tecnica mt-3 text-mineral-dim">{trabalho.fase}</p> : null}
+          {trabalho.painel ? <p className="tecnica mt-3 text-signal">{trabalho.painel.demonstracao ? "SITE + PROPOSTA DO PAINEL" : "SITE + PAINEL · VER AS DUAS EXPERIÊNCIAS"}</p> : null}
           <h3 className="mt-5 text-[clamp(2rem,4vw,3.5rem)] leading-[0.98] tracking-[-0.05em]">
             {trabalho.cliente}
           </h3>

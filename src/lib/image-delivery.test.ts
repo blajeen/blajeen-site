@@ -11,7 +11,7 @@ describe('Entrega de imagens', () => {
   });
 
   it('usa o ícone oficial do Morvelio no site e no compartilhamento', () => {
-    expect(morvelio.icone?.src).toBe('/projects/morvelio/morvelio-icon-montanha-toon-512.webp');
+    expect(morvelio.icone?.src).toBe('/projects/morvelio/morvelio-icon-montanha-nome-v04.webp');
     expect(OG.morvelio).toBe(morvelio.icone?.src);
     expect(existsSync(join(process.cwd(), 'public', OG.morvelio))).toBe(true);
   });

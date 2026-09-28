@@ -18,12 +18,16 @@ export type Trabalho = {
   readonly siteRotulo: string;
   readonly fase?: string;
   readonly formatoImagens?: 'telas' | 'fotografias';
+  readonly painel?: { readonly demonstracao?: boolean; readonly descricao: string; readonly imagens: readonly { src: string; alt: string }[] };
   readonly imagens: readonly { src: string; alt: string }[];
 };
 
 export const trabalhos: readonly Trabalho[] = [
   {
     id: 'dom-guima',
+    painel: { descricao: 'Catálogo, estoque, pedidos e atendimento reunidos em uma operação própria para a loja.', imagens: [
+      { src: '/trabalhos/dom-guima/painel-visao-geral.webp', alt: 'Painel Dom Guima: visão geral do catálogo, estoque, atendimento e atalhos da operação.' },
+    ] },
     cliente: 'Dom Guima',
     categoria: 'E-COMMERCE / OPERAÇÃO DIGITAL',
     resumo:
@@ -60,12 +64,16 @@ export const trabalhos: readonly Trabalho[] = [
   },
   {
     id: 'dona-lia',
+    painel: { descricao: 'Gestão de reservas, quartos e conteúdo, com um guia de uso acessível também pelo celular.', imagens: [
+      { src: '/trabalhos/dona-lia/painel-fotos.webp', alt: 'Painel da Dona Lia: gestão de fotos com prévia do site no celular.' },
+      { src: '/trabalhos/dona-lia/painel-guia.webp', alt: 'Painel da Dona Lia no celular: guia pesquisável e navegação para agenda, reservas e ocorrências.' },
+    ] },
     cliente: 'Pousada Dona Lia',
     categoria: 'HOSPEDAGEM / SITE / GESTÃO',
-    fase: 'EM HOMOLOGAÇÃO',
+    fase: 'NO AR',
     resumo: 'Presença digital para uma pousada, com apresentação das acomodações, contato direto e painel privado para organizar reservas.',
     desafio: 'Apresentar os quartos com clareza e dar à equipe um fluxo próprio para acompanhar a operação sem depender de planilhas dispersas.',
-    solucao: 'Construímos um site responsivo para conhecer a pousada e suas acomodações, com contato via WhatsApp, conectado a um painel privado de gestão de reservas. O projeto está em homologação.',
+    solucao: 'Construímos um site responsivo para conhecer a pousada e suas acomodações, com contato via WhatsApp, conectado a um painel privado de gestão de reservas. Os sites e painéis estão no ar.',
     tituloEntrega: 'Hospitalidade na vitrine. Organização nos bastidores.',
     contribuicoes: [
       'Estrutura e identidade da experiência digital',
@@ -78,7 +86,7 @@ export const trabalhos: readonly Trabalho[] = [
     capaAlt: 'Página inicial da Pousada Dona Lia com apresentação do espaço.',
     href: ROTAS.trabalhoDonaLia,
     site: 'https://www.donaliahotel.com.br',
-    siteRotulo: 'VER PRÉVIA DA POUSADA',
+    siteRotulo: 'VISITAR A POUSADA',
     formatoImagens: 'telas',
     imagens: [
       { src: '/trabalhos/dona-lia/acomodacoes.webp', alt: 'Página das acomodações da Pousada Dona Lia.' },
@@ -87,12 +95,16 @@ export const trabalhos: readonly Trabalho[] = [
   },
   {
     id: 'spot-hotel',
+    painel: { descricao: 'A equipe administra fotos e conteúdo do site, agenda, quartos, reservas e relatórios em um painel próprio.', imagens: [
+      { src: '/trabalhos/spot-hotel/painel-fotos.webp', alt: 'Painel do Spot: escolha das fotos, ordem e enquadramento com prévia do site no celular.' },
+      { src: '/trabalhos/spot-hotel/painel-relatorios.webp', alt: 'Painel do Spot: relatórios da semana, manutenção por quarto e conferência com o Booking.' },
+    ] },
     cliente: 'Spot Hotel e Pousada',
     categoria: 'HOSPEDAGEM / SITE / GESTÃO',
-    fase: 'EM HOMOLOGAÇÃO',
+    fase: 'NO AR',
     resumo: 'Site de hospedagem com foco em quartos e reservas, acompanhado de um painel próprio para agenda, hóspedes e operação.',
     desafio: 'Unir uma apresentação acolhedora para o hóspede a ferramentas claras para quem administra acomodações e reservas.',
-    solucao: 'Desenvolvemos o site público e um painel privado para acompanhar quartos, agenda, reservas, hóspedes e ocorrências. O projeto está em homologação.',
+    solucao: 'Desenvolvemos o site público e um painel privado para acompanhar quartos, agenda, reservas, hóspedes e ocorrências. Os sites e painéis estão no ar.',
     tituloEntrega: 'Um caminho para o hóspede. Outro para a equipe.',
     contribuicoes: [
       'Arquitetura da experiência de hospedagem',
@@ -105,7 +117,7 @@ export const trabalhos: readonly Trabalho[] = [
     capaAlt: 'Página inicial do Spot Hotel e Pousada apresentando a hospedagem.',
     href: ROTAS.trabalhoSpotHotel,
     site: 'https://www.spothotel.com.br',
-    siteRotulo: 'VER PRÉVIA DO HOTEL',
+    siteRotulo: 'VISITAR O HOTEL',
     formatoImagens: 'telas',
     imagens: [
       { src: '/trabalhos/spot-hotel/acomodacoes.webp', alt: 'Página das acomodações do Spot Hotel e Pousada.' },
@@ -114,6 +126,9 @@ export const trabalhos: readonly Trabalho[] = [
   },
   {
     id: 'agro-weld',
+    painel: { demonstracao: true, descricao: 'O material de apresentação reúne a proposta de gestão de produtos, categorias, orçamentos e conteúdo. A imagem abaixo é um demonstrativo do painel, não uma captura da operação em produção.', imagens: [
+      { src: '/trabalhos/agro-weld/demonstrativo-painel.webp', alt: 'Demonstrativo do painel Agro Weld extraído da apresentação do projeto: produtos, categorias, orçamentos e conteúdo.' },
+    ] },
     cliente: 'Agro Weld',
     categoria: 'COMÉRCIO / CATÁLOGO DIGITAL',
     resumo: 'Vitrine digital de EPIs em couro, vestimentas agrícolas e uniformes, com navegação por produtos e caminhos para compra ou orçamento.',

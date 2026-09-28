@@ -202,6 +202,7 @@ export function SiteNav() {
                     <span aria-hidden="true" className={styles.avanco}>→</span>
                   </Link>
                 ))}
+                {menu === 'jogos' ? <Link href="/morvelio/wiki" className={styles.jogo}><span>Morvelio Wiki · itens, missões e atlas →</span></Link> : null}
               </div>
             </li>
           );

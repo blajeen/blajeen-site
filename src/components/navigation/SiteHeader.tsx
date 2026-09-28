@@ -2,13 +2,22 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { MobileSideNav } from '@/components/navigation/MobileSideNav';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { NavDrawer } from '@/components/navigation/NavDrawer';
 import { SiteNav } from '@/components/navigation/SiteNav';
 import { ROTAS } from '@/lib/routes';
 
 export function SiteHeader() {
   const [rolado, setRolado] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const fecharMenu = useCallback(() => setMenuAberto(false), []);
+  useEffect(() => {
+    const size = window.matchMedia('(min-width: 80rem)');
+    const close = () => { if (size.matches) setMenuAberto(false); };
+    size.addEventListener('change', close);
+    return () => size.removeEventListener('change', close);
+  }, []);
 
   // Superfície translúcida só depois do primeiro scroll — o header não compete com o hero.
   useEffect(() => {
@@ -22,7 +31,7 @@ export function SiteHeader() {
     <>
       <header
         data-rolado={rolado}
-        className="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300 data-[rolado=true]:border-line data-[rolado=true]:bg-ink/72 data-[rolado=true]:backdrop-blur-xl"
+        className="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300 data-[rolado=true]:border-line data-[rolado=true]:bg-ink/72 data-[rolado=true]:backdrop-blur-xl"
       >
         {/* Sinal verde-ácido muito discreto na aresta do header. */}
         <span
@@ -51,13 +60,14 @@ export function SiteHeader() {
               unoptimized
               className="size-11 rounded-full object-cover ring-1 ring-line-strong transition-transform duration-200 group-hover:scale-[1.04] sm:size-12"
             />
-            <span className="sr-only">Blajeen Labs</span>
+            <span className="header-wordmark">BLAJEEN <span>LABS</span></span>
           </Link>
 
           <SiteNav />
+          <div className="mobile-header-actions"><Link href="/crie-seu-projeto" className="mobile-project-link">Criar projeto ↗</Link><button ref={menuButton} type="button" aria-expanded={menuAberto} aria-controls="site-mobile-menu" className="mobile-menu-button" onClick={() => setMenuAberto(true)}>Menu <span aria-hidden="true"><i/><i/></span></button></div>
         </div>
       </header>
-      <MobileSideNav />
+      <NavDrawer id="site-mobile-menu" aberto={menuAberto} aoFechar={fecharMenu} acionador={menuButton}/>
     </>
   );
 }

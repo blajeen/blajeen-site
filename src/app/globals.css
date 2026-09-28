@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './polish.css';
 
 /*
  * Tokens do sistema premium — docs/PLANO_MESTRE_DO_SITE.md §3.
@@ -9,7 +10,7 @@
   --color-surface: #11130f;
   --color-raised: #171a15;
   --color-paper: #e7e7df;
-  --color-mineral: #9a9d93;
+  --color-mineral: #a5ada1;
   /*
    * A linha técnica usa 11 px, então precisa de 4,5:1. Este valor entrega 5,6:1 sobre `ink`,
    * 5,3:1 sobre `surface` e 4,9:1 sobre `raised` — AA em todas as superfícies do sistema.
@@ -25,7 +26,7 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono-tech), ui-monospace, monospace;
 
-  --radius-panel: 28px;
+  --radius-panel: 22px;
   --radius-control: 16px;
 
   --ease-lab: cubic-bezier(0.22, 1, 0.36, 1);
@@ -41,7 +42,7 @@
     --pointer-x: 50vw;
     --pointer-y: 40vh;
     /* Canvas amplo: texto continua medido, mas mídia e grids respiram no desktop. */
-    --layout-max: 110rem;
+    --layout-max: 90rem;
     --gutter: clamp(1.25rem, 3.2vw, 4rem);
     /*
      * Ritmo vertical entre seções.
@@ -119,11 +120,11 @@
   }
 }
 
-/* No mobile, o conteúdo convive com a barra lateral fixa em vez de ficar escondido por uma gaveta. */
+/* A navegação mobile ocupa o cabeçalho; toda a largura fica disponível para o conteúdo. */
 @media (max-width: 79.999rem) {
   body > main,
   body > footer {
-    margin-inline-start: var(--mobile-rail-width);
+    margin-inline-start: 0;
   }
 
   :root {

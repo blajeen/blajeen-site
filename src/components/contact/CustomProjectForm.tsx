@@ -6,7 +6,7 @@ const EMAIL_DESTINO = 'brg.ftw@gmail.com';
 
 const tipos = ['Site', 'Aplicativo', 'Sistema ou plataforma', 'E-commerce', 'Identidade e produto digital', 'Ainda não sei'] as const;
 
-export function CustomProjectForm() {
+export function CustomProjectForm({ ideiaInicial = '' }: { ideiaInicial?: string }) {
   function prepararEmail(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
     const dados = new FormData(evento.currentTarget);
@@ -61,7 +61,7 @@ export function CustomProjectForm() {
         </label>
         <label className="text-sm text-mineral sm:col-span-2">
           Ideia ou necessidade
-          <textarea name="ideia" rows={5} required placeholder="Conte o que você quer colocar em prática, mesmo que ainda esteja no começo." className={campo} />
+          <textarea name="ideia" rows={5} required defaultValue={ideiaInicial} placeholder="Conte o que você quer colocar em prática, mesmo que ainda esteja no começo." className={campo} />
         </label>
         <div className="sm:col-span-2">
           <button type="submit" className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-[#8bddff] bg-[#55bfff] px-6 text-ink transition-colors duration-150 hover:bg-[#8bddff]">

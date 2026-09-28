@@ -168,7 +168,7 @@ export function MorvelioChallenge() {
         <h2 id="challenge-title">
           Algumas ideias
           <br />
-          viram <em>mundos.</em>
+          viram <em>jogos.</em>
         </h2>
         <p className="hx-lead">
           O portal está aberto.

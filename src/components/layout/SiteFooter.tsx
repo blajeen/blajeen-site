@@ -33,16 +33,16 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 xl:grid-cols-5">
+          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-5">
             {grupos.map((grupo) => (
               <FooterGroup key={grupo.titulo} title={grupo.titulo}>
-                <ul className="mt-2 flex flex-col">
+                <ul className="mt-2 flex flex-col gap-0.5">
                   {grupo.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
                         {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
-                        className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
+                        className="inline-flex min-h-11 items-center py-1 text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal md:min-h-0"
                       >
                         {grupo.titulo === 'Social' ? (
                           link.href.includes('instagram.com') ? (
@@ -60,12 +60,12 @@ export function SiteFooter() {
                 {'subgrupo' in grupo ? (
                   <div className="mt-3 border-l border-line pl-3">
                     <h3 className="tecnica text-mineral-dim">{grupo.subgrupo.titulo}</h3>
-                    <ul className="mt-1 flex flex-col">
+                    <ul className="mt-1 flex flex-col gap-0.5">
                       {grupo.subgrupo.links.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="inline-flex min-h-11 items-center text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal"
+                            className="inline-flex min-h-11 items-center py-1 text-sm leading-snug text-mineral transition-colors duration-150 hover:text-signal md:min-h-0"
                           >
                             {link.rotulo}
                           </Link>

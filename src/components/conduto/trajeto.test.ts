@@ -1,4 +1,5 @@
 import {
+  MAXIMO_DE_JUNTAS,
   MEIA_LUVA,
   alturaEm,
   faixaLivre,
@@ -7,6 +8,7 @@ import {
   preenchimentoAte,
   preenchimentoPelaLeitura,
   remapear,
+  resolverLados,
   FLOATS_POR_VERTICE,
   type Caixa,
   type Entrada,
@@ -35,6 +37,7 @@ const botaoFinal: Caixa = { topo: 5490, base: 5538, esquerda: 1138, direita: 134
 function home(destino: Caixa | null = botaoFinal): Entrada {
   return {
     largura: LARGURA,
+    alturaDaTela: 900,
     trechos: [
       { ...trecho('direita', 72, 859, [60, 57.6, 57.6]), conteudo: { topo: 142, base: 799, esquerda: 57.6, direita: 1382.4 } },
       trecho('esquerda', 919, 3518, [90, 57.6, 57.6], [faixaDeChamadas]),
@@ -152,28 +155,112 @@ describe('montarTrajeto', () => {
     expect(alturas).toEqual(expect.arrayContaining([829, 3518, 4433, 5324]));
   });
 
-  it('no celular os trilhos saem da tela e só as travessias e a chegada aparecem', () => {
-    const botao: Caixa = { topo: 7976, base: 8024, esquerda: 24, direita: 206 };
-    const t = montarTrajeto({
-      largura: 390,
-      trechos: [
-        { lado: 'direita', borda: { topo: 64, base: 1116, esquerda: 0, direita: 390 }, conteudo: { topo: 96, base: 1076, esquerda: 16, direita: 374 }, obstaculos: [] },
-        { lado: 'esquerda', borda: { topo: 1200, base: 4701, esquerda: 0, direita: 390 }, conteudo: { topo: 1260, base: 4641, esquerda: 16, direita: 374 }, obstaculos: [{ topo: 1116, base: 1200, esquerda: 0, direita: 390 }] },
-        { lado: 'direita', borda: { topo: 4701, base: 8065, esquerda: 0, direita: 390 }, conteudo: { topo: 4761, base: 8025, esquerda: 16, direita: 374 }, obstaculos: [] },
-      ],
-      destino: botao,
-    });
-    expect(t).not.toBeNull();
-    expect(t!.trilhosForaDaTela).toBe(true);
-    expect(t!.chegaAoDestino).toBe(true);
-    expect(t!.travessias.map((x) => Math.round(x.y))).toEqual([1096, 4701, 8000]);
+  // Medidas da home no celular (390 × 844): margem de 16 px entre a borda e o texto.
+  const celular = (margem = 16): Entrada => ({
+    largura: 390,
+    alturaDaTela: 844,
+    trechos: [
+      { lado: 'direita', borda: { topo: 64, base: 1116, esquerda: 0, direita: 390 }, conteudo: { topo: 96, base: 1076, esquerda: margem, direita: 390 - margem }, obstaculos: [] },
+      { lado: 'esquerda', borda: { topo: 1200, base: 4701, esquerda: 0, direita: 390 }, conteudo: { topo: 1260, base: 4641, esquerda: margem, direita: 390 - margem }, obstaculos: [{ topo: 1116, base: 1200, esquerda: 0, direita: 390 }] },
+      { lado: 'direita', borda: { topo: 4701, base: 8065, esquerda: 0, direita: 390 }, conteudo: { topo: 4761, base: 8025, esquerda: margem, direita: 390 - margem }, obstaculos: [] },
+    ],
+    destino: { topo: 7976, base: 8024, esquerda: 24, direita: 206 },
+  });
+
+  it('no celular o tubo corre encostado na borda, à vista, fora da faixa do anel de foco', () => {
+    const t = montarTrajeto(celular())!;
+    expect(t.trilhosForaDaTela).toBe(false);
+    expect(t.chegaAoDestino).toBe(true);
+    expect(t.travessias.map((x) => Math.round(x.y))).toEqual([1096, 4701, 8000]);
+    // O vidro inteiro fica na tela, e para a 5 px do conteúdo (o anel de foco), com a tolerância
+    // de 1 px que o QA dá ao vidro.
+    expect(t.raio).toBeGreaterThanOrEqual(5);
+    // Os trechos retos na vertical (as curvas saem do trilho para a travessia).
+    const noTrilho = t.pontos.filter((p) => Math.abs(p.ty) === 1);
+    expect(noTrilho.length).toBeGreaterThan(4);
+    for (const p of noTrilho) {
+      const de = p.x - t.raio;
+      const ate = p.x + t.raio;
+      const naMargem = ate <= 16 - 5 + 1 || de >= 390 - 16 + 5 - 1;
+      expect(de >= 0 && ate <= 390 && naMargem, `trilho em x ${p.x.toFixed(1)}`).toBe(true);
+    }
+  });
+
+  it('só numa margem estreita demais para o tubo o trilho sai da tela', () => {
+    const t = montarTrajeto(celular(12))!;
+    expect(t.trilhosForaDaTela).toBe(true);
     // Todo ponto cujo vidro aparece na tela está numa travessia ou na chegada ao botão.
-    const curva = Math.max(t!.raio * 3.2, t!.raio * 2.3 + 4);
-    for (const p of t!.pontos) {
-      if (p.x + t!.raio < 0 || p.x - t!.raio > 390) continue;
-      const perto = t!.travessias.some((x) => Math.abs(p.y - x.y) <= curva + t!.raio);
+    const curva = Math.max(t.raio * 3.2, t.raio * 2.3 + 4);
+    for (const p of t.pontos) {
+      if (p.x + t.raio < 0 || p.x - t.raio > 390) continue;
+      const perto = t.travessias.some((x) => Math.abs(p.y - x.y) <= curva + t.raio);
       expect(perto, `ponto visível fora de travessia em (${p.x.toFixed(1)}, ${p.y.toFixed(1)})`).toBe(true);
     }
+  });
+});
+
+describe('resolverLados', () => {
+  const alto = (lado: Trecho['lado'], altura: number, topo = 0): Trecho => ({
+    lado,
+    borda: { topo, base: topo + altura, esquerda: 0, direita: LARGURA },
+    conteudo: { topo, base: topo + altura, esquerda: 60, direita: LARGURA - 60 },
+    obstaculos: [],
+  });
+
+  it('respeita os lados fixos da home', () => {
+    expect(resolverLados(home().trechos, 900)).toEqual(['direita', 'esquerda', 'direita', 'direita', 'direita']);
+  });
+
+  it('alternar só troca de lado depois de 80% de uma tela do mesmo lado', () => {
+    // Seções de 1000, 300, 300, 1200 e 500 px numa tela de 900: troca depois da primeira, segura as
+    // duas curtas e a longa do mesmo lado, e troca de novo na última.
+    const trechos = [1000, 300, 300, 1200, 500].map((h) => alto('alternar', h));
+    expect(resolverLados(trechos, 900)).toEqual(['direita', 'esquerda', 'esquerda', 'esquerda', 'direita']);
+  });
+
+  it('troca com 80% exatos de uma tela, e não com um pixel a menos', () => {
+    expect(resolverLados([alto('alternar', 720), alto('alternar', 500)], 900)).toEqual(['direita', 'esquerda']);
+    expect(resolverLados([alto('alternar', 719), alto('alternar', 500)], 900)).toEqual(['direita', 'direita']);
+  });
+
+  it('um lado fixo no meio vale como está e a contagem recomeça nele', () => {
+    // Sem recomeçar, os 1000 px antes do lado fixo já pediriam troca no terceiro trecho.
+    const trechos = [alto('alternar', 1000), alto('direita', 200), alto('alternar', 600), alto('alternar', 300)];
+    expect(resolverLados(trechos, 900)).toEqual(['direita', 'direita', 'direita', 'esquerda']);
+  });
+
+  it('numa página de seções alternadas, o trajeto troca de lado e nunca invade o conteúdo', () => {
+    const trechos = [0, 1, 2, 3].map((i) => {
+      const topo = 72 + i * 1100;
+      return { ...alto('alternar', 1000, topo), conteudo: { topo: topo + 80, base: topo + 920, esquerda: 46, direita: LARGURA - 46 } };
+    });
+    const t = montarTrajeto({ largura: LARGURA, alturaDaTela: 900, trechos, destino: null });
+    expect(t).not.toBeNull();
+    expect(t!.travessias).toHaveLength(3);
+    // Sem destino, o tubo termina numa tampa de metal.
+    expect(t!.juntas[t!.juntas.length - 1]).toBeCloseTo(t!.total - MEIA_LUVA * t!.raio, 5);
+    for (const p of t!.pontos) {
+      for (const tr of trechos) {
+        const c = tr.conteudo;
+        const dentro = p.x + t!.raio > c.esquerda && p.x - t!.raio < c.direita && p.y + t!.raio > c.topo && p.y - t!.raio < c.base;
+        expect(dentro, `ponto (${p.x.toFixed(1)}, ${p.y.toFixed(1)}) invade o conteúdo`).toBe(false);
+      }
+    }
+  });
+
+  it('numa página longa guarda todas as luvas, inclusive a tampa do fim', () => {
+    // Nove seções que trocam de lado: oito travessias com a luva do meio, mais a tampa. O shader
+    // desenha até MAXIMO_DE_JUNTAS de uma vez e o renderizador escolhe as que caem no canvas; o
+    // trajeto não pode perder nenhuma (cortadas em 8, sumiam a tampa e as luvas do fim da página).
+    const trechos = Array.from({ length: 9 }, (_, i) => {
+      const topo = 72 + i * 1100;
+      return { ...alto('alternar', 1000, topo), conteudo: { topo: topo + 80, base: topo + 920, esquerda: 46, direita: LARGURA - 46 } };
+    });
+    const t = montarTrajeto({ largura: LARGURA, alturaDaTela: 900, trechos, destino: null })!;
+    expect(t.travessias).toHaveLength(8);
+    expect(t.juntas).toHaveLength(9);
+    expect(t.juntas.length).toBeGreaterThan(MAXIMO_DE_JUNTAS);
+    expect(t.juntas[t.juntas.length - 1]).toBeCloseTo(t.total - MEIA_LUVA * t.raio, 5);
   });
 });
 
@@ -221,12 +308,32 @@ describe('preenchimentoPelaLeitura', () => {
     expect(maiorPasso).toBeLessThan(25);
   });
 
+  it('a frente nunca passa da linha de leitura', () => {
+    // É o que segura o nível em 70% da tela: com a faixa antes da travessia, a frente da home em
+    // 1440 × 900 ficava em 829 px com a linha em 630.
+    const t = montar();
+    for (let y = 0; y < 6000; y += 3) {
+      const s = preenchimentoPelaLeitura(t, y, faixa);
+      expect(alturaEm(t, s), `linha em ${y}`).toBeLessThanOrEqual(y + 1e-6);
+    }
+  });
+
+  it('a travessia só corre de lado depois que a linha chega nela', () => {
+    const t = montar();
+    const travessia = t.travessias[0]!;
+    // Na curva de entrada, o líquido acompanha a linha; na altura da travessia, está no começo dela.
+    expect(preenchimentoPelaLeitura(t, travessia.y - 1, faixa)).toBeLessThan(travessia.sReta);
+    expect(preenchimentoPelaLeitura(t, travessia.y, faixa)).toBeCloseTo(travessia.sReta, 5);
+    // A linha já passou da altura da travessia, e o líquido ainda está a caminho do outro lado.
+    expect(preenchimentoPelaLeitura(t, travessia.y + 50, faixa)).toBeLessThan(travessia.sFim);
+  });
+
   it('na metade da faixa, a travessia está pela metade', () => {
     const t = montar();
     const travessia = t.travessias[0]!;
-    const inicio = preenchimentoAte(t, travessia.y - faixa);
-    const meio = preenchimentoPelaLeitura(t, travessia.y - faixa / 2, faixa);
-    expect(meio).toBeCloseTo(inicio + (travessia.sFim - inicio) / 2, 5);
+    const depois = preenchimentoAte(t, travessia.y + faixa);
+    const meio = preenchimentoPelaLeitura(t, travessia.y + faixa / 2, faixa);
+    expect(meio).toBeCloseTo(travessia.sReta + (depois - travessia.sReta) / 2, 5);
   });
 
   it('fora das faixas, é igual ao nível pela altura', () => {
@@ -272,6 +379,32 @@ describe('remapear', () => {
     // Fora das travessias, a frente guarda a altura na página.
     const noTrilho = preenchimentoAte(antigo, 2000);
     expect(remapear(antigo, novo, noTrilho)).toBeCloseTo(preenchimentoAte(novo, 2000), 5);
+  });
+
+  it('se o número de travessias muda, a frente guarda a altura na página', () => {
+    // Celular, seções perto do limite de troca: com outra altura de tela, a primeira travessia
+    // some, e a de mesmo índice passa a ser outra, 900 px abaixo.
+    const alturas = [650, 900, 700, 900];
+    let topo = 64;
+    const trechos: Trecho[] = alturas.map((h) => {
+      const tr: Trecho = {
+        lado: 'alternar',
+        borda: { topo, base: topo + h, esquerda: 0, direita: 390 },
+        conteudo: { topo, base: topo + h, esquerda: 16, direita: 374 },
+        obstaculos: [],
+      };
+      topo += h + 40;
+      return tr;
+    });
+    const antigo = montarTrajeto({ largura: 390, alturaDaTela: 788, trechos, destino: null })!;
+    const novo = montarTrajeto({ largura: 390, alturaDaTela: 844, trechos, destino: null })!;
+    expect(antigo.travessias).toHaveLength(3);
+    expect(novo.travessias).toHaveLength(2);
+    const primeira = antigo.travessias[0]!;
+    const meio = (primeira.sInicio + primeira.sFim) / 2;
+    const altura = alturaEm(novo, remapear(antigo, novo, meio));
+    expect(altura).toBeCloseTo(alturaEm(antigo, meio), 0);
+    expect(altura).toBeLessThan(novo.travessias[0]!.y - 500);
   });
 });
 

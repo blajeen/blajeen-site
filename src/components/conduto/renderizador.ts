@@ -20,7 +20,15 @@
  * (`--color-steel`) no metal das luvas. Nenhuma cor passa do valor do próprio token.
  */
 
-import { FLOATS_POR_VERTICE, MAXIMO_DE_JUNTAS, MEIA_FAIXA, MEIA_LUVA, malha, type Trajeto } from './trajeto';
+import {
+  FLOATS_POR_VERTICE,
+  MAXIMO_DE_JUNTAS,
+  MEIA_FAIXA,
+  MEIA_LUVA,
+  alturaEm,
+  malha,
+  type Trajeto,
+} from './trajeto';
 
 export type Rgb = [number, number, number];
 
@@ -29,6 +37,9 @@ export const ESPACO_DO_PULSO = 2600;
 
 /** Sem compilação paralela, quanto esperar (ms) antes de perguntar se o shader ficou pronto. */
 const ESPERA_SEM_COMPILACAO_PARALELA = 400;
+
+/** Folga, em px CSS, para uma luva rente à borda do canvas ainda entrar no desenho. */
+const FOLGA_DAS_JUNTAS = 64;
 
 export type Cores = {
   sinal: Rgb;
@@ -414,6 +425,8 @@ export function criarRenderizador(canvas: HTMLCanvasElement): Renderizador | nul
   let trajeto: Trajeto | null = null;
   let vertices = 0;
   const juntas = new Float32Array(MAXIMO_DE_JUNTAS);
+  // Altura de cada luva do trajeto, para escolher a cada desenho as que caem no canvas.
+  let alturasDasJuntas: number[] = [];
   let cores: Cores | null = null;
 
   function compilarPrograma() {
@@ -520,8 +533,7 @@ export function criarRenderizador(canvas: HTMLCanvasElement): Renderizador | nul
     perdido: () => gl.isContextLost(),
     trajeto(t) {
       trajeto = t;
-      juntas.fill(0);
-      juntas.set(t.juntas.slice(0, MAXIMO_DE_JUNTAS));
+      alturasDasJuntas = t.juntas.map((s) => alturaEm(t, s));
       enviarTrajeto();
     },
     cores(c) {
@@ -554,8 +566,18 @@ export function criarRenderizador(canvas: HTMLCanvasElement): Renderizador | nul
       gl.uniform3f(u.uPapel ?? null, ...cores.papel);
       gl.uniform3f(u.uAco ?? null, ...cores.aco);
       gl.uniform3f(u.uTinta ?? null, ...cores.tinta);
+      // Uma página longa tem mais luvas que o shader comporta; o canvas cobre pouco mais de uma
+      // tela, e só as dele vão.
+      let nJuntas = 0;
+      juntas.fill(0);
+      for (let i = 0; i < trajeto.juntas.length && nJuntas < MAXIMO_DE_JUNTAS; i++) {
+        const y = alturasDasJuntas[i] ?? -Infinity;
+        if (y >= q.origemY - FOLGA_DAS_JUNTAS && y <= q.origemY + q.altura + FOLGA_DAS_JUNTAS) {
+          juntas[nJuntas++] = trajeto.juntas[i] ?? 0;
+        }
+      }
       gl.uniform1fv(u.uJuntas ?? null, juntas);
-      gl.uniform1i(u.uNJuntas ?? null, Math.min(trajeto.juntas.length, MAXIMO_DE_JUNTAS));
+      gl.uniform1i(u.uNJuntas ?? null, nJuntas);
       gl.bindVertexArray(estado.vao);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertices);
       gl.bindVertexArray(null);

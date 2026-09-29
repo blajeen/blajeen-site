@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { LabProps } from '@/components/brand/LabProps';
+import { Conduto } from '@/components/conduto/Conduto';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { BootSequence } from '@/components/motion/BootSequence';
@@ -106,6 +107,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LabProps />
           <SiteHeader />
           <main id="conteudo" className="pt-16 sm:pt-[4.5rem]">
+            {/* Tubo de energia: corre pelas seções marcadas com data-conduto-lado, em toda página pública (painel e onboarding ficam de fora). */}
+            <Conduto />
             {children}
           </main>
           <SiteFooter />

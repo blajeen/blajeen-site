@@ -1,0 +1,77 @@
+/*
+ * Camada do conduto.
+ *
+ * Cobre o `main` inteiro, atrás de todo o conteúdo (z-index negativo dentro do contexto do `main`):
+ * blocos com fundo próprio, como a faixa de chamadas, passam na frente do tubo, que parece correr
+ * por trás deles. `overflow: hidden` impede que o canvas, maior que a tela, aumente a rolagem.
+ */
+.conduto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.conduto canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  will-change: transform;
+}
+
+/* Alto contraste do Windows e impressão: o tubo não acrescenta nada, então sai. */
+@media (forced-colors: active) {
+  .conduto {
+    display: none;
+  }
+}
+
+@media print {
+  .conduto {
+    display: none;
+  }
+}
+
+/*
+ * Chegada da energia.
+ *
+ * Quando o líquido alcança o destino, o motor marca `data-conduto-carregado` e um reflexo atravessa o botão
+ * uma vez, por trás do texto. Só `transform` e `opacity` animam; com movimento reduzido, a regra
+ * global zera a duração e nada é percebido. O seletor parte da camada (`.conduto ~ …`): o botão só
+ * muda onde o conduto existe.
+ */
+.conduto ~ :global(*) :global([data-conduto-destino]) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.conduto ~ :global(*) :global([data-conduto-destino])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 25%, var(--color-glow) 50%, transparent 75%);
+  opacity: 0;
+  transform: translateX(-110%);
+}
+
+.conduto ~ :global(*) :global([data-conduto-destino][data-conduto-carregado='true'])::after {
+  animation: carga 1.1s var(--ease-lab) 80ms both;
+}
+
+@keyframes carga {
+  from {
+    opacity: 0.9;
+    transform: translateX(-110%);
+  }
+
+  to {
+    opacity: 0.9;
+    transform: translateX(110%);
+  }
+}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LabHero } from "@/components/home/LabHero";
 import { ProductConfigurator } from "@/components/home/ProductConfigurator";
 import { MorvelioChallenge } from "@/components/home/MorvelioChallenge";
+import { Conduto } from "@/components/conduto/Conduto";
 import { trabalhos } from "@/content/portfolio";
 import "@/components/home/HomeExperience.css";
 
@@ -10,6 +11,8 @@ export const revalidate = 3600;
 export default function Home() {
   return (
     <div className="hx">
+      {/* Tubo de energia: corre pelas seções marcadas com data-conduto-lado. */}
+      <Conduto />
       <LabHero />
       <noscript>
         <p className="px-6 py-4 text-sm">
@@ -28,6 +31,7 @@ export default function Home() {
         id="trabalhos"
         className="hx-section"
         aria-labelledby="home-work-title"
+        data-conduto-lado="direita"
       >
         <div className="hx-section-heading">
           <div>
@@ -68,7 +72,11 @@ export default function Home() {
         </div>
       </section>
       <MorvelioChallenge />
-      <section className="hx-final" aria-labelledby="home-final-title">
+      <section
+        className="hx-final"
+        aria-labelledby="home-final-title"
+        data-conduto-lado="direita"
+      >
         <div>
           <p className="hx-kicker">O PRÓXIMO PROJETO PODE COMEÇAR AQUI.</p>
           <h2 id="home-final-title">
@@ -81,7 +89,11 @@ export default function Home() {
             e colocar em funcionamento.
           </p>
         </div>
-        <Link href="/crie-seu-projeto" className="hx-button">
+        <Link
+          href="/crie-seu-projeto"
+          className="hx-button"
+          data-conduto-destino=""
+        >
           Vamos criar seu projeto ↗
         </Link>
       </section>

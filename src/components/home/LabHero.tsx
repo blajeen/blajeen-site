@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useMotion } from "@/components/motion/MotionProvider";
+import { reservarGpu } from "@/lib/fila-da-gpu";
 import type { createLab, Station } from "./LabScene";
 
 const stations = {
@@ -28,6 +29,9 @@ const stations = {
     cta: "Experimentar o desafio",
   },
 };
+/** Tempo, depois de criada a cena, em que os primeiros quadros dela ainda pesam na GPU. */
+const QUADROS_PESADOS_MS = 700;
+
 export function LabHero() {
   const host = useRef<HTMLDivElement>(null),
     scene = useRef<ReturnType<typeof createLab> | null>(null);
@@ -51,6 +55,11 @@ export function LabHero() {
     let stopped = false;
     const node = host.current;
     if (!node) return;
+    // A cena compila os shaders ao criar o ambiente e nos primeiros desenhos (sombras, materiais).
+    // Até eles passarem, a fila da GPU fica reservada: o conduto de energia espera, a cena não trava
+    // atrás da compilação dele, e as consultas dele não esperam atrás dos quadros pesados da cena.
+    const liberarGpu = reservarGpu();
+    let liberarDepois = 0;
     const observer = new IntersectionObserver((entries) => {
       if (!entries[0]?.isIntersecting) return;
       observer.disconnect();
@@ -63,13 +72,19 @@ export function LabHero() {
           } catch {
             setFailed(true);
           }
+          liberarDepois = window.setTimeout(liberarGpu, QUADROS_PESADOS_MS);
         })
-        .catch(() => setFailed(true));
+        .catch(() => {
+          setFailed(true);
+          liberarGpu();
+        });
     });
     observer.observe(node);
     return () => {
       stopped = true;
       observer.disconnect();
+      window.clearTimeout(liberarDepois);
+      liberarGpu();
       scene.current?.dispose();
       scene.current = null;
     };
@@ -79,7 +94,7 @@ export function LabHero() {
     scene.current?.motion(ativo);
   }, [station, ativo, ready]);
   return (
-    <section className="hx-hero" aria-labelledby="lab-title">
+    <section className="hx-hero" aria-labelledby="lab-title" data-conduto-lado="direita">
       <div className="hx-hero-copy">
         <p className="hx-kicker">ESTÚDIO INDEPENDENTE / IDEIAS EM MOVIMENTO</p>
         <BrandLogo

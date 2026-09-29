@@ -21,7 +21,8 @@
     "qa:shots": "node tools/qa-shots.mjs",
     "qa:interacao": "node tools/check-interacao.mjs",
     "qa:contraste": "node tools/check-contraste.mjs",
-    "qa": "npm run qa:shots && npm run qa:interacao && npm run qa:contraste",
+    "qa:conduto": "node tools/check-conduto.mjs",
+    "qa": "npm run qa:shots && npm run qa:interacao && npm run qa:contraste && npm run qa:conduto",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run check:content && npm run build"
   },
   "dependencies": {

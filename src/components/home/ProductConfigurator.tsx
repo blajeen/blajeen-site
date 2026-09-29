@@ -87,6 +87,7 @@ export function ProductConfigurator() {
       id="configurador"
       className="hx-section"
       aria-labelledby="config-title"
+      data-conduto-lado="esquerda"
     >
       <div className="hx-section-heading">
         <div>

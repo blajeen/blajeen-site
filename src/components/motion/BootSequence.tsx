@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { LIMITE_DA_ABERTURA } from './abertura';
 import { useMotion } from './MotionProvider';
 import styles from './BootSequence.module.css';
 
 const CHAVE = 'blajeen:boot';
 
 /** Teto absoluto da abertura, contado a partir do início da navegação. */
-const LIMITE = 1400;
+const LIMITE = LIMITE_DA_ABERTURA;
 /** Duração da saída por opacidade, incluída dentro do limite. */
 const SAIDA = 400;
 /** Abaixo disto a abertura vira um piscar preto: melhor não exibir. */

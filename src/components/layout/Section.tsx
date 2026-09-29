@@ -32,9 +32,18 @@ export function Section({ id, indice, children, className, rotulo, rotuladaPor }
   );
 }
 
+/**
+ * Coluna de conteúdo com a largura e a margem do sistema. Também é um trecho do conduto de
+ * energia: o tubo corre na margem ao lado dela e pode trocar de lado entre as seções (`alternar`,
+ * depois de correr 80% de uma tela do mesmo lado). Fora do `main` (o rodapé, por exemplo), a marca
+ * não tem efeito.
+ */
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={['mx-auto w-full max-w-[var(--layout-max)] px-[var(--gutter)]', className].filter(Boolean).join(' ')}>
+    <div
+      data-conduto-lado="alternar"
+      className={['mx-auto w-full max-w-[var(--layout-max)] px-[var(--gutter)]', className].filter(Boolean).join(' ')}
+    >
       {children}
     </div>
   );

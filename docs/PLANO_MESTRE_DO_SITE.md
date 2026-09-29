@@ -1,14 +1,16 @@
 # Plano mestre — site institucional Blajeen Labs
 
-## Emenda pedida pelo titular — conduto de energia (28/09/2026, em revisão)
+## Emenda pedida pelo titular — conduto de energia (28/09/2026, aprovada e publicada em 29/09/2026)
 
 O titular pediu um elemento de design avançado que chamasse atenção: uma corrente de energia, um líquido verde num tubo de vidro percorrendo o site, em 3D. A resposta é o conduto: um tubo de vidro em WebGL que desce pelas margens da home, atravessa a página nas faixas livres entre as seções, passa por trás da faixa de chamadas e termina encaixado no botão "Vamos criar seu projeto". O líquido enche conforme a leitura avança e, ao chegar, carrega o botão.
 
 Função narrativa (a regra "WebGL sem função narrativa" continua valendo): o tubo é a energia do laboratório levando o visitante da bancada ao próximo projeto, e mostra o quanto da história já foi lido. Para quem usa leitor de tela, ele é decorativo e fica fora da árvore de acessibilidade; nenhuma informação depende dele.
 
-Limites: nunca passa sobre texto, imagem ou controle (conferido por `npm run qa:conduto` em 12 tamanhos); no celular e no tablet em pé, os trilhos verticais saem da tela e só as travessias aparecem; com movimento reduzido ou o botão MOVIMENTO desligado, aparece cheio e parado; o líquido corre de lado só enquanto a pessoa rola; o laço de animação descansa depois de 5 s sem interação.
+Em 29/09/2026 o titular aprovou a prévia, pediu a publicação e pediu o conduto em todas as páginas públicas. Nas páginas internas, cada coluna de conteúdo (`Container`) é um trecho, e o tubo pode trocar de lado entre as seções depois de correr pelo menos 80% de uma tela do mesmo lado; a wiki e a página do Morvelio correm pela direita. Sem botão alcançável, o tubo termina numa tampa de metal. Painel e portal de onboarding ficam sem tubo, e as páginas do Gramelio servidas como HTML estático ficam fora do layout.
 
-Cores e papéis no conduto: sinal no líquido e na luz verde que ele projeta; tinta na profundidade, na borda escura do líquido e na sombra; brilho técnico nos reflexos e no núcleo aceso do líquido; papel, o branco do sistema, nos reflexos do vidro; aço no metal das luvas. Implementação e evidências em `docs/conduto/IMPLEMENTACAO.md`. A publicação depende da aprovação do titular sobre a prévia.
+Limites: nunca passa por trás de texto, imagem, ícone, botão, link ou campo, com folga para o anel de foco; só cruza camadas de fundo decorativas (conferido por `npm run qa:conduto` na home em 12 tamanhos e, em 4 tamanhos, nas rotas do sitemap e nos formulários de projeto, com a wiki por amostra); no celular, onde a margem lateral tem uns 16 px, o tubo corre encostado na borda da tela, mais fino e à vista, fora da faixa do anel de foco dos botões e links da borda da coluna (pedido do titular: antes ali só apareciam as travessias); só numa margem de menos de 13 px os trilhos saem da tela; o líquido enche até 70% da tela, nunca além, só avança quando a página rola para baixo e enche inteiro no fim da página (pedido do titular); com movimento reduzido ou o botão MOVIMENTO desligado, o nível acompanha a rolagem sem animação própria, e cada travessia enche de uma vez quando a leitura chega nela; com movimento, o líquido corre de lado só enquanto a pessoa rola; o laço de animação descansa depois de 5 s sem interação.
+
+Cores e papéis no conduto: sinal no líquido e na luz verde que ele projeta; tinta na profundidade, na borda escura do líquido e na sombra; brilho técnico nos reflexos e no núcleo aceso do líquido; papel, o branco do sistema, nos reflexos do vidro; aço no metal das luvas. Implementação e evidências em `docs/conduto/IMPLEMENTACAO.md`. A versão da home foi publicada no PR #17 em 29/09/2026; a extensão às páginas públicas passou pelo mesmo QA antes de ir ao ar.
 
 ## Emenda aprovada pelo titular — home interativa
 
@@ -353,7 +355,7 @@ No mobile:
 | Projetos | scanline única no foco/hover | sem loop permanente |
 | Cursor | halo ambiental | ocultar em touch/reduced motion |
 | Parallax | somente mídia de projeto | deslocamento máximo 2% |
-| Conduto de energia (home) | líquido enche com a leitura; travessias acompanham a rolagem | parado em reduced motion e com MOVIMENTO desligado; descansa após 5 s; sem overshoot |
+| Conduto de energia (todas as páginas públicas) | líquido enche até 70% da tela e avança com a rolagem; travessias acompanham a rolagem | sem animação própria em reduced motion e com MOVIMENTO desligado (o nível só segue a rolagem e cada travessia enche de uma vez); descansa após 5 s; sem overshoot |
 | Links | sublinhado/sinal e foco claro | feedback em <= 150 ms |
 
 Não usar smooth-scroll de terceiros, WebGL sem função narrativa, vídeo de fundo obrigatório,

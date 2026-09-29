@@ -6,10 +6,12 @@
  * trechos retos e curvas de 90°, nunca curva livre.
  *
  * Três regras sustentam o desenho:
- * - o tubo corre na margem lateral, fora da caixa de conteúdo de cada trecho marcado. Quando a
- *   margem é estreita (celular, tablet em pé), o trilho vertical sai da tela: ali um tubo fino
- *   colado à borda pareceria barra de rolagem e ficaria na área do gesto de voltar. Aparecem só as
- *   travessias e a chegada ao botão, como canos que passam por trás da página;
+ * - o tubo corre na margem lateral, fora da caixa de conteúdo de cada trecho marcado. No celular a
+ *   margem é estreita (uns 16 px): ali ele corre encostado na borda da tela, mais fino, e deixa
+ *   livre a faixa do anel de foco do que fica na borda da coluna. Acompanha a leitura como no
+ *   computador (o titular pediu o tubo visível no celular; antes, ali só apareciam as travessias).
+ *   Só numa margem estreita demais para ele, o trilho vertical sai da tela e aparecem só as
+ *   travessias, como canos por trás da página;
  * - ele só atravessa a página numa faixa livre entre dois trechos, fora dos obstáculos (a faixa
  *   opaca de chamadas logo abaixo do hero, por exemplo);
  * - ele nunca sobe: `y` não diminui ao longo do trajeto. É isso que permite ligar o nível do
@@ -17,6 +19,13 @@
  */
 
 export type Lado = 'esquerda' | 'direita';
+
+/**
+ * Como a página marca um trecho: um lado fixo, ou `alternar`, que pode trocar de lado em relação ao
+ * trecho anterior, depois de o tubo correr 80% de uma tela do mesmo lado (as páginas internas
+ * marcam assim o bloco de conteúdo de cada seção).
+ */
+export type LadoMarcado = Lado | 'alternar';
 
 /** Retângulo em pixels CSS, nas coordenadas da camada do conduto. */
 export type Caixa = {
@@ -28,7 +37,7 @@ export type Caixa = {
 
 export type Trecho = {
   /** Margem por onde o tubo corre ao lado deste trecho. */
-  lado: Lado;
+  lado: LadoMarcado;
   /** Caixa de borda: o começo e o fim do trecho na página. */
   borda: Caixa;
   /** Caixa de conteúdo (borda menos o padding): o tubo nunca entra nela. */
@@ -40,6 +49,12 @@ export type Trecho = {
 export type Entrada = {
   /** Largura da camada do conduto. */
   largura: number;
+  /**
+   * Altura da tela: mede a distância mínima entre duas travessias nos trechos `alternar`. O motor
+   * passa a altura de quando a página abriu, não a do momento: no celular a barra de endereço muda
+   * a altura durante a rolagem, e os lados não podem trocar por causa disso.
+   */
+  alturaDaTela: number;
   trechos: Trecho[];
   /** Onde o tubo termina encaixado (o botão final), se houver espaço para chegar até ele. */
   destino: Caixa | null;
@@ -62,6 +77,8 @@ export type Travessia = {
   /** Comprimento de arco onde o tubo deixa o trilho e onde termina a travessia. */
   sInicio: number;
   sFim: number;
+  /** Comprimento de arco onde a curva de entrada acaba e o tubo começa a correr na horizontal. */
+  sReta: number;
 };
 
 export type Trajeto = {
@@ -74,7 +91,7 @@ export type Trajeto = {
   travessias: Travessia[];
   /** O tubo termina encostado no destino, e não no fim do último trecho. */
   chegaAoDestino: boolean;
-  /** Margem estreita: os trilhos verticais correm fora da tela. */
+  /** Margem estreita demais para o tubo: os trilhos verticais correm fora da tela. */
   trilhosForaDaTela: boolean;
 };
 
@@ -84,14 +101,38 @@ export const MEIA_FAIXA = 2.3;
 /** Meio comprimento de uma luva de metal, em raios. */
 export const MEIA_LUVA = 0.95;
 
-/** Máximo de luvas que o shader aceita. */
+/**
+ * Máximo de luvas que o shader desenha de uma vez. O trajeto guarda todas; a cada desenho, o
+ * renderizador manda só as que caem no canvas, que cobre pouco mais de uma tela.
+ */
 export const MAXIMO_DE_JUNTAS = 8;
 
 /** Distância máxima entre o eixo do tubo e o conteúdo, em telas largas. */
 const AFASTAMENTO_MAXIMO = 40;
 
-/** Abaixo desta margem lateral, o trilho vertical sai da tela (ver o comentário do topo). */
-const MARGEM_PARA_TRILHO = 28;
+/**
+ * Faixa do anel de foco em volta do que recebe foco (`outline` de 2 px com 3 px de afastamento, em
+ * `globals.css`). O anel é verde como o líquido: sobre o tubo, ele sumiria.
+ */
+const FAIXA_DO_FOCO = 5;
+
+/** Menor raio que ainda se lê como vidro com líquido dentro. */
+const RAIO_MINIMO_NA_BORDA = 4;
+
+/**
+ * Abaixo desta margem lateral, o trilho vertical sai da tela: não cabe o tubo mais fino encostado
+ * na borda sem entrar na faixa do anel de foco (ver o comentário do topo).
+ */
+const MARGEM_PARA_TRILHO = 2 * RAIO_MINIMO_NA_BORDA + FAIXA_DO_FOCO;
+
+/** Abaixo desta margem lateral (o celular), o tubo encosta na borda da tela e afina para caber. */
+const MARGEM_LARGA = 28;
+
+/**
+ * Nos trechos `alternar`, o tubo só troca de lado depois de correr pelo menos isto (em telas) do
+ * mesmo lado, somando a altura dos trechos: seções curtas não viram zigue-zague.
+ */
+const TRECHO_MINIMO_PARA_TROCAR = 0.8;
 
 /** Passo de amostragem das curvas, em px. Curto o bastante para o brilho não serrilhar. */
 const PASSO_DA_CURVA = 1.5;
@@ -167,6 +208,11 @@ class Construtor {
     const x = this.x;
     this.reta(x, y - curva);
     this.arco(x + dir * curva, y - curva, curva, dir > 0 ? Math.PI : 0, Math.PI / 2);
+    // O arco termina na altura exata da travessia, sem o resto do arredondamento do seno: a busca
+    // pela altura e a faixa de `preenchimentoPelaLeitura` contam com isso.
+    this.y = y;
+    const fim = this.pontos[this.pontos.length - 1];
+    if (fim) fim.y = y;
     return dir;
   }
 
@@ -205,19 +251,26 @@ export function preenchimentoAte(trajeto: Trajeto, y: number): number {
 /**
  * Nível do líquido para uma linha de leitura.
  *
- * Nos trechos verticais, o líquido acompanha a linha. Numa travessia, ele avança na proporção da
- * rolagem ao longo de uma faixa de altura `faixa` que termina na altura dela: o líquido só corre de
- * lado enquanto a pessoa rola, e para quando ela para. Sem isso, a travessia inteira encheria de uma
- * vez e o líquido dispararia sozinho pela largura da tela.
+ * Nos trechos verticais e nas curvas, o líquido acompanha a linha. Uma travessia só começa a
+ * correr de lado quando a linha chega à altura dela, e enche na proporção da rolagem ao longo da
+ * `faixa` seguinte: o líquido só corre de lado enquanto a pessoa rola e para quando ela para. Sem a
+ * faixa, a travessia inteira encheria de uma vez e o líquido dispararia sozinho pela largura da
+ * tela.
+ *
+ * A frente nunca passa da linha: nos trechos verticais fica nela, e numa travessia fica acima
+ * dela. É o que segura o nível na fração da tela que o motor escolhe. Com a faixa antes da
+ * travessia, a frente correria à frente da linha até o pé da tela.
  */
 export function preenchimentoPelaLeitura(trajeto: Trajeto, y: number, faixa: number): number {
   let s = preenchimentoAte(trajeto, y);
   for (const t of trajeto.travessias) {
-    const entrada = t.y - faixa;
-    if (y <= entrada) break;
-    const progresso = Math.min(1, (y - entrada) / faixa);
-    const inicio = preenchimentoAte(trajeto, entrada);
-    s = Math.max(s, inicio + (t.sFim - inicio) * progresso);
+    if (y < t.y) break;
+    if (y >= t.y + faixa) continue;
+    // Da altura da travessia até o fim da faixa, o nível vai em linha reta do começo da horizontal
+    // ao nível que a altura sozinha daria no fim da faixa: contínuo nas duas pontas, e a frente
+    // fica acima da linha o tempo todo.
+    const depois = preenchimentoAte(trajeto, t.y + faixa);
+    s = Math.min(s, t.sReta + ((depois - t.sReta) * (y - t.y)) / faixa);
   }
   return s;
 }
@@ -225,10 +278,12 @@ export function preenchimentoPelaLeitura(trajeto: Trajeto, y: number, faixa: num
 /**
  * Leva um nível do trajeto antigo para o novo quando a página muda de tamanho. Dentro de uma
  * travessia, guarda o progresso de lado (a mesma fração da mesma travessia); fora delas, guarda a
- * altura na página. Só pela altura, uma frente no meio da travessia saltaria para o fim dela.
+ * altura na página. Só pela altura, uma frente no meio da travessia saltaria para o fim dela. Se o
+ * número de travessias mudou, a de mesmo índice pode ser outra, em outra altura: aí vale a altura.
  */
 export function remapear(antigo: Trajeto, novo: Trajeto, s: number): number {
-  const indice = antigo.travessias.findIndex((t) => s > t.sInicio && s < t.sFim);
+  const mesmaForma = antigo.travessias.length === novo.travessias.length;
+  const indice = mesmaForma ? antigo.travessias.findIndex((t) => s > t.sInicio && s < t.sFim) : -1;
   const de = antigo.travessias[indice];
   const para = novo.travessias[indice];
   if (de && para) {
@@ -262,6 +317,30 @@ export function alturaEm(trajeto: Trajeto, s: number): number {
 }
 
 /**
+ * Resolve o lado de cada trecho. Lado fixo vale como está e a contagem recomeça nele; `alternar`
+ * troca em relação ao trecho anterior quando o tubo já correu pelo menos
+ * `TRECHO_MINIMO_PARA_TROCAR` telas desde a última troca ou o último lado fixo, e senão continua.
+ * Numa página que começa com `alternar`, o tubo começa pela direita, como na home.
+ */
+export function resolverLados(trechos: Trecho[], alturaDaTela: number): Lado[] {
+  const lados: Lado[] = [];
+  let atual: Lado = 'direita';
+  let corrido = 0;
+  trechos.forEach((t, i) => {
+    if (t.lado !== 'alternar') {
+      corrido = 0;
+      atual = t.lado;
+    } else if (i > 0 && corrido >= alturaDaTela * TRECHO_MINIMO_PARA_TROCAR) {
+      atual = atual === 'direita' ? 'esquerda' : 'direita';
+      corrido = 0;
+    }
+    lados.push(atual);
+    corrido += t.borda.base - t.borda.topo;
+  });
+  return lados;
+}
+
+/**
  * Monta o trajeto a partir das caixas da página.
  *
  * Devolve `null` quando não há trecho marcado.
@@ -271,25 +350,37 @@ export function montarTrajeto(entrada: Entrada): Trajeto | null {
   const primeiro = trechos[0];
   const ultimo = trechos[trechos.length - 1];
   if (!primeiro || !ultimo) return null;
+  const lados = resolverLados(trechos, entrada.alturaDaTela);
+  const lado = (i: number): Lado => lados[i] ?? 'direita';
 
   const conteudoEsquerda = Math.min(...trechos.map((t) => t.conteudo.esquerda));
   const conteudoDireita = Math.max(...trechos.map((t) => t.conteudo.direita));
   const margem = Math.min(conteudoEsquerda, largura - conteudoDireita);
   const trilhosForaDaTela = margem < MARGEM_PARA_TRILHO;
 
+  const naBorda = !trilhosForaDaTela && margem < MARGEM_LARGA;
   const afastamento = Math.min(margem / 2, AFASTAMENTO_MAXIMO);
-  // Fora da tela o tubo não disputa a margem com o texto, então engrossa um pouco para o vidro ler.
-  const raio = trilhosForaDaTela ? limitar(largura * 0.014, 4.5, 7) : limitar(afastamento * 0.5, 3.5, 10.5);
+  // Na margem estreita do celular, o tubo encosta na borda da tela (meio pixel de ar) e o vidro
+  // entra no máximo meio pixel na `FAIXA_DO_FOCO` do conteúdo: o QA tolera 1 px, e a coluna de texto
+  // cai em frações de pixel. Fora da tela, o tubo não disputa a margem com o texto e engrossa um
+  // pouco.
+  const raio = trilhosForaDaTela
+    ? limitar(largura * 0.014, 4.5, 7)
+    : naBorda
+      ? limitar((margem - FAIXA_DO_FOCO) / 2, RAIO_MINIMO_NA_BORDA, 6)
+      : limitar(afastamento * 0.5, 3.5, 10.5);
   // A curva precisa ser mais larga que a faixa desenhada, senão o lado de dentro se dobra.
   const curva = Math.max(raio * 3.2, raio * MEIA_FAIXA + 4);
   // Fora da tela, o trilho fica além da sombra e do brilho: nem a borda da faixa aparece.
   const foraDaBorda = raio * MEIA_FAIXA + 4;
   const trilho: Record<Lado, number> = trilhosForaDaTela
     ? { esquerda: -foraDaBorda, direita: largura + foraDaBorda }
-    : { esquerda: conteudoEsquerda - afastamento, direita: conteudoDireita + afastamento };
+    : naBorda
+      ? { esquerda: raio + 0.5, direita: largura - raio - 0.5 }
+      : { esquerda: conteudoEsquerda - afastamento, direita: conteudoDireita + afastamento };
 
   // O tubo entra pelo alto da página, por trás do cabeçalho fixo.
-  const c = new Construtor(trilho[primeiro.lado], 0);
+  const c = new Construtor(trilho[lado(0)], 0);
   const juntas: number[] = [];
   const divisas: number[] = [];
   const travessias: Travessia[] = [];
@@ -299,7 +390,7 @@ export function montarTrajeto(entrada: Entrada): Trajeto | null {
     const atual = trechos[i];
     if (!anterior || !atual) continue;
 
-    if (atual.lado === anterior.lado) {
+    if (lado(i) === lado(i - 1)) {
       // Mesmo lado: uma luva marca a divisa entre os dois trechos.
       divisas.push(atual.borda.topo);
       continue;
@@ -309,14 +400,14 @@ export function montarTrajeto(entrada: Entrada): Trajeto | null {
       faixaLivre(anterior.conteudo.base, atual.conteudo.topo, atual.obstaculos, 2 * raio + 8) ??
       ([anterior.conteudo.base, atual.conteudo.topo] as [number, number]);
     const y = Math.max((faixa[0] + faixa[1]) / 2, c.y + curva);
-    const destinoX = trilho[atual.lado];
+    const destinoX = trilho[lado(i)];
 
     const sInicio = c.s + Math.max(0, y - curva - c.y);
     const dir = c.virarParaHorizontal(y, destinoX, curva);
     const inicioDaReta = c.s;
     const comprimento = Math.abs(destinoX - c.x) - curva;
     c.virarParaBaixo(destinoX, dir, curva);
-    travessias.push({ y, sInicio, sFim: c.s });
+    travessias.push({ y, sInicio, sFim: c.s, sReta: inicioDaReta });
     // Uma luva no meio da travessia: o ponto em que ela cruza a tela.
     juntas.push(inicioDaReta + comprimento / 2);
   }
@@ -333,8 +424,9 @@ export function montarTrajeto(entrada: Entrada): Trajeto | null {
     if (cabe) {
       const sInicio = c.s + Math.max(0, yDestino - curva - c.y);
       c.virarParaHorizontal(yDestino, bordaX, curva);
+      const sReta = c.s;
       c.reta(bordaX, yDestino);
-      travessias.push({ y: yDestino, sInicio, sFim: c.s });
+      travessias.push({ y: yDestino, sInicio, sFim: c.s, sReta });
       chegaAoDestino = true;
     }
   }
@@ -355,10 +447,11 @@ export function montarTrajeto(entrada: Entrada): Trajeto | null {
     const s = preenchimentoAte(trajeto, y);
     if (s > 0 && s < trajeto.total) juntas.push(s);
   }
-  // A luva de saída fica rente à borda do destino.
-  if (chegaAoDestino) juntas.push(trajeto.total - MEIA_LUVA * raio);
+  // A luva de saída fica rente à borda do destino; sem chegar a ele, é a tampa que fecha o tubo.
+  juntas.push(trajeto.total - MEIA_LUVA * raio);
 
-  trajeto.juntas = juntas.sort((a, b) => a - b).slice(0, MAXIMO_DE_JUNTAS);
+  // Todas, em ordem: o renderizador escolhe as que caem no canvas (`MAXIMO_DE_JUNTAS`).
+  trajeto.juntas = juntas.sort((a, b) => a - b);
   return trajeto;
 }
 

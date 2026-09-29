@@ -3,7 +3,6 @@ import Link from "next/link";
 import { LabHero } from "@/components/home/LabHero";
 import { ProductConfigurator } from "@/components/home/ProductConfigurator";
 import { MorvelioChallenge } from "@/components/home/MorvelioChallenge";
-import { Conduto } from "@/components/conduto/Conduto";
 import { trabalhos } from "@/content/portfolio";
 import "@/components/home/HomeExperience.css";
 
@@ -11,8 +10,6 @@ export const revalidate = 3600;
 export default function Home() {
   return (
     <div className="hx">
-      {/* Tubo de energia: corre pelas seções marcadas com data-conduto-lado. */}
-      <Conduto />
       <LabHero />
       <noscript>
         <p className="px-6 py-4 text-sm">

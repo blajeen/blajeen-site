@@ -1,19 +1,27 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useMotion } from '@/components/motion/MotionProvider';
 import { quandoGpuLivre } from '@/lib/fila-da-gpu';
 import type { Motor } from './motor';
 import styles from './Conduto.module.css';
 
 /**
- * Conduto de energia: um tubo de vidro com líquido verde-ácido que atravessa a página.
+ * Conduto de energia: um tubo de vidro com líquido verde-ácido que atravessa as páginas do site.
  *
- * Ele corre pelas margens, cruza a página nas faixas livres entre as seções e termina encaixado no
- * botão final, que recebe a carga quando o líquido chega. O nível acompanha a leitura.
+ * Mora no layout, dentro do `main`: um só motor e um só contexto WebGL para o site inteiro. Ao
+ * navegar, ele mede a página nova e enche o tubo de novo. Painel e portal de onboarding são áreas
+ * privadas de trabalho: ali ele não aparece.
+ *
+ * Ele corre pelas margens e cruza a página nas faixas livres entre as seções. Na home, termina
+ * encaixado no botão final, que recebe a carga quando o líquido chega; nas outras páginas, numa
+ * tampa de metal. O líquido enche até 70% da tela e avança com a rolagem.
  *
  * Como a página marca o caminho:
- * - `data-conduto-lado="esquerda|direita"` em cada seção por onde ele passa;
+ * - `data-conduto-lado="esquerda|direita"` fixa o lado de uma seção;
+ * - `data-conduto-lado="alternar"` pode trocar de lado em relação à seção anterior (o `Container`
+ *   já traz essa marca, e por isso as páginas internas não precisam de marcação própria);
  * - `data-conduto-destino` no elemento onde ele termina.
  *
  * Para leitor de tela é decorativo: fora da árvore de acessibilidade, sem ponteiro, atrás do
@@ -26,7 +34,17 @@ import styles from './Conduto.module.css';
 
 /** Teto de espera pela fila da GPU: se a cena 3D demorar ou falhar, o conduto não fica preso. */
 const ESPERA_MAXIMA_DA_GPU = 8000;
+
+/** Áreas privadas de trabalho, onde o tubo não entra. */
+const PRIVADAS = ['/admin', '/onboarding'];
+
 export function Conduto() {
+  const caminho = usePathname();
+  const privada = PRIVADAS.some((prefixo) => caminho === prefixo || caminho.startsWith(`${prefixo}/`));
+  return privada ? null : <CondutoAtivo caminho={caminho} />;
+}
+
+function CondutoAtivo({ caminho }: { caminho: string }) {
   const raiz = useRef<HTMLDivElement>(null);
   const motor = useRef<Motor | null>(null);
   const { ativo } = useMotion();
@@ -36,6 +54,13 @@ export function Conduto() {
     ativoAtual.current = ativo;
     motor.current?.movimento(ativo);
   }, [ativo]);
+
+  // Página nova no mesmo layout: o DOM dela já está no lugar quando este efeito roda. De layout, e
+  // não passivo, para rodar antes da pintura: senão o tubo da página anterior aparece na nova por
+  // um quadro.
+  useLayoutEffect(() => {
+    motor.current?.novaPagina();
+  }, [caminho]);
 
   useEffect(() => {
     const no = raiz.current;

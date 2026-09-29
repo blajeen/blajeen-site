@@ -39,7 +39,7 @@ export default function NotalioPage() {
         <LabBackdrop />
         <Container>
           <p className="tecnica text-signal">{app.estado} / WINDOWS</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">
                 {app.nome}
@@ -150,7 +150,7 @@ export default function NotalioPage() {
           </figcaption>
         </figure>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 [&>*]:min-w-0">
           <div className="lg:col-span-7">
             {app.descricao.map((paragrafo) => (
               <p
@@ -170,7 +170,12 @@ export default function NotalioPage() {
               {/* A pasta desenhada. Ela rola sozinha porque as linhas são largas e o
                   aside é estreito — quebrar a árvore no meio destruiria o desenho dela. */}
               {app.ondeFicam.arvore ? (
-                <pre className="mt-4 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-4 text-[11.5px] leading-[1.7] text-mineral">
+                <pre
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Árvore de pastas, rola para o lado"
+                  className="mt-4 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-4 text-[11.5px] leading-[1.7] text-mineral"
+                >
                   {app.ondeFicam.arvore.join('\n')}
                 </pre>
               ) : null}
@@ -208,7 +213,7 @@ export default function NotalioPage() {
       {/* ---------------------------------------------------------------- a lista */}
       {app.lista ? (
         <Section indice="03 / A LISTA" rotulo="A lista de coisas pra fazer do Notalio">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
             <div className="lg:col-span-5">
               <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
                 {app.lista.titulo}
@@ -242,7 +247,12 @@ export default function NotalioPage() {
                 />
               </figure>
               <p className="tecnica mt-6 text-mineral-dim">{app.lista.exemplo.arquivo}</p>
-              <pre className="mt-2 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-5 text-[12.5px] leading-[1.75] text-mineral">
+              <pre
+                tabIndex={0}
+                role="region"
+                aria-label={`Conteúdo de ${app.lista.exemplo.arquivo}, rola para o lado`}
+                className="mt-2 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-5 text-[12.5px] leading-[1.75] text-mineral"
+              >
                 {app.lista.exemplo.texto}
               </pre>
               <p className="medida-texto mt-4 text-sm leading-relaxed text-mineral">
@@ -256,7 +266,7 @@ export default function NotalioPage() {
       {/* ---------------------------------------------------------------- a gaveta */}
       {app.gaveta ? (
         <Section indice="04 / A GAVETA" rotulo="A gaveta do Notalio">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
             <div className="lg:col-span-5">
               <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
                 {app.gaveta.titulo}
@@ -300,7 +310,7 @@ export default function NotalioPage() {
       {/* ---------------------------------------------------------------- promessas */}
       {app.promessas ? (
         <Section indice="05 / O QUE ELE PROMETE" rotulo="As promessas do Notalio">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
               Um bloco de notas guarda o que você escreveu. São estas cinco frases que
               dizem o que isso quer dizer aqui — e a sexta, logo abaixo, diz onde elas
@@ -399,7 +409,7 @@ export default function NotalioPage() {
         indice="07 / O QUE ELE NÃO FAZ"
         rotulo="O que o Notalio não faz"
       >
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             Um programa onde você escreve as suas coisas pede confiança. Esta lista existe
             pra você saber onde ele para, antes de instalar.
@@ -427,7 +437,7 @@ export default function NotalioPage() {
           rotulo="Apoiar o Notalio"
           className="pb-[clamp(4rem,9vw,9rem)]"
         >
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
             <div className="lg:col-span-5">
               <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em]">
                 {app.apoiar.titulo}

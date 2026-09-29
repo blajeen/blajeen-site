@@ -22,7 +22,7 @@ export default function VistalioPage() {
         <LabBackdrop />
         <Container>
           <p className="tecnica text-signal">{app.estado} / NAVEGADOR</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">
                 {app.nome}
@@ -65,7 +65,7 @@ export default function VistalioPage() {
           </figcaption>
         </figure>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 [&>*]:min-w-0">
           <div className="lg:col-span-7">
             {app.descricao.map((paragrafo) => (
               <p
@@ -110,7 +110,7 @@ export default function VistalioPage() {
 
       {/* ---------------------------------------------------------------- o que falta */}
       <Section indice="02 / O QUE AINDA FALTA" rotulo="O que ainda não está pronto no Vistalio">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <h2 className="text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.05] tracking-[-0.04em] lg:col-span-5">
             {app.aindaNao.titulo}
           </h2>
@@ -148,7 +148,7 @@ export default function VistalioPage() {
         rotulo="O que o Vistalio não faz"
         className="pb-[clamp(4rem,9vw,9rem)]"
       >
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             Um site que indica lugar pra ir precisa dizer onde ele para. Esta lista existe
             pra você não descobrir isso na estrada.

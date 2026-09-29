@@ -9,11 +9,11 @@
  * O nível do líquido segue a rolagem por uma mola criticamente amortecida: ele corre atrás da
  * leitura e estica o menisco quando acelera, sem passar do ponto. Nas travessias, ele avança na
  * proporção da rolagem (`preenchimentoPelaLeitura`): nada corre de lado pela tela sozinho. O nível
- * só avança; subir a página não esvazia o tubo.
+ * só avança; subir a página não esvazia o tubo. No fim da página, o tubo enche inteiro.
  *
- * Com movimento reduzido (sistema ou botão MOVIMENTO), o tubo aparece cheio e parado, com a luz
- * presa à página, e só é redesenhado quando a rolagem pede outra posição do canvas: o desenho novo
- * é idêntico ao anterior.
+ * Com movimento reduzido (sistema ou botão MOVIMENTO) não há animação própria: o nível vai direto
+ * para a linha de leitura a cada rolagem, sem mola, correnteza, bolhas correndo, pulso ou reflexo
+ * seguindo o mouse, e a luz fica presa à página. Entre uma rolagem e outra, nada se mexe.
  */
 
 import { LIMITE_DA_ABERTURA } from '@/components/motion/abertura';
@@ -26,12 +26,17 @@ import {
   remapear,
   type Caixa,
   type Entrada,
+  type LadoMarcado,
   type Trajeto,
   type Trecho,
 } from './trajeto';
 
-/** Linha de leitura, em fração da altura da tela: o líquido chega um pouco antes do fim dela. */
-const LINHA_DE_LEITURA = 0.9;
+/**
+ * Linha de leitura, em fração da altura da tela: o líquido enche até aqui, nunca além, e só avança
+ * quando a página rola para baixo. Com 70%, a frente fica à vista, pedindo a rolagem, e o tubo
+ * nunca aparece cheio na tela inteira (pedido do titular em 29/09/2026).
+ */
+const LINHA_DE_LEITURA = 0.7;
 /** Folga do canvas acima e abaixo da tela, em fração da altura. */
 const FOLGA = 0.2;
 /** A abertura enche o tubo logo depois do véu do laboratório sair de cena. */
@@ -62,6 +67,11 @@ const LUZ_PARADA: [number, number, number] = [-3000, -3000, 3000];
 
 export type Motor = {
   movimento(ativo: boolean): void;
+  /**
+   * A navegação trocou a página dentro do mesmo layout: o motor mede de novo, passa a observar as
+   * seções novas e enche o tubo desde o começo, sem recriar o contexto da GPU.
+   */
+  novaPagina(): void;
   destruir(): void;
 };
 
@@ -117,10 +127,39 @@ function lerCor(estilo: CSSStyleDeclaration, nome: string): Rgb | null {
 }
 
 /**
- * Lê a página: cada `[data-conduto-lado]` vira um trecho; os irmãos sem marcação entre dois
- * trechos viram obstáculos da travessia; `[data-conduto-destino]` é onde o tubo termina.
+ * Elementos que ficam entre `a` e `b` na ordem do documento, sem conter nenhum dos dois: os
+ * irmãos seguintes de `a` e de cada ancestral dele, os anteriores de `b` e dos dele, até o
+ * ancestral comum. São os obstáculos da travessia entre dois trechos, estejam onde estiverem.
  */
-function medir(raiz: HTMLElement): Entrada | null {
+export function entre(a: Element, b: Element): Element[] {
+  let comum: Element | null = a.parentElement;
+  while (comum && !comum.contains(b)) comum = comum.parentElement;
+  if (!comum) return [];
+  const achados: Element[] = [];
+  let no: Element = a;
+  while (no.parentElement && no.parentElement !== comum) {
+    for (let irmao = no.nextElementSibling; irmao; irmao = irmao.nextElementSibling) achados.push(irmao);
+    no = no.parentElement;
+  }
+  for (let irmao = no.nextElementSibling; irmao && !irmao.contains(b); irmao = irmao.nextElementSibling) {
+    achados.push(irmao);
+  }
+  no = b;
+  while (no.parentElement && no.parentElement !== comum) {
+    for (let irmao = no.previousElementSibling; irmao; irmao = irmao.previousElementSibling) achados.push(irmao);
+    no = no.parentElement;
+  }
+  return achados;
+}
+
+const LADOS: readonly LadoMarcado[] = ['esquerda', 'direita', 'alternar'];
+
+/**
+ * Lê a página: cada `[data-conduto-lado]` vira um trecho (os de fora; um trecho marcado dentro de
+ * outro não conta); tudo o que fica entre dois trechos vira obstáculo da travessia;
+ * `[data-conduto-destino]` é onde o tubo termina.
+ */
+export function medir(raiz: HTMLElement, alturaDaTela: number): Entrada | null {
   const escopo = raiz.parentElement;
   if (!escopo) return null;
   const base = raiz.getBoundingClientRect();
@@ -134,23 +173,22 @@ function medir(raiz: HTMLElement): Entrada | null {
   const trechos: Trecho[] = [];
   let anterior: Element | null = null;
   for (const el of escopo.querySelectorAll<HTMLElement>('[data-conduto-lado]')) {
+    if (el.parentElement?.closest('[data-conduto-lado]')) continue;
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
     const estilo = getComputedStyle(el);
     const borda = caixa(r);
     const obstaculos: Caixa[] = [];
-    if (anterior && anterior.parentElement === el.parentElement) {
-      for (
-        let irmao: Element | null = anterior.nextElementSibling;
-        irmao && irmao !== el;
-        irmao = irmao.nextElementSibling
-      ) {
-        const ri = irmao.getBoundingClientRect();
-        if (ri.width > 0 && ri.height > 0) obstaculos.push(caixa(ri));
+    if (anterior) {
+      for (const outro of entre(anterior, el)) {
+        if (outro === raiz) continue;
+        const ro = outro.getBoundingClientRect();
+        if (ro.width > 0 && ro.height > 0) obstaculos.push(caixa(ro));
       }
     }
+    const marcado = el.dataset['condutoLado'] as LadoMarcado | undefined;
     trechos.push({
-      lado: el.dataset['condutoLado'] === 'esquerda' ? 'esquerda' : 'direita',
+      lado: marcado && LADOS.includes(marcado) ? marcado : 'alternar',
       borda,
       conteudo: {
         topo: borda.topo + parseFloat(estilo.paddingTop),
@@ -166,6 +204,7 @@ function medir(raiz: HTMLElement): Entrada | null {
   const destino = escopo.querySelector<HTMLElement>('[data-conduto-destino]')?.getBoundingClientRect();
   return {
     largura: base.width,
+    alturaDaTela,
     trechos,
     destino: destino && destino.width > 0 ? caixa(destino) : null,
   };
@@ -204,8 +243,22 @@ export function prepararConduto(raiz: HTMLElement): Preparo | null {
   const criado = criarRenderizador(canvas);
   if (!criado) return null;
   const renderizador: Renderizador = criado;
+  // Cores dos tokens: ler o estilo agora, com a página parada, não força recálculo depois.
+  const estilo = getComputedStyle(document.documentElement);
+  const sinal = lerCor(estilo, '--color-signal');
+  const brilho = lerCor(estilo, '--color-glow');
+  const papel = lerCor(estilo, '--color-paper');
+  const aco = lerCor(estilo, '--color-steel');
+  const tinta = lerCor(estilo, '--color-ink');
+  if (!sinal || !brilho || !papel || !aco || !tinta) {
+    renderizador.destruir();
+    return null;
+  }
+  renderizador.cores({ sinal, brilho, papel, aco, tinta });
   const medida = medirCanvas(raiz, 0);
   aplicarMedida(canvas, renderizador, medida);
+  // O canvas entra vazio e transparente; só desenha depois que o shader compilar.
+  raiz.append(canvas);
   const contexto = performance.now() - comeco;
   let usado = false;
   return {
@@ -218,6 +271,7 @@ export function prepararConduto(raiz: HTMLElement): Preparo | null {
       if (usado) return;
       usado = true;
       renderizador.destruir();
+      canvas.remove();
     },
   };
 }
@@ -232,19 +286,6 @@ function iniciarConduto(
 ): Motor | null {
   const comeco = performance.now();
   renderizador.compilar();
-
-  const estilo = getComputedStyle(document.documentElement);
-  const sinal = lerCor(estilo, '--color-signal');
-  const brilho = lerCor(estilo, '--color-glow');
-  const papel = lerCor(estilo, '--color-paper');
-  const aco = lerCor(estilo, '--color-steel');
-  const tinta = lerCor(estilo, '--color-ink');
-  if (!sinal || !brilho || !papel || !aco || !tinta) {
-    renderizador.destruir();
-    return null;
-  }
-  renderizador.cores({ sinal, brilho, papel, aco, tinta });
-  raiz.append(canvas);
 
   const diagnostico: Diagnostico | null =
     navigator.webdriver === true
@@ -292,6 +333,24 @@ function iniciarConduto(
   let precisaMedir = true;
   let sujo = true;
   let pronto = false;
+  // Página nova: o canvas ainda guarda o desenho da anterior e fica escondido até o primeiro
+  // desenho da nova.
+  let trocandoDePagina = false;
+  // Maior rolagem possível, medida junto com a página: rolar até o fim enche o tubo inteiro.
+  let rolagemMaxima = Infinity;
+  // Margem de menos de 10 px numa página sem travessia: os trilhos correm fora da tela e nada do
+  // tubo aparece. O canvas some e o laço não roda.
+  let aVista = false;
+
+  // Altura da tela para a regra de troca de lado, presa enquanto a largura não muda: no celular a
+  // barra de endereço muda a altura durante a rolagem, e o tubo não pode trocar de lado por isso.
+  let referencia = { largura: window.innerWidth, altura: window.innerHeight };
+  function alturaDeReferencia() {
+    if (window.innerWidth !== referencia.largura) {
+      referencia = { largura: window.innerWidth, altura: window.innerHeight };
+    }
+    return referencia.altura;
+  }
 
   // Luz pontual em coordenadas da tela. Sem mouse, ela fica acima e à esquerda da tela.
   const luz = { x: window.innerWidth * 0.18, y: -vh * 0.25, alvoX: 0, alvoY: 0 };
@@ -303,6 +362,13 @@ function iniciarConduto(
 
   function pedirQuadro() {
     if (!pedido) pedido = requestAnimationFrame(quadro);
+  }
+
+  /** Primeiro desenho da página feito (ou nada a desenhar nela): o QA espera por isto. */
+  function marcarPronto() {
+    if (pronto) return;
+    pronto = true;
+    raiz.dataset['condutoPronto'] = 'true';
   }
 
   function ajustarCanvas() {
@@ -321,9 +387,10 @@ function iniciarConduto(
     precisaMedir = false;
     const inicioDaMedicao = performance.now();
     if (diagnostico) diagnostico.medicoes += 1;
-    const entrada = medir(raiz);
+    const entrada = medir(raiz, alturaDeReferencia());
     const novo = entrada ? montarTrajeto(entrada) : null;
     topoNoDocumento = raiz.getBoundingClientRect().top + window.scrollY;
+    rolagemMaxima = document.documentElement.scrollHeight - window.innerHeight;
 
     if (trajeto && novo) {
       // O conteúdo mudou de tamanho (o configurador, a barra de endereço do celular): a frente do
@@ -332,7 +399,8 @@ function iniciarConduto(
       alvo = Math.max(nivel, remapear(trajeto, novo, alvo));
     }
     trajeto = novo;
-    canvas.hidden = !novo;
+    aVista = novo !== null && !(novo.trilhosForaDaTela && novo.travessias.length === 0);
+    canvas.hidden = !aVista;
     if (novo) {
       renderizador.trajeto(novo);
       if (diagnostico) {
@@ -372,6 +440,10 @@ function iniciarConduto(
     ultimo = agora;
     if (precisaMedir) remedir();
     if (!trajeto) return;
+    if (!aVista) {
+      marcarPronto();
+      return;
+    }
     if (!renderizador.pronto()) {
       // O shader ainda compila fora da thread principal: tenta de novo no próximo quadro. Sem
       // contexto (GPU reiniciada), espera o evento de volta em vez de girar à toa. Se a compilação
@@ -402,18 +474,22 @@ function iniciarConduto(
       sujo = true;
     }
 
+    // O nível vai até a linha de leitura; no fim da página, o tubo inteiro (o que resta abaixo da
+    // linha não teria como encher).
+    const linha = rolagem + vh * LINHA_DE_LEITURA;
+    const noFim = window.scrollY >= rolagemMaxima - 2;
+
     let assentado = true;
     if (movimento) {
       if (!iniciado && agora >= FIM_DA_ABERTURA) {
-        // Abertura: o que está acima da tela já nasce cheio; o que se vê enche agora.
+        // Abertura: o que está acima da tela já nasce cheio; daí até a linha de leitura, enche agora.
         iniciado = true;
         nivel = preenchimentoAte(trajeto, rolagem);
-        alvo = preenchimentoPelaLeitura(trajeto, rolagem + vh, vh * FAIXA_DA_TRAVESSIA);
       }
       if (iniciado) {
         alvo = Math.max(
           alvo,
-          preenchimentoPelaLeitura(trajeto, rolagem + vh * LINHA_DE_LEITURA, vh * FAIXA_DA_TRAVESSIA),
+          noFim ? trajeto.total : preenchimentoPelaLeitura(trajeto, linha, vh * FAIXA_DA_TRAVESSIA),
         );
         // Salto longo (âncora, rolagem rápida): o que ficou fora da tela enche na hora, e só o
         // último trecho corre à vista. Ninguém espera o líquido atravessar a página inteira.
@@ -436,7 +512,16 @@ function iniciarConduto(
       luz.x += (luz.alvoX - luz.x) * suave;
       luz.y += (luz.alvoY - luz.y) * suave;
     } else {
-      nivel = trajeto.total;
+      // Sem animação: o nível salta para a linha de leitura, e só quando ela avança. Sem a faixa das
+      // travessias: nela o líquido corre de lado mais rápido que a rolagem, e isso é movimento. Aqui
+      // a travessia enche de uma vez quando a linha chega nela.
+      iniciado = true;
+      const leitura = noFim ? trajeto.total : preenchimentoAte(trajeto, linha);
+      if (leitura > alvo) alvo = leitura;
+      if (alvo !== nivel) {
+        nivel = alvo;
+        sujo = true;
+      }
       velocidade = 0;
       correndo = 0;
     }
@@ -467,15 +552,16 @@ function iniciarConduto(
       });
       ultimoDesenho = agora;
       sujo = false;
+      if (trocandoDePagina) {
+        trocandoDePagina = false;
+        canvas.style.visibility = '';
+      }
       if (diagnostico) {
         diagnostico.desenhos += 1;
         diagnostico.nivel = nivel;
         diagnostico.total = trajeto.total;
       }
-      if (!pronto) {
-        pronto = true;
-        raiz.dataset['condutoPronto'] = 'true';
-      }
+      marcarPronto();
     }
 
     const descansando = assentado && agora - ultimaInteracao > DESCANSO;
@@ -517,10 +603,14 @@ function iniciarConduto(
 
   // Qualquer mudança de tamanho do conteúdo (fonte que chega, configurador que cresce) remede.
   const observador = new ResizeObserver(aoRedimensionar);
-  if (raiz.parentElement) observador.observe(raiz.parentElement);
-  raiz.parentElement
-    ?.querySelectorAll('[data-conduto-lado], [data-conduto-destino]')
-    .forEach((el) => observador.observe(el));
+  function observar() {
+    observador.disconnect();
+    if (raiz.parentElement) observador.observe(raiz.parentElement);
+    raiz.parentElement
+      ?.querySelectorAll('[data-conduto-lado], [data-conduto-destino]')
+      .forEach((el) => observador.observe(el));
+  }
+  observar();
 
   pedirQuadro();
   if (diagnostico) diagnostico.inicio = performance.now() - comeco;
@@ -536,6 +626,25 @@ function iniciarConduto(
         velocidade = 0;
         ultimo = performance.now();
       }
+      sujo = true;
+      acordar();
+    },
+    novaPagina() {
+      iniciado = false;
+      nivel = 0;
+      alvo = 0;
+      velocidade = 0;
+      correndo = 0;
+      carregado = false;
+      referencia = { largura: window.innerWidth, altura: window.innerHeight };
+      // Chamado antes da pintura da página nova: o tubo da anterior não aparece nela nem por um
+      // quadro. O QA espera o `pronto` de novo.
+      trocandoDePagina = true;
+      canvas.style.visibility = 'hidden';
+      pronto = false;
+      delete raiz.dataset['condutoPronto'];
+      observar();
+      precisaMedir = true;
       sujo = true;
       acordar();
     },

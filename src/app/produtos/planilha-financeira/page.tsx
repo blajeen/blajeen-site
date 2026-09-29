@@ -24,7 +24,7 @@ export default function PlanilhaFinanceiraPage() {
         <LabBackdrop />
         <Container>
           <p className="tecnica text-signal">{p.estado} / GOOGLE SHEETS</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
             <div className="lg:col-span-8">
               <h1 className="max-w-[16ch] text-[clamp(2.6rem,6vw,5.6rem)] leading-[0.94] tracking-[-0.06em]">
                 {p.nome}
@@ -114,7 +114,7 @@ export default function PlanilhaFinanceiraPage() {
           </figcaption>
         </figure>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 [&>*]:min-w-0">
           <div className="lg:col-span-7">
             {p.descricao.map((paragrafo) => (
               <p
@@ -142,7 +142,7 @@ export default function PlanilhaFinanceiraPage() {
 
       {/* ---------------------------------------------------------------- as abas */}
       <Section indice="03 / O QUE CADA ABA FAZ" rotulo="As abas da planilha">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             São sete abas, e você mexe em três. As outras quatro só mostram o resultado do que
             você escreveu.
@@ -182,7 +182,7 @@ export default function PlanilhaFinanceiraPage() {
         rotulo="As regras da planilha"
         className="pb-[clamp(4rem,9vw,9rem)]"
       >
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             Planilha de finanças não costuma ser abandonada por ser difícil. É abandonada porque
             os números param de bater e ninguém sabe por quê. Estas três evitam quase todos esses

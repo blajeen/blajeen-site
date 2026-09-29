@@ -39,7 +39,7 @@ export default function EditalioPage() {
         <LabBackdrop />
         <Container>
           <p className="tecnica text-signal">{app.estado} / WINDOWS</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">
                 {app.nome}
@@ -142,7 +142,7 @@ export default function EditalioPage() {
           </figcaption>
         </figure>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 [&>*]:min-w-0">
           <div className="lg:col-span-7">
             {app.descricao.map((paragrafo) => (
               <p
@@ -160,7 +160,12 @@ export default function EditalioPage() {
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-mineral">{app.ondeFicam.texto}</p>
               {app.ondeFicam.arvore ? (
-                <pre className="mt-4 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-4 text-[11.5px] leading-[1.7] text-mineral">
+                <pre
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Árvore de pastas, rola para o lado"
+                  className="mt-4 overflow-x-auto rounded-[var(--radius-control)] border border-line bg-void/40 p-4 text-[11.5px] leading-[1.7] text-mineral"
+                >
                   {app.ondeFicam.arvore.join('\n')}
                 </pre>
               ) : null}
@@ -228,7 +233,7 @@ export default function EditalioPage() {
       {/* ---------------------------------------------------------------- promessas */}
       {app.promessas ? (
         <Section indice="04 / O QUE ELE PROMETE" rotulo="As promessas do Editalio">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
             <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
               Um editor mexe nos arquivos que você já tem. São estas cinco frases que dizem o
               que isso quer dizer aqui — e a lista logo abaixo diz onde elas param.
@@ -286,7 +291,7 @@ export default function EditalioPage() {
         rotulo="O que o Editalio não faz"
         className="pb-[clamp(4rem,9vw,9rem)]"
       >
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             Um programa que abre os seus arquivos pede confiança. Esta lista existe pra você
             saber onde ele para, antes de instalar.

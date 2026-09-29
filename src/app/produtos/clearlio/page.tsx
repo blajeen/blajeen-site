@@ -25,7 +25,7 @@ export default function ClearlioPage() {
         <LabBackdrop />
         <Container>
           <p className="tecnica text-signal">{app.estado} / WINDOWS</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
             <div className="lg:col-span-8">
               <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">
                 {app.nome}
@@ -161,7 +161,7 @@ export default function ClearlioPage() {
           </figcaption>
         </figure>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 [&>*]:min-w-0">
           <div className="lg:col-span-7">
             {app.descricao.map((paragrafo) => (
               <p key={paragrafo.slice(0, 32)} className="mb-5 text-[1.05rem] leading-relaxed text-paper/80">
@@ -190,7 +190,7 @@ export default function ClearlioPage() {
         rotulo="O que o Clearlio não faz"
         className="pb-[clamp(4rem,9vw,9rem)]"
       >
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start [&>*]:min-w-0">
           <p className="medida-texto text-[1.05rem] leading-relaxed text-paper/80 lg:col-span-4">
             Um limpador de disco pede muita confiança. Esta lista existe pra você saber onde ele
             para, antes de instalar.

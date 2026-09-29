@@ -1,5 +1,15 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda pedida pelo titular — conduto de energia (28/09/2026, em revisão)
+
+O titular pediu um elemento de design avançado que chamasse atenção: uma corrente de energia, um líquido verde num tubo de vidro percorrendo o site, em 3D. A resposta é o conduto: um tubo de vidro em WebGL que desce pelas margens da home, atravessa a página nas faixas livres entre as seções, passa por trás da faixa de chamadas e termina encaixado no botão "Vamos criar seu projeto". O líquido enche conforme a leitura avança e, ao chegar, carrega o botão.
+
+Função narrativa (a regra "WebGL sem função narrativa" continua valendo): o tubo é a energia do laboratório levando o visitante da bancada ao próximo projeto, e mostra o quanto da história já foi lido. Para quem usa leitor de tela, ele é decorativo e fica fora da árvore de acessibilidade; nenhuma informação depende dele.
+
+Limites: nunca passa sobre texto, imagem ou controle (conferido por `npm run qa:conduto` em 12 tamanhos); no celular e no tablet em pé, os trilhos verticais saem da tela e só as travessias aparecem; com movimento reduzido ou o botão MOVIMENTO desligado, aparece cheio e parado; o líquido corre de lado só enquanto a pessoa rola; o laço de animação descansa depois de 5 s sem interação.
+
+Cores e papéis no conduto: sinal no líquido e na luz verde que ele projeta; tinta na profundidade, na borda escura do líquido e na sombra; brilho técnico nos reflexos e no núcleo aceso do líquido; papel, o branco do sistema, nos reflexos do vidro; aço no metal das luvas. Implementação e evidências em `docs/conduto/IMPLEMENTACAO.md`. A publicação depende da aprovação do titular sobre a prévia.
+
 ## Emenda aprovada pelo titular — home interativa
 
 **Polimento visual posterior autorizado pelo titular:** largura editorial máxima de 1.440 px; navegação mobile pelo cabeçalho e gaveta acessível, liberando a largura antes ocupada pela barra lateral; rodapé expansível no celular; apresentação unificada de capturas reais com `SystemScreenshot` e `ScreenshotFrame`. Fotos e artes de jogos não recebem o filtro de interfaces. Evidências em `docs/polimento-visual/IMPLEMENTACAO.md`. O componente antigo `MobileSideNav` permanece no repositório como legado, sem ser montado pelo cabeçalho.
@@ -343,6 +353,7 @@ No mobile:
 | Projetos | scanline única no foco/hover | sem loop permanente |
 | Cursor | halo ambiental | ocultar em touch/reduced motion |
 | Parallax | somente mídia de projeto | deslocamento máximo 2% |
+| Conduto de energia (home) | líquido enche com a leitura; travessias acompanham a rolagem | parado em reduced motion e com MOVIMENTO desligado; descansa após 5 s; sem overshoot |
 | Links | sublinhado/sinal e foco claro | feedback em <= 150 ms |
 
 Não usar smooth-scroll de terceiros, WebGL sem função narrativa, vídeo de fundo obrigatório,

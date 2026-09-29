@@ -37,7 +37,9 @@ npm run start
 | `npm run build:assets` | regenera ícones e imagens Open Graph a partir dos masters |
 | `npm run qa:shots` | captura as 22 rotas em 6 larguras e confere que nenhum banner é cortado |
 | `npm run qa:interacao` | teclado, foco preso, `Esc`, scrim, scroll lock e movimento reduzido, em navegador real |
-| `npm run qa` | os dois QA acima |
+| `npm run qa:contraste` | contraste AA do texto sobre as artes de fundo, medido no pior pixel pintado |
+| `npm run qa:conduto` | o tubo de energia da home em 12 tamanhos: nunca encosta em conteúdo, parado de verdade com movimento reduzido, descanso, GPU reiniciada e tempos por quadro |
+| `npm run qa` | os quatro QA acima |
 | `node tools/check-lighthouse.mjs` | Lighthouse nas rotas principais, desktop e mobile |
 
 Os comandos de QA precisam do servidor rodando (`npm run start` em outro terminal). Use

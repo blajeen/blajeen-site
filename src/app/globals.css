@@ -101,6 +101,9 @@
   /*
    * Os adereços fixos ficam em `z-index: 0`, acima do fundo da página e abaixo de tudo o que se
    * lê. Sem esta regra, o header, o conteúdo e o rodapé disputariam a mesma camada com eles.
+   *
+   * Dentro do `main` (que forma o próprio contexto), a home usa duas camadas negativas: o conduto
+   * de energia em -1, atrás de todo o conteúdo, e o brilho do painel final em -2, abaixo do tubo.
    */
   body > header,
   body > main,

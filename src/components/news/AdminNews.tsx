@@ -50,16 +50,8 @@ export function AdminNews() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[110rem] px-[var(--gutter)] py-12">
-      <header className="flex flex-wrap items-end justify-between gap-6 border-b border-line pb-8">
-        <div><p className="tecnica text-signal">PAINEL BLAJEEN</p><h1 className="mt-4 text-[clamp(2.5rem,7vw,5.5rem)] leading-none">Novidades.</h1><p className="mt-4 text-mineral">Escreva, revise e publique atualizações no site.</p></div>
-        <nav className="flex flex-wrap gap-3" aria-label="Área administrativa">
-          <a href="/novidades" target="_blank" rel="noreferrer" className="alvo-toque inline-flex items-center rounded-full border border-line-strong px-4 text-sm text-mineral hover:text-paper">Ver página ↗</a>
-          <button type="button" onClick={() => void fetch('/api/admin/logout', { method: 'POST' }).then(() => router.push('/admin/login'))} className="alvo-toque rounded-full border border-line-strong px-4 text-sm text-mineral">Sair</button>
-        </nav>
-      </header>
-
-      <div className="mt-9 grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,0.72fr)]">
+    <div>
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,0.72fr)]">
         <section aria-labelledby="editor-titulo" className="rounded-[var(--radius-panel)] border border-line-strong bg-surface p-6 lg:p-8">
           <div className="flex items-center justify-between gap-4"><h2 id="editor-titulo" className="text-2xl">{editing ? 'Editar novidade' : 'Nova novidade'}</h2>{editing ? <button type="button" onClick={() => setEditing(null)} className="min-h-11 text-sm text-mineral hover:text-paper">Cancelar edição</button> : null}</div>
           <form key={editing?.id ?? 'new'} onSubmit={save} className="mt-6 grid gap-4 sm:grid-cols-2">

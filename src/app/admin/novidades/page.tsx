@@ -1,9 +1,14 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { AdminShell } from '@/components/admin/AdminShell';
+import { botaoSecundario } from '@/components/admin/estilos';
 import { AdminNews } from '@/components/news/AdminNews';
-import { adminCookie, verifyAdminSession } from '@/lib/onboarding/security';
+import { exigirSessaoAdmin } from '@/lib/admin/sessao';
 
 export default async function AdminNewsPage() {
-  if (!verifyAdminSession((await cookies()).get(adminCookie.name)?.value)) redirect('/admin/login');
-  return <AdminNews />;
+  await exigirSessaoAdmin();
+  return (
+    <AdminShell titulo="Novidades." descricao="Escreva, revise e publique atualizações no site."
+      acoes={<a href="/novidades" target="_blank" rel="noreferrer" className={botaoSecundario}>Ver página ↗</a>}>
+      <AdminNews />
+    </AdminShell>
+  );
 }

@@ -63,6 +63,12 @@ export const BLOQUEADORES = {
     // TODO(bloqueador): definir por quanto tempo respostas, arquivos, revisões e histórico serão
     // mantidos depois da publicação ou do arquivamento do projeto. Não estimar prazo jurídico.
   },
+  comercialRetencao: {
+    titulo: 'Prazo de guarda dos pedidos de projeto e dos dados de contratos',
+    docs: 'docs/CONTRATOS_E_PAINEL.md — Privacidade',
+    // TODO(bloqueador): definir por quanto tempo pedidos sem contratação e dados de contratos
+    // encerrados serão mantidos. Não estimar prazo jurídico.
+  },
   lojasRevalio: {
     titulo: 'URLs das fichas do Revalio na App Store e no Google Play',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Revalio',

@@ -2,7 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { site } from '../site';
 import type { LegalDocument } from '../types';
 
-const VERSAO = '20 de agosto de 2026';
+const VERSAO = '30 de setembro de 2026';
 const FONTE_DATA = 'Data de redação desta versão de trabalho.';
 
 const relacionadosEstudio = [
@@ -28,7 +28,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Esta política descreve o site institucional da Blajeen Labs, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
+            'Esta política descreve o site institucional da Blajeen Labs, o formulário “Crie seu projeto”, os contratos enviados por link, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
         },
         {
           tipo: 'paragrafo',
@@ -52,14 +52,15 @@ export const privacidadeEstudio: LegalDocument = {
             'não usa analytics, pixels de rastreamento ou identificadores publicitários;',
             'não grava cookies não essenciais nem exibe banner de consentimento, porque não há o que consentir;',
             'não cria perfil para visitantes das páginas institucionais;',
-            'o formulário público de contato não envia dados ao servidor — ele prepara uma mensagem no aplicativo de e-mail do seu aparelho;',
+            'o formulário da página de contato não envia dados ao servidor — ele prepara uma mensagem no aplicativo de e-mail do seu aparelho;',
+            'o formulário “Crie seu projeto” envia o pedido ao painel interno da Blajeen Labs, como explicado na seção sobre pedidos e contratos;',
             'fontes, scripts e imagens das páginas públicas são entregues pelo próprio domínio.',
           ],
         },
         {
           tipo: 'destaque',
           texto:
-            'A central de onboarding é uma área separada, acessada por link exclusivo por clientes que adquiriram um projeto. O tratamento feito nessa área está explicado abaixo.',
+            'O formulário “Crie seu projeto”, os links de contrato e a central de onboarding tratam os dados que você envia. Esse tratamento está explicado nas seções abaixo.',
         },
       ],
     },
@@ -112,6 +113,37 @@ export const privacidadeEstudio: LegalDocument = {
           bloqueador: 'onboardingRetencao',
           explicacao:
             'Ainda precisa ser definido por quanto tempo respostas, arquivos, revisões e histórico serão mantidos depois da publicação ou do arquivamento do projeto. Até essa decisão, nenhum prazo é prometido nesta política.',
+        },
+      ],
+    },
+    {
+      id: 'pedidos-contratos',
+      titulo: 'Pedidos de projeto e contratos',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Ao enviar o formulário “Crie seu projeto”, você informa nome, e-mail, telefone, o tipo de projeto e a sua ideia. Esses dados ficam no painel interno da Blajeen Labs e são usados para responder ao pedido, conversar sobre o projeto e preparar uma proposta. Um aviso com o conteúdo do pedido pode ser enviado ao e-mail do estúdio por um provedor de envio de e-mails.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Quando o projeto avança, a Blajeen Labs pode enviar um link exclusivo de contrato. Nele, o contratante informa nome ou razão social, CPF ou CNPJ, endereço, e-mail, telefone e, para empresas, o representante legal, além das opções de portfólio e do registro de que leu os termos. Esses dados são usados para formalizar e executar o contrato, inclusive no envio para assinatura eletrônica em plataforma escolhida pelo estúdio.',
+        },
+        {
+          tipo: 'lista',
+          itens: [
+            'o link de contrato funciona sem senha: o próprio endereço é a credencial, guardada em forma de hash, e pode expirar, ser cancelada ou trocada;',
+            'depois do envio, o contratante não edita mais os dados pelo link; correções passam pela Blajeen Labs;',
+            'os registros ficam em PostgreSQL hospedado na Neon, e o acesso ao painel exige sessão administrativa;',
+            'os dados não são vendidos nem usados para publicidade.',
+          ],
+        },
+        {
+          tipo: 'pendente',
+          bloqueador: 'comercialRetencao',
+          explicacao:
+            'Ainda precisa ser definido por quanto tempo pedidos sem contratação e dados de contratos encerrados serão mantidos. Até essa decisão, nenhum prazo é prometido nesta política.',
         },
       ],
     },

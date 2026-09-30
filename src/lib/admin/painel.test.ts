@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import type { Contrato } from '@/lib/contracts/types';
 import type { Pedido } from '@/lib/pedidos/types';
 import { parseNovoPedido } from '@/lib/pedidos/validation';
+import { baseDoSite } from '@/lib/contracts/service';
+import { iso } from './banco';
 import { contratosCsv, indicadores, pendencias, resumoMensal } from './relatorios';
 
 const pedido = (parcial: Partial<Pedido>): Pedido => ({
@@ -16,6 +18,21 @@ const contrato = (parcial: Partial<Contrato>): Contrato => ({
   assinadoEm: '2026-09-12T10:00:00.000Z', entradaRecebidaEm: '2026-09-12T10:00:00.000Z', saldoRecebidoEm: null, pedidoId: null,
   criadoEm: '2026-09-11T09:00:00.000Z', atualizadoEm: '2026-09-12T10:00:00.000Z',
   ...parcial,
+});
+
+describe('banco', () => {
+  it('converte o timestamptz do Postgres em ISO que qualquer navegador entende', () => {
+    expect(iso('2026-09-30 17:46:50.25+00')).toBe('2026-09-30T17:46:50.250Z');
+    expect(iso('2026-09-30 14:00:00-03')).toBe('2026-09-30T17:00:00.000Z');
+    expect(iso('2026-09-30T17:46:50.250Z')).toBe('2026-09-30T17:46:50.250Z');
+  });
+});
+
+describe('links', () => {
+  it('nunca gera link de cliente para localhost em produção', () => {
+    expect(baseDoSite()).not.toContain('localhost');
+    expect(baseDoSite()).toMatch(/^https:\/\//);
+  });
 });
 
 describe('pedidos', () => {

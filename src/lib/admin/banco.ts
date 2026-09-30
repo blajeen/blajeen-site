@@ -75,8 +75,17 @@ export function arquivoLocal<T>(nome: string, vazio: () => T) {
   return { ler, alterar };
 }
 
+/**
+ * O Neon devolve `timestamptz` no formato do Postgres ("2026-09-30 17:46:50.25+00"), que o Safari
+ * não interpreta. Tudo que sai do banco vira ISO 8601 antes de chegar à interface.
+ */
 export function iso(valor: unknown): string {
-  return valor instanceof Date ? valor.toISOString() : String(valor);
+  if (valor instanceof Date) return valor.toISOString();
+  const texto = String(valor);
+  const postgres = /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}(?:\.\d+)?)([+-]\d{2})(?::?(\d{2}))?$/.exec(texto);
+  if (!postgres) return texto;
+  const data = new Date(`${postgres[1]}T${postgres[2]}${postgres[3]}:${postgres[4] ?? '00'}`);
+  return Number.isNaN(data.getTime()) ? texto : data.toISOString();
 }
 
 export function isoOuNulo(valor: unknown): string | null {

@@ -1,5 +1,6 @@
 import type { ServicoId } from '@/content/contratos/tipos';
 import { MODELOS } from '@/content/contratos/modelos.generated';
+import { SITE_URL } from '@/content/site';
 import { emailDoPainel, enviarAvisoAoEstudio } from '@/lib/admin/email';
 import { createCustomerToken, decryptCustomerToken, encryptCustomerToken, hashCustomerToken } from '@/lib/onboarding/security';
 import { catalogoVigente, type CatalogoVigente } from './catalogo';
@@ -14,8 +15,13 @@ function validadeDoLink(): string {
   return new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString();
 }
 
-function baseDoSite(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
+/**
+ * Origem dos links enviados ao cliente e nos avisos por e-mail.
+ * `SITE_URL` já resolve `NEXT_PUBLIC_SITE_URL` e cai no domínio oficial quando a variável não existe —
+ * sem isso, a produção gerava links para localhost.
+ */
+export function baseDoSite(): string {
+  return SITE_URL.replace(/\/$/, '');
 }
 
 export function linkDoCliente(contrato: Pick<Contrato, 'tokenEncrypted'>): string {

@@ -1,4 +1,5 @@
 import { emailDoPainel, enviarAvisoAoEstudio } from '@/lib/admin/email';
+import { baseDoSite } from '@/lib/contracts/service';
 import { checkRateLimit, clientIp, jsonError } from '@/lib/onboarding/http';
 import { atualizarPedido, criarPedido } from '@/lib/pedidos/repository';
 import { parseNovoPedido } from '@/lib/pedidos/validation';
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     if (robo) return Response.json({ ok: true }, { status: 201 });
 
     const criado = await criarPedido(pedido);
-    const base = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
+    const base = baseDoSite();
     const envio = await enviarAvisoAoEstudio(
       `Novo pedido de projeto — ${criado.nome} (${criado.tipo})`,
       emailDoPainel('Novo pedido de projeto', [

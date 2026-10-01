@@ -3,10 +3,16 @@ import sharp from 'sharp';
 
 // Smoke HTTP sem login, sem enviar formulários e sem acessar dados privados.
 const origin = process.argv[2] ?? 'http://localhost:3000';
-const products = [
-  ['clinica-medica', 'doutelio'], ['salao-estetica', 'beautelio'],
-  ['barbearia', 'barbelio'], ['personal-studio', 'studelio'],
-  ['foodelio', 'foodelio'], ['ecommerce', 'lojalio'],
+// O Doutelio tem página própria; os outros SaaS são módulos do Espacelio, numa página só.
+const products = [['clinica-medica', 'doutelio'], ['doutelio', 'doutelio']];
+const modulos = [
+  ['barbelio', 'barbearias'], ['beautelio', 'estetica'], ['studelio', 'estudios'],
+  ['foodelio', 'restaurantes'], ['lojalio', 'lojas'],
+];
+const antigos = [
+  ['barbelio', 'barbearias'], ['barbearia', 'barbearias'], ['beautelio', 'estetica'], ['salao-estetica', 'estetica'],
+  ['studelio', 'estudios'], ['personal-studio', 'estudios'], ['lojalio', 'lojas'], ['ecommerce', 'lojas'],
+  ['foodelio', 'restaurantes'], ['pipelio', 'crm'], ['painel-administrativo', 'paineis'],
 ];
 const checkedImages = new Set();
 
@@ -60,19 +66,28 @@ for (const [slug, id] of products) {
 
 const catalog = await (await get('/projects')).text();
 await checkRenderedImages(catalog, '/projects');
-assert.match(catalog, /6 PRODUTOS ATIVOS/);
-for (const [, id] of products) assert.match(catalog, new RegExp(`id="${id}"`));
-const pipelio = await (await get('/projects/pipelio')).text();
-assert.match(pipelio, /EM BREVE/);
-const admin = await (await get('/projects/painel-administrativo')).text();
-assert.match(admin, /DISPONÍVEL NOS SAAS/);
+assert.match(catalog, /2 PRODUTOS ATIVOS/);
+for (const id of ['espacelio', 'doutelio']) assert.match(catalog, new RegExp(`id="${id}"`));
+const espacelio = await (await get('/projects/espacelio')).text();
+await checkRenderedImages(espacelio, '/projects/espacelio');
+for (const [id, ancora] of modulos) {
+  assert.match(espacelio, new RegExp(`id="${ancora}"`), `espacelio: falta a seção de ${id}`);
+  assert.ok(espacelio.includes(`/saas/${id}/1.webp`), `espacelio: falta a demonstração de ${id}`);
+}
+assert.match(espacelio, /id="crm"/);
+assert.match(espacelio, /id="paineis"/);
+for (const [antigo, ancora] of antigos) {
+  const resposta = await fetch(`${origin}/projects/${antigo}`, { redirect: 'manual', signal: AbortSignal.timeout(60000) });
+  assert.equal(resposta.status, 308, `/projects/${antigo}: deveria redirecionar`);
+  assert.equal(new URL(resposta.headers.get('location'), origin).pathname + new URL(resposta.headers.get('location'), origin).hash,
+    `/projects/espacelio#${ancora}`, `/projects/${antigo}: destino errado`);
+}
 const home = await (await get('/')).text();
 await checkRenderedImages(home, '/');
-assert.match(home, /Seis SaaS ativos/);
 const morvelio = await (await get('/projects/morvelio')).text();
 assert.match(morvelio, /morvelio-icon-montanha-nome-v04\.webp/);
 await checkRenderedImages(morvelio, '/projects/morvelio');
-console.log(`OK catálogo, Pipelio em breve, painéis, home e Morvelio; ${checkedImages.size} imagens renderizadas válidas`);
+console.log(`OK catálogo, Espacelio com módulos, CRM e painéis, redirecionamentos, home e Morvelio; ${checkedImages.size} imagens renderizadas válidas`);
 
 for (const id of ['docalio', 'gramelio']) {
   const html = await (await get(`/projects/${id}`)).text();

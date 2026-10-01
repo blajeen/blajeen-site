@@ -1,5 +1,6 @@
 import type { ProjectId } from './types';
 import { ROTAS } from '@/lib/routes';
+import { rotaDoModulo } from './saas';
 
 /**
  * Novidades do laboratório.
@@ -116,7 +117,7 @@ export const novidades: readonly Novidade[] = [
       'A plataforma para estúdios de beleza já pode ser explorada. A experiência pública reúne serviços, profissionais, portfólio, pacotes e um agendamento capaz de combinar atendimentos e organizar eventos.',
       'Cliente, profissional e gestão possuem áreas próprias. Marca, conteúdo, módulos, serviços, equipe e regras de agenda são adaptados à identidade e à rotina de cada operação.',
     ],
-    href: ROTAS.salaoEstetica,
+    href: rotaDoModulo('estetica'),
     cta: 'Explorar o Studio Beauty',
   },
   {
@@ -128,7 +129,7 @@ export const novidades: readonly Novidade[] = [
       'A nova demonstração reúne vitrine, categorias, busca com sugestões, páginas de produto, carrinho e um checkout assistido que leva o pedido ao atendimento pelo WhatsApp.',
       'A operação também possui um painel para produtos, ofertas, estoque, categorias, catálogo em PDF e dados públicos da loja. Marca, catálogo, conteúdo e jornada de fechamento são adaptados a cada contratante.',
     ],
-    href: ROTAS.ecommerce,
+    href: rotaDoModulo('lojas'),
     cta: 'Explorar o e-commerce',
   },
   {
@@ -140,7 +141,7 @@ export const novidades: readonly Novidade[] = [
       'A nova linha de produtos da Blajeen Labs começa com uma plataforma web para barbearias. Ela reúne site institucional, agendamento online sem criação de conta e uma área de gestão para acompanhar equipe, agenda e operação.',
       'A demonstração apresenta a base funcionando por dentro. Em cada implantação, identidade, conteúdo, serviços, horários e regras são adaptados às necessidades da barbearia.',
     ],
-    href: ROTAS.barbearia,
+    href: rotaDoModulo('barbearias'),
     cta: 'Conhecer a plataforma',
   },
   {
@@ -152,7 +153,7 @@ export const novidades: readonly Novidade[] = [
       'O Personal ganhou uma página completa e uma demonstração navegável. A plataforma reúne agenda, treinos, evolução e gestão em experiências próprias para aluno, profissional e gestor.',
       'O produto parte de uma base funcional e é adaptado às necessidades, à identidade e às regras de personal trainers e estúdios de treinamento.',
     ],
-    href: ROTAS.personalStudio,
+    href: rotaDoModulo('estudios'),
     cta: 'Explorar o Personal',
   },
   {

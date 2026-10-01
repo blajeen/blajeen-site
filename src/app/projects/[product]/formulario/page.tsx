@@ -5,6 +5,8 @@ import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container } from '@/components/layout/Section';
 import { BuyerOnboardingStart } from '@/components/onboarding/BuyerOnboardingStart';
 import { ProjectFormCard } from '@/components/projects/ProjectFormCard';
+import { rotaDoModulo } from '@/content/saas';
+import { ROTAS } from '@/lib/routes';
 
 const products = {
   doutelio: 'Doutelio',
@@ -20,11 +22,18 @@ const products = {
   ecommerce: 'Lojalio',
 } as const;
 
-const canonicalSlug: Record<string, string> = {
-  barbearia: 'barbelio',
-  'personal-studio': 'studelio',
-  'salao-estetica': 'beautelio',
-  ecommerce: 'lojalio',
+/** Para onde o "voltar" leva: o Doutelio tem página própria; os outros são seções do Espacelio. */
+const voltarPara: Record<string, string> = {
+  doutelio: ROTAS.clinicaMedica,
+  barbelio: rotaDoModulo('barbearias'),
+  barbearia: rotaDoModulo('barbearias'),
+  beautelio: rotaDoModulo('estetica'),
+  'salao-estetica': rotaDoModulo('estetica'),
+  studelio: rotaDoModulo('estudios'),
+  'personal-studio': rotaDoModulo('estudios'),
+  lojalio: rotaDoModulo('lojas'),
+  ecommerce: rotaDoModulo('lojas'),
+  foodelio: rotaDoModulo('restaurantes'),
 };
 
 type ProductSlug = keyof typeof products;
@@ -55,7 +64,7 @@ export default async function ProjectFormPage({ params }: Context) {
       <LabBackdrop />
       <Container>
         <div className="mx-auto max-w-4xl">
-          <Link href={`/projects/${canonicalSlug[product] ?? product}`} className="alvo-toque text-sm text-mineral hover:text-paper">
+          <Link href={voltarPara[product] ?? ROTAS.projetos} className="alvo-toque text-sm text-mineral hover:text-paper">
             ← Voltar para {name}
           </Link>
           <div className="mt-8 rounded-[var(--radius-panel)] border border-line-strong bg-surface/90 p-7 sm:p-10 lg:p-14">

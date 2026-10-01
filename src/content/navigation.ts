@@ -3,7 +3,7 @@ import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { MenuId, NavLink } from './types';
 import { produtos } from './produtos';
-import { saas, saasEmBreve } from './saas';
+import { doutelio, espacelio } from './saas';
 
 /**
  * Barra de navegação do desktop.
@@ -119,14 +119,10 @@ export const atalhosDeProduto = produtos.map((produto) => ({
   href: produto.rota,
 }));
 
-/** Projetos de software apresentados no menu do estúdio. */
-export const atalhosDeProjeto = [
-  ...saas.map((produto) => ({
-    rotulo: produto.nome, estado: produto.estado, simbolo: produto.icone, href: produto.rota,
-  })),
-  { rotulo: saasEmBreve.nome, estado: saasEmBreve.estado, simbolo: saasEmBreve.icone, href: saasEmBreve.rota },
-  { rotulo: 'Painéis de gestão', estado: 'DISPONÍVEL NOS SAAS', simbolo: 'admin' as const, href: ROTAS.painelAdministrativo },
-];
+/** Os SaaS no menu: o Espacelio, que reúne os sistemas para negócios locais, e o Doutelio. */
+export const atalhosDeProjeto = [espacelio, doutelio()].map((produto) => ({
+  rotulo: produto.nome, estado: produto.estado, simbolo: produto.icone, href: produto.rota,
+}));
 
 /**
  * O que cada item com lista desdobra, no menu do desktop e na gaveta do celular.

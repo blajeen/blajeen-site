@@ -23,17 +23,7 @@ const rotasDeJogos = [
   ROTAS.projetoCatelio,
   ROTAS.projetoMorvelio,
 ];
-const rotasDeProdutos = [
-  ROTAS.projetos,
-  ROTAS.barbearia,
-  ROTAS.personalStudio,
-  ROTAS.salaoEstetica,
-  ROTAS.ecommerce,
-  ROTAS.clinicaMedica,
-  ROTAS.foodelio,
-  ROTAS.pipelio,
-  ROTAS.painelAdministrativo,
-];
+const rotasDeProdutos = [ROTAS.projetos, ROTAS.espacelio, ROTAS.clinicaMedica];
 
 /**
  * O que cada gaveta abre, e como ela se apresenta.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { saas, saasEmBreve, obterSaas, avisoDemonstracao } from './saas';
+import { saas, saasEmBreve, obterSaas, avisoDemonstracao, MODULOS_DO_ESPACELIO, rotaDoModulo } from './saas';
 import { atalhosDeProjeto, rodape } from './navigation';
 import { novidades } from './news';
 import { ROTAS } from '@/lib/routes';
@@ -10,7 +10,7 @@ describe('catálogo SaaS atualizado', () => {
   it('apresenta os seis produtos ativos e preserva o Pipelio em breve', () => {
     expect(saas.map((p) => p.nome)).toEqual(['Doutelio', 'Beautelio', 'Barbelio', 'Studelio', 'Foodelio', 'Lojalio']);
     expect(saas.every((p) => p.estado === 'ATIVO · DISPONÍVEL')).toBe(true);
-    expect(saasEmBreve).toMatchObject({ nome: 'Pipelio', estado: 'EM BREVE', rota: ROTAS.pipelio });
+    expect(saasEmBreve).toMatchObject({ nome: 'Pipelio', estado: 'EM BREVE', rota: '/projects/espacelio#crm' });
     expect(() => obterSaas('inexistente')).toThrow();
   });
 
@@ -54,17 +54,26 @@ describe('catálogo SaaS atualizado', () => {
     }
   });
 
-  it('sincroniza os estados do menu e os links do rodapé com o catálogo', () => {
+  it('apresenta o SaaS como Espacelio e Doutelio, no menu e no rodapé', () => {
+    expect(atalhosDeProjeto.map((p) => [p.rotulo, p.href])).toEqual([['Espacelio', ROTAS.espacelio], ['Doutelio', ROTAS.clinicaMedica]]);
+    expect(rodape.projetos.map((p) => p.rotulo)).toEqual(['Espacelio', 'Doutelio']);
     for (const produto of saas) {
-      expect(atalhosDeProjeto).toContainEqual({ rotulo: produto.nome, estado: produto.estado, simbolo: produto.icone, href: produto.rota });
-      expect(rodape.projetos).toContainEqual({ rotulo: produto.nome, href: produto.rota });
       expect(produto.publico).toMatch(/^Para /);
       expect(produto.recursos).toHaveLength(4);
-      const wrapper = readFileSync(path.join(process.cwd(), 'src/app', produto.rota, 'page.tsx'), 'utf8');
-      expect(wrapper).toContain(`obterSaas('${produto.id}')`);
-      expect(wrapper).not.toMatch(/UpcomingProductPage|ProductGallery/);
     }
-    expect(atalhosDeProjeto.filter((p) => p.estado === 'EM BREVE').map((p) => p.rotulo)).toEqual(['Pipelio']);
+    const wrapper = readFileSync(path.join(process.cwd(), 'src/app', ROTAS.clinicaMedica, 'page.tsx'), 'utf8');
+    expect(wrapper).toContain(`obterSaas('doutelio')`);
+  });
+
+  it('leva cada sistema antigo à seção do seu módulo no Espacelio', () => {
+    const config = readFileSync(path.join(process.cwd(), 'next.config.ts'), 'utf8');
+    for (const { id, ancora } of MODULOS_DO_ESPACELIO) {
+      expect(obterSaas(id).rota).toBe(rotaDoModulo(ancora));
+      expect(config).toContain(`['${id}', '${ancora}']`);
+      expect(existsSync(path.join(process.cwd(), 'src/app/projects', id, 'page.tsx'))).toBe(false);
+    }
+    expect(config).toContain(`['pipelio', 'crm']`);
+    expect(config).toContain(`['painel-administrativo', 'paineis']`);
   });
 
   it('mantém o agendamento do Barbelio como pedido sem conta, não confirmação automática', () => {

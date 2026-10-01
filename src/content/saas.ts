@@ -32,6 +32,23 @@ export type SaasProduct = {
 export const avisoDemonstracao =
   'As demonstrações usam dados, fotos, preços e operações fictícios para apresentar a experiência de cada produto. As prévias ilustrativas dos painéis estão identificadas nas legendas.';
 
+/**
+ * Os sistemas para negócios locais estão se juntando num SaaS só, o Espacelio (pedido do titular
+ * em 01/10/2026). Cada um vira um módulo, com uma seção na página do Espacelio; o Doutelio continua
+ * um produto à parte. Os dados de cada módulo (recursos, demonstração, imagens) seguem aqui.
+ */
+export const MODULOS_DO_ESPACELIO = [
+  { id: 'barbelio', ancora: 'barbearias', titulo: 'Barbearias' },
+  { id: 'beautelio', ancora: 'estetica', titulo: 'Estética e beleza' },
+  { id: 'studelio', ancora: 'estudios', titulo: 'Personal e estúdios' },
+  { id: 'foodelio', ancora: 'restaurantes', titulo: 'Restaurantes e delivery' },
+  { id: 'lojalio', ancora: 'lojas', titulo: 'Lojas e e-commerce' },
+] as const;
+
+export function rotaDoModulo(ancora: string): string {
+  return `${ROTAS.espacelio}#${ancora}`;
+}
+
 function tela(id: string, numero: number, titulo: string, descricao: string, ilustrativa = false): SaasImage {
   return {
     src: `/saas/${id}/${numero}.webp`, titulo, descricao,
@@ -63,7 +80,7 @@ export const saas: readonly SaasProduct[] = [
     ],
   },
   {
-    id: 'beautelio', nome: 'Beautelio', icone: 'salao', rota: ROTAS.salaoEstetica,
+    id: 'beautelio', nome: 'Beautelio', icone: 'salao', rota: rotaDoModulo('estetica'),
     contato: 'beautelio', formulario: 'beautelio', segmento: 'Estética e beleza', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-beautelio.vercel.app', demo: 'https://site-beautelio.vercel.app/loja', nomeDemo: 'Lumi Beauty Studio',
     titulo: 'A experiência do seu espaço começa antes da visita.',
@@ -83,7 +100,7 @@ export const saas: readonly SaasProduct[] = [
     ],
   },
   {
-    id: 'barbelio', nome: 'Barbelio', icone: 'barbearia', rota: ROTAS.barbearia,
+    id: 'barbelio', nome: 'Barbelio', icone: 'barbearia', rota: rotaDoModulo('barbearias'),
     contato: 'barbelio', formulario: 'barbelio', segmento: 'Barbearias', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-barbelio.vercel.app', demo: 'https://site-barbelio.vercel.app/barbearia-aurora-demo', nomeDemo: 'Barbearia Aurora',
     titulo: 'Sua barbearia bem apresentada. Sua agenda organizada.',
@@ -104,7 +121,7 @@ export const saas: readonly SaasProduct[] = [
     ],
   },
   {
-    id: 'studelio', nome: 'Studelio', icone: 'personal', rota: ROTAS.personalStudio,
+    id: 'studelio', nome: 'Studelio', icone: 'personal', rota: rotaDoModulo('estudios'),
     contato: 'studelio', formulario: 'studelio', segmento: 'Personal trainers e estúdios', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-studelio.vercel.app', demo: 'https://site-studelio.vercel.app/estudio/studio-move-demo', nomeDemo: 'Studio Move',
     titulo: 'Mais clareza para acompanhar alunos e sessões.',
@@ -124,7 +141,7 @@ export const saas: readonly SaasProduct[] = [
     ],
   },
   {
-    id: 'foodelio', nome: 'Foodelio', icone: 'food', rota: ROTAS.foodelio,
+    id: 'foodelio', nome: 'Foodelio', icone: 'food', rota: rotaDoModulo('restaurantes'),
     contato: 'foodelio', segmento: 'Restaurantes e delivery', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-foodelio.vercel.app', demo: 'https://site-foodelio.vercel.app/cardapio/sabor-da-vila-demo', nomeDemo: 'Sabor da Vila',
     titulo: 'Do cardápio ao pedido, no ritmo do seu restaurante.',
@@ -144,7 +161,7 @@ export const saas: readonly SaasProduct[] = [
     ],
   },
   {
-    id: 'lojalio', nome: 'Lojalio', icone: 'ecommerce', rota: ROTAS.ecommerce,
+    id: 'lojalio', nome: 'Lojalio', icone: 'ecommerce', rota: rotaDoModulo('lojas'),
     contato: 'lojalio', formulario: 'lojalio', segmento: 'Lojas e e-commerce', estado: 'ATIVO · DISPONÍVEL',
     site: 'https://site-lojalio.vercel.app', demo: 'https://site-lojalio.vercel.app/loja', nomeDemo: 'Lojalio Market',
     titulo: 'Sua loja com vitrine própria e operação conectada.',
@@ -171,7 +188,24 @@ export function obterSaas(id: string): SaasProduct {
   return produto;
 }
 
+/** O CRM que era o Pipelio: agora um módulo do Espacelio, ainda em desenvolvimento. */
 export const saasEmBreve = {
-  nome: 'Pipelio', estado: 'EM BREVE', icone: 'crm' as const, rota: ROTAS.pipelio,
+  nome: 'Pipelio', modulo: 'CRM comercial', estado: 'EM BREVE', icone: 'crm' as const, rota: rotaDoModulo('crm'),
   descricao: 'CRM comercial em desenvolvimento para organizar contatos, oportunidades e o acompanhamento das vendas.',
 };
+
+/** O SaaS que reúne os sistemas para negócios locais. */
+export const espacelio = {
+  id: 'espacelio',
+  nome: 'Espacelio',
+  icone: 'espaco' as const,
+  rota: ROTAS.espacelio,
+  estado: 'ATIVO · DISPONÍVEL' as const,
+  segmento: 'Negócios locais',
+  titulo: 'Um SaaS para o seu espaço, seja ele qual for.',
+  resumo: 'Barbearias, estética, estúdios, restaurantes e lojas: site com a sua marca, agenda ou pedidos e um painel para a rotina.',
+  descricao:
+    'O Espacelio é o SaaS da Blajeen Labs para negócios locais. Os sistemas que eram apresentados separadamente — Barbelio, Beautelio, Studelio, Foodelio e Lojalio — estão se juntando nele: cada segmento vira um módulo, com a experiência pública do negócio e o painel de gestão da rotina.',
+};
+
+export const doutelio = () => obterSaas('doutelio');

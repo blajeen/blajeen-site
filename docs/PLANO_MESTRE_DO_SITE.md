@@ -11,6 +11,14 @@ políticas, exclusão de dados e redes ficam no pé da gaveta. Isto substitui, s
 linha de §6 que pedia "índice, nome e uma descrição curta"; foco preso, `Esc`, scrim, retorno de
 foco e scroll lock continuam como em §6.
 
+## Emenda pedida pelo titular — SaaS: Espacelio e Doutelio (01/10/2026)
+
+Os SaaS passam a ser dois produtos: o Espacelio, que reúne os sistemas para negócios locais
+(antes Barbelio, Beautelio, Studelio, Foodelio, Lojalio, o CRM Pipelio e os painéis) numa página
+só e resumida, e o Doutelio, que segue separado. No menu, os SaaS vivem dentro de Produtos. Os
+endereços antigos redirecionam para a seção de cada módulo. Detalhes em
+`docs/SAAS_ESPACELIO_2026-10-01.md`.
+
 ## Emenda pedida pelo titular — loja de exclusivos (01/10/2026)
 
 O titular pediu uma loja para vender produtos da Blajeen Labs: boneco 3D, camiseta e caneca de cada

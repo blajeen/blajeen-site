@@ -1,8 +1,33 @@
 import { HORA_TECNICA_BASE, SERVICOS_BASE } from '@/content/contratos/modelos.generated';
-import { SERVICOS_IDS, type ServicoCatalogo, type ServicoId } from '@/content/contratos/tipos';
+import {
+  SERVICOS_IDS, type AdicionalCatalogo, type PlanoCatalogo, type ServicoCatalogo, type ServicoId,
+} from '@/content/contratos/tipos';
 import type { AjustesCatalogo } from './types';
+import { reais } from './valores';
 
 export const VALIDADE_BASE = '31/12/2026';
+
+/** Uma linha sobre cada serviço, no menu do catálogo e na página de valores. */
+export const DESCRICAO_CURTA: Record<ServicoId, string> = {
+  site: 'Landing pages, sites institucionais, painéis e lojas virtuais.',
+  sistema: 'Gestão, aplicativos e programas sob medida para a sua operação.',
+  video: 'Reels, trends e vídeos institucionais para divulgar seu negócio.',
+  jogo: 'Advergames, jogos educativos, mobile e projetos autorais.',
+  projeto: 'Diagnóstico, identidade, sprints e banco de horas.',
+};
+
+/** O plano mais barato: o "a partir de" do serviço. */
+export function planoInicial(servico: ServicoCatalogo): PlanoCatalogo {
+  return [...servico.planos].sort((a, b) => a.preco - b.preco)[0]!;
+}
+
+/** "R$ 149", "a partir de R$ 449", "R$ 150/hora", "R$ 690 + deslocamento" ou o texto ("sob orçamento"). */
+export function precoDoAdicional({ preco, qualificador }: Pick<AdicionalCatalogo, 'preco' | 'qualificador'>): string {
+  if (typeof preco === 'string') return preco;
+  if (qualificador === 'a partir de') return `a partir de ${reais(preco)}`;
+  if (qualificador.startsWith('+')) return `${reais(preco)} ${qualificador}`;
+  return `${reais(preco)}${qualificador}`;
+}
 
 export type CatalogoVigente = {
   validade: string;

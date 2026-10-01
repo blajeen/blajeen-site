@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { ROTAS } from '@/lib/routes';
-import { TIPOS_DE_PROJETO } from '@/lib/pedidos/types';
+import { TIPOS_DE_PROJETO, type TipoDeProjeto } from '@/lib/pedidos/types';
 
 /**
  * Primeiro contato do "Crie seu projeto".
@@ -22,7 +22,7 @@ function emailDeReserva(dados: Record<string, string>): string {
   return `mailto:${EMAIL_RESERVA}?subject=${encodeURIComponent('Novo projeto personalizado — Blajeen Labs')}&body=${encodeURIComponent(corpo)}`;
 }
 
-export function CustomProjectForm({ ideiaInicial = '' }: { ideiaInicial?: string }) {
+export function CustomProjectForm({ ideiaInicial = '', tipoInicial = 'Ainda não sei' }: { ideiaInicial?: string; tipoInicial?: TipoDeProjeto }) {
   const [estado, setEstado] = useState<'editando' | 'enviando' | 'enviado'>('editando');
   const [erro, setErro] = useState('');
   const [reserva, setReserva] = useState('');
@@ -50,9 +50,9 @@ export function CustomProjectForm({ ideiaInicial = '' }: { ideiaInicial?: string
 
   return (
     <section id="comecar" aria-labelledby="comecar-titulo" className="scroll-mt-28 rounded-[var(--radius-panel)] border border-[#55bfff]/30 bg-raised/75 p-6 sm:p-8 lg:p-10">
-      <p className="tecnica text-[#8bddff]">PRIMEIRO CONTATO</p>
+      <p className="tecnica text-[#8bddff]">ORÇAMENTO</p>
       <h2 id="comecar-titulo" className="mt-5 max-w-[16ch] text-[clamp(2rem,4vw,3.6rem)] leading-[1] tracking-[-0.05em]">
-        {estado === 'enviado' ? 'Pedido recebido. Obrigado!' : 'Conte o ponto de partida. O resto construímos juntos.'}
+        {estado === 'enviado' ? 'Pedido recebido. Obrigado!' : 'Peça seu orçamento.'}
       </h2>
 
       {estado === 'enviado' ? (
@@ -67,13 +67,13 @@ export function CustomProjectForm({ ideiaInicial = '' }: { ideiaInicial?: string
       ) : (
         <>
           <p className="medida-texto mt-5 text-sm leading-relaxed text-mineral">
-            São só cinco informações. Seu pedido chega direto à equipe da Blajeen Labs.
+            São só cinco informações. A proposta chega por escrito em até 2 dias úteis.
           </p>
 
           <form onSubmit={enviar} className="mt-8 grid gap-5 sm:grid-cols-2">
             <label className="text-sm text-mineral">
               O que você imagina?
-              <select name="tipo" defaultValue="Ainda não sei" className={campo}>
+              <select name="tipo" defaultValue={tipoInicial} className={campo}>
                 {TIPOS_DE_PROJETO.map((tipo) => <option key={tipo}>{tipo}</option>)}
               </select>
             </label>

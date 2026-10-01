@@ -2,7 +2,7 @@ import { CASES, DEPOIMENTOS, QR_CRIE_SEU_PROJETO } from '@/content/contratos/mod
 import { SERVICOS_IDS, type ServicoCatalogo, type ServicoId } from '@/content/contratos/tipos';
 import { valorOu } from '@/content/blockers';
 import { site } from '@/content/site';
-import type { CatalogoVigente } from './catalogo';
+import { DESCRICAO_CURTA, planoInicial, type CatalogoVigente } from './catalogo';
 import { esc } from './documento';
 import { reais } from './valores';
 
@@ -23,7 +23,7 @@ function pf(texto = 'Valores de referência · cada projeto recebe proposta pers
 }
 
 function aPartir(servico: ServicoCatalogo): string {
-  const menor = [...servico.planos].sort((a, b) => a.preco - b.preco)[0]!;
+  const menor = planoInicial(servico);
   return reais(menor.preco) + menor.unidade;
 }
 
@@ -65,7 +65,11 @@ function paginaServico(id: ServicoId, s: ServicoCatalogo, pagina: number): strin
 </section>`;
 }
 
-export function renderizarCatalogo(catalogo: CatalogoVigente): string {
+/**
+ * `publico`: a versão de `/crie-seu-projeto/catalogo`, para qualquer pessoa baixar. Muda só a barra
+ * de cima (voltar à página de valores em vez do painel, e uma instrução curta para salvar o PDF).
+ */
+export function renderizarCatalogo(catalogo: CatalogoVigente, { publico = false }: { publico?: boolean } = {}): string {
   const s = catalogo.servicos;
   const nav = SERVICOS_IDS.map((id) => `<div><b>${s[id].numero}</b>${esc(s[id].nome)}</div>`).join('');
 
@@ -108,11 +112,7 @@ export function renderizarCatalogo(catalogo: CatalogoVigente): string {
   ${pf('Ideia → produto → publicação → evolução')}
 </section>`;
 
-  const descricaoMenu: Record<ServicoId, string> = {
-    site: 'Landing pages, sites institucionais, painéis e lojas virtuais.', sistema: 'Gestão, aplicativos e programas sob medida para a sua operação.',
-    video: 'Reels, trends e vídeos institucionais para divulgar seu negócio.', jogo: 'Advergames, jogos educativos, mobile e projetos autorais.',
-    projeto: 'Diagnóstico, identidade, sprints e banco de horas.',
-  };
+  const descricaoMenu = DESCRICAO_CURTA;
   const menu = `
 <section class="pg grid">
   <div class="glow" style="width:170mm;height:170mm;right:-70mm;top:-40mm"></div>
@@ -196,10 +196,17 @@ export function renderizarCatalogo(catalogo: CatalogoVigente): string {
   ${pf('Imagine o que podemos criar.')}
 </section>`;
 
-  const barra = `<div class="barra-doc"><a href="/admin/catalogo">← Voltar ao painel</a><button type="button" onclick="window.print()">Imprimir / salvar PDF</button>
+  const barra = publico
+    ? `<div class="barra-doc"><a href="/crie-seu-projeto">← Voltar aos valores</a><button type="button" onclick="window.print()">Baixar em PDF</button>
+<span>Na janela que abrir, escolha <b>Salvar como PDF</b>.</span></div>`
+    : `<div class="barra-doc"><a href="/admin/catalogo">← Voltar ao painel</a><button type="button" onclick="window.print()">Imprimir / salvar PDF</button>
 <span>Em “Imprimir”, escolha <b>Salvar como PDF</b>, margens <b>Nenhuma</b> e ative <b>Gráficos de plano de fundo</b>.</span></div>`;
+  // Na tela de um celular a página A4 (210 mm ≈ 794 px) não cabe: ela encolhe para a largura da
+  // tela. Só na tela; a impressão continua em A4. `clientWidth`, e não `innerWidth`: no celular, o
+  // `innerWidth` cresce junto com a página larga e a conta nunca encolhe nada.
+  const ajusteDeTela = `<script>(function(){function a(){document.body.style.setProperty('--zoom-pagina',String(Math.min(1,(document.documentElement.clientWidth-16)/794)))}a();window.addEventListener('resize',a)})()</script>`;
 
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive"><title>Catálogo de Serviços ${ANO} — Blajeen Labs</title>
-<link rel="stylesheet" href="/documentos/catalogo.css"></head><body>${barra}${capa}${estudio}${menu}${servicos}${trabalhos}${contratar}${contracapa}</body></html>`;
+<link rel="stylesheet" href="/documentos/catalogo.css"></head><body>${barra}${capa}${estudio}${menu}${servicos}${trabalhos}${contratar}${contracapa}${ajusteDeTela}</body></html>`;
 }

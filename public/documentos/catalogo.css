@@ -56,7 +56,7 @@ body { background: #050604; }
   break-after: page; page-break-after: always;
 }
 .pg:last-child { break-after: auto; }
-@media screen { .pg { margin: 0 auto 8mm; box-shadow: 0 10px 40px rgba(0,0,0,.6); } body { padding: 8mm 0; } }
+@media screen { .pg { margin: 0 auto 8mm; box-shadow: 0 10px 40px rgba(0,0,0,.6); zoom: var(--zoom-pagina, 1); } body { padding: 8mm 0; } }
 
 .pg.grid::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;

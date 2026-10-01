@@ -353,12 +353,17 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Preço, opções e disponibilidade de cada exclusivo estão na página do produto. Itens marcados como “Em breve” ainda não estão à venda. Imagens marcadas como ilustrativas são montagens, e o produto final pode ser diferente delas.',
+            'Preço, opções e disponibilidade de cada exclusivo estão na página do produto. Itens marcados como “Em breve” ainda não estão à venda. As imagens dos exclusivos são ilustrativas: cor, acabamento e proporções do produto final podem ter pequenas diferenças.',
         },
         {
           tipo: 'paragrafo',
           texto:
             'O valor total do pedido, com itens e frete, aparece antes do pagamento. O pagamento é feito na página do Asaas, por Pix, cartão ou boleto, e o pedido segue para preparação depois que o pagamento é confirmado. O prazo de entrega mostrado na sacola soma os dias para postar ao prazo estimado da transportadora.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Itens “Sob encomenda” são produzidos depois que o pagamento é confirmado. O prazo informado na página do produto e na sacola conta a produção e o transporte juntos; nesses pedidos, cada opção de frete mostra só o tempo do transporte.',
         },
         {
           tipo: 'paragrafo',

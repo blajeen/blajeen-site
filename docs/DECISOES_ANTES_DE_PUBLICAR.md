@@ -30,11 +30,12 @@ Nenhuma página jurídica deve ir ao ar com colchetes ou informação inventada.
 
 ## Loja
 
-A loja de exclusivos (`/loja`) nasce com todos os produtos em “Em breve”: sem preço e sem botão de compra.
-Antes de colocar cada um à venda:
+A loja de exclusivos (`/loja`) nasceu com todos os produtos em “Em breve”. Em 01/10/2026 eles passaram a
+“Sob encomenda”, com preço sugerido e entrega em 10 a 20 dias, a pedido do titular. Pendências:
 
-- [ ] definir preço, descrição, peso e medidas do pacote de cada produto no painel (`/admin/loja`);
-- [ ] trocar as montagens ilustrativas por fotos reais;
+- [ ] conferir os preços sugeridos e ajustar descrição, peso e medidas do pacote de cada produto no painel (`/admin/loja`);
+- [ ] conferir se o prazo de 10 a 20 dias da encomenda cabe na produção e no frete mais longo (painel, configuração da loja);
+- [ ] trocar as imagens ilustrativas por fotos dos produtos de verdade, quando existirem;
 - [ ] configurar na Vercel `ASAAS_API_KEY`, `ASAAS_WEBHOOK_TOKEN` e, para testar antes, `ASAAS_AMBIENTE=sandbox`;
 - [ ] cadastrar o webhook `https://blajeen.com.br/api/loja/asaas` no Asaas com o mesmo token;
 - [ ] configurar `MELHOR_ENVIO_TOKEN` na Vercel e o CEP de origem no painel;

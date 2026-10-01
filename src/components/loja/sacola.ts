@@ -20,6 +20,8 @@ export type ItemDaSacola = {
   quantidade: number;
   digital: boolean;
   imagem: string;
+  /** Feito sob encomenda: a sacola mostra o prazo da encomenda. Só para mostrar, como o preço. */
+  sobEncomenda?: boolean;
 };
 
 const CHAVE = 'blajeen:sacola';

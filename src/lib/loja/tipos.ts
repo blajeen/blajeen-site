@@ -197,7 +197,20 @@ export type ConfiguracaoLoja = {
   cepOrigem: string;
   /** Dias úteis entre o pagamento e a postagem, somados ao prazo da transportadora. */
   diasParaPostar: number;
+  /**
+   * Prazo, em dias, de um item "Sob encomenda" chegar: a produção depois do pagamento e o
+   * transporte juntos. Aparece na página do produto e na sacola; com ele, os dias para postar não
+   * entram na conta do frete, que passa a mostrar só o tempo do transporte.
+   */
+  prazoEncomendaDe: number;
+  prazoEncomendaAte: number;
 };
+
+/** "10 a 20 dias", ou "15 dias" quando o prazo é um número só. */
+export function textoDoPrazoDeEncomenda(configuracao: Pick<ConfiguracaoLoja, 'prazoEncomendaDe' | 'prazoEncomendaAte'>): string {
+  const { prazoEncomendaDe: de, prazoEncomendaAte: ate } = configuracao;
+  return de === ate ? `${ate} ${ate === 1 ? 'dia' : 'dias'}` : `${de} a ${ate} dias`;
+}
 
 export function slugDe(nome: string): string {
   return nome.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()

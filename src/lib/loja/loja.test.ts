@@ -1,11 +1,11 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { asaasConfigurado, statusDoEvento, tokenDoWebhookValido, vencimento } from './asaas';
 import { EXEMPLOS, JOGOS_DA_LOJA } from './exemplos';
-import { aceitaPedido, formatarPreco, lerPreco, mostraPreco, type Produto } from './tipos';
+import { aceitaPedido, formatarPreco, lerPreco, mostraPreco, textoDoPrazoDeEncomenda, type Produto } from './tipos';
 import {
-  calcularPedido, cpfCnpjValido, parsePedidoLoja, parseProduto, precisaEnvio, validarEndereco,
+  calcularPedido, cpfCnpjValido, enviaSobEncomenda, parseConfiguracao, parsePedidoLoja, parseProduto, precisaEnvio, validarEndereco,
 } from './validacao';
 
 const ENVIO = { pesoKg: 0.3, alturaCm: 4, larguraCm: 25, comprimentoCm: 30 };
@@ -147,14 +147,49 @@ describe('catálogo de exemplo', () => {
     expect(EXEMPLOS).toHaveLength(JOGOS_DA_LOJA.length * 3 + 3);
   });
 
-  it('entra todo em “Em breve”, com endereços únicos e imagens que existem', () => {
-    expect(EXEMPLOS.every((e) => e.disponibilidade === 'EM_BREVE' && e.status === 'PUBLICADO')).toBe(true);
+  it('entra todo “Sob encomenda”, com preço, endereços únicos e imagens que existem', () => {
+    expect(EXEMPLOS.every((e) => e.disponibilidade === 'SOB_ENCOMENDA' && e.status === 'PUBLICADO')).toBe(true);
+    expect(EXEMPLOS.flatMap((e) => e.opcoes).every((o) => o.precoCentavos > 0)).toBe(true);
     expect(new Set(EXEMPLOS.map((e) => e.slug)).size).toBe(EXEMPLOS.length);
     const faltando = EXEMPLOS.flatMap((e) => e.imagens).filter((i) => !existsSync(path.join(process.cwd(), 'public', i.url)));
     expect(faltando).toEqual([]);
+    expect(EXEMPLOS.flatMap((e) => e.imagens).filter((i) => /montagem|ilustrativ/i.test(i.alt))).toEqual([]);
   });
 
   it('passa pela mesma validação do painel', () => {
     for (const exemplo of EXEMPLOS) expect(() => parseProduto(exemplo)).not.toThrow();
+  });
+
+  it('leva ao banco que já tinha os exemplos os mesmos preços e descrições de imagem (migration 006)', () => {
+    const sql = readFileSync(path.join(process.cwd(), 'migrations', '006_loja_sob_encomenda.sql'), 'utf8');
+    for (const e of EXEMPLOS) {
+      const fisico = e.opcoes.find((o) => !o.digital)!;
+      const digital = e.opcoes.find((o) => o.digital) ?? fisico;
+      expect(sql).toContain(`('${e.slug}', ${fisico.precoCentavos}, ${digital.precoCentavos})`);
+      for (const imagem of e.imagens) expect(sql).toContain(`('${imagem.url}', '${imagem.alt}')`);
+    }
+  });
+});
+
+describe('sob encomenda', () => {
+  const config = { cepOrigem: '30140-071', diasParaPostar: 3 };
+
+  it('escreve o prazo da encomenda', () => {
+    expect(textoDoPrazoDeEncomenda({ prazoEncomendaDe: 10, prazoEncomendaAte: 20 })).toBe('10 a 20 dias');
+    expect(textoDoPrazoDeEncomenda({ prazoEncomendaDe: 15, prazoEncomendaAte: 15 })).toBe('15 dias');
+  });
+
+  it('valida o prazo no painel, e o painel antigo fica com 10 a 20 dias', () => {
+    expect(parseConfiguracao(config)).toEqual({ cepOrigem: '30140071', diasParaPostar: 3, prazoEncomendaDe: 10, prazoEncomendaAte: 20 });
+    expect(parseConfiguracao({ ...config, prazoEncomendaDe: '7', prazoEncomendaAte: '12' })).toMatchObject({ prazoEncomendaDe: 7, prazoEncomendaAte: 12 });
+    expect(() => parseConfiguracao({ ...config, prazoEncomendaDe: 20, prazoEncomendaAte: 10 })).toThrow(/primeiro número/);
+    expect(() => parseConfiguracao({ ...config, prazoEncomendaDe: 0, prazoEncomendaAte: 10 })).toThrow(/1 a 120/);
+  });
+
+  it('tira os dias para postar do frete só quando vai um item físico sob encomenda', () => {
+    const produtos = [{ id: 'a', disponibilidade: 'SOB_ENCOMENDA' as const }, { id: 'b', disponibilidade: 'DISPONIVEL' as const }];
+    expect(enviaSobEncomenda([{ produtoId: 'a', digital: false }, { produtoId: 'b', digital: false }], produtos)).toBe(true);
+    expect(enviaSobEncomenda([{ produtoId: 'a', digital: true }, { produtoId: 'b', digital: false }], produtos)).toBe(false);
+    expect(enviaSobEncomenda([{ produtoId: 'b', digital: false }], produtos)).toBe(false);
   });
 });

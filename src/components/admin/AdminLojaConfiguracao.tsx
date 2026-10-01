@@ -21,6 +21,8 @@ export function AdminLojaConfiguracao() {
   const router = useRouter();
   const [cep, setCep] = useState('');
   const [dias, setDias] = useState('3');
+  const [encomendaDe, setEncomendaDe] = useState('10');
+  const [encomendaAte, setEncomendaAte] = useState('20');
   const [integracoes, setIntegracoes] = useState<Integracoes | null>(null);
   const [erro, setErro] = useState('');
   const [aviso, setAviso] = useState('');
@@ -32,6 +34,7 @@ export function AdminLojaConfiguracao() {
     const dados = await resposta.json() as { configuracao?: ConfiguracaoLoja; integracoes?: Integracoes; error?: string };
     if (!resposta.ok || !dados.configuracao) throw new Error(dados.error ?? 'Não foi possível carregar a configuração.');
     setCep(dados.configuracao.cepOrigem); setDias(String(dados.configuracao.diasParaPostar));
+    setEncomendaDe(String(dados.configuracao.prazoEncomendaDe)); setEncomendaAte(String(dados.configuracao.prazoEncomendaAte));
     setIntegracoes(dados.integracoes ?? null);
     setWebhook(`${window.location.origin}/api/loja/asaas`);
   }, [router]);
@@ -46,7 +49,8 @@ export function AdminLojaConfiguracao() {
     evento.preventDefault();
     setErro(''); setAviso('');
     const resposta = await fetch('/api/admin/loja/configuracao', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cepOrigem: cep, diasParaPostar: Number(dias) }),
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cepOrigem: cep, diasParaPostar: Number(dias), prazoEncomendaDe: Number(encomendaDe), prazoEncomendaAte: Number(encomendaAte) }),
     });
     const dados = await resposta.json() as { error?: string };
     if (!resposta.ok) { setErro(dados.error ?? 'Não foi possível salvar.'); return; }
@@ -65,6 +69,18 @@ export function AdminLojaConfiguracao() {
             <input value={dias} onChange={(e) => setDias(e.target.value)} inputMode="numeric" className={campoAdmin} />
             <span className="text-xs text-mineral-dim">Somados ao prazo da transportadora no checkout.</span>
           </label>
+          <fieldset className="grid gap-2 text-sm text-mineral sm:col-span-2">
+            <legend className="mb-2">Prazo dos itens sob encomenda, em dias</legend>
+            <div className="flex flex-wrap items-center gap-3">
+              <input aria-label="Prazo da encomenda: de" value={encomendaDe} onChange={(e) => setEncomendaDe(e.target.value)} inputMode="numeric" className={`${campoAdmin} w-24`} />
+              <span>a</span>
+              <input aria-label="Prazo da encomenda: até" value={encomendaAte} onChange={(e) => setEncomendaAte(e.target.value)} inputMode="numeric" className={`${campoAdmin} w-24`} />
+              <span>dias</span>
+            </div>
+            <span className="text-xs text-mineral-dim">
+              Produção e transporte juntos. Aparece na página do produto e na sacola; nos pedidos sob encomenda, os dias até postar não entram no frete.
+            </span>
+          </fieldset>
           <div className="sm:col-span-2"><button type="submit" className={botaoPrimario}>SALVAR</button></div>
         </form>
         {erro ? <p role="alert" className="mt-4 text-sm text-red-300">{erro}</p> : null}

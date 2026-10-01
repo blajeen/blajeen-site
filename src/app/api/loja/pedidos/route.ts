@@ -7,7 +7,9 @@ import {
   atualizarPedidoLoja, criarPedidoLoja, lerConfiguracaoLoja, listarProdutos,
 } from '@/lib/loja/repositorio';
 import { formatarPreco, type FreteEscolhido } from '@/lib/loja/tipos';
-import { calcularPedido, numeroDoPedido, parsePedidoLoja, precisaEnvio, validarEndereco } from '@/lib/loja/validacao';
+import {
+  calcularPedido, enviaSobEncomenda, numeroDoPedido, parsePedidoLoja, precisaEnvio, validarEndereco,
+} from '@/lib/loja/validacao';
 import { checkRateLimit, clientIp, jsonError } from '@/lib/onboarding/http';
 
 /**
@@ -39,8 +41,10 @@ export async function POST(request: Request) {
     if (envio && melhorEnvioConfigurado()) {
       if (!entrada.freteServicoId) throw new Error('Calcule e escolha uma opção de frete.');
       const configuracao = await lerConfiguracaoLoja();
+      // Mesma conta da sacola (`/api/loja/frete`), senão o frete escolhido "muda" entre as duas.
       const opcoes = await cotarFrete({
-        cepOrigem: configuracao.cepOrigem, cepDestino: endereco!.cep, itens, produtos, diasParaPostar: configuracao.diasParaPostar,
+        cepOrigem: configuracao.cepOrigem, cepDestino: endereco!.cep, itens, produtos,
+        diasParaPostar: enviaSobEncomenda(itens, produtos) ? 0 : configuracao.diasParaPostar,
       });
       frete = opcoes.find((o) => o.servicoId === entrada.freteServicoId) ?? null;
       if (!frete) throw new Error('O frete escolhido mudou. Calcule o frete de novo e escolha uma opção.');

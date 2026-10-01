@@ -11,6 +11,24 @@ políticas, exclusão de dados e redes ficam no pé da gaveta. Isto substitui, s
 linha de §6 que pedia "índice, nome e uma descrição curta"; foco preso, `Esc`, scrim, retorno de
 foco e scroll lock continuam como em §6.
 
+## Emenda pedida pelo titular — SaaS: Espacelio e Doutelio (01/10/2026)
+
+Os SaaS passam a ser dois produtos: o Espacelio, que reúne os sistemas para negócios locais
+(antes Barbelio, Beautelio, Studelio, Foodelio, Lojalio, o CRM Pipelio e os painéis) numa página
+só e resumida, e o Doutelio, que segue separado. No menu, os SaaS vivem dentro de Produtos. Os
+endereços antigos redirecionam para a seção de cada módulo. Detalhes em
+`docs/SAAS_ESPACELIO_2026-10-01.md`.
+
+## Emenda pedida pelo titular — loja de exclusivos (01/10/2026)
+
+O titular pediu uma loja para vender produtos da Blajeen Labs: boneco 3D, camiseta e caneca de cada
+jogo, itens da marca e o Livro de Morvelio em versão digital e física de colecionador, todos "Em
+breve" até ele definir preço no painel, e compra real com pagamento pelo Asaas e frete pelo Melhor
+Envio. A loja vive em `/loja`, entra no menu como "Loja" e é editada em `/admin/loja`. Isto
+substitui, só para a loja, a regra de não vender pelo site: os textos da loja na Política de
+Privacidade e nos Termos precisam da revisão do titular, e as decisões em aberto estão em
+`docs/DECISOES_ANTES_DE_PUBLICAR.md` — Loja. Detalhes em `docs/loja/IMPLEMENTACAO.md`.
+
 ## Emenda pedida pelo titular — tubo em volta do jogo e configurador compacto (01/10/2026)
 
 O titular pediu que o conduto contornasse o desafio do Morvelio e que o "E se fosse o seu

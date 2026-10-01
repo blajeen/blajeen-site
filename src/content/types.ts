@@ -148,7 +148,7 @@ export type LegalDocument = {
  * existiam na navegação. Este campo é o que deixa a barra do celular saber que ali tem
  * uma lista embaixo — e ele sai da mesma fonte que alimenta o menu do desktop.
  */
-export type MenuId = 'produtos' | 'projetos' | 'jogos';
+export type MenuId = 'produtos' | 'jogos';
 
 export type NavLink = {
   readonly indice: string;
@@ -167,6 +167,7 @@ export type NavIconId =
   | 'produtos'
   | 'saas'
   | 'jogos'
+  | 'loja'
   | 'estudio'
   | 'novidades'
   | 'contato';

@@ -32,7 +32,7 @@ export const produtosComerciais = {
   indice: '06 / SAAS',
   titulo: 'Sistemas próprios para rotinas reais.',
   texto:
-    'Seis SaaS ativos para consultórios, beleza, barbearias, estúdios, restaurantes e lojas. Conheça os recursos, explore as demos e encontre o sistema para a sua operação.',
+    'O Espacelio, para barbearias, estética, estúdios, restaurantes e lojas, e o Doutelio, para consultórios. Conheça os recursos, explore as demos e encontre o sistema para a sua operação.',
   cta: { rotulo: 'EXPLORAR OS SAAS', href: ROTAS.projetos },
 } as const;
 

@@ -22,10 +22,10 @@ describe('NavDrawer', () => {
   it('abre recolhido, com todos os destinos numa lista só', () => {
     const indice = abrir();
 
-    for (const rotulo of ['Início', 'Crie seu projeto', 'Projetos feitos', 'Estúdio', 'Novidades', 'Contato']) {
+    for (const rotulo of ['Início', 'Crie seu projeto', 'Projetos feitos', 'Loja', 'Estúdio', 'Novidades', 'Contato']) {
       expect(indice.getByRole('link', { name: rotulo })).toBeInTheDocument();
     }
-    for (const rotulo of ['Produtos', 'SaaS', 'Jogos']) {
+    for (const rotulo of ['Produtos', 'Jogos']) {
       expect(indice.getByRole('button', { name: rotulo })).toHaveAttribute('aria-expanded', 'false');
     }
     expect(indice.queryByRole('link', { name: /^Revalio/ })).not.toBeInTheDocument();
@@ -56,7 +56,10 @@ describe('NavDrawer', () => {
     expect(produtos).toHaveAttribute('aria-expanded', 'true');
     expect(jogos).toHaveAttribute('aria-expanded', 'false');
     expect(indice.queryByRole('link', { name: /^Revalio/ })).not.toBeInTheDocument();
-    expect(indice.getByRole('link', { name: /Ver todos os produtos/ })).toBeVisible();
+    expect(indice.getByRole('link', { name: /Ver todos os programas/ })).toBeVisible();
+    // O SaaS mora dentro de Produtos, num grupo próprio.
+    expect(indice.getByRole('list', { name: 'SaaS' })).toBeVisible();
+    expect(indice.getByRole('link', { name: /Ver todos os sistemas/ })).toBeVisible();
 
     await usuario.click(produtos);
     expect(produtos).toHaveAttribute('aria-expanded', 'false');
@@ -78,7 +81,7 @@ describe('NavDrawer', () => {
     const aoFechar = vi.fn();
     const indice = abrir(aoFechar);
 
-    await usuario.click(indice.getByRole('button', { name: 'SaaS' }));
+    await usuario.click(indice.getByRole('button', { name: 'Produtos' }));
     await usuario.click(indice.getByRole('link', { name: /Ver todos os sistemas/ }));
     expect(aoFechar).toHaveBeenCalled();
   });

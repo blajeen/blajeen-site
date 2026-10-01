@@ -71,8 +71,7 @@ export function SaasProductPage({ produto }: { produto: SaasProduct }) {
         <div><TituloSecao id="saas-identidade" className="!text-[clamp(1.7rem,3vw,2.5rem)]">O sistema é nosso. A identidade é sua.</TituloSecao>
           <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-mineral">Apresente seu negócio com sua marca, seus conteúdos e seus serviços ou produtos. O painel de gestão reúne os controles disponíveis em cada SaaS.</p></div>
         <div className="min-w-0"><p className="max-w-[58ch] text-sm leading-relaxed text-mineral">Precisa de uma adaptação específica? Conte sua necessidade à Blajeen Labs. Avaliamos o escopo, as possibilidades e as condições antes de começar.</p>
-          <Link href={`${ROTAS.contato}?produto=${produto.contato}#interesse`} className="alvo-toque mt-5 inline-flex items-center gap-3 text-sm font-medium text-signal">Conversar sobre {produto.nome} <span aria-hidden="true">→</span></Link>
-          <Link href={ROTAS.painelAdministrativo} className="alvo-toque mt-1 flex w-fit items-center text-sm text-mineral hover:text-paper">Conhecer os painéis de gestão →</Link></div>
+          <Link href={`${ROTAS.contato}?produto=${produto.contato}#interesse`} className="alvo-toque mt-5 inline-flex items-center gap-3 text-sm font-medium text-signal">Conversar sobre {produto.nome} <span aria-hidden="true">→</span></Link></div>
       </div>
     </Section>
     {produto.formulario && <Section indice="04 / JÁ CONVERSOU COM A EQUIPE?" rotulo="Briefing de personalização" className="!pt-0"><ProjectFormCard slug={produto.formulario} /></Section>}

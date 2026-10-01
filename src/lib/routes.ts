@@ -39,15 +39,14 @@ export const ROTAS = {
   produtoEditalio: '/produtos/editalio',
   produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
-  /** Rotas canônicas dos SaaS: o slug público acompanha o nome do produto. */
-  barbearia: '/projects/barbelio',
-  personalStudio: '/projects/studelio',
-  salaoEstetica: '/projects/beautelio',
-  ecommerce: '/projects/lojalio',
+  /**
+   * SaaS: o Espacelio reúne os sistemas para negócios locais (Barbelio, Beautelio, Studelio,
+   * Foodelio, Lojalio, o CRM Pipelio e os painéis), numa página só; o Doutelio segue separado.
+   * Os endereços antigos de cada sistema redirecionam para a seção dele no Espacelio
+   * (`next.config.ts`).
+   */
+  espacelio: '/projects/espacelio',
   clinicaMedica: '/projects/doutelio',
-  foodelio: '/projects/foodelio',
-  pipelio: '/projects/pipelio',
-  painelAdministrativo: '/projects/painel-administrativo',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
@@ -57,6 +56,12 @@ export const ROTAS = {
   projetoMazelio: '/projects/mazelio',
   projetoSocialio: '/projects/socialio',
   novidades: '/novidades',
+  /**
+   * Loja de exclusivos (camisetas, copo, boneco, livro). Não confundir com `ROTAS_DE_LOJA`, que
+   * são as páginas exigidas pelas lojas de aplicativo. As páginas de cada produto vêm do painel e
+   * entram no sitemap à parte; a da sacola (`/loja/pedido`) fica fora, sem indexação.
+   */
+  loja: '/loja',
   sobre: '/about',
   contato: '/contact',
   privacidade: '/privacy',
@@ -165,21 +170,15 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.projetoRevalio ||
     rota === ROTAS.projetoDocalio ||
     rota === ROTAS.projetoGramelio ||
-    rota === ROTAS.barbearia ||
-    rota === ROTAS.personalStudio ||
-    rota === ROTAS.salaoEstetica ||
-    rota === ROTAS.ecommerce ||
+    rota === ROTAS.espacelio ||
     rota === ROTAS.clinicaMedica ||
-    rota === ROTAS.foodelio ||
-    rota === ROTAS.pipelio ||
-    rota === ROTAS.painelAdministrativo ||
     rota === ROTAS.projetoCatelio ||
     rota === ROTAS.projetoMorvelio ||
     rota === ROTAS.projetoMazelio ||
     rota === ROTAS.projetoSocialio
   )
     return 0.9;
-  if (rota === ROTAS.novidades) return 0.8;
+  if (rota === ROTAS.novidades || rota === ROTAS.loja) return 0.8;
   if (rota === ROTAS.sobre || rota === ROTAS.contato || rota === ROTAS.suporte) return 0.7;
   return 0.5;
 }

@@ -6,19 +6,12 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProductIcon } from '@/components/projects/ProductIcon';
 import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
-import { atalhosDeJogo, atalhosDeProduto, atalhosDeProjeto, barraDeNavegacao } from '@/content/navigation';
+import { barraDeNavegacao, submenus, type AtalhoDeMenu } from '@/content/navigation';
+import type { MenuId } from '@/content/types';
 import { rotaAtiva } from '@/lib/routes';
 import styles from './SiteNav.module.css';
 
 const ATRASO_FECHAR = 140;
-type MenuId = 'jogos' | 'projetos' | 'produtos';
-
-/** Qual lista cada gaveta abre. */
-const ATALHOS_DO_MENU = {
-  jogos: atalhosDeJogo,
-  projetos: atalhosDeProjeto,
-  produtos: atalhosDeProduto,
-} as const;
 
 /** Navegação desktop com menus acessíveis para jogos e projetos. */
 export function SiteNav() {
@@ -124,7 +117,8 @@ export function SiteNav() {
 
           const menu = destino.menu as MenuId;
           const estaAberto = aberto === menu;
-          const atalhos = ATALHOS_DO_MENU[menu];
+          const submenu = submenus[menu];
+          const emColunas = submenu.grupos.length > 1;
 
           return (
             <li
@@ -169,45 +163,61 @@ export function SiteNav() {
                 <span aria-hidden="true" className={styles.seta}>▼</span>
               </button>
 
-              <div id={`submenu-${menu}`} className={styles.submenu} hidden={!estaAberto}>
-                {atalhos.map((atalho) => (
-                  <Link
-                    key={atalho.href}
-                    href={atalho.href}
-                    className={styles.jogo}
-                    aria-current={rotaAtiva(caminho, atalho.href) ? 'page' : undefined}
-                    onClick={fechar}
-                  >
-                    {'icone' in atalho ? (
-                      <Image
-                        src={atalho.icone.src}
-                        alt={atalho.icone.alt}
-                        width={atalho.icone.tamanho}
-                        height={atalho.icone.tamanho}
-                        sizes="44px"
-                        className={styles.icone}
-                      />
-                    ) : (
-                      <span aria-hidden="true" className={styles.sigla}>
-                        <ProductIcon id={atalho.simbolo} className="size-7" />
-                      </span>
-                    )}
-                    <span>
-                      <span className={styles.nome}>{atalho.rotulo}</span>
-                      <span className={styles.estado}>
-                        <span aria-hidden="true" className={styles.ponto} />
-                        {atalho.estado}
-                      </span>
-                    </span>
-                    <span aria-hidden="true" className={styles.avanco}>→</span>
+              <div id={`submenu-${menu}`} className={styles.submenu} data-colunas={emColunas || undefined} hidden={!estaAberto}>
+                {submenu.grupos.map((grupo) => (
+                  <div key={grupo.titulo ?? 'itens'} className={styles.grupo}>
+                    {grupo.titulo ? <p className={styles.grupoTitulo}>{grupo.titulo}</p> : null}
+                    {grupo.itens.map((atalho) => (
+                      <Atalho key={atalho.href} atalho={atalho} atual={rotaAtiva(caminho, atalho.href)} aoEscolher={fechar} />
+                    ))}
+                    {grupo.todos ? (
+                      <Link href={grupo.todos.href} className={styles.todos} onClick={fechar}
+                        aria-current={rotaAtiva(caminho, grupo.todos.href) ? 'page' : undefined}>
+                        {grupo.todos.rotulo} →
+                      </Link>
+                    ) : null}
+                  </div>
+                ))}
+                {submenu.extras.map((extra) => (
+                  <Link key={extra.href} href={extra.href} className={styles.jogo} onClick={fechar}>
+                    <span>{extra.rotulo} · {extra.descricao.toLowerCase()} →</span>
                   </Link>
                 ))}
-                {menu === 'jogos' ? <Link href="/morvelio/wiki" className={styles.jogo}><span>Morvelio Wiki · itens, missões e atlas →</span></Link> : null}
               </div>
             </li>
           );
         })}
       </ul>
     </nav>
+  );
+}
+
+/** Um destino dentro do submenu: ícone, nome e estado. */
+function Atalho({ atalho, atual, aoEscolher }: { atalho: AtalhoDeMenu; atual: boolean; aoEscolher: () => void }) {
+  return (
+    <Link href={atalho.href} className={styles.jogo} aria-current={atual ? 'page' : undefined} onClick={aoEscolher}>
+      {'icone' in atalho ? (
+        <Image
+          src={atalho.icone.src}
+          alt={atalho.icone.alt}
+          width={atalho.icone.tamanho}
+          height={atalho.icone.tamanho}
+          sizes="44px"
+          className={styles.icone}
+        />
+      ) : (
+        <span aria-hidden="true" className={styles.sigla}>
+          <ProductIcon id={atalho.simbolo} className="size-7" />
+        </span>
+      )}
+      <span>
+        <span className={styles.nome}>{atalho.rotulo}</span>
+        <span className={styles.estado}>
+          <span aria-hidden="true" className={styles.ponto} />
+          {atalho.estado}
+        </span>
+      </span>
+      <span aria-hidden="true" className={styles.avanco}>→</span>
+    </Link>
   );
 }

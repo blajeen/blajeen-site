@@ -69,6 +69,18 @@ export const BLOQUEADORES = {
     // TODO(bloqueador): definir por quanto tempo pedidos sem contratação e dados de contratos
     // encerrados serão mantidos. Não estimar prazo jurídico.
   },
+  lojaRetencao: {
+    titulo: 'Prazo de guarda dos pedidos da loja',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Loja',
+    // TODO(bloqueador): definir por quanto tempo pedidos, endereços e documentos de compradores
+    // ficam guardados, considerando as obrigações fiscais da venda. Não estimar prazo jurídico.
+  },
+  lojaCondicoes: {
+    titulo: 'Condições de troca, devolução, reembolso e entrega digital da loja',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Loja',
+    // TODO(bloqueador): troca por defeito, prazo de reembolso, quem paga o frete de devolução,
+    // como o e-book é entregue e o endereço do fornecedor exigido pelo Decreto 7.962/2013.
+  },
   lojasRevalio: {
     titulo: 'URLs das fichas do Revalio na App Store e no Google Play',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Revalio',

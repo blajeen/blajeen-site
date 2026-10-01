@@ -50,6 +50,18 @@ const nextConfig: NextConfig = {
       { source: '/clearlio/privacidade', destination: '/clearlio/privacy', permanent: true },
       { source: '/clearlio/termos', destination: '/clearlio/terms', permanent: true },
       { source: '/clearlio/suporte', destination: '/clearlio/support', permanent: true },
+      // Os SaaS para negócios locais viraram módulos do Espacelio (pedido do titular em
+      // 01/10/2026): cada endereço antigo leva à seção do seu módulo. O formulário de contratação
+      // (`/projects/<produto>/formulario`) continua no mesmo endereço.
+      ...([
+        ['barbelio', 'barbearias'], ['barbearia', 'barbearias'],
+        ['beautelio', 'estetica'], ['salao-estetica', 'estetica'],
+        ['studelio', 'estudios'], ['personal-studio', 'estudios'],
+        ['lojalio', 'lojas'], ['ecommerce', 'lojas'],
+        ['foodelio', 'restaurantes'], ['pipelio', 'crm'], ['painel-administrativo', 'paineis'],
+      ] as const).map(([antigo, secao]) => ({
+        source: `/projects/${antigo}`, destination: `/projects/espacelio#${secao}`, permanent: true,
+      })),
     ];
   },
   async rewrites() {

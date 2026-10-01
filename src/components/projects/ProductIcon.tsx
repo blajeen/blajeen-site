@@ -1,4 +1,5 @@
 export type ProductIconId =
+  | 'espaco'
   | 'barbearia'
   | 'personal'
   | 'salao'
@@ -24,6 +25,17 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
     'aria-hidden': true,
     className,
   };
+
+  // Espacelio: uma fachada com toldo, o "espaço" de qualquer negócio local.
+  if (id === 'espaco') {
+    return (
+      <svg {...comum}>
+        <path d="M8 19 11 9h26l3 10" />
+        <path d="M8 19c0 2.8 2.2 5 5 5s5-2.2 5-5c0 2.8 2.2 5 5 5h2c2.8 0 5-2.2 5-5 0 2.8 2.2 5 5 5s5-2.2 5-5" />
+        <path d="M11 24v16h26V24M20 40V31h8v9" />
+      </svg>
+    );
+  }
 
   if (id === 'barbearia') {
     return (

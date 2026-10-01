@@ -158,11 +158,13 @@ export function MorvelioChallenge() {
     destination.current = null;
   }
   return (
+    // Pela esquerda, entre dois trechos pela direita: o tubo atravessa por cima do desafio, desce
+    // ao lado dele e volta por baixo, contornando o jogo (pedido do titular).
     <section
       id="desafio-morvelio"
       className="hx-section hx-challenge"
       aria-labelledby="challenge-title"
-      data-conduto-lado="direita"
+      data-conduto-lado="esquerda"
     >
       <div>
         <p className="hx-kicker">03 / DO LIVRO PARA O SEU CONTROLE</p>

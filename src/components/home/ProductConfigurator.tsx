@@ -1,8 +1,21 @@
 "use client";
-import { useState, type CSSProperties } from "react";
+import { useId, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { OperationPreview, type DemoOrder } from "./OperationPreview";
-import { ClientExtras } from "./ClientExtras";
+import { ClientContact, ClientFooter, ClientHighlights, ClientReviews } from "./ClientExtras";
 import { DemoArtwork } from "./DemoArtwork";
+
+/**
+ * Páginas do site demonstrativo. Antes, destaques, avaliações e contato vinham empilhados embaixo
+ * do catálogo e a prévia passava de duas telas de altura; agora são abas do menu do próprio site,
+ * como num site de verdade, e ocupam o mesmo lugar.
+ */
+const pages = [
+  { id: "inicio", label: "Início" },
+  { id: "destaques", label: "Destaques" },
+  { id: "avaliacoes", label: "Avaliações" },
+  { id: "contato", label: "Contato" },
+] as const;
+type Page = (typeof pages)[number]["id"];
 
 const businesses = {
   restaurante: {
@@ -71,7 +84,11 @@ export function ProductConfigurator() {
     [cart, setCart] = useState<number[]>([0, 0, 0]),
     [done, setDone] = useState(false),
     [slot, setSlot] = useState("14:00"),
-    [delivery, setDelivery] = useState(true);
+    [delivery, setDelivery] = useState(true),
+    [page, setPage] = useState<Page>("inicio");
+  const uid = useId(),
+    tabs = useRef<(HTMLButtonElement | null)[]>([]),
+    catalog = useRef<HTMLDivElement>(null);
   const b = businesses[business],
     palette = identities[identity];
   const total = cart.reduce((sum, n, i) => sum + n * (b.prices[i] ?? 0), 0),
@@ -81,6 +98,31 @@ export function ProductConfigurator() {
   function reset() {
     setCart([0, 0, 0]);
     setDone(false);
+  }
+  // Setas, Home e End trocam de aba, como pede o padrão de abas: só a aba atual fica no Tab.
+  function onTabKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const last = pages.length - 1;
+    const keys: Record<string, number> = { ArrowRight: index === last ? 0 : index + 1, ArrowLeft: index === 0 ? last : index - 1, Home: 0, End: last };
+    const next = keys[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    setPage(pages[next]!.id);
+    tabs.current[next]?.focus();
+  }
+  // Só a página atual aparece e recebe foco; as outras ficam no lugar, invisíveis e inertes.
+  const panel = (id: Page) => ({
+    role: "tabpanel" as const,
+    id: `${uid}-${id}`,
+    "aria-labelledby": `${uid}-tab-${id}`,
+    className: "hx-site-page",
+    "data-ativa": page === id,
+    inert: page !== id,
+  });
+  // O "Explorar seleção" dos destaques leva ao catálogo, que mora na aba Início. O foco vai junto:
+  // o botão clicado some com a aba dele.
+  function explore() {
+    setPage("inicio");
+    requestAnimationFrame(() => catalog.current?.focus());
   }
   return (
     <section
@@ -109,19 +151,21 @@ export function ProductConfigurator() {
         <aside className="hx-config-controls">
           <fieldset>
             <legend>01. O que vamos criar?</legend>
-            {(Object.keys(businesses) as Business[]).map((id) => (
-              <button
-                key={id}
-                aria-pressed={business === id}
-                onClick={() => {
-                  setBusiness(id);
-                  reset();
-                }}
-              >
-                {businesses[id].label}
-                <span>↗</span>
-              </button>
-            ))}
+            <div className="hx-business">
+              {(Object.keys(businesses) as Business[]).map((id) => (
+                <button
+                  key={id}
+                  aria-pressed={business === id}
+                  onClick={() => {
+                    setBusiness(id);
+                    reset();
+                  }}
+                >
+                  {businesses[id].label}
+                  <span aria-hidden="true">↗</span>
+                </button>
+              ))}
+            </div>
           </fieldset>
           <fieldset>
             <legend>02. Qual é a personalidade?</legend>
@@ -155,7 +199,7 @@ export function ProductConfigurator() {
                 Oferecer entrega
               </label>
             )}
-            <p className="hx-muted">
+            <p className="hx-muted hx-hint">
               {business === "servico"
                 ? "Experimente reservar um horário na tela ao lado."
                 : "Monte um pedido e veja o resumo aparecer."}
@@ -166,25 +210,19 @@ export function ProductConfigurator() {
             <label className="hx-brand-label" htmlFor="demo-brand">Nome na prévia</label>
             <input id="demo-brand" className="hx-brand-input" maxLength={24} value={brands[business]}
               onChange={(e) => setBrands((current) => ({ ...current, [business]: e.target.value }))} />
-            <p className="hx-muted">Edite o nome e veja sua marca na interface.</p>
+            <p className="hx-muted hx-hint">Edite o nome e veja sua marca na interface.</p>
           </fieldset>
-          <a
-            className="hx-button"
-            href={`/crie-seu-projeto?ideia=${encodeURIComponent(brief)}#comecar`}
-          >
-            Quero um projeto assim ↗
-          </a>
-          <small>
-            Suas escolhas acompanham o briefing. Nenhum pedido ou reserva é
-            enviado.
-          </small>
         </aside>
         <div className="hx-preview-area">
           <div className="hx-preview-toolbar">
             <span>
               <i /> PRÉVIA INTERATIVA
             </span>
-            <div role="group" aria-label="Formato da prévia">
+            <div className="hx-preview-modes" role="group" aria-label="Visão da experiência">
+              <button aria-pressed={!operation} onClick={() => setOperation(false)}><span>01</span> Site do cliente</button>
+              <button aria-pressed={operation} onClick={() => setOperation(true)}><span>02</span> Painel da operação <b>{orders.filter((order) => order.business === business).length}</b></button>
+            </div>
+            <div className="hx-preview-format" role="group" aria-label="Formato da prévia">
               <button aria-pressed={!mobile} onClick={() => setMobile(false)}>
                 Desktop
               </button>
@@ -192,10 +230,6 @@ export function ProductConfigurator() {
                 Celular
               </button>
             </div>
-          </div>
-          <div className="hx-preview-modes" role="group" aria-label="Visão da experiência">
-            <button aria-pressed={!operation} onClick={() => setOperation(false)}><span>01</span> Site do cliente</button>
-            <button aria-pressed={operation} onClick={() => setOperation(true)}><span>02</span> Painel da operação <b>{orders.filter((order) => order.business === business).length}</b></button>
           </div>
           <div
             className={`hx-product ${mobile ? "phone" : ""} ${identity}`}
@@ -217,12 +251,36 @@ export function ProductConfigurator() {
                 {brand}
 
               </strong>
+              <div className="hx-site-nav" role="tablist" aria-label="Páginas do site demonstrativo">
+                {pages.map((p, i) => (
+                  <button
+                    key={p.id}
+                    ref={(el) => {
+                      tabs.current[i] = el;
+                    }}
+                    type="button"
+                    role="tab"
+                    id={`${uid}-tab-${p.id}`}
+                    aria-selected={page === p.id}
+                    aria-controls={`${uid}-${p.id}`}
+                    tabIndex={page === p.id ? 0 : -1}
+                    onClick={() => setPage(p.id)}
+                    onKeyDown={(e) => onTabKey(e, i)}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
               <span>
                 {business === "servico"
                   ? "SUA AGENDA"
                   : `SUA SACOLA (${count})`}
               </span>
             </header>
+            {/* As quatro páginas ficam empilhadas no mesmo lugar e só a atual aparece: a prévia
+                fica com a altura da maior, e trocar de aba não empurra a página para baixo. */}
+            <div className="hx-site-pages">
+            <div {...panel("inicio")}>
             <div className="hx-product-hero">
               <div>
                 <small>{b.tag}</small>
@@ -246,7 +304,7 @@ export function ProductConfigurator() {
                 <DemoArtwork business={business} />
               </div>
             </div>
-            <div id="demo-catalog" className="hx-demo-catalog">
+            <div id="demo-catalog" ref={catalog} tabIndex={-1} className="hx-demo-catalog">
               {b.items.map((name, i) => (
                 <article key={name}>
                   <div
@@ -327,12 +385,37 @@ export function ProductConfigurator() {
                   : `Pedido demonstrativo: ${count} ${count === 1 ? "item" : "itens"}, R$ ${total.toFixed(2).replace(".", ",")}. Nenhuma compra ou cobrança foi realizada.`
                 : "Demonstração fictícia · sem cadastro, pagamento ou envio de dados."}
             </p>
-            <ClientExtras business={business} brand={brand} />
+            </div>
+            <div {...panel("destaques")}>
+              <ClientHighlights business={business} brand={brand} onExplore={explore} />
+            </div>
+            <div {...panel("avaliacoes")}>
+              <ClientReviews />
+            </div>
+            <div {...panel("contato")}>
+              <ClientContact business={business} brand={brand} />
+            </div>
+            </div>
+            <ClientFooter brand={brand} />
             </>}
           </div>
           <p className="hx-preview-caption">
             Do site à operação: simule um pedido e acompanhe cada etapa no painel.
           </p>
+        </div>
+        {/* Fora dos controles: no computador ele fica embaixo deles, na mesma coluna; no celular,
+            depois da prévia, quando a pessoa já viu o resultado das escolhas. */}
+        <div className="hx-config-cta">
+          <a
+            className="hx-button"
+            href={`/crie-seu-projeto?ideia=${encodeURIComponent(brief)}#comecar`}
+          >
+            Quero um projeto assim ↗
+          </a>
+          <small>
+            Suas escolhas acompanham o briefing. Nenhum pedido ou reserva é
+            enviado.
+          </small>
         </div>
       </div>
     </section>

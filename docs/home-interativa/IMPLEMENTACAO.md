@@ -24,6 +24,7 @@ Prévia: <http://127.0.0.1:3018/>. Ainda não houve publicação no domínio.
 - Carrinho com quantidades e soma de preços, opção de entrega/retirada, seleção de serviço e horário, confirmação demonstrativa e limpeza da seleção.
 - Trocar negócio limpa a seleção anterior. Produtos e valores são fictícios; não existe cobrança, pedido ou reserva real.
 - “Quero um projeto assim” leva as escolhas ao campo de ideia do formulário existente. O usuário continua responsável por revisar e enviar o e-mail; nenhum envio automático foi acrescentado.
+- Em 01/10/2026 o titular achou a seção grande demais (2.599 px em 1440 e 3.501 px em 390). O site demonstrativo ganhou um menu próprio, com as páginas Início (catálogo e pedido), Destaques, Avaliações e Contato, que antes vinham empilhadas embaixo do catálogo. As quatro páginas ficam na mesma célula e só a atual aparece, então a prévia tem a altura da maior e não pula na troca. As visões "Site do cliente" e "Painel da operação" subiram para a faixa do formato. No celular os controles viraram faixas curtas (negócio numa linha, entrega e marca lado a lado, sem as dicas), as avaliações correm de lado e "Quero um projeto assim" vem depois da prévia. A seção passou a 1.280 px em 1440 e 1.772 px em 390. A navegação das páginas segue o padrão de abas (setas, Home e End), e os testes estão em `ProductConfigurator.test.tsx`.
 
 ### 3. Desafio de Morvelio
 

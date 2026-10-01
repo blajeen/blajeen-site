@@ -1,5 +1,16 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda pedida pelo titular — menu do celular em sanfona (01/10/2026)
+
+O titular achou a navegação no celular difícil e pediu o menu no estilo dos estúdios de jogos
+(referência: o menu mobile da Supercell), com os ícones ao lado dos nomes. A gaveta principal deixa
+de listar índice, nome e descrição de cada destino seguidos de todos os jogos e SaaS: agora é um
+índice que cabe numa tela, um destino por linha com o seu ícone, e Produtos, SaaS e Jogos desdobram
+a própria lista no lugar, uma de cada vez, com o resto do índice um tom mais apagado. Suporte,
+políticas, exclusão de dados e redes ficam no pé da gaveta. Isto substitui, só para a gaveta, a
+linha de §6 que pedia "índice, nome e uma descrição curta"; foco preso, `Esc`, scrim, retorno de
+foco e scroll lock continuam como em §6.
+
 ## Emenda pedida pelo titular — conduto de energia (28/09/2026, aprovada e publicada em 29/09/2026)
 
 O titular pediu um elemento de design avançado que chamasse atenção: uma corrente de energia, um líquido verde num tubo de vidro percorrendo o site, em 3D. A resposta é o conduto: um tubo de vidro em WebGL que desce pelas margens da home, atravessa a página nas faixas livres entre as seções, passa por trás da faixa de chamadas e termina encaixado no botão "Vamos criar seu projeto". O líquido enche conforme a leitura avança e, ao chegar, carrega o botão.

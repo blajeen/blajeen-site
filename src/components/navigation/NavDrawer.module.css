@@ -1,0 +1,344 @@
+/*
+ * Gaveta de navegação do celular.
+ *
+ * Índice em sanfona: um destino por linha, ícone ao lado do nome, setinha onde há lista.
+ * A lista desdobra no lugar, uma de cada vez, e o resto do índice apaga um tom.
+ */
+
+.corpo {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------- marca */
+
+.marca {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  margin-inline-start: -0.5rem;
+  padding-inline: 0.25rem;
+  border-radius: 999px;
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.marcaLogo {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--color-line-strong);
+}
+
+@media (min-width: 40rem) {
+  .marcaLogo {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* ------------------------------------------------------------ índice */
+
+/* Recebe o foco ao abrir só pra a pessoa aterrissar dentro do índice; o anel seria ruído. */
+.nav:focus {
+  outline: none;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0.85rem var(--gutter) 1.5rem;
+  list-style: none;
+}
+
+.topo {
+  display: flex;
+  width: 100%;
+  min-height: 3.35rem;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  color: var(--color-paper);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 200ms var(--ease-lab);
+}
+
+.icone {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+  color: var(--color-signal);
+  filter: drop-shadow(0 0 7px rgba(201, 255, 61, 0.14));
+  transition: opacity 200ms var(--ease-lab);
+}
+
+.topo[data-servico] .icone {
+  color: #8bddff;
+  filter: drop-shadow(0 0 8px rgba(85, 191, 255, 0.22));
+}
+
+.rotulo {
+  min-width: 0;
+}
+
+/* Onde a pessoa está: um ponto verde depois do nome, em vez de mudar a cor do índice todo. */
+.topo[data-ativo] .rotulo::after,
+.topo[aria-current='page'] .rotulo::after,
+.subitem[aria-current='page'] .subitemNome::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-inline-start: 0.55rem;
+  border-radius: 999px;
+  vertical-align: middle;
+  background: var(--color-signal);
+  box-shadow: 0 0 8px var(--color-signal);
+}
+
+/* A setinha fica colada no nome, como nos menus de estúdio: aponta pro lado fechada e
+   pra baixo aberta. */
+.seta {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  margin-inline-start: 0.2rem;
+  border-inline-end: 1.75px solid currentColor;
+  border-block-end: 1.75px solid currentColor;
+  color: var(--color-mineral-dim);
+  transform: rotate(-45deg);
+  transition:
+    transform 200ms var(--ease-lab),
+    color 200ms var(--ease-lab);
+}
+
+.topo[aria-expanded='true'] .seta {
+  margin-block-start: -0.3rem;
+  color: var(--color-signal);
+  transform: rotate(45deg);
+}
+
+/* Com uma lista aberta, o resto do índice recua um tom, mas continua legível e tocável. */
+.lista[data-secao-aberta] > li:not([data-expandido]) > .topo {
+  color: var(--color-mineral-dim);
+}
+
+.lista[data-secao-aberta] > li:not([data-expandido]) > .topo .icone {
+  opacity: 0.45;
+}
+
+.topo:hover,
+.lista[data-secao-aberta] > li:not([data-expandido]) > .topo:hover {
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------------- sublista */
+
+/* Alinhada ao começo do nome, não ao ícone: a lista é visivelmente filha do item. */
+.sublista {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0.1rem 0 0.9rem calc(1.6rem + 0.95rem);
+  list-style: none;
+  animation: desdobrar 240ms var(--ease-lab);
+}
+
+.sublista[hidden] {
+  display: none;
+}
+
+.subitem {
+  display: flex;
+  min-height: 2.9rem;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.3rem 0;
+  color: var(--color-mineral);
+  text-decoration: none;
+  transition: color 160ms var(--ease-lab);
+}
+
+.subitem:hover,
+.subitem[aria-current='page'] {
+  color: var(--color-paper);
+}
+
+.subitemImagem {
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.subitemSimbolo {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  color: var(--color-signal);
+}
+
+.subitemTexto {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.subitemNome {
+  font-size: 1.05rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.subitemEstado {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.todos {
+  display: block;
+  padding: 0.75rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  text-decoration: none;
+}
+
+.todos:hover {
+  color: var(--color-glow);
+}
+
+.todosDescricao {
+  display: block;
+  margin-block-start: 0.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-mineral);
+}
+
+/* ----------------------------------------------------------- rodapé */
+
+.rodape {
+  margin-block-start: auto;
+  border-block-start: 1px solid var(--color-line);
+  padding: 1.25rem var(--gutter) 1.75rem;
+}
+
+.sociais,
+.legais {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sociais {
+  gap: 0.6rem;
+}
+
+.social {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 12px;
+  color: var(--color-mineral);
+  transition:
+    color 160ms var(--ease-lab),
+    border-color 160ms var(--ease-lab);
+}
+
+.social:hover {
+  border-color: color-mix(in srgb, var(--color-signal) 45%, transparent);
+  color: var(--color-signal);
+}
+
+.legais {
+  column-gap: 1.1rem;
+  margin-block-start: 0.5rem;
+}
+
+.legal {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-mineral);
+  text-decoration: none;
+}
+
+.legal:hover {
+  color: var(--color-paper);
+}
+
+.exclusaoTitulo,
+.assinatura {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.exclusaoTitulo {
+  margin-block-start: 0.5rem;
+}
+
+@keyframes desdobrar {
+  from {
+    opacity: 0;
+    transform: translateY(-0.35rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sublista {
+    animation: none;
+  }
+
+  .topo,
+  .icone,
+  .seta,
+  .subitem {
+    transition: none;
+  }
+}
+
+html[data-motion='off'] .sublista {
+  animation: none;
+}

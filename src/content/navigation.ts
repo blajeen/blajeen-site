@@ -1,7 +1,7 @@
 import { ROTAS } from '@/lib/routes';
 import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
-import type { NavLink } from './types';
+import type { MenuId, NavLink } from './types';
 import { produtos } from './produtos';
 import { saas, saasEmBreve } from './saas';
 
@@ -58,7 +58,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
     rotulo: 'SaaS',
     descricao: 'Sistemas próprios adaptados a negócios reais.',
     href: ROTAS.projetos,
-    icone: 'produtos',
+    icone: 'saas',
     menu: 'projetos',
   },
   {
@@ -127,6 +127,41 @@ export const atalhosDeProjeto = [
   { rotulo: saasEmBreve.nome, estado: saasEmBreve.estado, simbolo: saasEmBreve.icone, href: saasEmBreve.rota },
   { rotulo: 'Painéis de gestão', estado: 'DISPONÍVEL NOS SAAS', simbolo: 'admin' as const, href: ROTAS.painelAdministrativo },
 ];
+
+/**
+ * O que cada item com lista desdobra na gaveta do celular.
+ *
+ * As listas são as mesmas do menu do desktop. `todos` só existe onde há uma página que
+ * reúne a categoria inteira — os jogos não têm uma, e apontar pro primeiro jogo repetiria
+ * o item que já está logo abaixo.
+ */
+export const submenus: Record<MenuId, Submenu> = {
+  produtos: {
+    todos: { rotulo: 'Ver todos os produtos', href: ROTAS.produtos },
+    itens: atalhosDeProduto,
+    extras: [],
+  },
+  projetos: {
+    todos: { rotulo: 'Ver todos os sistemas', href: ROTAS.projetos },
+    itens: atalhosDeProjeto,
+    extras: [],
+  },
+  jogos: {
+    todos: null,
+    itens: atalhosDeJogo,
+    extras: [{ rotulo: 'Morvelio Wiki', descricao: 'Atlas, classes e histórias', href: ROTAS.morvelioWiki }],
+  },
+};
+
+type Submenu = {
+  readonly todos: { readonly rotulo: string; readonly href: string } | null;
+  readonly itens: readonly (
+    | (typeof atalhosDeJogo)[number]
+    | (typeof atalhosDeProduto)[number]
+    | (typeof atalhosDeProjeto)[number]
+  )[];
+  readonly extras: readonly { readonly rotulo: string; readonly descricao: string; readonly href: string }[];
+};
 
 /**
  * Links do rodapé, agrupados por responsabilidade.

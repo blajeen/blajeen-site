@@ -52,21 +52,6 @@
   width: 100%;
   background: currentColor;
 }
-.drawer-wiki-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 0;
-  border-block: 1px solid #465039;
-  margin-top: 15px;
-  font-size: 15px;
-  color: #d1e6b5;
-}
-.drawer-wiki-link span {
-  font-size: 11px;
-  color: #acb8a0;
-}
 .screenshot-mount {
   min-width: 0;
   padding: clamp(12px, 2vw, 28px);
@@ -281,11 +266,6 @@ main :is(h1, h2) {
   }
   .screenshot-toolbar > span:last-child {
     font-size: 7px !important;
-  }
-  .drawer-wiki-link {
-    flex-direction: column;
-    align-items: start;
-    gap: 4px;
   }
 }
 @media (max-width: 479px) {

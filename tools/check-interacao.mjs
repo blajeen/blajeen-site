@@ -26,7 +26,7 @@ const navegador = await chromium.launch();
   const pagina = await contexto.newPage();
   await pagina.goto(BASE, { waitUntil: 'networkidle' });
 
-  const acionador = pagina.getByRole('button', { name: /MENU/ });
+  const acionador = pagina.getByRole('button', { name: /^menu$/i });
   conferir(
     (await acionador.getAttribute('aria-expanded')) === 'false',
     'MENU deveria começar com aria-expanded="false"',
@@ -84,7 +84,7 @@ const navegador = await chromium.launch();
   await pagina.waitForSelector('[role="dialog"]', { state: 'detached' });
 
   const focoVoltou = await pagina.evaluate(
-    () => document.activeElement?.textContent?.includes('MENU') ?? false,
+    () => document.activeElement?.textContent?.trim().toUpperCase() === 'MENU',
   );
   conferir(focoVoltou, 'o foco não voltou para o botão MENU após Esc');
   conferir(
@@ -116,7 +116,7 @@ const navegador = await chromium.launch();
   const barra = pagina.getByRole('navigation', { name: 'Navegação principal' });
   conferir(await barra.isVisible(), 'a barra de navegação deveria aparecer no desktop');
   conferir(
-    !(await pagina.getByRole('button', { name: /MENU/ }).isVisible()),
+    !(await pagina.getByRole('button', { name: /^menu$/i }).isVisible()),
     'o acionador da gaveta não deveria aparecer junto da barra',
   );
 
@@ -127,7 +127,7 @@ const navegador = await chromium.launch();
     `a barra deveria ter três links diretos além dos dois menus (${await destinos.count()})`,
   );
 
-  const produtos = pagina.getByRole('button', { name: /Produtos/ });
+  const produtos = pagina.getByRole('button', { name: 'Produtos', exact: true });
   const submenuProdutos = pagina.locator('#submenu-projetos');
   conferir(
     (await produtos.getAttribute('aria-expanded')) === 'false',

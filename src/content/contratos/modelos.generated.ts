@@ -15,7 +15,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
   "h1": "Desenvolvimento<br>de <span class=\"em\">Site.</span>",
   "lead": "Um site com a identidade da sua marca, pensado para apresentar, convencer e converter — em qualquer tela.",
   "revisoesCurto": "2 rodadas no layout + 1 antes de publicar",
-  "garantiaCurto": "7 dias de satisfação · 90 dias de garantia técnica",
+  "garantiaCurto": "7 dias de satisfação · 30 dias de garantia técnica",
   "pagamento": "50% adiantado, na assinatura, e 50% no final, antes da publicação",
   "multiPlano": false,
   "etapas": [
@@ -41,7 +41,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    },
    {
     "titulo": "Evolução",
-    "descricao": "Garantia de 90 dias e suporte"
+    "descricao": "Garantia de 30 dias e suporte"
    }
   ],
   "anexo2": [
@@ -78,7 +78,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    [
     "Garantia técnica",
     "Correções sem custo",
-    "90 dias",
+    "30 dias",
     "—"
    ]
   ],
@@ -338,7 +338,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
       "html": "<strong>Garantia Blajeen de 7 dias.</strong> O CONTRATANTE poderá desistir da contratação em até 7 (sete) dias corridos contados da assinatura, com devolução integral dos valores pagos em até 10 (dez) dias úteis, pelo mesmo meio de pagamento, em consonância com o art. 49 do Código de Defesa do Consumidor. O exercício dessa garantia implica a não utilização de qualquer material eventualmente entregue."
      },
      {
-      "html": "<strong>Garantia técnica.</strong> Por 90 (noventa) dias contados da publicação, a CONTRATADA corrigirá sem custo as falhas de funcionamento do site em relação ao escopo aprovado."
+      "html": "<strong>Garantia técnica.</strong> Por 30 (trinta) dias contados da publicação, a CONTRATADA corrigirá sem custo as falhas de funcionamento do site em relação ao escopo aprovado."
      },
      {
       "html": "A garantia técnica não cobre:",
@@ -494,7 +494,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
   "h1": "Desenvolvimento<br>de <span class=\"em\">Sistema.</span>",
   "lead": "Sistemas, aplicativos e programas sob medida para tirar a operação do improviso — com clareza, segurança e espaço para crescer.",
   "revisoesCurto": "2 rodadas no protótipo + correções do aceite",
-  "garantiaCurto": "7 dias de satisfação · 90 dias de garantia técnica",
+  "garantiaCurto": "7 dias de satisfação · 30 dias de garantia técnica",
   "pagamento": "50% adiantado, na assinatura, e 50% no final, no aceite do SISTEMA",
   "multiPlano": false,
   "etapas": [
@@ -520,7 +520,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    },
    {
     "titulo": "Evolução",
-    "descricao": "Garantia de 90 dias e suporte"
+    "descricao": "Garantia de 30 dias e suporte"
    }
   ],
   "anexo2": [
@@ -557,7 +557,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    [
     "Garantia técnica",
     "Correções sem custo",
-    "90 dias",
+    "30 dias",
     "—"
    ]
   ],
@@ -837,7 +837,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
       "html": "<strong>Garantia Blajeen de 7 dias.</strong> O CONTRATANTE poderá desistir da contratação em até 7 (sete) dias corridos contados da assinatura, com devolução integral dos valores pagos em até 10 (dez) dias úteis, pelo mesmo meio de pagamento, em consonância com o art. 49 do Código de Defesa do Consumidor. O exercício dessa garantia implica a não utilização de qualquer material eventualmente entregue."
      },
      {
-      "html": "<strong>Garantia técnica.</strong> Por 90 (noventa) dias contados do aceite, a CONTRATADA corrigirá sem custo as falhas do SISTEMA em relação aos requisitos aprovados, com prioridade para as que impeçam a operação."
+      "html": "<strong>Garantia técnica.</strong> Por 30 (trinta) dias contados do aceite, a CONTRATADA corrigirá sem custo as falhas do SISTEMA em relação aos requisitos aprovados, com prioridade para as que impeçam a operação."
      },
      {
       "html": "A garantia técnica não cobre:",
@@ -1484,7 +1484,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
   "h1": "Desenvolvimento<br>de <span class=\"em\">Jogo.</span>",
   "lead": "Do conceito ao jogo publicado: mecânicas, arte, som e diversão construídos em marcos jogáveis que você testa a cada etapa.",
   "revisoesCurto": "2 rodadas por marco",
-  "garantiaCurto": "7 dias de satisfação · 90 dias de garantia técnica",
+  "garantiaCurto": "7 dias de satisfação · 30 dias de garantia técnica",
   "pagamento": "50% adiantado, na assinatura, e 50% no final, na entrega da versão final",
   "multiPlano": false,
   "etapas": [
@@ -1510,7 +1510,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    },
    {
     "titulo": "Evolução",
-    "descricao": "Garantia de 90 dias"
+    "descricao": "Garantia de 30 dias"
    }
   ],
   "anexo2": [
@@ -1541,7 +1541,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    [
     "Garantia técnica",
     "Correções sem custo",
-    "90 dias",
+    "30 dias",
     "—"
    ]
   ],
@@ -1825,7 +1825,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
       "html": "<strong>Garantia Blajeen de 7 dias.</strong> O CONTRATANTE poderá desistir da contratação em até 7 (sete) dias corridos contados da assinatura, com devolução integral dos valores pagos em até 10 (dez) dias úteis, pelo mesmo meio de pagamento, em consonância com o art. 49 do Código de Defesa do Consumidor. O exercício dessa garantia implica a não utilização de qualquer material eventualmente entregue."
      },
      {
-      "html": "<strong>Garantia técnica.</strong> Por 90 (noventa) dias contados da entrega da versão final, a CONTRATADA corrigirá sem custo as falhas (bugs) que impeçam ou prejudiquem a jogabilidade prevista no GDD, nas plataformas e dispositivos de referência."
+      "html": "<strong>Garantia técnica.</strong> Por 30 (trinta) dias contados da entrega da versão final, a CONTRATADA corrigirá sem custo as falhas (bugs) que impeçam ou prejudiquem a jogabilidade prevista no GDD, nas plataformas e dispositivos de referência."
      },
      {
       "html": "A garantia técnica não cobre:",
@@ -1978,7 +1978,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
   "h1": "Projeto<br><span class=\"em\">sob medida.</span>",
   "lead": "Para ideias que não cabem em pacotes: entendemos, prototipamos, provamos e construímos junto com você, ciclo a ciclo.",
   "revisoesCurto": "Revisão ao final de cada sprint",
-  "garantiaCurto": "7 dias de satisfação · 90 dias por versão publicada",
+  "garantiaCurto": "7 dias de satisfação · 30 dias por versão publicada",
   "pagamento": "50% adiantado e 50% no final de cada etapa contratada (Diagnóstico, identidade ou cada sprint)",
   "multiPlano": true,
   "etapas": [
@@ -2035,7 +2035,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
    [
     "Garantia técnica",
     "Correções sem custo, por versão",
-    "90 dias",
+    "30 dias",
     "—"
    ]
   ],
@@ -2304,7 +2304,7 @@ export const MODELOS: Record<ServicoId, ModeloContrato> = {
       "html": "<strong>Garantia Blajeen de 7 dias.</strong> O CONTRATANTE poderá desistir da contratação em até 7 (sete) dias corridos contados da assinatura, com devolução integral dos valores pagos em até 10 (dez) dias úteis, pelo mesmo meio de pagamento, em consonância com o art. 49 do Código de Defesa do Consumidor. O exercício dessa garantia implica a não utilização de qualquer material eventualmente entregue."
      },
      {
-      "html": "<strong>Garantia técnica.</strong> Por 90 (noventa) dias contados da publicação de cada versão (release), a CONTRATADA corrigirá sem custo as falhas de funcionamento em relação aos itens aprovados naquela versão."
+      "html": "<strong>Garantia técnica.</strong> Por 30 (trinta) dias contados da publicação de cada versão (release), a CONTRATADA corrigirá sem custo as falhas de funcionamento em relação aos itens aprovados naquela versão."
      },
      {
       "html": "A garantia técnica não cobre:",

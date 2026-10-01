@@ -125,7 +125,7 @@ export function renderizarCatalogo(catalogo: CatalogoVigente, { publico = false 
   <span class="lbl">Por que contratar a Blajeen</span>
   <div class="trust">
     <div><b>7 dias</b><span>Garantia de satisfação</span><p>Desistiu nos primeiros 7 dias? Devolvemos 100% do valor pago.</p></div>
-    <div><b>90 dias</b><span>Garantia técnica</span><p>Correções sem custo depois da entrega de sites, sistemas e jogos.</p></div>
+    <div><b>30 dias</b><span>Garantia técnica</span><p>Correções sem custo depois da entrega de sites, sistemas e jogos.</p></div>
     <div><b>100%</b><span>Contrato digital</span><p>Escopo, prazo e preço por escrito, com assinatura eletrônica.</p></div>
     <div><b>Seu</b><span>Código e arquivos</span><p>Após a quitação, o que foi feito para você é transferido para você.</p></div>
     <div><b>Justo</b><span>Preço acessível</span><p>Qualidade de estúdio com valores pensados para pequenos e médios negócios.</p></div>
@@ -170,7 +170,7 @@ export function renderizarCatalogo(catalogo: CatalogoVigente, { publico = false 
       <li><b>Parcelamento com juros</b> no cartão de crédito</li><li><b>Pix, transferência, boleto</b> ou cartão</li>
       <li><b>Planos mensais:</b> sem fidelidade, com aviso de 30 dias</li></ul></div>
     <div class="xbox"><span class="xt">Nossos compromissos</span><ul>
-      <li><b>7 dias de garantia:</b> devolução integral se você desistir</li><li><b>90 dias de garantia técnica</b> em sites, sistemas e jogos</li>
+      <li><b>7 dias de garantia:</b> devolução integral se você desistir</li><li><b>30 dias de garantia técnica</b> em sites, sistemas e jogos</li>
       <li><b>Código e arquivos</b> transferidos após a quitação</li><li><b>Aprovação a cada etapa</b>, sem surpresas no fim</li>
       <li><b>Dados protegidos</b> conforme a LGPD</li></ul></div>
   </div>

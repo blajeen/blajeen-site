@@ -16,7 +16,7 @@ export const projetoPersonalizado = {
     ['03', 'Contrato digital', 'Você confere e assina pelo celular.'],
     ['04', 'Pagamento', '50% na assinatura e 50% na entrega, por Pix, boleto ou cartão.'],
   ],
-  garantias: ['7 dias de garantia de satisfação', '90 dias de garantia técnica', 'Código e arquivos seus após a quitação'],
+  garantias: ['7 dias de garantia de satisfação', '30 dias de garantia técnica', 'Código e arquivos seus após a quitação'],
 } as const;
 
 /** O tipo que o formulário já traz marcado quando a pessoa escolhe um plano. */

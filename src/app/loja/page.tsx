@@ -6,7 +6,7 @@ import { LinkDaSacola } from '@/components/loja/LinkDaSacola';
 import { asaasConfigurado } from '@/lib/loja/asaas';
 import { CONFIGURACAO_PADRAO, lerConfiguracaoLoja, listarProdutos } from '@/lib/loja/repositorio';
 import { CATEGORIA_ROTULO, CATEGORIAS, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
-import { metadadosDaRota } from '@/lib/metadata';
+import { metadadosDaRota, OG } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
@@ -14,6 +14,8 @@ export const metadata: Metadata = metadadosDaRota({
   descricao:
     'Bonecos 3D, camisetas e canecas dos jogos da Blajeen Labs, e o Livro de Morvelio em versão digital e de colecionador.',
   rota: ROTAS.loja,
+  imagem: OG.loja,
+  imagemAlt: 'Brasão da Blajeen Labs: o frasco de gosma verde-ácido no centro de um escudo mecânico.',
 });
 
 // Os produtos vêm do painel. Um minuto de cache, e o painel atualiza na hora quando salva.

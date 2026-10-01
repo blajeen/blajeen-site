@@ -3,6 +3,8 @@ import { SITE_URL, site, urlAbsoluta } from '@/content/site';
 
 export const OG = {
   estudio: '/og/blajeen-labs.png',
+  /** O brasão da Blajeen Labs, centralizado: o recorte quadrado do WhatsApp mostra o brasão inteiro. */
+  loja: '/og/loja.jpg',
   revalio: '/og/revalio.png',
   docalio: '/og/docalio.png',
   gramelio: '/og/gramelio.png',

@@ -18,7 +18,7 @@ O conduto mora no layout, dentro do `main`: um motor e um contexto WebGL para o 
 
 ## Como a página marca o caminho
 
-- `data-conduto-lado="esquerda|direita"` fixa o lado de uma seção (a home marca hero, configurador, trabalhos, desafio e painel final; a wiki e a página do Morvelio marcam o bloco `.mwiki` pela direita).
+- `data-conduto-lado="esquerda|direita"` fixa o lado de uma seção (a home marca hero, configurador, trabalhos, desafio e painel final; a wiki e a página do Morvelio marcam o bloco `.mwiki` pela direita). Em 01/10/2026 o titular pediu o tubo contornando o desafio do Morvelio: o desafio passou para a esquerda, entre trabalhos e painel final pela direita, e o tubo atravessa por cima do jogo, desce ao lado dele e volta por baixo. São três lados, e não quatro, porque o tubo nunca sobe. A home passou de três para cinco travessias; `npm run qa:conduto` seguiu sem invasões nos 12 tamanhos.
 - `data-conduto-lado="alternar"` pode trocar de lado em relação ao trecho anterior, mas só depois de o tubo correr pelo menos 80% de uma tela do mesmo lado, somando a altura dos trechos. O `Container` (`src/components/layout/Section.tsx`) já traz essa marca, e por isso toda página interna tem o tubo sem marcação própria. A altura de tela dessa conta é a de quando a página abriu: no celular a barra de endereço muda a altura durante a rolagem, e o tubo não pode trocar de lado por isso.
 - Um trecho marcado dentro de outro não conta.
 - `data-conduto-destino` no elemento onde ele termina (o botão final da home).
@@ -126,4 +126,4 @@ A criação do contexto WebGL é uma chamada única do navegador, que custou de 
 - Lighthouse de verdade (`node tools/check-lighthouse.mjs`) não foi rodado; as medidas acima são de laboratório com Playwright.
 - A partir de 1280 px, o frasco fixo do canto inferior esquerdo (o botão da gosma) fica em cima do trilho esquerdo sempre que o tubo corre pela esquerda, o que agora acontece em quase todas as páginas. O vidro aparece pelas partes transparentes do frasco, e o anel de foco verde dele fica sobre o líquido. Decisão do titular: mover o frasco ou aceitar.
 - Anterior a esta mudança: `/terms` e `/revalio/terms` têm dois elementos com `id="conteudo"` (o `main` e uma seção do texto legal). Correção separada.
-- `npm run qa:interacao` já falhava antes desta mudança: os seletores dele não batem com o cabeçalho ("Menu") e com o botão "Produtos que funcionam" do hero. Correção separada.
+- `npm run qa:interacao` já falhava antes desta mudança. Os seletores do cabeçalho ("Menu") e de "Produtos" foram corrigidos no PR #22; o script ainda para na "Prévia rápida", que era da home antiga. Correção separada.

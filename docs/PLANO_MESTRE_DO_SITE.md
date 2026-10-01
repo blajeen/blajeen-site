@@ -11,6 +11,15 @@ políticas, exclusão de dados e redes ficam no pé da gaveta. Isto substitui, s
 linha de §6 que pedia "índice, nome e uma descrição curta"; foco preso, `Esc`, scrim, retorno de
 foco e scroll lock continuam como em §6.
 
+## Emenda pedida pelo titular — tubo em volta do jogo e configurador compacto (01/10/2026)
+
+O titular pediu que o conduto contornasse o desafio do Morvelio e que o "E se fosse o seu
+negócio?" ficasse mais compacto e agradável de ler. O tubo agora atravessa por cima do desafio,
+desce ao lado dele e volta por baixo (detalhes em `docs/conduto/IMPLEMENTACAO.md`). No
+configurador, destaques, avaliações e contato do site demonstrativo viraram páginas de um menu
+do próprio site, em vez de virem empilhados; a seção caiu para cerca de metade da altura no
+computador e no celular (detalhes em `docs/home-interativa/IMPLEMENTACAO.md`).
+
 ## Emenda pedida pelo titular — conduto de energia (28/09/2026, aprovada e publicada em 29/09/2026)
 
 O titular pediu um elemento de design avançado que chamasse atenção: uma corrente de energia, um líquido verde num tubo de vidro percorrendo o site, em 3D. A resposta é o conduto: um tubo de vidro em WebGL que desce pelas margens da home, atravessa a página nas faixas livres entre as seções, passa por trás da faixa de chamadas e termina encaixado no botão "Vamos criar seu projeto". O líquido enche conforme a leitura avança e, ao chegar, carrega o botão.

@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:3018",
+  "base": "http://localhost:3200",
   "checks": [
     "WebGL inicializa; estações mudam câmera, texto e destino",
     "Três negócios, troca de identidade, carrinho, reserva e briefing preservado",

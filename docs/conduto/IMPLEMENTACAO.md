@@ -124,6 +124,6 @@ A criação do contexto WebGL é uma chamada única do navegador, que custou de 
 ## Pendências
 
 - Lighthouse de verdade (`node tools/check-lighthouse.mjs`) não foi rodado; as medidas acima são de laboratório com Playwright.
-- A partir de 1280 px, o frasco fixo do canto inferior esquerdo (o botão da gosma) fica em cima do trilho esquerdo sempre que o tubo corre pela esquerda, o que agora acontece em quase todas as páginas. O vidro aparece pelas partes transparentes do frasco, e o anel de foco verde dele fica sobre o líquido. Decisão do titular: mover o frasco ou aceitar.
+- Resolvida em 01/10/2026, por delegação do titular: a partir de 1280 px o frasco fixo do canto inferior esquerdo (o botão da gosma) ficava em cima do trilho esquerdo, com o vidro do tubo aparecendo pelas partes transparentes dele e o anel de foco verde sobre o líquido. O frasco ficou no lugar e ganhou uma base redonda e opaca, com borda fina: o tubo passa por trás dela, como passa pelo cabeçalho, e o anel de foco tem uma sombra escura embaixo. Mudar de lado não resolveria, porque o tubo usa as duas margens; e esconder o frasco entre 1280 e uns 1580 px o tiraria de quase todo notebook.
 - Anterior a esta mudança: `/terms` e `/revalio/terms` têm dois elementos com `id="conteudo"` (o `main` e uma seção do texto legal). Correção separada.
 - `npm run qa:interacao` já falhava antes desta mudança. Os seletores do cabeçalho ("Menu") e de "Produtos" foram corrigidos no PR #22; o script ainda para na "Prévia rápida", que era da home antiga. Correção separada.

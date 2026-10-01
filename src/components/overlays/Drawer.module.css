@@ -83,6 +83,39 @@
   }
 }
 
+/* No celular a gaveta cobre a tela inteira, então o cabeçalho dela repete o do site: mesma
+   altura, mesma marca à esquerda, e o "Fechar" aparece exatamente onde estava o "Menu". */
+.navegacao .cabecalho {
+  min-height: 4rem;
+  align-items: center;
+  padding-block: 0;
+  padding-inline: var(--gutter);
+}
+
+.navegacao .fechar {
+  gap: 13px;
+  padding: 10px 14px;
+  border-color: #55604a;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.navegacao .fechar > span {
+  width: 15px;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 0.6;
+  text-align: center;
+}
+
+@media (min-width: 40rem) {
+  .navegacao .cabecalho {
+    min-height: 4.5rem;
+  }
+}
+
 /* ---------------------------------------------------- gaveta de prévia */
 
 /* Mobile: bottom sheet com no máximo 88dvh, cabeçalho fixo e corpo rolável. */

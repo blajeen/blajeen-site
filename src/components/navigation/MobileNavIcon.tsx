@@ -54,6 +54,16 @@ export function MobileNavIcon({ id, className }: Props) {
     );
   }
 
+  if (id === 'saas') {
+    return (
+      <svg {...propriedades} className={className}>
+        <rect x="3" y="4" width="18" height="16" rx="2.5" />
+        <path d="M3 8.5h18M6.2 6.25h.01M8.7 6.25h.01" />
+        <path d="M7.5 16.5v-2.5M12 16.5v-5M16.5 16.5v-3.5" />
+      </svg>
+    );
+  }
+
   if (id === 'jogos') {
     return (
       <svg {...propriedades} className={className}>

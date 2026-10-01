@@ -165,6 +165,7 @@ export type NavIconId =
   | 'engenharia'
   | 'projetos-feitos'
   | 'produtos'
+  | 'saas'
   | 'jogos'
   | 'estudio'
   | 'novidades'

@@ -42,6 +42,8 @@ type Props = {
   rotuloFechar?: string;
   /** Elemento que recebe o foco de volta ao fechar. */
   acionador?: React.RefObject<HTMLElement | null>;
+  /** Ocupa o canto esquerdo do cabeçalho, no lugar do título visível. */
+  marca?: ReactNode;
   children: ReactNode;
 };
 
@@ -61,6 +63,7 @@ export function Drawer({
   variante,
   rotuloFechar = 'Fechar',
   acionador,
+  marca,
   children,
 }: Props) {
   const noCliente = useNoCliente();
@@ -185,6 +188,7 @@ export function Drawer({
         {variante === 'previa' ? <div className={styles.alca} aria-hidden="true" /> : null}
 
         <div className={styles.cabecalho}>
+          {marca}
           <h2
             id={tituloId}
             className={tituloVisivel ? 'tecnica text-mineral' : 'sr-only'}

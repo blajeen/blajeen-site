@@ -3,13 +3,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { RefObject } from 'react';
+import { useId, useState, type RefObject } from 'react';
+import { GithubIcon } from '@/components/brand/GithubIcon';
+import { InstagramIcon } from '@/components/brand/InstagramIcon';
 import { Drawer } from '@/components/overlays/Drawer';
-import { AppliedEngineeringIcon } from '@/components/brand/AppliedEngineeringIcon';
 import { ProductIcon } from '@/components/projects/ProductIcon';
-import { atalhosDeJogo, atalhosDeProjeto, navegacaoPrincipal } from '@/content/navigation';
+import { navegacaoPrincipal, rodape, submenus } from '@/content/navigation';
 import { site } from '@/content/site';
+import type { MenuId } from '@/content/types';
 import { rotaAtiva, ROTAS } from '@/lib/routes';
+import { MobileNavIcon } from './MobileNavIcon';
+import styles from './NavDrawer.module.css';
 
 type Props = {
   id: string;
@@ -19,162 +23,216 @@ type Props = {
 };
 
 export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
-  const caminho = usePathname();
-
   return (
     <Drawer
       id={id}
       aberto={aberto}
       aoFechar={aoFechar}
       titulo="Índice do laboratório"
+      tituloVisivel={false}
       variante="navegacao"
       acionador={acionador}
+      marca={
+        <Link href={ROTAS.home} onClick={aoFechar} className={styles.marca}>
+          <Image
+            src="/brand/blajeen-labs-logo-header.png"
+            alt=""
+            width={96}
+            height={96}
+            sizes="48px"
+            unoptimized
+            className={styles.marcaLogo}
+          />
+          <span className="header-wordmark">
+            BLAJEEN <span>LABS</span>
+          </span>
+        </Link>
+      }
     >
-      <nav aria-label="Navegação principal" className="px-[var(--gutter)] pb-10 pt-2 sm:px-8">
-        <ul className="flex flex-col">
-          {navegacaoPrincipal.map((link, indice) => {
-            const ativo = rotaAtiva(caminho, link.href);
+      {/* Mora dentro da gaveta pra desmontar junto com ela: cada abertura começa recolhida. */}
+      <Indice aoFechar={aoFechar} />
+    </Drawer>
+  );
+}
+
+/**
+ * Índice em sanfona, no jeito dos menus de celular de estúdio de jogo.
+ *
+ * Os destinos cabem numa tela só, cada um com o seu ícone. Quem tem lista embaixo mostra a
+ * setinha e desdobra no lugar, um por vez; o resto do índice apaga um tom pra lista aberta
+ * ficar em primeiro plano, sem sumir.
+ */
+function Indice({ aoFechar }: { aoFechar: () => void }) {
+  const caminho = usePathname();
+  const prefixo = useId();
+  const [secao, setSecao] = useState<MenuId | null>(null);
+
+  return (
+    <div className={styles.corpo}>
+      {/* O foco entra no índice, e não no primeiro link: focar "Início" desenhava o anel em
+          volta dele, e no dedo isso parece uma escolha feita antes de a pessoa escolher.
+          O próximo Tab já cai em "Início". */}
+      <nav aria-label="Navegação principal" tabIndex={-1} data-foco-inicial className={styles.nav}>
+        <ul className={styles.lista} data-secao-aberta={secao ?? undefined}>
+          {navegacaoPrincipal.map((link) => {
+            const menu = link.menu;
+
+            if (menu) {
+              const submenu = submenus[menu];
+              const expandido = secao === menu;
+              const idLista = `${prefixo}-${menu}`;
+              const ativo =
+                (submenu.todos !== null && rotaAtiva(caminho, submenu.todos.href)) ||
+                submenu.itens.some((item) => rotaAtiva(caminho, item.href)) ||
+                submenu.extras.some((extra) => rotaAtiva(caminho, extra.href));
+
+              return (
+                <li key={link.href} data-expandido={expandido || undefined}>
+                  <button
+                    type="button"
+                    aria-expanded={expandido}
+                    aria-controls={idLista}
+                    data-ativo={ativo || undefined}
+                    className={styles.topo}
+                    onClick={() => setSecao(expandido ? null : menu)}
+                  >
+                    <MobileNavIcon id={link.icone} className={styles.icone} />
+                    <span className={styles.rotulo}>{link.rotulo}</span>
+                    <span aria-hidden="true" className={styles.seta} />
+                  </button>
+
+                  <ul id={idLista} className={styles.sublista} hidden={!expandido}>
+                    {submenu.todos ? (
+                      <li>
+                        <Link
+                          href={submenu.todos.href}
+                          onClick={aoFechar}
+                          aria-current={rotaAtiva(caminho, submenu.todos.href) ? 'page' : undefined}
+                          className={styles.todos}
+                        >
+                          {submenu.todos.rotulo}
+                          <span aria-hidden="true"> →</span>
+                        </Link>
+                      </li>
+                    ) : null}
+
+                    {submenu.itens.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={aoFechar}
+                          aria-current={rotaAtiva(caminho, item.href) ? 'page' : undefined}
+                          className={styles.subitem}
+                        >
+                          {'icone' in item ? (
+                            <Image
+                              src={item.icone.src}
+                              alt=""
+                              width={item.icone.tamanho}
+                              height={item.icone.tamanho}
+                              sizes="32px"
+                              className={styles.subitemImagem}
+                            />
+                          ) : (
+                            <span aria-hidden="true" className={styles.subitemSimbolo}>
+                              <ProductIcon id={item.simbolo} className="size-5" />
+                            </span>
+                          )}
+                          <span className={styles.subitemTexto}>
+                            <span className={styles.subitemNome}>{item.rotulo}</span>
+                            <span className={styles.subitemEstado}>{item.estado}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+
+                    {submenu.extras.map((extra) => (
+                      <li key={extra.href}>
+                        <Link
+                          href={extra.href}
+                          onClick={aoFechar}
+                          aria-current={rotaAtiva(caminho, extra.href) ? 'page' : undefined}
+                          className={styles.todos}
+                        >
+                          {extra.rotulo}
+                          <span aria-hidden="true"> →</span>
+                          <span className={styles.todosDescricao}>{extra.descricao}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+
             return (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={aoFechar}
-                  aria-current={ativo ? 'page' : undefined}
-                  {...(indice === 0 ? { 'data-foco-inicial': true } : {})}
-                  className="group flex items-baseline gap-4 border-b border-line py-5 transition-colors duration-150 hover:border-signal/35 sm:gap-6"
+                  aria-current={rotaAtiva(caminho, link.href) ? 'page' : undefined}
+                  data-servico={link.href === ROTAS.crieSeuProjeto || undefined}
+                  className={styles.topo}
                 >
-                  <span className="tecnica w-6 flex-none text-mineral-dim transition-colors group-hover:text-signal">
-                    {link.indice}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-[1.6rem] leading-tight tracking-tight text-paper transition-colors group-hover:text-signal sm:text-[1.9rem]">
-                      {link.rotulo}
-                    </span>
-                    <span className="mt-1 block text-sm leading-snug text-mineral">
-                      {link.descricao}
-                    </span>
-                  </span>
-                  {link.href === ROTAS.crieSeuProjeto ? (
-                    <AppliedEngineeringIcon decorativo className="ml-auto !size-12 !flex-none !rounded-xl" />
-                  ) : null}
-                  {link.href === ROTAS.contato ? (
-                    <Image
-                      src="/brand/contact-envelope.png"
-                      alt=""
-                      width={384}
-                      height={288}
-                      sizes="56px"
-                      aria-hidden="true"
-                      className="ml-auto h-auto w-14 flex-none self-center drop-shadow-[0_0_8px_rgba(185,255,53,0.2)]"
-                    />
-                  ) : null}
-                  {ativo ? (
-                    <span className="tecnica ml-auto flex-none self-center text-signal">AQUI</span>
-                  ) : null}
+                  <MobileNavIcon id={link.icone} className={styles.icone} />
+                  <span className={styles.rotulo}>{link.rotulo}</span>
                 </Link>
               </li>
             );
           })}
         </ul>
+      </nav>
 
-        <p className="tecnica mt-10 text-mineral-dim">Jogos</p>
-        <Link href="/morvelio/wiki" onClick={aoFechar} className="drawer-wiki-link">Morvelio Wiki <span>Atlas, classes e histórias ↗</span></Link>
-        <ul className="mt-4 flex flex-col gap-2">
-          {atalhosDeJogo.map((atalho) => (
-            <li key={atalho.href}>
-              <Link
-                href={atalho.href}
-                onClick={aoFechar}
-                aria-current={rotaAtiva(caminho, atalho.href) ? 'page' : undefined}
-                className="alvo-toque flex items-center gap-4 rounded-[var(--radius-control)] border border-line bg-raised/60 p-3 transition-colors duration-150 hover:border-signal/35"
+      <div className={styles.rodape}>
+        <ul className={styles.sociais}>
+          {rodape.social.map((rede) => (
+            <li key={rede.href}>
+              <a
+                href={rede.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={rede.rotulo}
+                className={styles.social}
               >
-                <Image
-                  src={atalho.icone.src}
-                  alt={atalho.icone.alt}
-                  width={atalho.icone.tamanho}
-                  height={atalho.icone.tamanho}
-                  sizes="48px"
-                  loading="lazy"
-                  className="size-12 flex-none rounded-[12px] border border-line"
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="block text-base leading-tight text-paper">{atalho.rotulo}</span>
-                  <span className="tecnica mt-1 flex items-center gap-2 text-mineral">
-                    <span
-                      aria-hidden="true"
-                      className="inline-block size-[5px] flex-none rounded-full bg-signal shadow-[0_0_8px_var(--color-signal)]"
-                    />
-                    {atalho.estado}
-                  </span>
-                </span>
-                <span aria-hidden="true" className="flex-none text-signal">
-                  →
-                </span>
-              </Link>
+                {rede.href.includes('instagram.com') ? (
+                  <InstagramIcon className="size-5" />
+                ) : (
+                  <GithubIcon className="size-5" />
+                )}
+              </a>
             </li>
           ))}
         </ul>
 
-        <p className="tecnica mt-10 text-mineral-dim">SaaS</p>
-        <ul className="mt-4 flex flex-col gap-2">
-          {atalhosDeProjeto.map((atalho) => (
-            <li key={atalho.href}>
-              <Link
-                href={atalho.href}
-                onClick={aoFechar}
-                aria-current={rotaAtiva(caminho, atalho.href) ? 'page' : undefined}
-                className="alvo-toque flex items-center gap-4 rounded-[var(--radius-control)] border border-line bg-raised/60 p-3 transition-colors duration-150 hover:border-signal/35"
-              >
-                <span
-                  aria-hidden="true"
-                  className="tecnica grid size-12 flex-none place-items-center rounded-[12px] border border-line bg-raised text-signal"
-                >
-                  <ProductIcon id={atalho.simbolo} className="size-7" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-base leading-tight text-paper">{atalho.rotulo}</span>
-                  <span className="tecnica mt-1 flex items-center gap-2 text-mineral">
-                    <span
-                      aria-hidden="true"
-                      className="inline-block size-[5px] flex-none rounded-full bg-signal shadow-[0_0_8px_var(--color-signal)]"
-                    />
-                    {atalho.estado}
-                  </span>
-                </span>
-                <span aria-hidden="true" className="flex-none text-signal">
-                  →
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-6">
+        <ul className={styles.legais}>
           {[
             { href: ROTAS.suporte, rotulo: 'Suporte' },
-            { href: ROTAS.privacidade, rotulo: 'Privacidade' },
-            { href: ROTAS.termos, rotulo: 'Termos' },
-            { href: ROTAS.revalioExclusao, rotulo: 'Excluir conta — Revalio' },
-            { href: ROTAS.docalioExclusao, rotulo: 'Excluir conta — Docalio' },
-            { href: ROTAS.gramelioExclusao, rotulo: 'Excluir conta — Gramelio' },
-            { href: ROTAS.catelioExclusao, rotulo: 'Excluir conta — Catelio' },
-            { href: ROTAS.morvelioExclusao, rotulo: 'Excluir conta — Morvelio' },
+            ...rodape.legal,
           ].map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={aoFechar}
-              className="tecnica text-mineral-dim hover:text-paper"
-            >
-              {link.rotulo}
-            </Link>
+            <li key={link.href}>
+              <Link href={link.href} onClick={aoFechar} className={styles.legal}>
+                {link.rotulo}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <p className="tecnica mt-8 text-mineral-dim">
+        {/* As lojas procuram a exclusão de dados sem precisar abrir a política. */}
+        <p className={styles.exclusaoTitulo}>{rodape.dados.titulo}</p>
+        <ul className={styles.legais}>
+          {rodape.dados.links.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} onClick={aoFechar} className={styles.legal}>
+                {link.rotulo}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <p className={styles.assinatura}>
           © {site.ano} {site.nome}
         </p>
-      </nav>
-    </Drawer>
+      </div>
+    </div>
   );
 }

@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { MODELOS, SERVICOS_BASE } from '@/content/contratos/modelos.generated';
 import { SERVICOS_IDS } from '@/content/contratos/tipos';
-import { catalogoVigente, parseAjustesCatalogo } from './catalogo';
+import { tipoDoPlano } from '@/content/custom-project';
+import { TIPOS_DE_PROJETO } from '@/lib/pedidos/types';
+import { catalogoVigente, parseAjustesCatalogo, planoInicial, precoDoAdicional } from './catalogo';
 import { renderizarCatalogo } from './catalogo-documento';
 import { renderizarContrato, resolverMarcadores } from './documento';
 import type { Contrato } from './types';
@@ -76,6 +78,31 @@ describe('catálogo', () => {
     expect(vigente.servicos.site.planos.find((p) => p.id === 'lp')?.prazo).toBe('7 dias');
     expect(vigente.servicos.site.planos.find((p) => p.id === 'inst')?.preco).toBe(SERVICOS_BASE.site.planos.find((p) => p.id === 'inst')?.preco);
     expect(() => parseAjustesCatalogo({ servicos: { site: { planos: { lp: { preco: -5 } } } } })).toThrow();
+  });
+
+  it('mostra o "a partir de" e o preço dos adicionais como no catálogo impresso', () => {
+    const vigente = catalogoVigente(parseAjustesCatalogo({ servicos: { video: { planos: { trend: { preco: 99 } } } } }));
+    expect(planoInicial(vigente.servicos.video).preco).toBe(99);
+    const sem = (texto: string) => texto.replace(/\s/g, ' ');
+    expect(sem(precoDoAdicional({ preco: 449, qualificador: 'a partir de' }))).toBe('a partir de R$ 449');
+    expect(sem(precoDoAdicional({ preco: 150, qualificador: '/hora' }))).toBe('R$ 150/hora');
+    expect(sem(precoDoAdicional({ preco: 690, qualificador: '+ deslocamento' }))).toBe('R$ 690 + deslocamento');
+    expect(precoDoAdicional({ preco: 'sob orçamento', qualificador: '' })).toBe('sob orçamento');
+  });
+
+  it('tem uma versão pública, que volta à página de valores e não ao painel', () => {
+    const publico = renderizarCatalogo(catalogoVigente(), { publico: true });
+    expect(publico).toContain('href="/crie-seu-projeto"');
+    expect(publico).not.toContain('/admin/catalogo');
+    expect(renderizarCatalogo(catalogoVigente())).toContain('/admin/catalogo');
+  });
+
+  it('marca no formulário o tipo do plano escolhido, sempre um tipo que existe', () => {
+    for (const id of SERVICOS_IDS) {
+      for (const plano of SERVICOS_BASE[id].planos) expect(TIPOS_DE_PROJETO).toContain(tipoDoPlano(id, plano.id));
+    }
+    expect(tipoDoPlano('site', 'loja')).toBe('E-commerce');
+    expect(tipoDoPlano('sistema', 'app')).toBe('Aplicativo');
   });
 });
 

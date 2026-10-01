@@ -11,7 +11,7 @@ Labs. O painel usa a mesma senha e sessão das Novidades (`ONBOARDING_ADMIN_PASS
 | `/admin` | Visão geral: indicadores do ano, pendências e recebido por mês |
 | `/admin/pedidos` | Pedidos do “Crie seu projeto”: situação, anotações, resposta por WhatsApp/e-mail e “Criar contrato” |
 | `/admin/contratos` | Cria e edita contratos, gera o link do cliente, abre o PDF e registra assinatura, entrada e saldo |
-| `/admin/catalogo` | Edita preços, prazos, mensalidades, adicionais, validade e hora técnica; gera o PDF do catálogo |
+| `/admin/catalogo` | Edita preços, prazos, mensalidades, adicionais, validade e hora técnica; gera o PDF do catálogo. Os mesmos valores aparecem na hora em `/crie-seu-projeto` e no catálogo público para baixar |
 | `/admin/relatorios` | Mês a mês, por serviço, funil de pedidos e planilha CSV dos contratos |
 | `/admin/novidades` | Novidades do site (já existia) |
 | `/contrato/[token]` | Página do cliente: resumo, contrato completo e envio dos dados do CONTRATANTE |
@@ -19,6 +19,11 @@ Labs. O painel usa a mesma senha e sessão das Novidades (`ONBOARDING_ADMIN_PASS
 Documentos imprimíveis (HTML completo, fora do layout do site):
 `/admin/contratos/[id]/documento`, `/admin/catalogo/documento` e `/contrato/[token]/documento`.
 Usam `public/documentos/*.css` e fontes auto-hospedadas em `public/documentos/fonts` (SIL OFL).
+
+O catálogo também é público em `/crie-seu-projeto/catalogo` (pedido do titular em 01/10/2026): o
+mesmo documento, com "Baixar em PDF" (o "Salvar como PDF" do navegador) e a volta para a página de
+valores. Fica um minuto em cache na borda, então um preço salvo no painel chega em até um minuto. No
+celular, as páginas A4 encolhem para caber na tela; a impressão continua em A4.
 
 ## Fluxo
 

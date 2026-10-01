@@ -9,16 +9,19 @@ import { adicionarNaSacola, MAXIMO_POR_ITEM } from './sacola';
 type Props = {
   produto: Pick<Produto, 'id' | 'slug' | 'nome' | 'rotuloOpcoes' | 'opcoes' | 'status' | 'disponibilidade'>;
   imagem: string;
+  /** "10 a 20 dias": o prazo dos itens sob encomenda, da configuração da loja. */
+  prazoEncomenda: string;
 };
 
 /** Opção, quantidade e sacola. O pedido em si acontece na página da sacola. */
-export function ProdutoCompra({ produto, imagem }: Props) {
+export function ProdutoCompra({ produto, imagem, prazoEncomenda }: Props) {
   const router = useRouter();
   const prefixo = useId();
   const [opcaoId, setOpcaoId] = useState(produto.opcoes[0]?.id ?? '');
   const [quantidade, setQuantidade] = useState(1);
   const [adicionado, setAdicionado] = useState(false);
   const opcao = produto.opcoes.find((o) => o.id === opcaoId) ?? produto.opcoes[0];
+  const sobEncomenda = produto.disponibilidade === 'SOB_ENCOMENDA';
 
   if (!opcao) return null;
   if (produto.disponibilidade === 'EM_BREVE') {
@@ -48,7 +51,7 @@ export function ProdutoCompra({ produto, imagem }: Props) {
     adicionarNaSacola({
       produtoId: produto.id, slug: produto.slug, nome: produto.nome, opcaoId: opcao!.id,
       opcaoRotulo: produto.opcoes.length > 1 ? opcao!.rotulo : '', precoCentavos: opcao!.precoCentavos,
-      quantidade, digital: opcao!.digital, imagem,
+      quantidade, digital: opcao!.digital, imagem, sobEncomenda,
     });
   }
 
@@ -57,6 +60,11 @@ export function ProdutoCompra({ produto, imagem }: Props) {
       <p className="text-[clamp(2rem,4vw,2.8rem)] leading-none tracking-[-0.03em] tabular-nums" aria-live="polite">
         {formatarPreco(opcao.precoCentavos)}
       </p>
+      {sobEncomenda ? (
+        <p className="mt-4 text-mineral">
+          <span className="text-paper">Feito sob encomenda:</span> produzido depois da confirmação do pagamento, chega em {prazoEncomenda}.
+        </p>
+      ) : null}
 
       {produto.opcoes.length > 1 ? (
         <fieldset className="mt-7">

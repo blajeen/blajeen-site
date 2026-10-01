@@ -31,9 +31,11 @@ type Props = {
   pagamentoOnline: boolean;
   /** Melhor Envio configurado: o frete é cotado pelo CEP. */
   freteOnline: boolean;
+  /** "10 a 20 dias": o prazo dos itens sob encomenda, da configuração da loja. */
+  prazoEncomenda: string;
 };
 
-export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
+export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Props) {
   const { itens, quantidade, totalCentavos: subtotal } = useSacola();
   // A sacola mora no navegador: no servidor ela parece vazia. Até ler o navegador, nada de
   // "sacola vazia" piscando na tela.
@@ -43,7 +45,7 @@ export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
   const [erro, setErro] = useState('');
   const [reserva, setReserva] = useState('');
   const [cep, setCep] = useState('');
-  const [cotacao, setCotacao] = useState<{ chave: string; opcoes: FreteEscolhido[] } | null>(null);
+  const [cotacao, setCotacao] = useState<{ chave: string; opcoes: FreteEscolhido[]; sobEncomenda: boolean } | null>(null);
   const [cotando, setCotando] = useState(false);
   const [erroDoFrete, setErroDoFrete] = useState('');
   const [freteId, setFreteId] = useState<number | null>(null);
@@ -52,6 +54,9 @@ export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
   // A cotação vale para esta sacola e este CEP: mudou um ou outro, ela some e o frete é cotado de novo.
   const chave = `${digitos(cep)}|${itens.map((i) => `${i.produtoId}:${i.opcaoId}:${i.quantidade}`).join(',')}`;
   const opcoesDeFrete = cotacao?.chave === chave ? cotacao.opcoes : null;
+  // Com item sob encomenda, o prazo da encomenda já conta a produção: o frete mostra só o transporte.
+  const freteSoTransporte = cotacao?.chave === chave && cotacao.sobEncomenda;
+  const temEncomenda = itens.some((i) => i.sobEncomenda);
   const frete = opcoesDeFrete?.find((o) => o.servicoId === freteId) ?? null;
   const cobraFrete = precisaEnvio && freteOnline;
   const vaiPagar = pagamentoOnline && (!precisaEnvio || freteOnline);
@@ -66,9 +71,9 @@ export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cep, itens: itens.map(({ produtoId, opcaoId, quantidade: q }) => ({ produtoId, opcaoId, quantidade: q })) }),
       });
-      const dados = await resposta.json().catch(() => ({})) as { opcoes?: FreteEscolhido[]; error?: string };
+      const dados = await resposta.json().catch(() => ({})) as { opcoes?: FreteEscolhido[]; sobEncomenda?: boolean; error?: string };
       if (!resposta.ok) throw new Error(dados.error ?? 'Não conseguimos calcular o frete agora.');
-      setCotacao({ chave, opcoes: dados.opcoes ?? [] });
+      setCotacao({ chave, opcoes: dados.opcoes ?? [], sobEncomenda: dados.sobEncomenda === true });
       setFreteId(dados.opcoes?.[0]?.servicoId ?? null);
     } catch (e) {
       setErroDoFrete(e instanceof Error ? e.message : 'Não conseguimos calcular o frete agora.');
@@ -196,6 +201,12 @@ export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
             <dd className="text-2xl tabular-nums">{formatarPreco(total)}</dd>
           </div>
         </dl>
+        {temEncomenda ? (
+          <p className="mt-5 rounded-2xl border border-line p-4 text-sm leading-relaxed text-mineral">
+            <span className="text-paper">Feito sob encomenda.</span> A produção começa quando o pagamento é confirmado, e o
+            pedido chega em {prazoEncomenda}{precisaEnvio ? ', contando o transporte' : ''}.
+          </p>
+        ) : null}
       </section>
 
       <div className="grid gap-8 lg:col-span-7">
@@ -228,7 +239,9 @@ export function PedidoLoja({ pagamentoOnline, freteOnline }: Props) {
                           <input type="radio" name="frete" checked={freteId === o.servicoId} onChange={() => setFreteId(o.servicoId)} className="size-4 accent-[var(--color-signal)]" />
                           <span className="flex-1">
                             <span className="block">{o.servico}{o.transportadora ? <span className="text-mineral"> · {o.transportadora}</span> : null}</span>
-                            <span className="text-sm text-mineral">até {o.prazoDias} {o.prazoDias === 1 ? 'dia útil' : 'dias úteis'}</span>
+                            <span className="text-sm text-mineral">
+                              {freteSoTransporte ? 'transporte em ' : ''}até {o.prazoDias} {o.prazoDias === 1 ? 'dia útil' : 'dias úteis'}
+                            </span>
                           </span>
                           <span className="tabular-nums">{formatarPreco(o.precoCentavos)}</span>
                         </label>

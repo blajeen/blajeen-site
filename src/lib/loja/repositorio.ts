@@ -392,7 +392,7 @@ export async function esquecerEventoDePagamento(eventoId: string): Promise<void>
 
 // --------------------------------------------------------------- configuração
 
-const CONFIGURACAO_PADRAO: ConfiguracaoLoja = { cepOrigem: '', diasParaPostar: 3 };
+export const CONFIGURACAO_PADRAO: ConfiguracaoLoja = { cepOrigem: '', diasParaPostar: 3, prazoEncomendaDe: 10, prazoEncomendaAte: 20 };
 
 export async function lerConfiguracaoLoja(): Promise<ConfiguracaoLoja> {
   exigirBancoEmProducao();

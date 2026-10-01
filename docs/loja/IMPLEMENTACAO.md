@@ -2,7 +2,7 @@
 
 ## Pedido
 
-Em 01/10/2026 o titular pediu uma aba de exclusivos para vender produtos da Blajeen Labs: um boneco 3D, uma camiseta e uma caneca de cada jogo, o copo e a camiseta da marca, e o Livro de Morvelio em duas versões (digital e física de colecionador). Tudo deveria nascer "Em breve", com imagens simples e simbólicas, e ser editável no painel: nome, descrição, preço, fotos e a saída de "Em breve". No mesmo dia, pediu compra real, com pagamento pelo Asaas e frete pelo Melhor Envio.
+Em 01/10/2026 o titular pediu uma aba de exclusivos para vender produtos da Blajeen Labs: um boneco 3D, uma camiseta e uma caneca de cada jogo, o copo e a camiseta da marca, e o Livro de Morvelio em duas versões (digital e física de colecionador). Tudo deveria nascer "Em breve", com imagens simples e simbólicas, e ser editável no painel: nome, descrição, preço, fotos e a saída de "Em breve". No mesmo dia, pediu compra real, com pagamento pelo Asaas e frete pelo Melhor Envio. Depois, trouxe as imagens de cada produto (geradas à parte, a partir das artes dos jogos) e pediu tudo à venda com preço sugerido, a ajustar no painel, como produto feito sob encomenda, com entrega em 10 a 20 dias.
 
 ## Como funciona
 
@@ -48,7 +48,13 @@ Se o Asaas recusar o retorno automático ao site depois do pagamento, cadastre o
 
 ## Catálogo e imagens de exemplo
 
-Os 24 produtos de `src/lib/loja/exemplos.ts` entram uma vez só, na primeira leitura da loja (marcados em `admin_settings` como `loja:exemplos`). Apagado no painel, um exemplo não volta. As imagens são montagens ilustrativas geradas por `node tools/gerar-artes-da-loja.mjs` com os ícones reais dos jogos, marcadas como "imagem ilustrativa"; são trocadas pelas fotos reais pelo painel.
+Os 24 produtos de `src/lib/loja/exemplos.ts` entram uma vez só, na primeira leitura da loja (marcados em `admin_settings` como `loja:exemplos`). Apagado no painel, um exemplo não volta. Eles entram "Sob encomenda", com o preço sugerido de `PRECO_SUGERIDO`; no banco de produção, que já tinha os exemplos em "Em breve", preços, disponibilidade e descrições das imagens chegaram pela migration `006_loja_sob_encomenda.sql`, que só mexe no que ainda estava como o catálogo nasceu.
+
+As imagens (`public/loja/exemplos/*.jpg`, 1400 px) são ilustrações do produto, geradas a partir das artes dos jogos; a vitrine e os Termos avisam que cor, acabamento e proporções do produto final podem ter pequenas diferenças. As montagens antigas e o script que as gerava saíram. Fotos de verdade chegam pelo painel.
+
+### Sob encomenda
+
+O prazo da encomenda (padrão: 10 a 20 dias, produção e transporte juntos) fica na configuração da loja, no painel. Ele aparece na página de cada produto sob encomenda, no quarto passo de "Como funciona o pedido" e na sacola. Quando o pacote leva um item físico sob encomenda, os dias para postar saem da cotação do frete (a produção já está no prazo da encomenda) e cada opção de frete mostra só o tempo do transporte.
 
 ## Arquivos
 

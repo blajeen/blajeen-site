@@ -7,8 +7,8 @@ import { GaleriaProduto } from '@/components/loja/GaleriaProduto';
 import { LinkDaSacola } from '@/components/loja/LinkDaSacola';
 import { ProdutoCompra } from '@/components/loja/ProdutoCompra';
 import { asaasConfigurado } from '@/lib/loja/asaas';
-import { buscarProdutoPublicado } from '@/lib/loja/repositorio';
-import { CATEGORIA_ROTULO, ROTA_DA_LOJA, rotaDoProduto } from '@/lib/loja/tipos';
+import { buscarProdutoPublicado, CONFIGURACAO_PADRAO, lerConfiguracaoLoja } from '@/lib/loja/repositorio';
+import { CATEGORIA_ROTULO, ROTA_DA_LOJA, rotaDoProduto, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
 import { metadadosDaRota } from '@/lib/metadata';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -37,6 +37,7 @@ export default async function ProdutoPage({ params }: Props) {
   const produto = await produtoDa(params);
   if (!produto) notFound();
   const paragrafos = produto.descricao.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+  const prazoEncomenda = textoDoPrazoDeEncomenda(await lerConfiguracaoLoja().catch(() => CONFIGURACAO_PADRAO));
 
   return (
     <Container className="pb-[clamp(4rem,9vw,9rem)] pt-[clamp(2.5rem,6vw,5rem)]">
@@ -66,6 +67,7 @@ export default async function ProdutoPage({ params }: Props) {
               opcoes: produto.opcoes, status: produto.status, disponibilidade: produto.disponibilidade,
             }}
             imagem={produto.imagens[0]?.url ?? ''}
+            prazoEncomenda={prazoEncomenda}
           />
 
           {paragrafos.length ? (
@@ -80,6 +82,9 @@ export default async function ProdutoPage({ params }: Props) {
               {asaasConfigurado()
                 ? 'Na sacola, você calcula o frete pelo CEP e paga com Pix, cartão ou boleto na página do Asaas.'
                 : 'Você faz o pedido e deixa seu contato. O estúdio combina frete e pagamento com você antes de qualquer cobrança.'}
+              {produto.disponibilidade === 'SOB_ENCOMENDA'
+                ? ` Este exclusivo é feito sob encomenda: a produção começa quando o pagamento é confirmado, e o prazo de ${prazoEncomenda} já conta a produção e o transporte.`
+                : null}
             </p>
           ) : null}
         </div>

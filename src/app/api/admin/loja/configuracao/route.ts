@@ -1,6 +1,9 @@
+import { revalidatePath } from 'next/cache';
 import { asaasConfigurado } from '@/lib/loja/asaas';
 import { melhorEnvioConfigurado } from '@/lib/loja/melhor-envio';
 import { lerConfiguracaoLoja, salvarConfiguracaoLoja } from '@/lib/loja/repositorio';
+import { revalidarLoja } from '@/lib/loja/revalidar';
+import { ROTA_DO_PEDIDO, rotaDoProduto } from '@/lib/loja/tipos';
 import { parseConfiguracao } from '@/lib/loja/validacao';
 import { adminGuard, jsonError } from '@/lib/onboarding/http';
 
@@ -33,6 +36,10 @@ export async function PUT(request: Request) {
   if (negado) return negado;
   try {
     const configuracao = await salvarConfiguracaoLoja(parseConfiguracao(await request.json()));
+    // O prazo da encomenda aparece na vitrine, em cada produto e na sacola.
+    revalidarLoja();
+    revalidatePath(rotaDoProduto('[slug]'), 'page');
+    revalidatePath(ROTA_DO_PEDIDO);
     return Response.json({ configuracao, integracoes: integracoes() });
   } catch (error) {
     return jsonError(error);

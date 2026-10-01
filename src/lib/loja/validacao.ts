@@ -103,7 +103,12 @@ export function parseConfiguracao(corpo: unknown): ConfiguracaoLoja {
   if (cep && cep.length !== 8) throw new Error('O CEP de origem tem 8 números.');
   const dias = Number(bruto.diasParaPostar);
   if (!Number.isInteger(dias) || dias < 0 || dias > 60) throw new Error('Os dias para postar vão de 0 a 60.');
-  return { cepOrigem: cep, diasParaPostar: dias };
+  // Painel aberto antes do prazo de encomenda existir não manda os dois campos: ficam os de sempre.
+  const de = Number(bruto.prazoEncomendaDe ?? 10);
+  const ate = Number(bruto.prazoEncomendaAte ?? 20);
+  if (![de, ate].every((d) => Number.isInteger(d) && d >= 1 && d <= 120)) throw new Error('O prazo da encomenda vai de 1 a 120 dias.');
+  if (de > ate) throw new Error('No prazo da encomenda, o primeiro número não pode passar do segundo.');
+  return { cepOrigem: cep, diasParaPostar: dias, prazoEncomendaDe: de, prazoEncomendaAte: ate };
 }
 
 function digitosVerificadores(base: string, pesos: number[]): number {
@@ -240,6 +245,14 @@ export function calcularPedido(solicitados: ItemSolicitado[], produtos: Produto[
 /** Endereço e frete só fazem falta quando algo precisa ser enviado. Um pedido só de e-book não pede. */
 export function precisaEnvio(itens: Array<Pick<ItemPedido, 'digital'>>): boolean {
   return itens.some((i) => !i.digital);
+}
+
+/**
+ * O pacote espera um item feito sob encomenda: o prazo da encomenda já conta a produção, então os
+ * dias para postar saem da conta e o frete mostra só o transporte.
+ */
+export function enviaSobEncomenda(itens: Array<Pick<ItemPedido, 'produtoId' | 'digital'>>, produtos: Array<Pick<Produto, 'id' | 'disponibilidade'>>): boolean {
+  return itens.some((i) => !i.digital && produtos.find((p) => p.id === i.produtoId)?.disponibilidade === 'SOB_ENCOMENDA');
 }
 
 export function parseAlteracaoPedidoLoja(corpo: unknown): { status?: PedidoLojaStatus; notas?: string } {

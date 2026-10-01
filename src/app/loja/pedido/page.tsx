@@ -4,7 +4,8 @@ import { Container } from '@/components/layout/Section';
 import { PedidoLoja } from '@/components/loja/PedidoLoja';
 import { asaasConfigurado } from '@/lib/loja/asaas';
 import { melhorEnvioConfigurado } from '@/lib/loja/melhor-envio';
-import { ROTA_DA_LOJA } from '@/lib/loja/tipos';
+import { CONFIGURACAO_PADRAO, lerConfiguracaoLoja } from '@/lib/loja/repositorio';
+import { ROTA_DA_LOJA, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
 
 // A sacola é de cada visitante: a página não entra em busca nem no sitemap.
 export const metadata: Metadata = {
@@ -13,7 +14,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function PedidoPage() {
+// O prazo da encomenda vem do painel; salvar a configuração atualiza a página na hora.
+export const revalidate = 60;
+
+export default async function PedidoPage() {
+  const prazoEncomenda = textoDoPrazoDeEncomenda(await lerConfiguracaoLoja().catch(() => CONFIGURACAO_PADRAO));
   return (
     <Container className="pb-[clamp(4rem,9vw,9rem)] pt-[clamp(2.5rem,6vw,5rem)]">
       <Link href={ROTA_DA_LOJA} className="tecnica alvo-toque inline-flex items-center gap-3 text-mineral transition-colors hover:text-signal">
@@ -22,7 +27,7 @@ export default function PedidoPage() {
       <p className="tecnica mt-8 text-signal">LOJA / PEDIDO</p>
       <h1 className="mt-5 text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.94] tracking-[-0.055em]">Sua sacola.</h1>
       <div className="mt-10">
-        <PedidoLoja pagamentoOnline={asaasConfigurado()} freteOnline={melhorEnvioConfigurado()} />
+        <PedidoLoja pagamentoOnline={asaasConfigurado()} freteOnline={melhorEnvioConfigurado()} prazoEncomenda={prazoEncomenda} />
       </div>
     </Container>
   );

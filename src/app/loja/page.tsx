@@ -4,8 +4,8 @@ import { Container, Section } from '@/components/layout/Section';
 import { CartaoProduto } from '@/components/loja/CartaoProduto';
 import { LinkDaSacola } from '@/components/loja/LinkDaSacola';
 import { asaasConfigurado } from '@/lib/loja/asaas';
-import { listarProdutos } from '@/lib/loja/repositorio';
-import { CATEGORIA_ROTULO, CATEGORIAS } from '@/lib/loja/tipos';
+import { CONFIGURACAO_PADRAO, lerConfiguracaoLoja, listarProdutos } from '@/lib/loja/repositorio';
+import { CATEGORIA_ROTULO, CATEGORIAS, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
 import { metadadosDaRota } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
@@ -33,7 +33,14 @@ const PASSOS_COM_CONTATO = [
 
 export default async function LojaPage() {
   const produtos = await listarProdutos({ publicados: true }).catch(() => []);
-  const passos = asaasConfigurado() ? PASSOS_COM_PAGAMENTO : PASSOS_COM_CONTATO;
+  const configuracao = await lerConfiguracaoLoja().catch(() => CONFIGURACAO_PADRAO);
+  const passos = [
+    ...(asaasConfigurado() ? PASSOS_COM_PAGAMENTO : PASSOS_COM_CONTATO),
+    ...(produtos.some((p) => p.disponibilidade === 'SOB_ENCOMENDA') ? [{
+      n: '04', titulo: 'Feito sob encomenda',
+      texto: `Os exclusivos sob encomenda são produzidos depois que o pagamento é confirmado e chegam em ${textoDoPrazoDeEncomenda(configuracao)}.`,
+    }] : []),
+  ];
   const grupos = CATEGORIAS.map((categoria) => ({ categoria, itens: produtos.filter((p) => p.categoria === categoria) }))
     .filter((g) => g.itens.length);
 
@@ -86,7 +93,7 @@ export default async function LojaPage() {
 
       <Section indice={`0${grupos.length + 1} / COMO FUNCIONA O PEDIDO`} rotuladaPor="como-funciona" className="pb-[clamp(4rem,9vw,9rem)]">
         <h2 id="como-funciona" className="sr-only">Como funciona o pedido</h2>
-        <ol className="grid gap-5 md:grid-cols-3">
+        <ol className={`grid gap-5 ${passos.length > 3 ? 'md:grid-cols-2 xl:grid-cols-4' : 'md:grid-cols-3'}`}>
           {passos.map((passo) => (
             <li key={passo.n} className="rounded-[var(--radius-panel)] border border-line p-7">
               <p className="tecnica text-signal">{passo.n}</p>
@@ -96,7 +103,7 @@ export default async function LojaPage() {
           ))}
         </ol>
         <p className="medida-texto mt-6 text-xs leading-relaxed text-mineral-dim">
-          Imagens marcadas como ilustrativas são montagens, não fotos do produto final.
+          As imagens dos exclusivos são ilustrativas: cor, acabamento e proporções do produto final podem ter pequenas diferenças.
         </p>
       </Section>
     </>

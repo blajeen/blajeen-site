@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { statusDoEvento, tokenDoWebhookValido, vencimento } from './asaas';
+import { asaasConfigurado, statusDoEvento, tokenDoWebhookValido, vencimento } from './asaas';
 import { EXEMPLOS, JOGOS_DA_LOJA } from './exemplos';
 import { aceitaPedido, formatarPreco, lerPreco, mostraPreco, type Produto } from './tipos';
 import {
@@ -111,6 +111,15 @@ describe('Asaas', () => {
     expect(tokenDoWebhookValido('segredo-longo')).toBe(true);
     expect(tokenDoWebhookValido('segredo-curto')).toBe(false);
     expect(tokenDoWebhookValido(null)).toBe(false);
+  });
+
+  it('aceita a chave com ou sem a barra do .env, e não conta só a barra', () => {
+    vi.stubEnv('ASAAS_API_KEY', '\\');
+    expect(asaasConfigurado()).toBe(false);
+    vi.stubEnv('ASAAS_API_KEY', '\\$aact_hmlg_000Teste::abc123');
+    expect(asaasConfigurado()).toBe(true);
+    vi.stubEnv('ASAAS_API_KEY', 'aact_hmlg_000Teste::abc123');
+    expect(asaasConfigurado()).toBe(true);
   });
 
   it('traduz os eventos de cobrança', () => {

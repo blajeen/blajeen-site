@@ -16,8 +16,21 @@ import type { PedidoLoja, PedidoLojaStatus } from './tipos';
 
 const BASES = { producao: 'https://api.asaas.com/v3', sandbox: 'https://api-sandbox.asaas.com/v3' };
 
+/**
+ * A chave do Asaas começa com `$`, e num arquivo `.env` o Next lê `$` como outra variável e corta
+ * a chave; por isso, no `.env.local`, ela vai como `\$aact...`. Na Vercel não há esse corte, mas
+ * quem colar a barra lá também, ou perder o `$`, ainda tem a chave certa. Só a barra, sem chave,
+ * conta como não configurado.
+ */
+function chaveDoAsaas(): string | null {
+  let chave = process.env.ASAAS_API_KEY?.trim() ?? '';
+  chave = chave.replace(/^\\/, '');
+  if (chave.startsWith('aact_')) chave = `$${chave}`;
+  return chave.length > 10 ? chave : null;
+}
+
 export function asaasConfigurado(): boolean {
-  return Boolean(process.env.ASAAS_API_KEY?.trim());
+  return chaveDoAsaas() !== null;
 }
 
 function base(): string {
@@ -27,7 +40,7 @@ function base(): string {
 type ErroAsaas = { errors?: Array<{ code?: string; description?: string }> };
 
 async function chamar<T>(caminho: string, corpo: unknown): Promise<T> {
-  const chave = process.env.ASAAS_API_KEY?.trim();
+  const chave = chaveDoAsaas();
   if (!chave) throw new Error('Pagamento online não configurado.');
   const resposta = await fetch(`${base()}${caminho}`, {
     method: 'POST',

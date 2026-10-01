@@ -13,7 +13,7 @@ export function WorkDetail({ trabalho }: { trabalho: Trabalho }) {
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
         <LabBackdrop />
         <Container>
-          <Link href={ROTAS.trabalhos} className="tecnica inline-flex items-center gap-3 text-mineral transition-colors hover:text-signal">
+          <Link href={ROTAS.trabalhos} className="tecnica alvo-toque inline-flex items-center gap-3 text-mineral transition-colors hover:text-signal">
             <span aria-hidden="true">←</span> TODOS OS TRABALHOS
           </Link>
           <div className="mt-12 flex flex-wrap items-center gap-4">

@@ -155,6 +155,48 @@
   display: none;
 }
 
+/* Produtos: programas e SaaS lado a lado. Centrado no item, para caber em 1280 px. */
+.submenu[data-colunas] {
+  inset-inline-start: 50%;
+  width: min(44rem, calc(100vw - 2rem));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 0.75rem;
+  transform: translateX(-50%);
+}
+
+.grupo {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.grupoTitulo {
+  margin: 0.35rem 0.6rem 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.todos {
+  margin-block-start: 0.2rem;
+  border-radius: 12px;
+  padding: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  text-decoration: none;
+}
+
+.todos:hover {
+  background: var(--color-raised);
+}
+
 .jogo {
   display: flex;
   align-items: center;

@@ -8,15 +8,16 @@ import { saas, saasEmBreve } from './saas';
 /**
  * Barra de navegação do desktop.
  *
- * "Jogos" não é link: ele abre os jogos do laboratório em um
- * submenu. Os demais levam direto à sua rota.
+ * "Produtos" e "Jogos" não são links: abrem um submenu. Produtos reúne os programas pra baixar e
+ * os sistemas SaaS, em duas colunas (pedido do titular: o SaaS deixou de ser um item próprio).
+ * Os demais levam direto à sua rota.
  */
 export const barraDeNavegacao = [
   { rotulo: 'Crie seu projeto', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
   { rotulo: 'Projetos feitos', tipo: 'link', href: ROTAS.trabalhos },
   { rotulo: 'Produtos', tipo: 'submenu', menu: 'produtos' },
-  { rotulo: 'SaaS', tipo: 'submenu', menu: 'projetos' },
   { rotulo: 'Jogos', tipo: 'submenu', menu: 'jogos' },
+  { rotulo: 'Loja', tipo: 'link', href: ROTAS.loja },
   { rotulo: 'Estúdio', tipo: 'link', href: ROTAS.sobre },
   { rotulo: 'Novidades', tipo: 'link', href: ROTAS.novidades },
   { rotulo: 'Contato', tipo: 'link', href: ROTAS.contato, destaque: 'contato' },
@@ -48,26 +49,25 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '03',
     rotulo: 'Produtos',
-    descricao: 'Programas de computador do laboratório, pra baixar e usar sem conta.',
+    descricao: 'Programas pra baixar e usar sem conta, e sistemas SaaS para negócios.',
     href: ROTAS.produtos,
     icone: 'produtos',
     menu: 'produtos',
   },
   {
     indice: '04',
-    rotulo: 'SaaS',
-    descricao: 'Sistemas próprios adaptados a negócios reais.',
-    href: ROTAS.projetos,
-    icone: 'saas',
-    menu: 'projetos',
-  },
-  {
-    indice: '05',
     rotulo: 'Jogos',
     descricao: 'Jogos autorais da Blajeen Labs: experiências de estratégia, exploração, convivência e mundos próprios.',
     href: ROTAS.projetoRevalio,
     icone: 'jogos',
     menu: 'jogos',
+  },
+  {
+    indice: '05',
+    rotulo: 'Loja',
+    descricao: 'Bonecos 3D, camisetas, canecas e o Livro de Morvelio.',
+    href: ROTAS.loja,
+    icone: 'loja',
   },
   {
     indice: '06',
@@ -129,37 +129,37 @@ export const atalhosDeProjeto = [
 ];
 
 /**
- * O que cada item com lista desdobra na gaveta do celular.
+ * O que cada item com lista desdobra, no menu do desktop e na gaveta do celular.
  *
- * As listas são as mesmas do menu do desktop. `todos` só existe onde há uma página que
- * reúne a categoria inteira — os jogos não têm uma, e apontar pro primeiro jogo repetiria
- * o item que já está logo abaixo.
+ * As listas são as mesmas das páginas de cada categoria. Produtos tem dois grupos, programas e
+ * SaaS; `todos` só existe onde há uma página que reúne o grupo inteiro (os jogos não têm uma, e
+ * apontar pro primeiro jogo repetiria o item que já está logo abaixo).
  */
 export const submenus: Record<MenuId, Submenu> = {
   produtos: {
-    todos: { rotulo: 'Ver todos os produtos', href: ROTAS.produtos },
-    itens: atalhosDeProduto,
-    extras: [],
-  },
-  projetos: {
-    todos: { rotulo: 'Ver todos os sistemas', href: ROTAS.projetos },
-    itens: atalhosDeProjeto,
+    grupos: [
+      { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
+      { titulo: 'SaaS', todos: { rotulo: 'Ver todos os sistemas', href: ROTAS.projetos }, itens: atalhosDeProjeto },
+    ],
     extras: [],
   },
   jogos: {
-    todos: null,
-    itens: atalhosDeJogo,
+    grupos: [{ titulo: null, todos: null, itens: atalhosDeJogo }],
     extras: [{ rotulo: 'Morvelio Wiki', descricao: 'Atlas, classes e histórias', href: ROTAS.morvelioWiki }],
   },
 };
 
+export type AtalhoDeMenu =
+  | (typeof atalhosDeJogo)[number]
+  | (typeof atalhosDeProduto)[number]
+  | (typeof atalhosDeProjeto)[number];
+
 type Submenu = {
-  readonly todos: { readonly rotulo: string; readonly href: string } | null;
-  readonly itens: readonly (
-    | (typeof atalhosDeJogo)[number]
-    | (typeof atalhosDeProduto)[number]
-    | (typeof atalhosDeProjeto)[number]
-  )[];
+  readonly grupos: readonly {
+    readonly titulo: string | null;
+    readonly todos: { readonly rotulo: string; readonly href: string } | null;
+    readonly itens: readonly AtalhoDeMenu[];
+  }[];
   readonly extras: readonly { readonly rotulo: string; readonly descricao: string; readonly href: string }[];
 };
 
@@ -192,6 +192,7 @@ export const rodape = {
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },
     { rotulo: 'Projetos feitos', href: ROTAS.trabalhos },
     { rotulo: 'Novidades', href: ROTAS.novidades },
+    { rotulo: 'Loja', href: ROTAS.loja },
     { rotulo: 'Contato', href: ROTAS.contato },
     { rotulo: 'Suporte', href: ROTAS.suporte },
   ],

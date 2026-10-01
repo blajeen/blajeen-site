@@ -2,7 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { site } from '../site';
 import type { LegalDocument } from '../types';
 
-const VERSAO = '30 de setembro de 2026';
+const VERSAO = '1 de outubro de 2026';
 const FONTE_DATA = 'Data de redação desta versão de trabalho.';
 
 const relacionadosEstudio = [
@@ -28,7 +28,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Esta política descreve o site institucional da Blajeen Labs, o formulário “Crie seu projeto”, os contratos enviados por link, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
+            'Esta política descreve o site institucional da Blajeen Labs, o formulário “Crie seu projeto”, a loja de exclusivos, os contratos enviados por link, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
         },
         {
           tipo: 'paragrafo',
@@ -54,13 +54,14 @@ export const privacidadeEstudio: LegalDocument = {
             'não cria perfil para visitantes das páginas institucionais;',
             'o formulário da página de contato não envia dados ao servidor — ele prepara uma mensagem no aplicativo de e-mail do seu aparelho;',
             'o formulário “Crie seu projeto” envia o pedido ao painel interno da Blajeen Labs, como explicado na seção sobre pedidos e contratos;',
+            'a loja envia o pedido ao painel interno e, quando há pagamento ou frete calculado pelo site, ao Asaas e ao Melhor Envio, como explicado na seção sobre a loja;',
             'fontes, scripts e imagens das páginas públicas são entregues pelo próprio domínio.',
           ],
         },
         {
           tipo: 'destaque',
           texto:
-            'O formulário “Crie seu projeto”, os links de contrato e a central de onboarding tratam os dados que você envia. Esse tratamento está explicado nas seções abaixo.',
+            'O formulário “Crie seu projeto”, a loja, os links de contrato e a central de onboarding tratam os dados que você envia. Esse tratamento está explicado nas seções abaixo.',
         },
       ],
     },
@@ -148,6 +149,38 @@ export const privacidadeEstudio: LegalDocument = {
       ],
     },
     {
+      id: 'loja',
+      titulo: 'Pedidos da loja',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Ao fazer um pedido na loja de exclusivos, você informa nome, e-mail e telefone e, para itens que precisam ser enviados, o endereço de entrega. Quando o pagamento é feito pelo site, também o CPF ou CNPJ, que a instituição de pagamento exige para emitir a cobrança.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Esses dados ficam no painel interno da Blajeen Labs e são usados para cobrar, preparar, enviar e dar suporte ao pedido. Um aviso com o pedido pode ser enviado ao e-mail do estúdio por um provedor de envio de e-mails.',
+        },
+        {
+          tipo: 'lista',
+          itens: [
+            'o pagamento acontece na página do Asaas, instituição de pagamento que recebe nome, documento, contato e endereço para emitir a cobrança; o site não recebe nem guarda dados de cartão;',
+            'para calcular o frete, o CEP de entrega e o peso e as medidas dos pacotes são enviados ao Melhor Envio; quando o pedido é postado, nome e endereço seguem para a transportadora escolhida por essa plataforma;',
+            'a sacola fica guardada no seu próprio navegador até o pedido, sem passar pelo servidor;',
+            'os registros ficam em PostgreSQL hospedado na Neon, e o acesso ao painel exige sessão administrativa;',
+            'os dados não são vendidos nem usados para publicidade.',
+          ],
+        },
+        {
+          tipo: 'pendente',
+          bloqueador: 'lojaRetencao',
+          explicacao:
+            'Ainda precisa ser definido por quanto tempo pedidos, endereços e documentos de compradores serão mantidos, considerando as obrigações fiscais da venda. Até essa decisão, nenhum prazo é prometido nesta política.',
+        },
+      ],
+    },
+    {
       id: 'servidor',
       titulo: 'Hospedagem e registros de acesso',
       blocos: [
@@ -181,7 +214,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O site guarda no seu próprio navegador duas preferências de exibição: se o movimento da interface está ligado ou desligado, e se a abertura do laboratório já foi exibida nesta sessão.',
+            'O site guarda no seu próprio navegador duas preferências de exibição — se o movimento da interface está ligado ou desligado, e se a abertura do laboratório já foi exibida nesta sessão — e, se você usar a loja, os itens da sacola até o pedido.',
         },
         {
           tipo: 'paragrafo',
@@ -228,7 +261,7 @@ export const privacidadeEstudio: LegalDocument = {
   ],
   metaTitulo: 'Privacidade — Blajeen Labs',
   metaDescricao:
-    'Política de privacidade da Blajeen Labs: navegação pública, central de onboarding, arquivos e segurança dos projetos.',
+    'Política de privacidade da Blajeen Labs: navegação pública, loja, central de onboarding, arquivos e segurança dos projetos.',
 };
 
 export const termosEstudio: LegalDocument = {
@@ -248,7 +281,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto e páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio.',
+            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto, a loja de exclusivos e as páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio.',
         },
         {
           tipo: 'paragrafo',
@@ -269,7 +302,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Nada neste site constitui oferta de venda, promessa de lançamento, data de disponibilidade ou garantia de resultado. Quando um produto tiver loja, preço ou data, isso será dito explicitamente na página do produto.',
+            'Fora da loja de exclusivos, nada neste site constitui oferta de venda, promessa de lançamento, data de disponibilidade ou garantia de resultado. Quando um produto tiver loja, preço ou data, isso será dito explicitamente na página do produto.',
         },
         {
           tipo: 'destaque',
@@ -310,6 +343,38 @@ export const termosEstudio: LegalDocument = {
             'não automatizar coleta em massa nem degradar a disponibilidade do site;',
             'não republicar as páginas como se fossem canal oficial de terceiros.',
           ],
+        },
+      ],
+    },
+    {
+      id: 'loja',
+      titulo: 'Compras na loja de exclusivos',
+      blocos: [
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Preço, opções e disponibilidade de cada exclusivo estão na página do produto. Itens marcados como “Em breve” ainda não estão à venda. Imagens marcadas como ilustrativas são montagens, e o produto final pode ser diferente delas.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'O valor total do pedido, com itens e frete, aparece antes do pagamento. O pagamento é feito na página do Asaas, por Pix, cartão ou boleto, e o pedido segue para preparação depois que o pagamento é confirmado. O prazo de entrega mostrado na sacola soma os dias para postar ao prazo estimado da transportadora.',
+        },
+        {
+          tipo: 'paragrafo',
+          texto:
+            'Quando o site não calcula o frete ou não abre o pagamento, o pedido chega ao estúdio como solicitação: frete e pagamento são combinados com você antes de qualquer cobrança.',
+        },
+        {
+          tipo: 'destaque',
+          texto:
+            'Compras feitas fora de loja física podem ser desistidas em até 7 dias a contar do recebimento, como garante o artigo 49 do Código de Defesa do Consumidor. Para desistir, trocar ou relatar um problema com o pedido, fale com o estúdio pelo contato do site.',
+        },
+        {
+          tipo: 'pendente',
+          bloqueador: 'lojaCondicoes',
+          explicacao:
+            'Ainda precisam ser definidas as regras de troca por defeito, o prazo de reembolso, quem paga o frete de devolução, como a versão digital do livro é entregue e o endereço do fornecedor exigido para lojas virtuais. Até lá, vale o Código de Defesa do Consumidor e o contato direto com o estúdio.',
         },
       ],
     },

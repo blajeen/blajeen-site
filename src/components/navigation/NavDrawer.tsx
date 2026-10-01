@@ -55,6 +55,10 @@ export function NavDrawer({ id, aberto, aoFechar, acionador }: Props) {
   );
 }
 
+const slugDoTitulo = (titulo: string) => titulo.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+type Grupo = (typeof submenus)[keyof typeof submenus]['grupos'][number];
+
 /**
  * Índice em sanfona, no jeito dos menus de celular de estúdio de jogo.
  *
@@ -66,6 +70,53 @@ function Indice({ aoFechar }: { aoFechar: () => void }) {
   const caminho = usePathname();
   const prefixo = useId();
   const [secao, setSecao] = useState<MenuId | null>(null);
+
+  function itensDoGrupo(grupo: Grupo) {
+    return [
+      grupo.todos ? (
+        <li key={`todos-${grupo.todos.href}`}>
+          <Link
+            href={grupo.todos.href}
+            onClick={aoFechar}
+            aria-current={rotaAtiva(caminho, grupo.todos.href) ? 'page' : undefined}
+            className={styles.todos}
+          >
+            {grupo.todos.rotulo}
+            <span aria-hidden="true"> →</span>
+          </Link>
+        </li>
+      ) : null,
+      ...grupo.itens.map((item) => (
+        <li key={item.href}>
+          <Link
+            href={item.href}
+            onClick={aoFechar}
+            aria-current={rotaAtiva(caminho, item.href) ? 'page' : undefined}
+            className={styles.subitem}
+          >
+            {'icone' in item ? (
+              <Image
+                src={item.icone.src}
+                alt=""
+                width={item.icone.tamanho}
+                height={item.icone.tamanho}
+                sizes="32px"
+                className={styles.subitemImagem}
+              />
+            ) : (
+              <span aria-hidden="true" className={styles.subitemSimbolo}>
+                <ProductIcon id={item.simbolo} className="size-5" />
+              </span>
+            )}
+            <span className={styles.subitemTexto}>
+              <span className={styles.subitemNome}>{item.rotulo}</span>
+              <span className={styles.subitemEstado}>{item.estado}</span>
+            </span>
+          </Link>
+        </li>
+      )),
+    ];
+  }
 
   return (
     <div className={styles.corpo}>
@@ -82,9 +133,9 @@ function Indice({ aoFechar }: { aoFechar: () => void }) {
               const expandido = secao === menu;
               const idLista = `${prefixo}-${menu}`;
               const ativo =
-                (submenu.todos !== null && rotaAtiva(caminho, submenu.todos.href)) ||
-                submenu.itens.some((item) => rotaAtiva(caminho, item.href)) ||
-                submenu.extras.some((extra) => rotaAtiva(caminho, extra.href));
+                submenu.grupos.some((g) => (g.todos !== null && rotaAtiva(caminho, g.todos.href))
+                  || g.itens.some((item) => rotaAtiva(caminho, item.href)))
+                || submenu.extras.some((extra) => rotaAtiva(caminho, extra.href));
 
               return (
                 <li key={link.href} data-expandido={expandido || undefined}>
@@ -102,49 +153,18 @@ function Indice({ aoFechar }: { aoFechar: () => void }) {
                   </button>
 
                   <ul id={idLista} className={styles.sublista} hidden={!expandido}>
-                    {submenu.todos ? (
-                      <li>
-                        <Link
-                          href={submenu.todos.href}
-                          onClick={aoFechar}
-                          aria-current={rotaAtiva(caminho, submenu.todos.href) ? 'page' : undefined}
-                          className={styles.todos}
-                        >
-                          {submenu.todos.rotulo}
-                          <span aria-hidden="true"> →</span>
-                        </Link>
-                      </li>
-                    ) : null}
-
-                    {submenu.itens.map((item) => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          onClick={aoFechar}
-                          aria-current={rotaAtiva(caminho, item.href) ? 'page' : undefined}
-                          className={styles.subitem}
-                        >
-                          {'icone' in item ? (
-                            <Image
-                              src={item.icone.src}
-                              alt=""
-                              width={item.icone.tamanho}
-                              height={item.icone.tamanho}
-                              sizes="32px"
-                              className={styles.subitemImagem}
-                            />
-                          ) : (
-                            <span aria-hidden="true" className={styles.subitemSimbolo}>
-                              <ProductIcon id={item.simbolo} className="size-5" />
-                            </span>
-                          )}
-                          <span className={styles.subitemTexto}>
-                            <span className={styles.subitemNome}>{item.rotulo}</span>
-                            <span className={styles.subitemEstado}>{item.estado}</span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
+                    {submenu.grupos.map((grupo) => {
+                      const linhas = itensDoGrupo(grupo);
+                      if (!grupo.titulo) return linhas;
+                      // Grupos com título (Programas, SaaS) viram uma lista dentro da lista.
+                      const idTitulo = `${idLista}-${slugDoTitulo(grupo.titulo)}`;
+                      return (
+                        <li key={grupo.titulo} className={styles.grupo}>
+                          <p id={idTitulo} className={styles.grupoTitulo}>{grupo.titulo}</p>
+                          <ul aria-labelledby={idTitulo} className={styles.grupoLista}>{linhas}</ul>
+                        </li>
+                      );
+                    })}
 
                     {submenu.extras.map((extra) => (
                       <li key={extra.href}>

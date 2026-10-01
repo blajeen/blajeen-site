@@ -28,6 +28,19 @@ Nenhuma página jurídica deve ir ao ar com colchetes ou informação inventada.
 - [ ] revisar direitos de provas, gabaritos, imagens, áudios, fontes e conteúdo de terceiros;
 - [ ] obter revisão jurídica antes de publicação.
 
+## Loja
+
+A loja de exclusivos (`/loja`) nasce com todos os produtos em “Em breve”: sem preço e sem botão de compra.
+Antes de colocar cada um à venda:
+
+- [ ] definir preço, descrição, peso e medidas do pacote de cada produto no painel (`/admin/loja`);
+- [ ] trocar as montagens ilustrativas por fotos reais;
+- [ ] configurar na Vercel `ASAAS_API_KEY`, `ASAAS_WEBHOOK_TOKEN` e, para testar antes, `ASAAS_AMBIENTE=sandbox`;
+- [ ] cadastrar o webhook `https://blajeen.com.br/api/loja/asaas` no Asaas com o mesmo token;
+- [ ] configurar `MELHOR_ENVIO_TOKEN` na Vercel e o CEP de origem no painel;
+- [ ] decidir retenção dos pedidos (`lojaRetencao`) e condições de troca, devolução, reembolso e entrega do e-book, mais o endereço do fornecedor exigido pelo Decreto 7.962/2013 (`lojaCondicoes`);
+- [ ] revisar as seções da loja na Política de Privacidade e nos Termos.
+
 ## Revalio
 
 - [ ] comparar este pacote com `C:\dev\revalio\docs\publicacao`;
@@ -146,6 +159,8 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 | `lojasRevalio` | URLs das fichas na App Store e no Google Play | os selos de loja de `/projects/revalio` ficam sem link |
 | `escopoGramelio` | se o Gramelio terá conta, nuvem, compras ou telemetria | `/gramelio/privacy`, `/gramelio/terms`, `/gramelio/delete-account` |
 | `arteGramelio` | capturas reais ou concept art autorizada | a galeria de `/projects/gramelio` não é renderizada |
+| `lojaRetencao` | prazo de guarda dos pedidos da loja | `/privacy` |
+| `lojaCondicoes` | troca, devolução, reembolso, entrega digital e endereço do fornecedor | `/terms` |
 
 ## Decisões que a implementação tomou, e que precisam de confirmação
 

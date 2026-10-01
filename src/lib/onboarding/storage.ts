@@ -118,7 +118,15 @@ async function neonFileQuery(query: string, params: unknown[] = []): Promise<Neo
 }
 
 export async function storeUpload(projectId: string, upload: ValidatedUpload): Promise<string> {
-  const safePath = `onboardings/${projectId}/${randomUUID()}${upload.extension}`;
+  return storeFile(`onboardings/${projectId}`, upload);
+}
+
+/**
+ * Guarda um arquivo validado dentro de `folder` e devolve a chave para lê-lo depois. Também serve
+ * às fotos da loja (`loja/<produto>`): a tabela `onboarding_asset_files` é só chave e conteúdo.
+ */
+export async function storeFile(folder: string, upload: ValidatedUpload): Promise<string> {
+  const safePath = `${folder}/${randomUUID()}${upload.extension}`;
   const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
   if (blobToken) {
     const response = await fetch(`https://blob.vercel-storage.com/${safePath}`, {

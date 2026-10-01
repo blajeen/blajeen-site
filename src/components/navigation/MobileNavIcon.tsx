@@ -73,6 +73,15 @@ export function MobileNavIcon({ id, className }: Props) {
     );
   }
 
+  if (id === 'loja') {
+    return (
+      <svg {...propriedades} className={className}>
+        <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z" />
+        <path d="M9 10V6.5a3 3 0 0 1 6 0V10" />
+      </svg>
+    );
+  }
+
   if (id === 'estudio') {
     return (
       <svg {...propriedades} className={className}>

@@ -57,6 +57,12 @@ export const ROTAS = {
   projetoMazelio: '/projects/mazelio',
   projetoSocialio: '/projects/socialio',
   novidades: '/novidades',
+  /**
+   * Loja de exclusivos (camisetas, copo, boneco, livro). Não confundir com `ROTAS_DE_LOJA`, que
+   * são as páginas exigidas pelas lojas de aplicativo. As páginas de cada produto vêm do painel e
+   * entram no sitemap à parte; a da sacola (`/loja/pedido`) fica fora, sem indexação.
+   */
+  loja: '/loja',
   sobre: '/about',
   contato: '/contact',
   privacidade: '/privacy',
@@ -179,7 +185,7 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.projetoSocialio
   )
     return 0.9;
-  if (rota === ROTAS.novidades) return 0.8;
+  if (rota === ROTAS.novidades || rota === ROTAS.loja) return 0.8;
   if (rota === ROTAS.sobre || rota === ROTAS.contato || rota === ROTAS.suporte) return 0.7;
   return 0.5;
 }

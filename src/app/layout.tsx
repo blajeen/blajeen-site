@@ -9,7 +9,7 @@ import { MotionProvider } from '@/components/motion/MotionProvider';
 import { SiteHeader } from '@/components/navigation/SiteHeader';
 import { metadados } from '@/content/home';
 import { SITE_INDEXAVEL, SITE_URL, site } from '@/content/site';
-import { OG, schemaOrganizacao } from '@/lib/metadata';
+import { BRASAO_ALT, OG, schemaOrganizacao } from '@/lib/metadata';
 import './globals.css';
 
 /**
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: metadados.ogTitulo,
     description: metadados.ogDescricao,
-    images: [{ url: OG.estudio, width: 1200, height: 630, alt: 'BLAJEEN LABS' }],
+    images: [{ url: OG.estudio, width: 1200, height: 630, alt: BRASAO_ALT }],
   },
   twitter: {
     card: 'summary_large_image',

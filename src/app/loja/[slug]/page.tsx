@@ -9,7 +9,7 @@ import { ProdutoCompra } from '@/components/loja/ProdutoCompra';
 import { asaasConfigurado } from '@/lib/loja/asaas';
 import { buscarProdutoPublicado, CONFIGURACAO_PADRAO, lerConfiguracaoLoja } from '@/lib/loja/repositorio';
 import { CATEGORIA_ROTULO, ROTA_DA_LOJA, rotaDoProduto, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
-import { metadadosDaRota, OG } from '@/lib/metadata';
+import { metadadosDaRota } from '@/lib/metadata';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,10 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     titulo: `${produto.nome} — Loja Blajeen Labs`,
     descricao: produto.resumo || `${produto.nome}, exclusivo da Blajeen Labs.`,
     rota: rotaDoProduto(produto.slug),
-    // Foto enviada pelo painel vira a imagem de compartilhamento; sem ela, vai o brasão da loja.
-    ...(foto?.chave
-      ? { imagem: foto.url, imagemAlt: foto.alt }
-      : { imagem: OG.loja, imagemAlt: 'Brasão da Blajeen Labs: o frasco de gosma verde-ácido no centro de um escudo mecânico.' }),
+    // Foto enviada pelo painel vira a imagem de compartilhamento; sem ela, vai o brasão (o padrão do site).
+    ...(foto?.chave ? { imagem: foto.url, imagemAlt: foto.alt } : {}),
   });
 }
 

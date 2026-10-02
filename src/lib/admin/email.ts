@@ -4,6 +4,10 @@
  * Usa o mesmo provedor e as mesmas variáveis do onboarding (`RESEND_API_KEY`,
  * `ONBOARDING_EMAIL_FROM`, `ONBOARDING_NOTIFICATION_EMAIL`). Sem provedor configurado, nada é
  * enviado e o registro continua no painel — o aviso é conveniência, não o armazenamento.
+ *
+ * Com o remetente de teste do Resend (`onboarding@resend.dev`), o Resend só entrega para o e-mail
+ * da própria conta: `ONBOARDING_NOTIFICATION_EMAIL` precisa ser esse e-mail. Com o domínio
+ * verificado no Resend, o remetente pode ser `avisos@blajeen.com.br` e o destino, qualquer um.
  */
 export type StatusEnvio = 'PENDING' | 'SENT' | 'FAILED';
 
@@ -11,20 +15,37 @@ export function destinoDosAvisos(): string {
   return process.env.ONBOARDING_NOTIFICATION_EMAIL?.trim() || 'brg.ftw@gmail.com';
 }
 
-export async function enviarAvisoAoEstudio(assunto: string, html: string, responderPara?: string): Promise<StatusEnvio> {
+export function avisoPorEmailConfigurado(): boolean {
+  return Boolean(process.env.RESEND_API_KEY?.trim() && process.env.ONBOARDING_EMAIL_FROM?.trim());
+}
+
+/** O envio e, quando falha, o motivo que o Resend deu (para o painel e para os logs da Vercel). */
+export async function enviarAvisoComDetalhe(
+  assunto: string, html: string, responderPara?: string,
+): Promise<{ status: StatusEnvio; detalhe: string }> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.ONBOARDING_EMAIL_FROM?.trim();
-  if (!apiKey || !from) return 'PENDING';
+  if (!apiKey || !from) return { status: 'PENDING', detalhe: 'Falta RESEND_API_KEY ou ONBOARDING_EMAIL_FROM na Vercel.' };
   try {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ from, to: [destinoDosAvisos()], subject: assunto, html, ...(responderPara ? { reply_to: responderPara } : {}) }),
     });
-    return response.ok ? 'SENT' : 'FAILED';
-  } catch {
-    return 'FAILED';
+    if (response.ok) return { status: 'SENT', detalhe: '' };
+    const corpo = await response.json().catch(() => ({})) as { message?: string };
+    const detalhe = `Resend respondeu ${response.status}${corpo.message ? `: ${corpo.message}` : ''}`.slice(0, 300);
+    console.error(`[aviso por e-mail] ${detalhe}`);
+    return { status: 'FAILED', detalhe };
+  } catch (erro) {
+    const detalhe = `Sem resposta do Resend: ${erro instanceof Error ? erro.message : 'falha desconhecida'}`.slice(0, 300);
+    console.error(`[aviso por e-mail] ${detalhe}`);
+    return { status: 'FAILED', detalhe };
   }
+}
+
+export async function enviarAvisoAoEstudio(assunto: string, html: string, responderPara?: string): Promise<StatusEnvio> {
+  return (await enviarAvisoComDetalhe(assunto, html, responderPara)).status;
 }
 
 export function escHtml(texto: string): string {

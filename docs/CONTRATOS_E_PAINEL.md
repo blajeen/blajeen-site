@@ -65,6 +65,12 @@ Avisos de novo pedido e de contrato preenchido usam `RESEND_API_KEY`, `ONBOARDIN
 `ONBOARDING_NOTIFICATION_EMAIL`. Sem essas variáveis nada é enviado, e os registros continuam no
 painel (a tela de pedidos mostra “Aviso por e-mail: não configurado”).
 
+No alto de `/admin/pedidos`, uma faixa diz se o aviso está ligado e para qual e-mail vai, com um botão
+“Enviar e-mail de teste” (`/api/admin/aviso-email`). Quando o Resend recusa, o motivo aparece ali e
+nos logs da Vercel (`[aviso por e-mail]`). Com o remetente de teste `onboarding@resend.dev`, o Resend
+só entrega para o e-mail da própria conta; para mandar de `avisos@blajeen.com.br`, verifique o domínio
+no Resend (registros DNS) e troque `ONBOARDING_EMAIL_FROM`.
+
 ## Privacidade
 
 `/privacy` ganhou a seção “Pedidos de projeto e contratos”. O prazo de guarda é o bloqueador humano

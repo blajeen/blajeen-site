@@ -2,9 +2,12 @@ import type { Metadata } from 'next';
 import { SITE_URL, site, urlAbsoluta } from '@/content/site';
 
 export const OG = {
-  estudio: '/og/blajeen-labs.png',
-  /** O brasão da Blajeen Labs, centralizado: o recorte quadrado do WhatsApp mostra o brasão inteiro. */
-  loja: '/og/loja.jpg',
+  /**
+   * Imagem de compartilhamento padrão do site: o brasão da Blajeen Labs, centralizado, para o recorte
+   * quadrado do WhatsApp e do Instagram mostrar o brasão inteiro. As páginas dos jogos usam a arte
+   * de cada jogo.
+   */
+  estudio: '/og/blajeen-labs-brasao.jpg',
   revalio: '/og/revalio.png',
   docalio: '/og/docalio.png',
   gramelio: '/og/gramelio.png',
@@ -13,6 +16,8 @@ export const OG = {
   mazelio: '/projects/mazelio/mazelio-icon-rei-v2.webp',
   socialio: '/projects/socialio/socialio-icon-cafe.webp',
 } as const;
+
+export const BRASAO_ALT = 'Brasão da Blajeen Labs: o frasco de gosma verde-ácido no centro de um escudo mecânico.';
 
 type Entrada = {
   titulo: string;
@@ -37,7 +42,7 @@ export function metadadosDaRota({
   descricao,
   rota,
   imagem = OG.estudio,
-  imagemAlt = 'Blajeen Labs — produtos digitais, jogos e soluções personalizadas.',
+  imagemAlt = BRASAO_ALT,
   ogTitulo,
   ogDescricao,
   semImagem = false,
@@ -81,7 +86,8 @@ export function schemaOrganizacao() {
     name: site.nome,
     url: SITE_URL,
     description: site.descricao,
-    logo: urlAbsoluta(OG.estudio),
+    // O brasão quadrado: o logo de uma organização não deve ser a imagem larga de compartilhamento.
+    logo: urlAbsoluta('/brand/blajeen-crest-mechanical-slime.png'),
     sameAs: [site.instagram.url],
   };
 }

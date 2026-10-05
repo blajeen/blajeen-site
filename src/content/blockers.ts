@@ -79,7 +79,9 @@ export const BLOQUEADORES = {
     titulo: 'Condições de troca, devolução, reembolso e entrega digital da loja',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Loja',
     // TODO(bloqueador): troca por defeito, prazo de reembolso, quem paga o frete de devolução,
-    // como o e-book é entregue e o endereço do fornecedor exigido pelo Decreto 7.962/2013.
+    // como o e-book é entregue, como o software vendido é entregue e transferido (código, site e
+    // marca, de preferência num contrato de cessão) e o endereço do fornecedor exigido pelo
+    // Decreto 7.962/2013.
   },
   lojasRevalio: {
     titulo: 'URLs das fichas do Revalio na App Store e no Google Play',

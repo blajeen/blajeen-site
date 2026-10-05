@@ -56,7 +56,7 @@ async function buildIntro() {
 }
 
 async function buildProduct(p, index) {
-  const screenshot = await sharp(path.join(root, 'public/saas', p.id, '1.webp')).resize({ width: 840, height: 560, fit: 'inside' }).png().toBuffer();
+  const screenshot = await sharp(path.join(root, 'public/loja/software', p.id, '1.webp')).resize({ width: 840, height: 560, fit: 'inside' }).png().toBuffer();
   const frame = svg(`
     <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A0D0B"/><stop offset="1" stop-color="#151A16"/></linearGradient><filter id="shadow"><feGaussianBlur stdDeviation="18"/></filter></defs>
     <rect width="1080" height="1080" fill="url(#bg)"/>

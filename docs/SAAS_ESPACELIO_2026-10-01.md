@@ -1,5 +1,11 @@
 # SaaS — Espacelio e Doutelio (1º de outubro de 2026)
 
+> **Substituído em 5 de outubro de 2026.** O Espacelio e o Pipelio não chegaram a existir, e os
+> seis sistemas viraram software à venda na loja (`/loja`, categoria Software). As páginas descritas
+> aqui saíram e os endereços antigos redirecionam para a loja; `tools/check-saas-pages.mjs` deu lugar
+> a `tools/check-software-loja.mjs`. Ver `docs/loja/IMPLEMENTACAO.md` — Software. Este registro fica
+> como histórico.
+
 ## Pedido
 
 O titular pediu para tratar os SaaS como "SaaS Blajeen Labs" com dois produtos: o **Espacelio**,

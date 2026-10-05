@@ -3,8 +3,9 @@ import { baseDoSite } from '@/lib/contracts/service';
 import { statusDoEvento, tokenDoWebhookValido } from '@/lib/loja/asaas';
 import { linhasDoPedido } from '@/lib/loja/aviso';
 import {
-  atualizarPedidoLoja, buscarPedidoLoja, esquecerEventoDePagamento, registrarEventoDePagamento,
+  atualizarPedidoLoja, buscarPedidoLoja, esquecerEventoDePagamento, marcarSoftwareVendido, registrarEventoDePagamento,
 } from '@/lib/loja/repositorio';
+import { revalidarLoja } from '@/lib/loja/revalidar';
 import type { PedidoLojaStatus } from '@/lib/loja/tipos';
 
 type Evento = {
@@ -43,6 +44,10 @@ export async function POST(request: Request) {
     const muda = destino === 'PAGO' ? ANTES_DO_PAGAMENTO.includes(pedido.status)
       : destino === 'CANCELADO' ? pedido.status === 'AGUARDANDO_PAGAMENTO'
         : destino === 'ESTORNADO';
+    // Software é venda única: pago, ele sai de venda antes de tudo, para não ser vendido de novo. Se
+    // algo falhar depois, o Asaas entrega o evento outra vez, e marcar de novo não muda nada.
+    const vendidos = muda && destino === 'PAGO' ? await marcarSoftwareVendido(pedido.itens.map((i) => i.produtoId)) : [];
+    if (vendidos.length) revalidarLoja(...vendidos.map((p) => p.slug));
     const atualizado = await atualizarPedidoLoja(pedido.id, {
       pagamento: {
         provedor: 'asaas',
@@ -54,9 +59,12 @@ export async function POST(request: Request) {
     });
 
     if (muda && destino === 'PAGO') {
+      const proximoPasso = vendidos.length
+        ? `O Asaas confirmou o pagamento. ${vendidos.map((p) => p.nome).join(' e ')} ${vendidos.length > 1 ? 'saíram de venda e aparecem como vendidos' : 'saiu de venda e aparece como vendido'} na loja: combine com a pessoa a entrega do código e, se ela quiser, a troca do nome.${atualizado.itens.some((i) => !i.digital) ? ' Os itens físicos seguem para separar e postar.' : ''}`
+        : 'O Asaas confirmou o pagamento. Hora de separar e postar.';
       const envio = await enviarAvisoAoEstudio(
         `Pedido pago — ${atualizado.nome} (${atualizado.numero})`,
-        emailDoPainel('Pedido pago na loja', linhasDoPedido(atualizado), 'O Asaas confirmou o pagamento. Hora de separar e postar.',
+        emailDoPainel('Pedido pago na loja', linhasDoPedido(atualizado), proximoPasso,
           `${baseDoSite()}/admin/loja?pedido=${atualizado.id}`, 'Ver no painel'),
         atualizado.email,
       );

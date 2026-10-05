@@ -1,3 +1,4 @@
+import { SOFTWARE } from '@/content/software';
 import type { Categoria, Envio, Opcao, Produto } from './tipos';
 
 /**
@@ -120,3 +121,31 @@ export const EXEMPLOS: Exemplo[] = [
     400, 'Versão',
   ),
 ];
+
+/**
+ * O software não vai pelo correio: a opção é digital e o frete nunca é cotado. O pacote existe só
+ * porque todo produto do painel tem um.
+ */
+const SEM_PACOTE: Envio = { pesoKg: 0.1, alturaCm: 1, larguraCm: 10, comprimentoCm: 10 };
+
+/**
+ * Os sistemas à venda (`src/content/software.ts`), um produto cada: venda única, com uma opção
+ * digital — código, site e marca — e as três telas da ficha como fotos. A descrição é a do sistema;
+ * o que vem na compra a página do software diz para todos. Entram num lote próprio (ver
+ * `garantirExemplos`), porque o banco de produção já tinha os exclusivos quando eles chegaram.
+ */
+export const SOFTWARE_DA_LOJA: Exemplo[] = SOFTWARE.map((software, i) => ({
+  slug: software.slug,
+  nome: software.nome,
+  resumo: software.resumo,
+  descricao: software.descricao,
+  categoria: 'software',
+  colecao: software.segmento,
+  disponibilidade: 'DISPONIVEL',
+  status: 'PUBLICADO',
+  rotuloOpcoes: '',
+  opcoes: [{ id: 'padrao', rotulo: 'Código, site e marca', precoCentavos: software.precoSugerido, digital: true }],
+  imagens: software.telas.map((tela, n) => ({ id: `${software.slug}-${n + 1}`, url: tela.src, alt: tela.descricao })),
+  envio: SEM_PACOTE,
+  ordem: 10 + i,
+}));

@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { isValidPhone } from '@/lib/onboarding/validation';
 import {
-  aceitaPedido, CATEGORIAS, DISPONIBILIDADES, PEDIDO_LOJA_STATUS, slugDe,
+  aceitaPedido, CATEGORIAS, DISPONIBILIDADES, PEDIDO_LOJA_STATUS, slugDe, vendaUnica,
   type Categoria, type ConfiguracaoLoja, type Disponibilidade, type Endereco, type Envio, type ItemPedido, type Opcao,
   type PedidoLojaStatus, type Produto, type StatusProduto,
 } from './tipos';
@@ -216,7 +216,7 @@ export function parsePedidoLoja(corpo: unknown, opcoes: { exigirDocumento: boole
 /**
  * Monta o pedido com os preços do banco, nunca com os que vieram do navegador: a sacola guarda o
  * preço só para mostrar, e quem decide o valor é o catálogo no momento do pedido. Itens repetidos
- * (mesmo produto e opção) viram uma linha só.
+ * (mesmo produto e opção) viram uma linha só, e o software, que é venda única, sai sempre com um.
  */
 export function calcularPedido(solicitados: ItemSolicitado[], produtos: Produto[]): { itens: ItemPedido[]; subtotalCentavos: number } {
   const linhas = new Map<string, ItemPedido>();
@@ -226,13 +226,16 @@ export function calcularPedido(solicitados: ItemSolicitado[], produtos: Produto[
     if (!aceitaPedido(produto)) {
       throw new Error(produto.disponibilidade === 'EM_BREVE'
         ? `${produto.nome} ainda não está à venda. Remova-o da sacola para continuar.`
-        : `${produto.nome} está esgotado. Remova-o da sacola para continuar.`);
+        : vendaUnica(produto)
+          ? `${produto.nome} já foi vendido. Remova-o da sacola para continuar.`
+          : `${produto.nome} está esgotado. Remova-o da sacola para continuar.`);
     }
     const opcao = produto.opcoes.find((o) => o.id === pedido.opcaoId);
     if (!opcao) throw new Error(`A opção escolhida de ${produto.nome} não existe mais. Escolha de novo na página do produto.`);
     const chave = `${produto.id}:${opcao.id}`;
     const atual = linhas.get(chave);
-    const quantidade = Math.min(MAXIMO_POR_ITEM, (atual?.quantidade ?? 0) + pedido.quantidade);
+    const maximo = vendaUnica(produto) ? 1 : MAXIMO_POR_ITEM;
+    const quantidade = Math.min(maximo, (atual?.quantidade ?? 0) + pedido.quantidade);
     linhas.set(chave, {
       produtoId: produto.id, slug: produto.slug, nome: produto.nome, opcaoId: opcao.id,
       opcaoRotulo: produto.opcoes.length > 1 ? opcao.rotulo : '', precoCentavos: opcao.precoCentavos, quantidade, digital: opcao.digital,

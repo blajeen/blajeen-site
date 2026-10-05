@@ -50,17 +50,23 @@ const nextConfig: NextConfig = {
       { source: '/clearlio/privacidade', destination: '/clearlio/privacy', permanent: true },
       { source: '/clearlio/termos', destination: '/clearlio/terms', permanent: true },
       { source: '/clearlio/suporte', destination: '/clearlio/support', permanent: true },
-      // Os SaaS para negócios locais viraram módulos do Espacelio (pedido do titular em
-      // 01/10/2026): cada endereço antigo leva à seção do seu módulo. O formulário de contratação
-      // (`/projects/<produto>/formulario`) continua no mesmo endereço.
+      // Os sistemas que eram SaaS viraram software à venda na loja (pedido do titular em
+      // 05/10/2026): cada endereço antigo leva à página do sistema na loja. O catálogo de SaaS, o
+      // Espacelio e o Pipelio, que nunca chegaram a existir, e os painéis levam à categoria
+      // Software. O formulário de briefing (`/projects/<produto>/formulario`) continua no mesmo
+      // endereço, para quem já recebeu o link.
       ...([
-        ['barbelio', 'barbearias'], ['barbearia', 'barbearias'],
-        ['beautelio', 'estetica'], ['salao-estetica', 'estetica'],
-        ['studelio', 'estudios'], ['personal-studio', 'estudios'],
-        ['lojalio', 'lojas'], ['ecommerce', 'lojas'],
-        ['foodelio', 'restaurantes'], ['pipelio', 'crm'], ['painel-administrativo', 'paineis'],
-      ] as const).map(([antigo, secao]) => ({
-        source: `/projects/${antigo}`, destination: `/projects/espacelio#${secao}`, permanent: true,
+        ['doutelio', 'doutelio'], ['clinica-medica', 'doutelio'],
+        ['barbelio', 'barbelio'], ['barbearia', 'barbelio'],
+        ['beautelio', 'beautelio'], ['salao-estetica', 'beautelio'],
+        ['studelio', 'studelio'], ['personal-studio', 'studelio'],
+        ['lojalio', 'lojalio'], ['ecommerce', 'lojalio'],
+        ['foodelio', 'foodelio'],
+      ] as const).map(([antigo, sistema]) => ({
+        source: `/projects/${antigo}`, destination: `/loja/${sistema}`, permanent: true,
+      })),
+      ...['/projects', '/projects/espacelio', '/projects/pipelio', '/projects/painel-administrativo'].map((source) => ({
+        source, destination: '/loja#software', permanent: true,
       })),
     ];
   },

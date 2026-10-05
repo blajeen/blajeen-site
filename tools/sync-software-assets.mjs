@@ -14,7 +14,7 @@ export const sources = [
 ];
 
 for (const product of sources) {
-  const folder = path.join('public', 'saas', product.id);
+  const folder = path.join('public', 'loja', 'software', product.id);
   await mkdir(folder, { recursive: true });
   for (const [index, file] of product.files.entries()) {
     // As capas das demos são capturadas pelo navegador; não sobrescrever essas imagens.

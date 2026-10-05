@@ -24,12 +24,12 @@ export default async function ObrigadoPage({ searchParams }: Props) {
       <p className="tecnica text-signal">LOJA / {numero ? `PEDIDO ${numero}` : 'PEDIDO FEITO'}</p>
       <h1 className="mt-5 max-w-[16ch] text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.94] tracking-[-0.055em]">Obrigado pela compra.</h1>
       <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
-        Assim que o Asaas confirmar o pagamento, o pedido entra em preparação. Pix costuma confirmar em instantes; boleto
-        pode levar alguns dias úteis depois de pago. Se precisar falar do pedido, use a página de contato
-        {numero ? ` e cite o número ${numero}` : ''}.
+        Assim que o Asaas confirmar o pagamento, o pedido entra em preparação; se for um software, a gente fala com você
+        para combinar a entrega do código. Pix costuma confirmar em instantes; boleto pode levar alguns dias úteis depois de
+        pago. Se precisar falar do pedido, use a página de contato{numero ? ` e cite o número ${numero}` : ''}.
       </p>
       <Link href={ROTA_DA_LOJA} className="alvo-toque tecnica mt-8 inline-flex items-center gap-3 rounded-full border border-signal px-6 text-signal transition-colors hover:bg-signal hover:text-ink">
-        Voltar aos exclusivos <span aria-hidden="true">→</span>
+        Voltar à loja <span aria-hidden="true">→</span>
       </Link>
     </Container>
   );

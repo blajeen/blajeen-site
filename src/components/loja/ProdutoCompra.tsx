@@ -2,19 +2,24 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useId, useState } from 'react';
-import { aceitaPedido, formatarPreco, ROTA_DO_PEDIDO, type Produto } from '@/lib/loja/tipos';
+import { useId, useState, type ReactNode } from 'react';
+import { aceitaPedido, formatarPreco, ROTA_DA_LOJA, ROTA_DO_PEDIDO, vendaUnica, type Produto } from '@/lib/loja/tipos';
 import { adicionarNaSacola, MAXIMO_POR_ITEM } from './sacola';
 
 type Props = {
-  produto: Pick<Produto, 'id' | 'slug' | 'nome' | 'rotuloOpcoes' | 'opcoes' | 'status' | 'disponibilidade'>;
+  produto: Pick<Produto, 'id' | 'slug' | 'nome' | 'categoria' | 'rotuloOpcoes' | 'opcoes' | 'status' | 'disponibilidade'>;
   imagem: string;
   /** "10 a 20 dias": o prazo dos itens sob encomenda, da configuração da loja. */
   prazoEncomenda: string;
+  /** Software: o que vai ao lado do botão de compra (o link da demonstração). */
+  acoes?: ReactNode;
 };
 
-/** Opção, quantidade e sacola. O pedido em si acontece na página da sacola. */
-export function ProdutoCompra({ produto, imagem, prazoEncomenda }: Props) {
+/**
+ * Opção, quantidade e sacola. O pedido em si acontece na página da sacola. Software é venda única:
+ * sem quantidade, e o botão já leva à compra.
+ */
+export function ProdutoCompra({ produto, imagem, prazoEncomenda, acoes }: Props) {
   const router = useRouter();
   const prefixo = useId();
   const [opcaoId, setOpcaoId] = useState(produto.opcoes[0]?.id ?? '');
@@ -22,13 +27,25 @@ export function ProdutoCompra({ produto, imagem, prazoEncomenda }: Props) {
   const [adicionado, setAdicionado] = useState(false);
   const opcao = produto.opcoes.find((o) => o.id === opcaoId) ?? produto.opcoes[0];
   const sobEncomenda = produto.disponibilidade === 'SOB_ENCOMENDA';
+  const unico = vendaUnica(produto);
 
   if (!opcao) return null;
+  if (unico && produto.disponibilidade === 'ESGOTADO') {
+    return (
+      <div className="mt-8 rounded-[var(--radius-control)] border border-line p-5">
+        <p className="text-2xl tracking-[-0.02em]">Vendido.</p>
+        <p className="mt-2 text-mineral">Cada sistema da loja é vendido uma vez só, e este já tem dono.</p>
+        <Link href={`${ROTA_DA_LOJA}#software`} className="alvo-toque mt-2 inline-flex items-center text-sm text-signal underline-offset-4 hover:underline">
+          Ver os outros sistemas à venda →
+        </Link>
+      </div>
+    );
+  }
   if (produto.disponibilidade === 'EM_BREVE') {
     return (
       <div className="mt-8 rounded-[var(--radius-control)] border border-line p-5">
         <p className="text-2xl tracking-[-0.02em]">Em breve.</p>
-        <p className="mt-2 text-mineral">Este exclusivo ainda está sendo preparado. O preço e o botão de compra aparecem aqui quando ele chegar.</p>
+        <p className="mt-2 text-mineral">Este produto ainda está sendo preparado. O preço e o botão de compra aparecem aqui quando ele chegar.</p>
         {produto.opcoes.length > 1 ? (
           <p className="mt-4 text-sm text-mineral">
             <span className="tecnica mr-2 text-mineral-dim">{produto.rotuloOpcoes || 'Opções'}</span>
@@ -51,8 +68,24 @@ export function ProdutoCompra({ produto, imagem, prazoEncomenda }: Props) {
     adicionarNaSacola({
       produtoId: produto.id, slug: produto.slug, nome: produto.nome, opcaoId: opcao!.id,
       opcaoRotulo: produto.opcoes.length > 1 ? opcao!.rotulo : '', precoCentavos: opcao!.precoCentavos,
-      quantidade, digital: opcao!.digital, imagem, sobEncomenda,
+      quantidade: unico ? 1 : quantidade, digital: opcao!.digital, imagem, sobEncomenda, unico,
     });
+  }
+
+  if (unico) {
+    return (
+      <div className="mt-8">
+        <p className="text-[clamp(2rem,4vw,2.8rem)] leading-none tracking-[-0.03em] tabular-nums">{formatarPreco(opcao.precoCentavos)}</p>
+        <p className="mt-3 text-sm text-mineral">Pagamento único: o sistema passa a ser seu, não é uma assinatura.</p>
+        <div className="mt-7 flex flex-wrap items-center gap-3">
+          <button type="button" onClick={() => { colocar(); router.push(ROTA_DO_PEDIDO); }}
+            className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full bg-signal px-6 text-ink transition-colors hover:bg-glow">
+            Comprar este sistema <span aria-hidden="true">→</span>
+          </button>
+          {acoes}
+        </div>
+      </div>
+    );
   }
 
   return (

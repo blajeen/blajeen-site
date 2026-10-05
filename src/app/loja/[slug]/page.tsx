@@ -5,10 +5,12 @@ import { Container } from '@/components/layout/Section';
 import { SeloDisponibilidade } from '@/components/loja/CartaoProduto';
 import { GaleriaProduto } from '@/components/loja/GaleriaProduto';
 import { LinkDaSacola } from '@/components/loja/LinkDaSacola';
+import { PaginaDoSoftware } from '@/components/loja/PaginaDoSoftware';
 import { ProdutoCompra } from '@/components/loja/ProdutoCompra';
+import { fichaDoSoftware } from '@/content/software';
 import { asaasConfigurado } from '@/lib/loja/asaas';
 import { buscarProdutoPublicado, CONFIGURACAO_PADRAO, lerConfiguracaoLoja } from '@/lib/loja/repositorio';
-import { CATEGORIA_ROTULO, ROTA_DA_LOJA, rotaDoProduto, textoDoPrazoDeEncomenda } from '@/lib/loja/tipos';
+import { CATEGORIA_ROTULO, ROTA_DA_LOJA, rotaDoProduto, textoDoPrazoDeEncomenda, vendaUnica } from '@/lib/loja/tipos';
 import { metadadosDaRota } from '@/lib/metadata';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -24,18 +26,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const produto = await produtoDa(params);
   if (!produto) return { title: 'Produto não encontrado — Blajeen Labs', robots: { index: false, follow: true } };
   const foto = produto.imagens[0];
+  const software = vendaUnica(produto);
   return metadadosDaRota({
-    titulo: `${produto.nome} — Loja Blajeen Labs`,
+    titulo: software ? `${produto.nome} — software à venda | Loja Blajeen Labs` : `${produto.nome} — Loja Blajeen Labs`,
     descricao: produto.resumo || `${produto.nome}, exclusivo da Blajeen Labs.`,
     rota: rotaDoProduto(produto.slug),
-    // Foto enviada pelo painel vira a imagem de compartilhamento; sem ela, vai o brasão (o padrão do site).
-    ...(foto?.chave ? { imagem: foto.url, imagemAlt: foto.alt } : {}),
+    // Foto enviada pelo painel vira a imagem de compartilhamento, e no software também a tela da
+    // demonstração, que é captura de verdade; sem elas, vai o brasão (o padrão do site), porque as
+    // imagens dos exclusivos são ilustrações.
+    ...(foto && (foto.chave || software) ? { imagem: foto.url, imagemAlt: foto.alt } : {}),
   });
 }
 
 export default async function ProdutoPage({ params }: Props) {
   const produto = await produtoDa(params);
   if (!produto) notFound();
+  if (vendaUnica(produto)) {
+    return <PaginaDoSoftware produto={produto} ficha={fichaDoSoftware(produto.slug)} pagamentoOnline={asaasConfigurado()} />;
+  }
   const paragrafos = produto.descricao.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
   const prazoEncomenda = textoDoPrazoDeEncomenda(await lerConfiguracaoLoja().catch(() => CONFIGURACAO_PADRAO));
 
@@ -58,12 +66,12 @@ export default async function ProdutoPage({ params }: Props) {
             {CATEGORIA_ROTULO[produto.categoria]}{produto.colecao ? ` · ${produto.colecao}` : ''}
           </p>
           <h1 className="mt-4 text-[clamp(2.4rem,5vw,4.4rem)] leading-[0.95] tracking-[-0.05em]">{produto.nome}</h1>
-          <div className="mt-5"><SeloDisponibilidade disponibilidade={produto.disponibilidade} /></div>
+          <div className="mt-5"><SeloDisponibilidade produto={produto} /></div>
           {produto.resumo ? <p className="mt-6 text-[1.1rem] leading-relaxed text-paper/85">{produto.resumo}</p> : null}
 
           <ProdutoCompra
             produto={{
-              id: produto.id, slug: produto.slug, nome: produto.nome, rotuloOpcoes: produto.rotuloOpcoes,
+              id: produto.id, slug: produto.slug, nome: produto.nome, categoria: produto.categoria, rotuloOpcoes: produto.rotuloOpcoes,
               opcoes: produto.opcoes, status: produto.status, disponibilidade: produto.disponibilidade,
             }}
             imagem={produto.imagens[0]?.url ?? ''}

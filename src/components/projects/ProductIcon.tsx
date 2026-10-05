@@ -1,13 +1,10 @@
 export type ProductIconId =
-  | 'espaco'
   | 'barbearia'
   | 'personal'
   | 'salao'
   | 'ecommerce'
   | 'medico'
   | 'food'
-  | 'crm'
-  | 'admin'
   | 'limpeza'
   | 'planilha'
   | 'notas'
@@ -25,17 +22,6 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
     'aria-hidden': true,
     className,
   };
-
-  // Espacelio: uma fachada com toldo, o "espaço" de qualquer negócio local.
-  if (id === 'espaco') {
-    return (
-      <svg {...comum}>
-        <path d="M8 19 11 9h26l3 10" />
-        <path d="M8 19c0 2.8 2.2 5 5 5s5-2.2 5-5c0 2.8 2.2 5 5 5h2c2.8 0 5-2.2 5-5 0 2.8 2.2 5 5 5s5-2.2 5-5" />
-        <path d="M11 24v16h26V24M20 40V31h8v9" />
-      </svg>
-    );
-  }
 
   if (id === 'barbearia') {
     return (
@@ -95,26 +81,7 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
     );
   }
 
-  if (id === 'crm') {
-    return (
-      <svg {...comum}>
-        <circle cx="10" cy="11" r="3" />
-        <circle cx="24" cy="9" r="3" />
-        <circle cx="37" cy="13" r="3" />
-        <path d="M4 25c0-4 3-6 6-6s6 2 6 6M18 23c1-3 3-5 6-5 3 0 5 2 6 5M31 27c1-3 3-5 6-5 4 0 7 2 7 6" />
-        <path d="M13 12.5 21 10.5M27 10l7 2" />
-      </svg>
-    );
-  }
 
-  if (id === 'admin') {
-    return (
-      <svg {...comum}>
-        <rect x="6" y="7" width="36" height="29" rx="3" />
-        <path d="M6 15h36M14 23h8M14 29h14M32 23h4M32 29h4" />
-      </svg>
-    );
-  }
 
   if (id === 'limpeza') {
     return (

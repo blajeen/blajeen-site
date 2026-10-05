@@ -22,6 +22,8 @@ export type ItemDaSacola = {
   imagem: string;
   /** Feito sob encomenda: a sacola mostra o prazo da encomenda. Só para mostrar, como o preço. */
   sobEncomenda?: boolean;
+  /** Venda única (software): sempre um. O servidor confere de novo no pedido. */
+  unico?: boolean;
 };
 
 const CHAVE = 'blajeen:sacola';
@@ -73,17 +75,18 @@ function assinar(avisar: () => void) {
 const mesmo = (a: Pick<ItemDaSacola, 'produtoId' | 'opcaoId'>, b: Pick<ItemDaSacola, 'produtoId' | 'opcaoId'>) =>
   a.produtoId === b.produtoId && a.opcaoId === b.opcaoId;
 
+const maximoDe = (item: Pick<ItemDaSacola, 'unico'>) => (item.unico ? 1 : MAXIMO_POR_ITEM);
+
 export function adicionarNaSacola(item: ItemDaSacola) {
   const itens = ler();
   const existente = itens.find((i) => mesmo(i, item));
   gravar(existente
-    ? itens.map((i) => (mesmo(i, item) ? { ...item, quantidade: Math.min(MAXIMO_POR_ITEM, i.quantidade + item.quantidade) } : i))
-    : [...itens, { ...item, quantidade: Math.min(MAXIMO_POR_ITEM, item.quantidade) }]);
+    ? itens.map((i) => (mesmo(i, item) ? { ...item, quantidade: Math.min(maximoDe(item), i.quantidade + item.quantidade) } : i))
+    : [...itens, { ...item, quantidade: Math.min(maximoDe(item), item.quantidade) }]);
 }
 
 export function alterarQuantidade(alvo: Pick<ItemDaSacola, 'produtoId' | 'opcaoId'>, quantidade: number) {
-  const nova = Math.max(1, Math.min(MAXIMO_POR_ITEM, Math.round(quantidade)));
-  gravar(ler().map((i) => (mesmo(i, alvo) ? { ...i, quantidade: nova } : i)));
+  gravar(ler().map((i) => (mesmo(i, alvo) ? { ...i, quantidade: Math.max(1, Math.min(maximoDe(i), Math.round(quantidade))) } : i)));
 }
 
 export function removerDaSacola(alvo: Pick<ItemDaSacola, 'produtoId' | 'opcaoId'>) {

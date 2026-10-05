@@ -57,9 +57,9 @@ describe('NavDrawer', () => {
     expect(jogos).toHaveAttribute('aria-expanded', 'false');
     expect(indice.queryByRole('link', { name: /^Revalio/ })).not.toBeInTheDocument();
     expect(indice.getByRole('link', { name: /Ver todos os programas/ })).toBeVisible();
-    // O SaaS mora dentro de Produtos, num grupo próprio.
-    expect(indice.getByRole('list', { name: 'SaaS' })).toBeVisible();
-    expect(indice.getByRole('link', { name: /Ver todos os sistemas/ })).toBeVisible();
+    // Os SaaS viraram software à venda: Produtos aponta a categoria dele na loja.
+    expect(indice.queryByRole('list', { name: 'SaaS' })).not.toBeInTheDocument();
+    expect(indice.getByRole('link', { name: /Software à venda/ })).toHaveAttribute('href', '/loja#software');
 
     await usuario.click(produtos);
     expect(produtos).toHaveAttribute('aria-expanded', 'false');
@@ -82,7 +82,7 @@ describe('NavDrawer', () => {
     const indice = abrir(aoFechar);
 
     await usuario.click(indice.getByRole('button', { name: 'Produtos' }));
-    await usuario.click(indice.getByRole('link', { name: /Ver todos os sistemas/ }));
+    await usuario.click(indice.getByRole('link', { name: /Software à venda/ }));
     expect(aoFechar).toHaveBeenCalled();
   });
 

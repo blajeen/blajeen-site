@@ -49,6 +49,8 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
   const [cotando, setCotando] = useState(false);
   const [erroDoFrete, setErroDoFrete] = useState('');
   const [freteId, setFreteId] = useState<number | null>(null);
+  // O pedido sem pagamento online some da sacola: guarda aqui se ele tinha algo para enviar.
+  const [pedidoComEnvio, setPedidoComEnvio] = useState(true);
 
   const precisaEnvio = itens.some((i) => !i.digital);
   // A cotação vale para esta sacola e este CEP: mudou um ou outro, ela some e o frete é cotado de novo.
@@ -107,6 +109,7 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
         return;
       }
       if (resposta.ok) {
+        setPedidoComEnvio(precisaEnvio);
         setNumero(retorno.numero ?? 'recebido');
         esvaziarSacola();
         setEstado('editando');
@@ -127,11 +130,12 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
         <p className="tecnica text-signal">PEDIDO {numero}</p>
         <h2 id="pedido-feito" className="mt-5 max-w-[18ch] text-[clamp(2rem,4vw,3.4rem)] leading-[1] tracking-[-0.05em]">Pedido recebido. Obrigado!</h2>
         <p className="medida-texto mt-5 leading-relaxed text-mineral">
-          Vamos falar com você pelo WhatsApp ou pelo e-mail que você informou, para combinar frete e pagamento. Nada foi
-          cobrado. Se quiser falar do pedido, cite o número {numero}.
+          Vamos falar com você pelo WhatsApp ou pelo e-mail que você informou, para combinar{' '}
+          {pedidoComEnvio ? 'frete e pagamento' : 'o pagamento e a entrega'}. Nada foi cobrado. Se quiser falar do pedido, cite o
+          número {numero}.
         </p>
         <Link href={ROTA_DA_LOJA} className="alvo-toque tecnica mt-7 inline-flex items-center gap-3 rounded-full border border-signal px-6 text-signal transition-colors hover:bg-signal hover:text-ink">
-          Voltar aos exclusivos <span aria-hidden="true">→</span>
+          Voltar à loja <span aria-hidden="true">→</span>
         </Link>
       </section>
     );
@@ -145,9 +149,9 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
     return (
       <section aria-labelledby="sacola-vazia" className="rounded-[var(--radius-panel)] border border-line bg-raised/60 p-7 sm:p-10">
         <h2 id="sacola-vazia" className="text-[clamp(1.8rem,3.4vw,2.6rem)] leading-tight tracking-[-0.04em]">Sua sacola está vazia.</h2>
-        <p className="mt-3 text-mineral">Escolha um exclusivo e ele aparece aqui.</p>
+        <p className="mt-3 text-mineral">Escolha um produto da loja e ele aparece aqui.</p>
         <Link href={ROTA_DA_LOJA} className="alvo-toque tecnica mt-7 inline-flex items-center gap-3 rounded-full bg-signal px-6 text-ink hover:bg-glow">
-          Ver os exclusivos <span aria-hidden="true">→</span>
+          Ver a loja <span aria-hidden="true">→</span>
         </Link>
       </section>
     );
@@ -173,13 +177,17 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
                   <p className="tabular-nums">{formatarPreco(item.precoCentavos * item.quantidade)}</p>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
-                  <div role="group" aria-label={`Quantidade de ${item.nome}`} className="inline-flex items-center rounded-full border border-line-strong">
-                    <button type="button" aria-label="Diminuir quantidade" disabled={item.quantidade <= 1}
-                      onClick={() => alterarQuantidade(item, item.quantidade - 1)} className="alvo-toque grid place-items-center rounded-full disabled:opacity-40">−</button>
-                    <output aria-live="polite" className="min-w-7 text-center text-sm tabular-nums">{item.quantidade}</output>
-                    <button type="button" aria-label="Aumentar quantidade" disabled={item.quantidade >= MAXIMO_POR_ITEM}
-                      onClick={() => alterarQuantidade(item, item.quantidade + 1)} className="alvo-toque grid place-items-center rounded-full disabled:opacity-40">+</button>
-                  </div>
+                  {item.unico ? (
+                    <p className="tecnica text-mineral-dim">VENDA ÚNICA · CÓDIGO, SITE E MARCA</p>
+                  ) : (
+                    <div role="group" aria-label={`Quantidade de ${item.nome}`} className="inline-flex items-center rounded-full border border-line-strong">
+                      <button type="button" aria-label="Diminuir quantidade" disabled={item.quantidade <= 1}
+                        onClick={() => alterarQuantidade(item, item.quantidade - 1)} className="alvo-toque grid place-items-center rounded-full disabled:opacity-40">−</button>
+                      <output aria-live="polite" className="min-w-7 text-center text-sm tabular-nums">{item.quantidade}</output>
+                      <button type="button" aria-label="Aumentar quantidade" disabled={item.quantidade >= MAXIMO_POR_ITEM}
+                        onClick={() => alterarQuantidade(item, item.quantidade + 1)} className="alvo-toque grid place-items-center rounded-full disabled:opacity-40">+</button>
+                    </div>
+                  )}
                   <button type="button" onClick={() => removerDaSacola(item)} className="alvo-toque px-2 text-sm text-mineral underline-offset-4 hover:text-paper hover:underline">
                     Remover
                   </button>

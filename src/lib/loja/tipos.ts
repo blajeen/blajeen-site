@@ -1,7 +1,8 @@
 import type { StatusEnvio } from '@/lib/admin/email';
 
 /**
- * Loja de exclusivos: bonecos 3D, camisetas, canecas e livros dos jogos do estúdio.
+ * Loja da Blajeen Labs: os sistemas vendidos inteiros (software) e os exclusivos dos jogos —
+ * bonecos 3D, camisetas, canecas e livros.
  *
  * Com o Asaas configurado, o pedido termina na página de pagamento dele (Pix, cartão ou boleto) e
  * o frete vem do Melhor Envio. Sem as chaves, a loja cai no pedido com contato: a pessoa deixa os
@@ -11,14 +12,25 @@ import type { StatusEnvio } from '@/lib/admin/email';
  * aplicativo (Google Play, App Store). Esta pasta é outra coisa.
  */
 
-export const CATEGORIAS = ['colecionaveis', 'vestuario', 'casa', 'livros'] as const;
+/** A ordem é a da vitrine: o software vem primeiro. */
+export const CATEGORIAS = ['software', 'colecionaveis', 'vestuario', 'casa', 'livros'] as const;
 export type Categoria = (typeof CATEGORIAS)[number];
 export const CATEGORIA_ROTULO: Record<Categoria, string> = {
+  software: 'Software',
   colecionaveis: 'Bonecos 3D',
   vestuario: 'Camisetas',
   casa: 'Canecas e copos',
   livros: 'Livros',
 };
+
+/**
+ * Software é venda única (pedido do titular em 05/10/2026): cada sistema é vendido inteiro, uma vez
+ * só — código, site e marca vão para quem compra. Por isso ele não tem quantidade, e quando sai de
+ * venda ele foi vendido, não "esgotou".
+ */
+export function vendaUnica(produto: Pick<Produto, 'categoria'>): boolean {
+  return produto.categoria === 'software';
+}
 
 export const DISPONIBILIDADES = ['EM_BREVE', 'DISPONIVEL', 'SOB_ENCOMENDA', 'PRE_VENDA', 'ESGOTADO'] as const;
 export type Disponibilidade = (typeof DISPONIBILIDADES)[number];
@@ -29,6 +41,11 @@ export const DISPONIBILIDADE_ROTULO: Record<Disponibilidade, string> = {
   PRE_VENDA: 'Pré-venda',
   ESGOTADO: 'Esgotado',
 };
+
+/** "Vendido" no software, que é venda única; nos demais produtos, o rótulo de sempre. */
+export function rotuloDaDisponibilidade(produto: Pick<Produto, 'categoria' | 'disponibilidade'>): string {
+  return vendaUnica(produto) && produto.disponibilidade === 'ESGOTADO' ? 'Vendido' : DISPONIBILIDADE_ROTULO[produto.disponibilidade];
+}
 
 export type StatusProduto = 'RASCUNHO' | 'PUBLICADO';
 

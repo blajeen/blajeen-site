@@ -5,23 +5,34 @@ import { useSearchParams } from 'next/navigation';
 
 const EMAIL_DESTINO = 'brg.ftw@gmail.com';
 
+/** Os sistemas à venda na loja têm o endereço da página deles como id (`?produto=barbelio`). */
 const produtos = {
-  barbearia: 'Barbelio',
-  'personal-studio': 'Studelio',
-  'salao-estetica': 'Beautelio',
-  ecommerce: 'Lojalio',
-  'clinica-medica': 'Doutelio',
-  foodelio: 'Foodelio',
-  pipelio: 'Pipelio — em breve',
-  'painel-administrativo': 'Painéis de gestão dos SaaS',
+  lojalio: 'Lojalio — software à venda',
+  foodelio: 'Foodelio — software à venda',
+  doutelio: 'Doutelio — software à venda',
+  beautelio: 'Beautelio — software à venda',
+  studelio: 'Studelio — software à venda',
+  barbelio: 'Barbelio — software à venda',
   'projeto-personalizado': 'Projeto personalizado',
   outro: 'Outro projeto',
 } as const;
 
+/** Links antigos, de quando os sistemas eram SaaS, levam ao sistema certo. */
+const apelidos: Record<string, ProdutoId> = {
+  barbearia: 'barbelio',
+  'personal-studio': 'studelio',
+  'salao-estetica': 'beautelio',
+  ecommerce: 'lojalio',
+  'clinica-medica': 'doutelio',
+};
+
 type ProdutoId = keyof typeof produtos;
 
+const proprio = (objeto: object, chave: string) => Object.prototype.hasOwnProperty.call(objeto, chave);
+
 function produtoValido(valor: string | null): ProdutoId {
-  return valor && valor in produtos ? (valor as ProdutoId) : 'outro';
+  if (valor && proprio(apelidos, valor)) return apelidos[valor]!;
+  return valor && proprio(produtos, valor) ? (valor as ProdutoId) : 'outro';
 }
 
 export function InterestForm() {

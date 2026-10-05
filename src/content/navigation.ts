@@ -3,14 +3,13 @@ import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { MenuId, NavLink } from './types';
 import { produtos } from './produtos';
-import { doutelio, espacelio } from './saas';
 
 /**
  * Barra de navegação do desktop.
  *
  * "Produtos" e "Jogos" não são links: abrem um submenu. Produtos reúne os programas pra baixar e
- * os sistemas SaaS, em duas colunas (pedido do titular: o SaaS deixou de ser um item próprio).
- * Os demais levam direto à sua rota.
+ * aponta o software à venda, que mora na loja (os SaaS viraram produtos da loja, pedido do titular
+ * em 05/10/2026). Os demais levam direto à sua rota.
  */
 export const barraDeNavegacao = [
   { rotulo: 'Crie seu projeto', tipo: 'link', href: ROTAS.crieSeuProjeto, destaque: 'servico' },
@@ -28,7 +27,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '00',
     rotulo: 'Início',
-    descricao: 'Visão geral do laboratório, do SaaS e dos projetos.',
+    descricao: 'Visão geral do laboratório e dos projetos.',
     href: ROTAS.home,
     icone: 'inicio',
   },
@@ -49,7 +48,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '03',
     rotulo: 'Produtos',
-    descricao: 'Programas pra baixar e usar sem conta, e sistemas SaaS para negócios.',
+    descricao: 'Programas pra baixar e usar sem conta, e o software à venda na loja.',
     href: ROTAS.produtos,
     icone: 'produtos',
     menu: 'produtos',
@@ -65,7 +64,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '05',
     rotulo: 'Loja',
-    descricao: 'Bonecos 3D, camisetas, canecas e o Livro de Morvelio.',
+    descricao: 'Software à venda, bonecos 3D, camisetas, canecas e o Livro de Morvelio.',
     href: ROTAS.loja,
     icone: 'loja',
   },
@@ -119,25 +118,19 @@ export const atalhosDeProduto = produtos.map((produto) => ({
   href: produto.rota,
 }));
 
-/** Os SaaS no menu: o Espacelio, que reúne os sistemas para negócios locais, e o Doutelio. */
-export const atalhosDeProjeto = [espacelio, doutelio()].map((produto) => ({
-  rotulo: produto.nome, estado: produto.estado, simbolo: produto.icone, href: produto.rota,
-}));
-
 /**
  * O que cada item com lista desdobra, no menu do desktop e na gaveta do celular.
  *
- * As listas são as mesmas das páginas de cada categoria. Produtos tem dois grupos, programas e
- * SaaS; `todos` só existe onde há uma página que reúne o grupo inteiro (os jogos não têm uma, e
- * apontar pro primeiro jogo repetiria o item que já está logo abaixo).
+ * As listas são as mesmas das páginas de cada categoria. `todos` só existe onde há uma página que
+ * reúne o grupo inteiro (os jogos não têm uma, e apontar pro primeiro jogo repetiria o item que já
+ * está logo abaixo). O software à venda entra em Produtos como atalho para a categoria dele na loja.
  */
 export const submenus: Record<MenuId, Submenu> = {
   produtos: {
     grupos: [
       { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
-      { titulo: 'SaaS', todos: { rotulo: 'Ver todos os sistemas', href: ROTAS.projetos }, itens: atalhosDeProjeto },
     ],
-    extras: [],
+    extras: [{ rotulo: 'Software à venda', descricao: 'Sistemas completos, com código, site e marca', href: `${ROTAS.loja}#software` }],
   },
   jogos: {
     grupos: [{ titulo: null, todos: null, itens: atalhosDeJogo }],
@@ -147,8 +140,7 @@ export const submenus: Record<MenuId, Submenu> = {
 
 export type AtalhoDeMenu =
   | (typeof atalhosDeJogo)[number]
-  | (typeof atalhosDeProduto)[number]
-  | (typeof atalhosDeProjeto)[number];
+  | (typeof atalhosDeProduto)[number];
 
 type Submenu = {
   readonly grupos: readonly {
@@ -181,7 +173,6 @@ export const rodape = {
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],
-  projetos: atalhosDeProjeto.map(({ rotulo, href }) => ({ rotulo, href })),
   produtos: atalhosDeProduto.map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },

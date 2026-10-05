@@ -27,13 +27,14 @@ export const experimentos = {
   titulo: 'Sete mundos. Sete perguntas diferentes.',
 } as const;
 
+/** Os sistemas que eram SaaS: agora software vendido inteiro, na loja. */
 export const produtosComerciais = {
   id: 'produtos',
-  indice: '06 / SAAS',
-  titulo: 'Sistemas próprios para rotinas reais.',
+  indice: '06 / SOFTWARE',
+  titulo: 'Sistemas prontos para virar o seu negócio.',
   texto:
-    'O Espacelio, para barbearias, estética, estúdios, restaurantes e lojas, e o Doutelio, para consultórios. Conheça os recursos, explore as demos e encontre o sistema para a sua operação.',
-  cta: { rotulo: 'EXPLORAR OS SAAS', href: ROTAS.projetos },
+    'Sistemas para consultórios, barbearias, estética, estúdios, restaurantes e lojas, vendidos inteiros: código, site e marca. Cada um é vendido uma vez só, e a demonstração está na página de cada um.',
+  cta: { rotulo: 'VER O SOFTWARE À VENDA', href: `${ROTAS.loja}#software` },
 } as const;
 
 export const proximo = {

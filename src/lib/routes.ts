@@ -13,7 +13,6 @@ export const ROTAS = {
   trabalhoDonaLia: '/trabalhos/dona-lia',
   trabalhoSpotHotel: '/trabalhos/spot-hotel',
   trabalhoAgroWeld: '/trabalhos/agro-weld',
-  projetos: '/projects',
   /**
    * Produtos: programa de computador que a pessoa baixa e roda na máquina dela.
    *
@@ -39,14 +38,11 @@ export const ROTAS = {
   produtoEditalio: '/produtos/editalio',
   produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
-  /**
-   * SaaS: o Espacelio reúne os sistemas para negócios locais (Barbelio, Beautelio, Studelio,
-   * Foodelio, Lojalio, o CRM Pipelio e os painéis), numa página só; o Doutelio segue separado.
-   * Os endereços antigos de cada sistema redirecionam para a seção dele no Espacelio
-   * (`next.config.ts`).
+  /*
+   * Os sistemas que eram SaaS (Doutelio, Beautelio, Barbelio, Studelio, Foodelio e Lojalio) viraram
+   * software à venda na loja, cada um em `/loja/<sistema>`. As páginas antigas, inclusive a do
+   * catálogo (`/projects`), redirecionam para lá (`next.config.ts`).
    */
-  espacelio: '/projects/espacelio',
-  clinicaMedica: '/projects/doutelio',
   projetoRevalio: '/projects/revalio',
   projetoDocalio: '/projects/docalio',
   projetoGramelio: '/projects/gramelio',
@@ -57,9 +53,10 @@ export const ROTAS = {
   projetoSocialio: '/projects/socialio',
   novidades: '/novidades',
   /**
-   * Loja de exclusivos (camisetas, copo, boneco, livro). Não confundir com `ROTAS_DE_LOJA`, que
-   * são as páginas exigidas pelas lojas de aplicativo. As páginas de cada produto vêm do painel e
-   * entram no sitemap à parte; a da sacola (`/loja/pedido`) fica fora, sem indexação.
+   * Loja: software vendido inteiro e os exclusivos dos jogos (camisetas, copo, boneco, livro). Não
+   * confundir com `ROTAS_DE_LOJA`, que são as páginas exigidas pelas lojas de aplicativo. As páginas
+   * de cada produto vêm do painel e entram no sitemap à parte; a da sacola (`/loja/pedido`) fica
+   * fora, sem indexação.
    */
   loja: '/loja',
   sobre: '/about',
@@ -170,8 +167,6 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.projetoRevalio ||
     rota === ROTAS.projetoDocalio ||
     rota === ROTAS.projetoGramelio ||
-    rota === ROTAS.espacelio ||
-    rota === ROTAS.clinicaMedica ||
     rota === ROTAS.projetoCatelio ||
     rota === ROTAS.projetoMorvelio ||
     rota === ROTAS.projetoMazelio ||

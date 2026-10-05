@@ -10,7 +10,6 @@ import { FooterGroup } from './FooterGroup';
 
 const grupos = [
   { titulo: 'Jogos', links: rodape.jogos },
-  { titulo: 'SaaS', links: rodape.projetos },
   { titulo: 'Estúdio', links: rodape.estudio },
   { titulo: 'Social', links: rodape.social },
   // "Excluir dados" é subgrupo de Legal: um destino por produto, sem repetir o nome do jogo.
@@ -33,7 +32,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-5">
+          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-4">
             {grupos.map((grupo) => (
               <FooterGroup key={grupo.titulo} title={grupo.titulo}>
                 <ul className="mt-2 flex flex-col gap-0.5">

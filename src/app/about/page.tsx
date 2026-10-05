@@ -80,7 +80,7 @@ export default function Page() {
             <span aria-hidden="true">→</span>
           </Link>
           <Link
-            href={ROTAS.projetos}
+            href={ROTAS.produtos}
             className="alvo-toque tecnica inline-flex items-center gap-3 rounded-full border border-line-strong px-5 text-paper transition-colors duration-150 hover:border-signal hover:text-signal"
           >
             Conhecer os produtos

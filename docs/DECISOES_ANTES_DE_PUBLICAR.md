@@ -42,6 +42,19 @@ A loja de exclusivos (`/loja`) nasceu com todos os produtos em “Em breve”. E
 - [ ] decidir retenção dos pedidos (`lojaRetencao`) e condições de troca, devolução, reembolso e entrega do e-book, mais o endereço do fornecedor exigido pelo Decreto 7.962/2013 (`lojaCondicoes`);
 - [ ] revisar as seções da loja na Política de Privacidade e nos Termos.
 
+Em 05/10/2026 os SaaS viraram **software à venda** na loja (Lojalio R$ 2.900, Foodelio R$ 2.500,
+Doutelio R$ 3.500, Beautelio R$ 2.600, Studelio R$ 2.200 e Barbelio R$ 1.800, preços sugeridos).
+Pendências próprias do software:
+
+- [ ] conferir os preços no painel;
+- [ ] decidir como o código, o site e a marca são entregues (repositório, publicação, contas de
+      serviços) e formalizar a venda num contrato de cessão — o painel já tem contratos;
+- [ ] decidir se o domínio `doutelio.com.br` vai junto na venda do Doutelio (a página não promete);
+- [ ] se algum sistema já tiver clientes ou dados de clientes (no Doutelio, dados de pacientes),
+      decidir o que acontece com eles antes de vender;
+- [ ] confirmar que a demonstração e o site de cada sistema continuam no ar: os endereços são os
+      conferidos em 02/09/2026 e não puderam ser abertos de novo nesta mudança.
+
 ## Revalio
 
 - [ ] comparar este pacote com `C:\dev\revalio\docs\publicacao`;

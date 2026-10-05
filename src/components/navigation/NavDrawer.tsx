@@ -156,7 +156,7 @@ function Indice({ aoFechar }: { aoFechar: () => void }) {
                     {submenu.grupos.map((grupo) => {
                       const linhas = itensDoGrupo(grupo);
                       if (!grupo.titulo) return linhas;
-                      // Grupos com título (Programas, SaaS) viram uma lista dentro da lista.
+                      // Grupos com título (Programas) viram uma lista dentro da lista.
                       const idTitulo = `${idLista}-${slugDoTitulo(grupo.titulo)}`;
                       return (
                         <li key={grupo.titulo} className={styles.grupo}>

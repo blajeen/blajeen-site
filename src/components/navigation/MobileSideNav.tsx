@@ -8,7 +8,6 @@ import { ProductIcon } from '@/components/projects/ProductIcon';
 import {
   atalhosDeJogo,
   atalhosDeProduto,
-  atalhosDeProjeto,
   navegacaoPrincipal,
 } from '@/content/navigation';
 import type { MenuId } from '@/content/types';
@@ -23,7 +22,6 @@ const rotasDeJogos = [
   ROTAS.projetoCatelio,
   ROTAS.projetoMorvelio,
 ];
-const rotasDeProdutos = [ROTAS.projetos, ROTAS.espacelio, ROTAS.clinicaMedica];
 
 /**
  * O que cada gaveta abre, e como ela se apresenta.
@@ -37,12 +35,6 @@ const GAVETAS = {
     resumo: 'Pra baixar e usar na sua máquina.',
     todos: { rotulo: 'Ver todos os produtos', href: ROTAS.produtos },
     itens: atalhosDeProduto,
-  },
-  projetos: {
-    titulo: 'SaaS',
-    resumo: 'Sistemas próprios adaptados a negócios reais.',
-    todos: { rotulo: 'Ver todos os sistemas', href: ROTAS.projetos },
-    itens: atalhosDeProjeto,
   },
   jogos: {
     titulo: 'Jogos',
@@ -58,12 +50,6 @@ function caminhoComecaCom(caminho: string, rota: string) {
 
 function itemAtivo(caminho: string, href: string) {
   if (href === ROTAS.home) return caminho === ROTAS.home;
-  if (href === ROTAS.projetos) {
-    return (
-      caminho === ROTAS.projetos ||
-      rotasDeProdutos.slice(1).some((rota) => caminhoComecaCom(caminho, rota))
-    );
-  }
   if (href === ROTAS.projetoRevalio) {
     return rotasDeJogos.some((rota) => caminhoComecaCom(caminho, rota));
   }

@@ -1,5 +1,17 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda pedida pelo titular — os SaaS viram software à venda na loja (05/10/2026)
+
+O titular decidiu vender os sistemas inteiros: Lojalio, Foodelio, Doutelio, Beautelio, Studelio e
+Barbelio entram na loja, numa categoria própria, **Software**, e a categoria SaaS sai do site. Cada
+sistema é vendido uma vez só, com o código-fonte, o site e a marca, que quem compra pode manter ou
+pedir para o estúdio trocar; a ideia é a pessoa começar o próprio negócio cuidando do SaaS. A
+página de cada um na loja mostra a demonstração, o que vem na compra, o que o sistema faz e as
+telas. O Espacelio e o CRM Pipelio nunca chegaram a existir e saíram junto. Isto substitui a emenda
+"SaaS: Espacelio e Doutelio" logo abaixo e, só para estes sistemas, a regra de que o estúdio não
+vende pelo site. Os endereços antigos redirecionam para a loja. Detalhes em
+`docs/loja/IMPLEMENTACAO.md` — Software.
+
 ## Emenda pedida pelo titular — menu do celular em sanfona (01/10/2026)
 
 O titular achou a navegação no celular difícil e pediu o menu no estilo dos estúdios de jogos
@@ -12,6 +24,8 @@ linha de §6 que pedia "índice, nome e uma descrição curta"; foco preso, `Esc
 foco e scroll lock continuam como em §6.
 
 ## Emenda pedida pelo titular — SaaS: Espacelio e Doutelio (01/10/2026)
+
+> Substituída em 05/10/2026: os sistemas viraram software à venda na loja (emenda no topo).
 
 Os SaaS passam a ser dois produtos: o Espacelio, que reúne os sistemas para negócios locais
 (antes Barbelio, Beautelio, Studelio, Foodelio, Lojalio, o CRM Pipelio e os painéis) numa página

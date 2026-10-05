@@ -3,7 +3,9 @@ import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { asaasConfigurado, statusDoEvento, tokenDoWebhookValido, vencimento } from './asaas';
 import { EXEMPLOS, JOGOS_DA_LOJA } from './exemplos';
-import { aceitaPedido, formatarPreco, lerPreco, mostraPreco, textoDoPrazoDeEncomenda, type Produto } from './tipos';
+import {
+  aceitaPedido, formatarPreco, lerPreco, mostraPreco, rotuloDaDisponibilidade, textoDoPrazoDeEncomenda, vendaUnica, type Produto,
+} from './tipos';
 import {
   calcularPedido, cpfCnpjValido, enviaSobEncomenda, parseConfiguracao, parsePedidoLoja, parseProduto, precisaEnvio, validarEndereco,
 } from './validacao';
@@ -84,6 +86,30 @@ describe('pedido', () => {
     expect(pedir(produto({ disponibilidade: 'ESGOTADO' }))).toThrow(/esgotado/);
     expect(pedir(produto({ status: 'RASCUNHO' }))).toThrow(/saiu da loja/);
     expect(pedir(produto(), 'gg')).toThrow(/não existe mais/);
+  });
+
+  it('vende o software uma vez só: sempre um, e recusa o que já foi vendido', () => {
+    const software = produto({
+      id: 's1', slug: 'barbelio', nome: 'Barbelio', categoria: 'software', rotuloOpcoes: '',
+      opcoes: [{ id: 'padrao', rotulo: 'Código, site e marca', precoCentavos: 180000, digital: true }],
+    });
+    const { itens, subtotalCentavos } = calcularPedido(
+      [{ produtoId: 's1', opcaoId: 'padrao', quantidade: 3 }, { produtoId: 's1', opcaoId: 'padrao', quantidade: 1 }],
+      [software],
+    );
+    expect(itens).toEqual([expect.objectContaining({ quantidade: 1, precoCentavos: 180000, digital: true })]);
+    expect(subtotalCentavos).toBe(180000);
+    expect(precisaEnvio(itens)).toBe(false);
+    expect(() => calcularPedido([{ produtoId: 's1', opcaoId: 'padrao', quantidade: 1 }], [{ ...software, disponibilidade: 'ESGOTADO' }]))
+      .toThrow(/Barbelio já foi vendido/);
+  });
+
+  it('chama de “Vendido” o software fora de venda, e de “Esgotado” o resto', () => {
+    expect(vendaUnica({ categoria: 'software' })).toBe(true);
+    expect(vendaUnica({ categoria: 'vestuario' })).toBe(false);
+    expect(rotuloDaDisponibilidade({ categoria: 'software', disponibilidade: 'ESGOTADO' })).toBe('Vendido');
+    expect(rotuloDaDisponibilidade({ categoria: 'software', disponibilidade: 'DISPONIVEL' })).toBe('Disponível');
+    expect(rotuloDaDisponibilidade({ categoria: 'vestuario', disponibilidade: 'ESGOTADO' })).toBe('Esgotado');
   });
 
   it('só pede endereço quando há algo para enviar', () => {

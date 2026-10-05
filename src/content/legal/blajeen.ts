@@ -28,7 +28,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Esta política descreve o site institucional da Blajeen Labs, o formulário “Crie seu projeto”, a loja de exclusivos, os contratos enviados por link, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
+            'Esta política descreve o site institucional da Blajeen Labs, o formulário “Crie seu projeto”, a loja (software e exclusivos), os contratos enviados por link, o portal usado para personalizar projetos adquiridos e as páginas de apoio dos produtos publicados ou em preparação. Ela não descreve o funcionamento dos aplicativos.',
         },
         {
           tipo: 'paragrafo',
@@ -155,12 +155,12 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Ao fazer um pedido na loja de exclusivos, você informa nome, e-mail e telefone e, para itens que precisam ser enviados, o endereço de entrega. Quando o pagamento é feito pelo site, também o CPF ou CNPJ, que a instituição de pagamento exige para emitir a cobrança.',
+            'Ao fazer um pedido na loja, você informa nome, e-mail e telefone e, para itens que precisam ser enviados, o endereço de entrega. Quando o pagamento é feito pelo site, também o CPF ou CNPJ, que a instituição de pagamento exige para emitir a cobrança.',
         },
         {
           tipo: 'paragrafo',
           texto:
-            'Esses dados ficam no painel interno da Blajeen Labs e são usados para cobrar, preparar, enviar e dar suporte ao pedido. Um aviso com o pedido pode ser enviado ao e-mail do estúdio por um provedor de envio de e-mails.',
+            'Esses dados ficam no painel interno da Blajeen Labs e são usados para cobrar, preparar, enviar e dar suporte ao pedido e, na compra de software, para combinar com você a entrega do código. Um aviso com o pedido pode ser enviado ao e-mail do estúdio por um provedor de envio de e-mails.',
         },
         {
           tipo: 'lista',
@@ -281,7 +281,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto, a loja de exclusivos e as páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio.',
+            'Estes termos valem para a navegação neste site: páginas institucionais, páginas de projeto, a loja (software e exclusivos) e as páginas de apoio de Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio.',
         },
         {
           tipo: 'paragrafo',
@@ -302,12 +302,12 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Fora da loja de exclusivos, nada neste site constitui oferta de venda, promessa de lançamento, data de disponibilidade ou garantia de resultado. Quando um produto tiver loja, preço ou data, isso será dito explicitamente na página do produto.',
+            'Fora da loja, nada neste site constitui oferta de venda, promessa de lançamento, data de disponibilidade ou garantia de resultado. Quando um produto tiver loja, preço ou data, isso será dito explicitamente na página do produto.',
         },
         {
           tipo: 'destaque',
           texto:
-            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio, Morvelio, Mazelio e Socialio são jogos; os produtos SaaS são bases de software adaptáveis e não substituem orientação profissional específica de cada operação.',
+            'Os produtos do estúdio incluem educação, entretenimento e ferramentas para negócios. Revalio e Docalio tratam de temas médicos, e nenhum deles presta atendimento, faz diagnóstico, prescreve tratamento ou substitui formação, supervisão profissional ou protocolos oficiais. Gramelio, Catelio, Morvelio, Mazelio e Socialio são jogos; os sistemas vendidos na loja são bases de software e não substituem orientação profissional específica de cada operação.',
         },
       ],
     },
@@ -318,7 +318,7 @@ export const termosEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio, Socialio e das linhas SaaS, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros.',
+            'A marca Blajeen Labs, os nomes Revalio, Docalio, Gramelio, Catelio, Morvelio, Mazelio e Socialio, as artes-chave, os personagens, a identidade visual e os textos autorais deste site são protegidos e pertencem ao titular do projeto, ressalvados materiais e licenças de terceiros. O código, o site e a marca de cada sistema vendido na loja pertencem ao titular até a venda e passam a quem compra, como descrito na seção sobre a loja.',
         },
         {
           tipo: 'paragrafo',
@@ -348,12 +348,12 @@ export const termosEstudio: LegalDocument = {
     },
     {
       id: 'loja',
-      titulo: 'Compras na loja de exclusivos',
+      titulo: 'Compras na loja',
       blocos: [
         {
           tipo: 'paragrafo',
           texto:
-            'Preço, opções e disponibilidade de cada exclusivo estão na página do produto. Itens marcados como “Em breve” ainda não estão à venda. As imagens dos exclusivos são ilustrativas: cor, acabamento e proporções do produto final podem ter pequenas diferenças.',
+            'Preço, opções e disponibilidade de cada produto estão na página dele. Itens marcados como “Em breve” ainda não estão à venda. As imagens dos exclusivos são ilustrativas: cor, acabamento e proporções do produto final podem ter pequenas diferenças.',
         },
         {
           tipo: 'paragrafo',
@@ -371,6 +371,11 @@ export const termosEstudio: LegalDocument = {
             'Quando o site não calcula o frete ou não abre o pagamento, o pedido chega ao estúdio como solicitação: frete e pagamento são combinados com você antes de qualquer cobrança.',
         },
         {
+          tipo: 'paragrafo',
+          texto:
+            'Cada sistema da categoria Software é vendido inteiro e uma vez só: o código-fonte completo, o site e a marca, com o nome e a identidade visual, que quem compra pode manter ou pedir para o estúdio trocar. Confirmado o pagamento, o sistema sai de venda e não é vendido de novo, e o estúdio combina com quem comprou a entrega do código. As demonstrações usam dados fictícios.',
+        },
+        {
           tipo: 'destaque',
           texto:
             'Compras feitas fora de loja física podem ser desistidas em até 7 dias a contar do recebimento, como garante o artigo 49 do Código de Defesa do Consumidor. Para desistir, trocar ou relatar um problema com o pedido, fale com o estúdio pelo contato do site.',
@@ -379,7 +384,7 @@ export const termosEstudio: LegalDocument = {
           tipo: 'pendente',
           bloqueador: 'lojaCondicoes',
           explicacao:
-            'Ainda precisam ser definidas as regras de troca por defeito, o prazo de reembolso, quem paga o frete de devolução, como a versão digital do livro é entregue e o endereço do fornecedor exigido para lojas virtuais. Até lá, vale o Código de Defesa do Consumidor e o contato direto com o estúdio.',
+            'Ainda precisam ser definidas as regras de troca por defeito, o prazo de reembolso, quem paga o frete de devolução, como a versão digital do livro é entregue, como o software vendido é entregue e transferido e o endereço do fornecedor exigido para lojas virtuais. Até lá, vale o Código de Defesa do Consumidor e o contato direto com o estúdio.',
         },
       ],
     },

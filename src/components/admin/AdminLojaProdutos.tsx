@@ -219,6 +219,13 @@ export function AdminLojaProdutos() {
                 </select>
               </label>
               <label className={rotulo}>Jogo ou linha<input value={form.colecao} onChange={(e) => muda('colecao', e.target.value)} placeholder="Ex.: Morvelio" className={campoAdmin} /></label>
+              {form.categoria === 'software' ? (
+                <p className="text-sm leading-relaxed text-mineral sm:col-span-2">
+                  Software é venda única: não tem quantidade, e quando o pagamento é confirmado (pelo Asaas ou marcando o pedido
+                  como pago) ele vira “Esgotado” sozinho e aparece como “Vendido”. A demonstração, os recursos e as legendas das
+                  telas vêm da ficha do sistema no código, pelo endereço da página: não troque o endereço dos sistemas que já têm ficha.
+                </p>
+              ) : null}
               <label className={`${rotulo} sm:col-span-2`}>Resumo (aparece no cartão)<input value={form.resumo} onChange={(e) => muda('resumo', e.target.value)} maxLength={240} className={campoAdmin} /></label>
               <label className={`${rotulo} sm:col-span-2`}>Descrição (uma linha em branco separa os parágrafos)
                 <textarea value={form.descricao} onChange={(e) => muda('descricao', e.target.value)} rows={6} className={`${campoAdmin} p-3 leading-relaxed`} />

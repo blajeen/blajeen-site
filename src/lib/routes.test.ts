@@ -25,8 +25,9 @@ describe('rotaAtiva', () => {
 
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
-    // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio.
-    expect(TODAS_AS_ROTAS).toHaveLength(66);
+    // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
+    // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja.
+    expect(TODAS_AS_ROTAS).toHaveLength(63);
     expect(TODAS_AS_ROTAS).toContain('/loja');
     expect(TODAS_AS_ROTAS).toContain('/morvelio/wiki');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
@@ -44,11 +45,11 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dona-lia');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/spot-hotel');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/agro-weld');
-    expect(TODAS_AS_ROTAS).toContain('/projects');
-    // Os SaaS para negócios locais viraram módulos do Espacelio; o Doutelio segue separado.
-    expect(TODAS_AS_ROTAS).toContain('/projects/espacelio');
-    expect(TODAS_AS_ROTAS).toContain('/projects/doutelio');
-    expect(TODAS_AS_ROTAS).not.toContain('/projects/barbelio');
+    // Os SaaS viraram software à venda na loja: nem o catálogo nem a página de cada sistema ficam.
+    expect(TODAS_AS_ROTAS).toContain('/loja');
+    for (const antiga of ['/projects', '/projects/espacelio', '/projects/doutelio', '/projects/barbelio']) {
+      expect(TODAS_AS_ROTAS).not.toContain(antiga);
+    }
     expect(TODAS_AS_ROTAS).toContain('/novidades');
     expect(TODAS_AS_ROTAS).toContain('/projects/gramelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/catelio');
@@ -119,8 +120,7 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.projetoMorvelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMazelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoSocialio)).toBe(0.9);
-    expect(prioridadeSitemap(ROTAS.espacelio)).toBe(0.9);
-    expect(prioridadeSitemap(ROTAS.clinicaMedica)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.loja)).toBe(0.8);
     expect(prioridadeSitemap(ROTAS.revalioExclusao)).toBe(0.5);
   });
 });

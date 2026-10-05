@@ -1,6 +1,6 @@
 import type { ProjectId } from './types';
 import { ROTAS } from '@/lib/routes';
-import { rotaDoModulo } from './saas';
+import { rotaDoProduto } from '@/lib/loja/tipos';
 
 /**
  * Novidades do laboratório.
@@ -34,7 +34,7 @@ export const novidades: readonly Novidade[] = [
       'Catelio, Docalio, Gramelio e Mazelio já têm páginas públicas na App Store. Cada jogo explora uma ideia diferente: cidade e descoberta, triagem sob pressão, planejamento no pasto e labirintos de defesa.',
       'As páginas de cada jogo agora mostram os links diretos para baixar no iPhone e iPad. As versões para Google Play estão em preparação; ainda não anunciamos uma data.',
     ],
-    href: ROTAS.projetos,
+    href: ROTAS.projetoCatelio,
     cta: 'Explorar os jogos',
   },
   {
@@ -93,8 +93,8 @@ export const novidades: readonly Novidade[] = [
       'Cada produto ganhou uma apresentação atualizada na Blajeen Labs, com três imagens selecionadas, recursos por segmento e links separados para o site do SaaS e a demonstração. As demos usam dados e operações fictícios.',
       'Os painéis de gestão fazem parte da experiência de cada SaaS. O Pipelio, voltado ao CRM comercial, continua em desenvolvimento e ainda não está disponível para uso.',
     ],
-    href: ROTAS.projetos,
-    cta: 'Conhecer os SaaS disponíveis',
+    href: `${ROTAS.loja}#software`,
+    cta: 'Ver os sistemas à venda na loja',
   },
   {
     id: 'clinica-medica-em-desenvolvimento',
@@ -105,8 +105,8 @@ export const novidades: readonly Novidade[] = [
       'A nova direção de produto é pensada principalmente para médicos que atendem de forma independente e precisam unir presença profissional, agendamento, agenda e organização dos pacientes.',
       'Prontuário, histórico clínico e modelos para receitas, encaminhamentos, atestados e solicitações de exames fazem parte do escopo inicial. O produto ainda não possui demonstração pública, integrações ou data de lançamento anunciada.',
     ],
-    href: ROTAS.clinicaMedica,
-    cta: 'Conhecer a Clínica Médica',
+    href: rotaDoProduto('doutelio'),
+    cta: 'Ver o Doutelio na loja',
   },
   {
     id: 'studio-beauty-em-demonstracao',
@@ -117,7 +117,7 @@ export const novidades: readonly Novidade[] = [
       'A plataforma para estúdios de beleza já pode ser explorada. A experiência pública reúne serviços, profissionais, portfólio, pacotes e um agendamento capaz de combinar atendimentos e organizar eventos.',
       'Cliente, profissional e gestão possuem áreas próprias. Marca, conteúdo, módulos, serviços, equipe e regras de agenda são adaptados à identidade e à rotina de cada operação.',
     ],
-    href: rotaDoModulo('estetica'),
+    href: rotaDoProduto('beautelio'),
     cta: 'Explorar o Studio Beauty',
   },
   {
@@ -129,7 +129,7 @@ export const novidades: readonly Novidade[] = [
       'A nova demonstração reúne vitrine, categorias, busca com sugestões, páginas de produto, carrinho e um checkout assistido que leva o pedido ao atendimento pelo WhatsApp.',
       'A operação também possui um painel para produtos, ofertas, estoque, categorias, catálogo em PDF e dados públicos da loja. Marca, catálogo, conteúdo e jornada de fechamento são adaptados a cada contratante.',
     ],
-    href: rotaDoModulo('lojas'),
+    href: rotaDoProduto('lojalio'),
     cta: 'Explorar o e-commerce',
   },
   {
@@ -141,7 +141,7 @@ export const novidades: readonly Novidade[] = [
       'A nova linha de produtos da Blajeen Labs começa com uma plataforma web para barbearias. Ela reúne site institucional, agendamento online sem criação de conta e uma área de gestão para acompanhar equipe, agenda e operação.',
       'A demonstração apresenta a base funcionando por dentro. Em cada implantação, identidade, conteúdo, serviços, horários e regras são adaptados às necessidades da barbearia.',
     ],
-    href: rotaDoModulo('barbearias'),
+    href: rotaDoProduto('barbelio'),
     cta: 'Conhecer a plataforma',
   },
   {
@@ -153,7 +153,7 @@ export const novidades: readonly Novidade[] = [
       'O Personal ganhou uma página completa e uma demonstração navegável. A plataforma reúne agenda, treinos, evolução e gestão em experiências próprias para aluno, profissional e gestor.',
       'O produto parte de uma base funcional e é adaptado às necessidades, à identidade e às regras de personal trainers e estúdios de treinamento.',
     ],
-    href: rotaDoModulo('estudios'),
+    href: rotaDoProduto('studelio'),
     cta: 'Explorar o Personal',
   },
   {

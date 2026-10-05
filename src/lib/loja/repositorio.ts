@@ -2,29 +2,42 @@ import { randomUUID } from 'node:crypto';
 import type { StatusEnvio } from '@/lib/admin/email';
 import { arquivoLocal, bancoConfigurado, consultar, exigirBancoEmProducao, iso } from '@/lib/admin/banco';
 import { removeStoredFile, storeFile, type ValidatedUpload } from '@/lib/onboarding/storage';
-import { EXEMPLOS } from './exemplos';
-import type {
-  ConfiguracaoLoja, Endereco, Envio, FreteEscolhido, ImagemProduto, ItemPedido, Pagamento, PedidoLoja, PedidoLojaStatus, Produto,
+import { EXEMPLOS, SOFTWARE_DA_LOJA } from './exemplos';
+import {
+  vendaUnica,
+  type ConfiguracaoLoja, type Endereco, type Envio, type FreteEscolhido, type ImagemProduto, type ItemPedido, type Pagamento,
+  type PedidoLoja, type PedidoLojaStatus, type Produto,
 } from './tipos';
 import type { ContatoDoPedido, EntradaProduto } from './validacao';
 
 /**
  * Produtos, pedidos e configuração da loja. Neon em produção; `.data/loja.json` no desenvolvimento.
  *
- * Os produtos de exemplo entram uma vez só, marcados em `admin_settings`: apagado no painel, um
- * exemplo não volta.
+ * Os produtos de exemplo entram em lotes, cada lote uma vez só, marcado em `admin_settings`:
+ * apagado no painel, um exemplo não volta.
  */
 
 type EstadoLocal = {
   produtos: Produto[];
   pedidos: PedidoLoja[];
+  /** O primeiro lote (os exclusivos) já entrou. */
   exemplos: boolean;
+  /** Os lotes que vieram depois do primeiro e já entraram. */
+  lotes?: string[];
   eventos: string[];
   configuracao: ConfiguracaoLoja | null;
 };
 const local = arquivoLocal<EstadoLocal>('loja.json', () => ({ produtos: [], pedidos: [], exemplos: false, eventos: [], configuracao: null }));
 
 const MARCA_DOS_EXEMPLOS = 'loja:exemplos';
+/**
+ * Os exclusivos com que a loja nasceu e, depois, o software à venda. Um lote novo entra também no
+ * banco que já tinha os anteriores: cada um tem a sua marca.
+ */
+const LOTES = [
+  { marca: MARCA_DOS_EXEMPLOS, produtos: EXEMPLOS },
+  { marca: 'loja:software', produtos: SOFTWARE_DA_LOJA },
+] as const;
 const CHAVE_DA_CONFIGURACAO = 'loja:configuracao';
 /** Pacote de reserva para produtos criados antes do campo existir. */
 const PACOTE_PADRAO: Envio = { pesoKg: 0.5, alturaCm: 10, larguraCm: 15, comprimentoCm: 20 };
@@ -101,27 +114,46 @@ async function inserirProduto(p: Produto): Promise<Produto | null> {
   return rows[0] ? produtoDaLinha(rows[0]) : null;
 }
 
-/** Semeia os exemplos na primeira vez em que a loja é lida. */
+/**
+ * Semeia os lotes que ainda não entraram, na primeira vez em que a loja é lida. Um produto com o
+ * mesmo endereço de um que já existe fica de fora.
+ */
 async function garantirExemplos(): Promise<void> {
   if (exemplosGarantidos) return;
   if (!bancoConfigurado()) {
     await local.alterar((estado) => {
-      if (estado.exemplos) return;
-      estado.produtos.push(...EXEMPLOS.map(({ imagens, ...resto }) => novoProduto(resto, imagens)));
+      const feitos = new Set(estado.lotes ?? []);
+      if (estado.exemplos) feitos.add(MARCA_DOS_EXEMPLOS);
+      for (const lote of LOTES) {
+        if (feitos.has(lote.marca)) continue;
+        const usados = new Set(estado.produtos.map((p) => p.slug));
+        estado.produtos.push(...lote.produtos.filter((p) => !usados.has(p.slug)).map(({ imagens, ...resto }) => novoProduto(resto, imagens)));
+        feitos.add(lote.marca);
+      }
       estado.exemplos = true;
+      estado.lotes = [...feitos].filter((marca) => marca !== MARCA_DOS_EXEMPLOS);
     });
     exemplosGarantidos = true;
     return;
   }
-  const marca = await consultar<Record<string, unknown>>('SELECT key FROM admin_settings WHERE key=$1', [MARCA_DOS_EXEMPLOS]);
-  if (!marca.length) {
-    for (const { imagens, ...resto } of EXEMPLOS) await inserirProduto(novoProduto(resto, imagens));
-    await consultar(
-      `INSERT INTO admin_settings (key, value) VALUES ($1, $2::jsonb) ON CONFLICT (key) DO NOTHING`,
-      [MARCA_DOS_EXEMPLOS, JSON.stringify({ em: new Date().toISOString() })],
-    );
+  let todos = true;
+  for (const lote of LOTES) {
+    const marca = await consultar<Record<string, unknown>>('SELECT key FROM admin_settings WHERE key=$1', [lote.marca]);
+    if (marca.length) continue;
+    try {
+      for (const { imagens, ...resto } of lote.produtos) await inserirProduto(novoProduto(resto, imagens));
+      await consultar(
+        `INSERT INTO admin_settings (key, value) VALUES ($1, $2::jsonb) ON CONFLICT (key) DO NOTHING`,
+        [lote.marca, JSON.stringify({ em: new Date().toISOString() })],
+      );
+    } catch (erro) {
+      // Um lote que não entrou (a migration da categoria ainda não rodou, por exemplo) não derruba
+      // a vitrine: ela mostra o que já existe, e a próxima leitura tenta de novo.
+      todos = false;
+      console.error(`Loja: o lote ${lote.marca} não entrou.`, erro);
+    }
   }
-  exemplosGarantidos = true;
+  exemplosGarantidos = todos;
 }
 
 // ------------------------------------------------------------------ produtos
@@ -205,6 +237,40 @@ export async function excluirProduto(id: string): Promise<Produto> {
   // As fotos enviadas saem junto; os desenhos dos exemplos são arquivos do site e ficam.
   await Promise.all(produto.imagens.filter((i) => i.chave).map((i) => removeStoredFile(i.chave!).catch(() => undefined)));
   return produto;
+}
+
+/**
+ * Software vendido sai de venda: vira "Esgotado", que a loja mostra como "Vendido". Só mexe no que é
+ * software, e repetir não muda nada (o webhook pode chegar mais de uma vez). Devolve o software
+ * entre os produtos informados, já fora de venda.
+ */
+export async function marcarSoftwareVendido(produtoIds: string[]): Promise<Produto[]> {
+  exigirBancoEmProducao();
+  const ids = [...new Set(produtoIds)];
+  if (!bancoConfigurado()) {
+    return local.alterar((estado) => {
+      const vendidos: Produto[] = [];
+      estado.produtos = estado.produtos.map((p) => {
+        if (!ids.includes(p.id) || !vendaUnica(p)) return p;
+        const vendido: Produto = p.disponibilidade === 'ESGOTADO'
+          ? p : { ...p, disponibilidade: 'ESGOTADO', atualizadoEm: new Date().toISOString() };
+        vendidos.push(vendido);
+        return vendido;
+      });
+      return vendidos;
+    });
+  }
+  const vendidos: Produto[] = [];
+  for (const id of ids) {
+    const rows = await consultar<Record<string, unknown>>(
+      `UPDATE store_products SET availability='ESGOTADO',
+         updated_at=CASE WHEN availability='ESGOTADO' THEN updated_at ELSE now() END
+       WHERE id=$1 AND category='software' RETURNING *`,
+      [id],
+    );
+    if (rows[0]) vendidos.push(produtoDaLinha(rows[0]));
+  }
+  return vendidos;
 }
 
 async function gravarImagens(id: string, imagens: ImagemProduto[]): Promise<Produto> {

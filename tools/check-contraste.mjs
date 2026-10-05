@@ -18,9 +18,9 @@ const BASE = process.env.BASE_URL ?? 'http://localhost:3000';
 
 const ROTAS = [
   '/',
-  '/projects',
-  '/projects/espacelio',
-  '/projects/doutelio',
+  '/loja',
+  '/loja/barbelio',
+  '/loja/doutelio',
   '/projects/revalio',
   '/projects/docalio',
   '/novidades',

@@ -6,7 +6,7 @@ export const EVENTO_DE_COMANDO = 'torrelio:comando';
 
 /**
  * A ponte entre a demonstração da torre e a do apartamento, que ficam em seções diferentes da
- * página. Quando a pessoa pede "Ver o apartamento por dentro" no cartão de uma unidade, a torre
+ * página. Quando a pessoa pede "Ver por dentro" no cartão de uma unidade, a torre
  * escreve aqui qual é a unidade e a hora do sol; o apartamento lê e se ajusta (planta espelhada no
  * final 03, o sol entrando pela janela na mesma hora). Só memória: nada vai para o armazenamento.
  */

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { fluxoDePagamento, formatarPontosBase, percentuaisDaObra, percentualDaObra, situacaoDoPavimento } from '@/lib/torrelio/calculos';
 import { CANTO_DO_FINAL, ETAPAS, NOMES_DOS_GRUPOS, TIPOLOGIAS, type CondicaoPagamento, type Obra } from '@/lib/torrelio/dados';
 import { resumoDaVista } from '@/lib/torrelio/entorno';
@@ -49,8 +49,14 @@ export const CartaoDaUnidade = memo(function CartaoDaUnidade({
   const canto = unidade.tipologia === 'cobertura' ? (unidade.final === '01' ? 'frente' : 'fundos') : `canto ${CANTO_DO_FINAL[unidade.final]}`;
   const tituloId = `cartao-${unidade.id}`;
 
+  // Outra unidade, cartão do começo: as ações ficam no topo e têm de aparecer sem rolar.
+  const cartaoRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (cartaoRef.current) cartaoRef.current.scrollTop = 0;
+  }, [unidade.id]);
+
   return (
-    <article className={styles.cartao} aria-labelledby={tituloId} data-status={situacao.status}>
+    <article ref={cartaoRef} className={styles.cartao} aria-labelledby={tituloId} data-status={situacao.status}>
       <header className={styles.cartaoTopo}>
         <p className="tecnica text-mineral">
           {unidade.tipologia === 'cobertura' ? 'COBERTURA DUPLEX' : 'APARTAMENTO'} · FINAL {unidade.final}
@@ -66,6 +72,37 @@ export const CartaoDaUnidade = memo(function CartaoDaUnidade({
           {tipologia.nome} · {canto}, com varanda
         </p>
       </header>
+
+      {/* As ações vêm logo depois do número: no fim do cartão elas ficavam escondidas pela rolagem. */}
+      <div className={styles.acoes}>
+        <button type="button" className={styles.botaoPrincipal} onClick={aoVerVista}>
+          Ver a vista desta unidade <span aria-hidden="true">↗</span>
+        </button>
+        <div className={styles.acoesEmPar}>
+          <button type="button" className={styles.botao} onClick={aoVerApartamento}>
+            Ver por dentro <span aria-hidden="true">↓</span>
+          </button>
+          <button type="button" className={styles.botao} onClick={aoCompartilhar}>
+            Compartilhar
+          </button>
+        </div>
+        <div className={styles.navegarDisponiveis} role="group" aria-label="Navegar pelas disponíveis">
+          <button type="button" className={styles.botaoPequeno} onClick={() => aoNavegar(-1)} disabled={semOutras} aria-label="Disponível anterior">
+            <span aria-hidden="true">‹</span> Anterior
+          </button>
+          <span className={styles.rotuloDaNavegacao} aria-hidden="true">
+            Disponíveis
+          </span>
+          <button type="button" className={styles.botaoPequeno} onClick={() => aoNavegar(1)} disabled={semOutras} aria-label="Próxima disponível">
+            Próxima <span aria-hidden="true">›</span>
+          </button>
+        </div>
+        {compartilhado ? (
+          <p className={styles.notaMiuda} role="status">
+            {compartilhado}
+          </p>
+        ) : null}
+      </div>
 
       <dl className={styles.fichas}>
         <div>
@@ -167,31 +204,6 @@ export const CartaoDaUnidade = memo(function CartaoDaUnidade({
         <p className="tecnica text-mineral">SOL DIRETO · SIMULAÇÃO APROXIMADA</p>
         <FaixaDoSol fachadas={unidade.fachadas} estacao={estacao} hora={hora} />
       </section>
-
-      <div className={styles.acoes}>
-        <button type="button" className={styles.botaoPrincipal} onClick={aoVerVista}>
-          Ver a vista desta unidade <span aria-hidden="true">↗</span>
-        </button>
-        <button type="button" className={styles.botao} onClick={aoVerApartamento}>
-          Ver o apartamento por dentro
-        </button>
-        <button type="button" className={styles.botao} onClick={aoCompartilhar}>
-          Compartilhar esta unidade
-        </button>
-        {compartilhado ? (
-          <p className={styles.notaMiuda} role="status">
-            {compartilhado}
-          </p>
-        ) : null}
-        <div className={styles.navegarDisponiveis} role="group" aria-label="Navegar pelas disponíveis">
-          <button type="button" className={styles.botao} onClick={() => aoNavegar(-1)} disabled={semOutras}>
-            <span aria-hidden="true">‹</span> Disponível anterior
-          </button>
-          <button type="button" className={styles.botao} onClick={() => aoNavegar(1)} disabled={semOutras}>
-            Próxima disponível <span aria-hidden="true">›</span>
-          </button>
-        </div>
-      </div>
 
       <p className={styles.rodapeDoCartao}>Valores, condição e unidade fictícios · tabela {tabela}</p>
     </article>

@@ -38,6 +38,13 @@
   background: rgba(9, 10, 8, 0.72);
 }
 
+/* Sobre a maquete, as janelas acesas ficam atrás dos botões: fundo mais fechado e desfoque. */
+.palco .segmento,
+.palco .segmentoSolto {
+  background: rgba(9, 10, 8, 0.9);
+  backdrop-filter: blur(10px);
+}
+
 .abas button,
 .segmento button,
 .segmentoSolto {
@@ -213,6 +220,12 @@
   opacity: 1;
 }
 
+.palco[data-vista='sim'] .marcaDagua,
+.palco[data-vista='sim'] .bussola {
+  top: auto;
+  bottom: 0.75rem;
+}
+
 .agulha {
   display: grid;
   justify-items: center;
@@ -326,7 +339,7 @@
 
 .faixaDaEscolha {
   position: absolute;
-  top: 2.4rem;
+  bottom: 4.4rem;
   left: 50%;
   z-index: 4;
   display: inline-flex;
@@ -1025,8 +1038,8 @@ td[aria-selected='true'] .celula {
 
 .faixaDaVista {
   position: absolute;
+  top: 0.75rem;
   right: calc(var(--livre-dir) + 0.75rem);
-  bottom: 0.75rem;
   left: 0.75rem;
   z-index: 4;
   display: grid;
@@ -1085,8 +1098,8 @@ td[aria-selected='true'] .celula {
 
 @media (max-width: 767px) {
   .faixaDaVista {
+    top: 0.5rem;
     right: 0.5rem;
-    bottom: 0.5rem;
     left: 0.5rem;
     max-height: 62%;
     padding: 0.8rem;

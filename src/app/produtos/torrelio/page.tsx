@@ -7,7 +7,7 @@ import { VerNaDemonstracao } from '@/components/torrelio/VerNaDemonstracao';
 import {
   entregas, ficticio, letraMiudaDasVantagens, linkDoProjeto, materiais, notaDeOndeFica, notaDosMateriais, ondeFica, passos, vantagens,
 } from '@/content/torrelio';
-import { metadadosDaRota } from '@/lib/metadata';
+import { metadadosDaRota, OG } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
@@ -15,6 +15,8 @@ export const metadata: Metadata = metadadosDaRota({
   descricao:
     'Demonstração do que o estúdio constrói sob medida para incorporadoras e hotéis: um prédio fictício em 3D, no navegador, com cada unidade ligada à tabela, a vista de cada andar e um painel de controle aberto para teste.',
   rota: ROTAS.produtoTorrelio,
+  imagem: OG.torrelio,
+  imagemAlt: 'Maquete 3D do Residencial Vértice, prédio fictício, à noite: as janelas acesas são unidades vendidas.',
 });
 
 const linkSutil =

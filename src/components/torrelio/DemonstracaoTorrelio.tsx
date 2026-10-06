@@ -3,7 +3,7 @@
 import { Activity, useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from 'react';
 import { useMotion } from '@/components/motion/MotionProvider';
 import type { Obra } from '@/lib/torrelio/dados';
-import { tabelaVigente, type AcaoTorrelio } from '@/lib/torrelio/estado';
+import { NOMES_DO_STATUS, tabelaVigente, type AcaoTorrelio } from '@/lib/torrelio/estado';
 import { formatarCentavos, formatarCota, formatarPercentual } from '@/lib/torrelio/formatar';
 import { adicionarDias, hojeLocal } from '@/lib/torrelio/hotel';
 import { consultaDoComando, hrefDoComando, lerLink, type Comando } from '@/lib/torrelio/link';
@@ -15,6 +15,7 @@ import type { Modo } from '@/lib/torrelio/tipos';
 import type { EstadoVisualTorre } from './3d/contrato';
 import { Abas } from './Abas';
 import { BarraDoPalco } from './BarraDoPalco';
+import { BarraDaEscolha } from './cliente/BarraDaEscolha';
 import { CartaoDaUnidade } from './cliente/CartaoDaUnidade';
 import { detalheDaUnidade, FaixaDaVista } from './cliente/FaixaDaVista';
 import { FaixaDaEscolha } from './cliente/FaixaDaEscolha';
@@ -23,7 +24,7 @@ import { CartaoDoQuarto } from './hotel/CartaoDoQuarto';
 import { EscolhaDoQuarto } from './hotel/EscolhaDoQuarto';
 import { PainelDoHotel } from './hotel/PainelDoHotel';
 import {
-  ehDeDia, fachadaDaVista, interfaceInicial, NOME_DA_CATEGORIA, periodoPadrao, quartoPorId, reduzirInterface, unidadePorId, type Aba,
+  ehDeDia, fachadaDaVista, interfaceInicial, NOME_DA_CATEGORIA, periodoPadrao, PRESETS_DE_HORA, presetDaHora, quartoPorId, reduzirInterface, unidadePorId, type Aba,
 } from './interface';
 import { obterLoja, useTorrelio } from './loja';
 import { PainelDeControle } from './painel/PainelDeControle';
@@ -237,14 +238,32 @@ export function DemonstracaoTorrelio() {
     [ui.modo, escolherUnidade, escolherQuarto],
   );
 
+  // A demonstração abre à noite (as janelas acesas são as vendidas), mas à noite a paisagem some
+  // no escuro. Quem pede a vista pela interface a vê no fim de tarde; ao voltar, o prédio reacende,
+  // se a pessoa não tiver mudado a hora na vista. Um link com hora continua valendo como veio.
+  const horaAntesDaVista = useRef<number | null>(null);
+
   const abrirVista = useCallback(() => {
     const alvo = ui.modo === 'incorporadora' ? unidade : quarto;
     if (!alvo) return;
     controle.current?.carregar();
+    horaAntesDaVista.current = presetDaHora(ui.hora) === 'noite' ? ui.hora : null;
+    if (horaAntesDaVista.current !== null) mudar({ tipo: 'hora', hora: HORA_DA_VISTA });
     mudar({ tipo: 'vista', vista: { id: alvo.id, fachada: fachadaDaVista(alvo) } });
-  }, [ui.modo, unidade, quarto]);
+  }, [ui.modo, ui.hora, unidade, quarto]);
 
-  const fecharVista = useCallback(() => mudar({ tipo: 'vista', vista: null }), []);
+  const fecharVista = useCallback(() => {
+    const antes = horaAntesDaVista.current;
+    horaAntesDaVista.current = null;
+    if (antes !== null && ui.hora === HORA_DA_VISTA) mudar({ tipo: 'hora', hora: antes });
+    mudar({ tipo: 'vista', vista: null });
+  }, [ui.hora]);
+
+  // A vista também fecha por outros caminhos (trocar de modo, um link da página): a hora guardada
+  // vale só para o "Voltar" da vista que a interface abriu.
+  useEffect(() => {
+    if (!ui.vista) horaAntesDaVista.current = null;
+  }, [ui.vista]);
 
   const compartilhar = useCallback(async () => {
     const endereco = `${window.location.origin}${hrefDoComando({ unidade: unidade.id })}`;
@@ -281,6 +300,15 @@ export function DemonstracaoTorrelio() {
       ? detalheDaUnidade(estado.unidades[vistaAlvo.id]!.status, estado.unidades[vistaAlvo.id]!.precoCentavos)
       : `${NOME_DA_CATEGORIA[(vistaAlvo as (typeof QUARTOS)[number]).categoria]} · ${formatarCentavos(estado.hotel?.diarias[(vistaAlvo as (typeof QUARTOS)[number]).categoria] ?? 0)} a diária`
     : '';
+
+  // A barra do celular: o que está escolhido, com a mesma marca do espelho.
+  const situacaoDaUnidade = estado.unidades[unidade.id]!;
+  const barraDaEscolha =
+    ui.modo === 'incorporadora'
+      ? { titulo: unidade.id, linha: `${NOMES_DO_STATUS[situacaoDaUnidade.status].singular} · ${formatarCentavos(situacaoDaUnidade.precoCentavos)}`, status: situacaoDaUnidade.status }
+      : quarto
+        ? { titulo: quarto.id, linha: `${NOME_DA_CATEGORIA[quarto.categoria]} · ${quarto.pavimento}º`, status: filtro && quartoServe(estado, quarto, filtro) ? 'disponivel' : 'vendida' }
+        : null;
 
   const com3d = situacao === 'pronto';
   const tabela = tabelaVigente(estado).numero;
@@ -334,9 +362,11 @@ export function DemonstracaoTorrelio() {
               titulo={ui.modo === 'incorporadora' ? `Vista do ${vistaAlvo.id}` : `Vista do quarto ${vistaAlvo.id}`}
               fachada={ui.vista.fachada}
               detalhe={detalheDaVista}
-              acima={acima ? { rotulo: `Subir: ${rotuloDoAndar(acima.id)}` } : null}
-              abaixo={abaixo ? { rotulo: `Descer: ${rotuloDoAndar(abaixo.id)}` } : null}
+              acima={acima ? { rotulo: `Subir: ${rotuloDoAndar(acima.id)}`, curto: acima.id } : null}
+              abaixo={abaixo ? { rotulo: `Descer: ${rotuloDoAndar(abaixo.id)}`, curto: abaixo.id } : null}
               com3d={com3d}
+              hora={ui.hora}
+              aoHora={(hora) => mudar({ tipo: 'hora', hora })}
               aoTrocarFachada={(fachada) => mudar({ tipo: 'vista', vista: { id: vistaAlvo.id, fachada } })}
               aoSubir={() => acima && irPara(acima.id)}
               aoDescer={() => abaixo && irPara(abaixo.id)}
@@ -500,12 +530,27 @@ export function DemonstracaoTorrelio() {
             : 'Este navegador não deixa guardar: as mudanças valem até você sair da página. Nada é enviado ao estúdio.'}
         </p>
       </div>
+      {barraDaEscolha ? (
+        <BarraDaEscolha
+          raizRef={raiz}
+          ativa={!largo && telaCheia === 'nao' && !ui.vista}
+          chave={`${ui.aba}|${ui.modo}|${ui.unidade}|${ui.quarto ?? ''}|${ui.subAbaDoPainel}`}
+          titulo={barraDaEscolha.titulo}
+          linha={barraDaEscolha.linha}
+          status={barraDaEscolha.status}
+          rotuloDaFicha={ui.aba === 'cliente' ? 'Detalhes' : 'Editar'}
+          movimento={movimento}
+        />
+      ) : null}
       <p className="sr-only" aria-live="polite">
         {anuncio}
       </p>
     </div>
   );
 }
+
+/** A hora em que a vista abre quando a demonstração está à noite: o fim de tarde. */
+const HORA_DA_VISTA = PRESETS_DE_HORA.find((p) => p.id === 'fim-de-tarde')!.hora;
 
 function assinarLargura(aoMudar: () => void) {
   const consulta = window.matchMedia(CONSULTA_LARGA);

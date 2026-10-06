@@ -668,6 +668,10 @@ export async function criarCenaTorre(host: HTMLElement, opcoes: OpcoesInternas):
       }
       fachada.halos.visible = ajustes.halos;
       vidro.uniforms.uInteriores.value = ajustes.interiores ? 1 : 0;
+      // Mudar o tamanho do canvas apaga o que estava desenhado, e a descida acontece no fim de uma
+      // animação, quando o laço já ia parar: sem um quadro novo, a cena ficava em branco (no
+      // celular lento, a vista aberta pelo cartão aparecia preta até o próximo toque).
+      pedirQuadro();
     }
 
     // ------------------------------------------------------------- tamanho

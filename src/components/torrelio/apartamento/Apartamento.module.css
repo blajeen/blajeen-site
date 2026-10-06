@@ -7,6 +7,8 @@
   --raio-palco: 28px;
   display: grid;
   gap: 1.25rem;
+  /* Abaixo do cabeçalho fixo, quando o "Ver por dentro" do cartão rola até aqui. */
+  scroll-margin-top: 5rem;
 }
 
 /* ------------------------------------------------------------------ contexto */
@@ -733,4 +735,12 @@
 
 .nota + .nota {
   margin-top: 0.75rem;
+}
+
+/* No celular, a lista de cômodos logo acima já traz cada área: o quadro fica só com os totais. */
+@media (max-width: 767px) {
+  .tabela thead,
+  .tabela tbody {
+    display: none;
+  }
 }

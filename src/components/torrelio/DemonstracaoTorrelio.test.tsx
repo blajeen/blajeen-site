@@ -129,6 +129,15 @@ describe('a demonstração do Torrelio', () => {
     expect(screen.getByRole('heading', { name: '1803' })).toBeInTheDocument();
   });
 
+  it('no celular, a barra da escolha acompanha a unidade tocada no espelho', () => {
+    montar();
+    const barra = () => screen.getByRole('group', { name: 'Escolha atual', hidden: true });
+    expect(barra()).toHaveTextContent('1803');
+    expect(barra()).toHaveTextContent('disponível · R$ 785.619,74');
+    fireEvent.click(screen.getByRole('button', { name: /^Apartamento 1902,/ }));
+    expect(barra()).toHaveTextContent('1902');
+  });
+
   it('abre a vista da unidade, põe o foco em Voltar e sai com Esc', async () => {
     montar();
     await abrir3d();
@@ -140,6 +149,18 @@ describe('a demonstração do Torrelio', () => {
     await waitFor(() => expect(cena.chamadas.some((c) => c.metodo === 'mudarAndarDaVista')).toBe(true));
     fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(cena.chamadas.some((c) => c.metodo === 'voltarAoPredio')).toBe(true));
+  });
+
+  it('abre a vista no fim de tarde se a maquete está à noite, e o prédio reacende ao voltar', async () => {
+    montar();
+    await abrir3d();
+    expect(cena.ultimoEstado!.hora).toBe(20.5);
+    fireEvent.click(screen.getByRole('button', { name: /Ver a vista desta unidade/ }));
+    await waitFor(() => expect(cena.ultimoEstado!.hora).toBe(17.5));
+    const hora = screen.getByRole('group', { name: 'Hora do dia' });
+    expect(within(hora).getByRole('button', { name: 'Fim de tarde' })).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(screen.getByRole('button', { name: /Voltar para o prédio/ }));
+    await waitFor(() => expect(cena.ultimoEstado!.hora).toBe(20.5));
   });
 
   it('respeita o movimento reduzido do sistema', async () => {

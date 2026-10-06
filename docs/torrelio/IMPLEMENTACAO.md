@@ -80,6 +80,32 @@ Tudo está em `src/lib/torrelio/` e é puro (sem React, sem three), com testes:
 - Movimento reduzido do sistema e o botão MOVIMENTO chegam ao 3D como `movimento: false`.
 - O hotel não pede nome, e-mail, telefone nem documento (há teste).
 
+## Celular (revisão de 06/10/2026)
+
+Abaixo de 1024 px, o palco fica em cima, o espelho no meio e o cartão embaixo. A revisão no celular
+achou três quebras de fluxo, agora corrigidas:
+
+- **"Ver a vista" fora da tela.** O toque no cartão abria a vista no palco, uma tela acima, e nada
+  parecia acontecer. Agora o palco rola até a tela quando a vista abre longe dele, ou com o topo
+  sob o cabeçalho fixo (`PalcoTorre`).
+- **A vista coberta.** No celular, o painel da vista cobria dois terços da paisagem. Abaixo de
+  1024 px ele se divide numa barra fina em cima (Voltar e título) e nos controles embaixo, e o palco
+  cresce na vista. No celular, o elevador mostra só o número da unidade; o nome acessível continua
+  completo.
+- **A escolha sem retorno.** Tocar numa unidade do espelho ou num quarto da grade mudava o cartão e
+  a torre, ambos fora da tela. A `BarraDaEscolha` fica presa ao pé da tela enquanto nem o palco nem a
+  ficha estão à vista. Ela mostra o que está escolhido; o resumo leva à ficha (ou ao editor, no
+  painel) e "Maquete" leva ao palco.
+- A vista ganhou o controle de hora. Quem abre a vista pela interface com a maquete à noite a vê no
+  fim de tarde; ao voltar, o prédio reacende, se a hora não mudou. Um link com hora vale como veio.
+- No celular, nenhum rótulo da demonstração fica abaixo de 11 px. Os botões só de símbolo e a faixa
+  da escolha têm 44 px de toque.
+- A fileira de controles da maquete esmaece à direita para indicar que desliza.
+- "Ver por dentro" cai na planta, não no título da seção. No celular, o quadro de áreas mostra só os
+  totais, porque a lista de cômodos logo acima já traz cada área.
+- 3D: quando a qualidade desce no fim de uma animação (aparelho lento), a cena pede um quadro novo.
+  Antes, o canvas redimensionado ficava em branco até o próximo toque.
+
 ## Privacidade
 
 A demonstração não envia nada a servidor e não coleta dado pessoal. A seção "Preferências guardadas
@@ -115,7 +141,8 @@ revisão do titular (`docs/DECISOES_ANTES_DE_PUBLICAR.md`, seção Torrelio).
   indexável.
 - Lighthouse, celular: Performance 69. Neste ambiente, sem GPU, o tubo verde (conduto) é desenhado
   por software e gasta ~7 s em toda página: `/about` faz 45 e `/produtos/vistalio`, 47, nas mesmas
-  condições. O titular pediu para tirar o conduto depois desta publicação.
+  condições. O titular pediu para tirar o conduto depois desta publicação. Sem o conduto e com a
+  revisão do celular: Performance 87, Acessibilidade 100, Boas práticas 96.
 - Contraste: pior caso 7,23:1. Conduto: 0 invasões em `/produtos/torrelio` e `/produtos`.
 
 ## Pendências

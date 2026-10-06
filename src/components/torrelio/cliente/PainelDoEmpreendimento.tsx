@@ -8,6 +8,8 @@ import styles from '../Torrelio.module.css';
 import { EspelhoPorPavimento } from './EspelhoPorPavimento';
 
 type Props = {
+  /** No computador o espelho abre aberto; no celular, fechado, para o cartão ficar logo abaixo. */
+  espelhoAberto: boolean;
   resumo: ResumoComercial;
   linhas: readonly LinhaDoEspelho[];
   tabela: number;
@@ -40,7 +42,7 @@ export function Legenda() {
 }
 
 /** O painel da esquerda na visão do cliente: o empreendimento, quanto já vendeu e o espelho. */
-export const PainelDoEmpreendimento = memo(function PainelDoEmpreendimento({ resumo, linhas, tabela, selecionada, aoEscolher, aoDestacar }: Props) {
+export const PainelDoEmpreendimento = memo(function PainelDoEmpreendimento({ espelhoAberto, resumo, linhas, tabela, selecionada, aoEscolher, aoDestacar }: Props) {
   const [soDisponiveis, setSoDisponiveis] = useState(false);
   return (
     <section className={styles.painelEsquerdo} aria-labelledby="torrelio-empreendimento">
@@ -65,7 +67,7 @@ export const PainelDoEmpreendimento = memo(function PainelDoEmpreendimento({ res
         </p>
       </div>
       <Legenda />
-      <details className={styles.espelhoRecolhivel} open>
+      <details className={styles.espelhoRecolhivel} open={espelhoAberto}>
         <summary>
           <span>Espelho por pavimento</span>
           <span className="tecnica text-mineral">74 UNIDADES</span>

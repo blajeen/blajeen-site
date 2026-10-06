@@ -57,6 +57,23 @@ Pendências próprias do software:
 - [ ] confirmar que a demonstração e o site de cada sistema continuam no ar: os endereços são os
       conferidos em 02/09/2026 e não puderam ser abertos de novo nesta mudança.
 
+## Torrelio
+
+A demonstração sob medida para incorporadoras e hotéis (`/produtos/torrelio`, pedido de 06/10/2026)
+usa só dados fictícios e não coleta dado pessoal. Decidido pelo titular: nome Torrelio; hotel como
+modo interativo; paisagem de litoral (mar e morros); "Residencial Vértice, em Porto Lume"; citar o
+Spot Hotel e Pousada e a Pousada Dona Lia nas vantagens de hotel, dizendo que eles não usam o 3D; o
+projeto real entrega entorno a partir de mapas, planta 3D por tipologia (opcional), painel com login
+e importação de planilha; a página pode virar uma página do site da própria empresa, e o painel, uma
+aba do painel que ela já usa. Pendências:
+
+- [ ] revisar o parágrafo novo da seção "Preferências guardadas no seu navegador" da Política de
+      Privacidade, que passa a citar o que a demonstração guarda no navegador;
+- [ ] aprovar a prancha da torre 3D (dia, fim de tarde e noite, e as vistas de vários andares);
+- [ ] decidir se o Torrelio entra na home e se ganha uma novidade em `/novidades` no dia da publicação;
+- [ ] confirmar o botão de compartilhar com `navigator.share` e cópia do link (o WhatsApp entra pelo
+      menu de compartilhar do próprio aparelho).
+
 ## Revalio
 
 - [ ] comparar este pacote com `C:\dev\revalio\docs\publicacao`;

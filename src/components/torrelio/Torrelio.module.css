@@ -324,6 +324,40 @@
   text-align: center;
 }
 
+.faixaDaEscolha {
+  position: absolute;
+  top: 2.4rem;
+  left: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: calc(100% - 1.5rem);
+  transform: translateX(-50%);
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.86);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.faixaDaEscolha strong {
+  font-weight: 600;
+}
+
+.faixaDaEscolha span {
+  margin-left: 0.35rem;
+  color: var(--color-signal);
+}
+
+@media (min-width: 1024px) {
+  .faixaDaEscolha {
+    display: none;
+  }
+}
+
 /* ---------------------------------------------------------------- barra do 3D */
 
 .barra3d {
@@ -548,6 +582,17 @@
   display: none;
 }
 
+.espelhoRecolhivel summary::after {
+  content: '+';
+  margin-left: 0.6rem;
+  font-family: var(--font-mono);
+  color: var(--color-signal);
+}
+
+.espelhoRecolhivel[open] summary::after {
+  content: '−';
+}
+
 .filtro {
   display: flex;
   align-items: center;
@@ -650,6 +695,7 @@ td[aria-selected='true'] .celula {
   display: grid;
   align-content: start;
   gap: 1.1rem;
+  scroll-margin-top: 5rem;
 }
 
 .cartaoTopo {
@@ -666,6 +712,7 @@ td[aria-selected='true'] .celula {
 }
 
 .cartaoNumero h3 {
+  scroll-margin-top: 6rem;
   font-size: clamp(2.6rem, 4.2vw, 3.4rem);
   font-weight: 500;
   line-height: 0.92;

@@ -17,6 +17,7 @@ import { Abas } from './Abas';
 import { BarraDoPalco } from './BarraDoPalco';
 import { CartaoDaUnidade } from './cliente/CartaoDaUnidade';
 import { detalheDaUnidade, FaixaDaVista } from './cliente/FaixaDaVista';
+import { FaixaDaEscolha } from './cliente/FaixaDaEscolha';
 import { Legenda, PainelDoEmpreendimento } from './cliente/PainelDoEmpreendimento';
 import { CartaoDoQuarto } from './hotel/CartaoDoQuarto';
 import { EscolhaDoQuarto } from './hotel/EscolhaDoQuarto';
@@ -270,6 +271,7 @@ export function DemonstracaoTorrelio() {
           aoMudarCamera={() => {}}
           aoMudarSituacao={setSituacao}
         >
+          {!ui.vista && ui.aba === 'cliente' ? <FaixaDaEscolha modo={ui.modo} unidade={unidade} quarto={quarto} estado={estado} /> : null}
           {ui.vista && vistaAlvo ? (
             <FaixaDaVista
               alvo={vistaAlvo}
@@ -313,6 +315,7 @@ export function DemonstracaoTorrelio() {
             {ui.modo === 'incorporadora' ? (
               <>
                 <PainelDoEmpreendimento
+                  espelhoAberto={largo}
                   resumo={resumo}
                   linhas={linhas}
                   tabela={tabela}

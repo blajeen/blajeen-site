@@ -30,6 +30,8 @@ const ROTAS = [
   '/revalio/delete-account',
   '/docalio/support',
   '/projects/gramelio',
+  '/produtos',
+  '/produtos/torrelio',
 ];
 
 /** Luminância relativa de um canal sRGB de 0 a 255. */

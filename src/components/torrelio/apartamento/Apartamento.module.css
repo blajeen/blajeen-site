@@ -1,0 +1,736 @@
+/*
+ * O apartamento por dentro (Torrelio): palco, planta técnica, maquete e quadro de áreas.
+ * Bordas de 1 px, superfícies profundas, verde ácido só como sinal (seleção e foco).
+ */
+
+.demo {
+  --raio-palco: 28px;
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* ------------------------------------------------------------------ contexto */
+
+.contexto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.contextoTexto {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+.contextoTexto span {
+  color: var(--color-mineral);
+}
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-mineral);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-strong);
+  text-underline-offset: 0.3em;
+}
+
+.voltar:hover {
+  color: var(--color-paper);
+  text-decoration-color: var(--color-signal);
+}
+
+.avisoTipologia {
+  max-width: 44rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-line-strong);
+  border-left-color: var(--color-glow);
+  border-radius: 14px;
+  background: var(--color-surface);
+  color: var(--color-paper);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* ----------------------------------------------------------------- grade */
+
+.grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .grade {
+    grid-template-columns: minmax(0, 1fr) 19.5rem;
+    align-items: start;
+  }
+}
+
+/* ----------------------------------------------------------------- palco */
+
+.palco {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--raio-palco);
+  background: radial-gradient(120% 90% at 50% 0%, #141712 0%, #0a0b09 70%);
+}
+
+@media (min-width: 768px) {
+  .palco {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.camada {
+  position: absolute;
+  inset: 0;
+  transition: opacity 500ms var(--ease-lab);
+}
+
+.camada[data-visivel='nao'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.host {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.host canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
+
+/* A planta em SVG fica numa caixa com a proporção do desenho, centrada no palco. */
+.caixaDaPlanta {
+  position: absolute;
+  inset: 3.4rem 1rem 3.4rem;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.folhaDaPlanta {
+  position: relative;
+  width: min(100cqw, calc(100cqh * var(--proporcao)));
+  aspect-ratio: var(--proporcao);
+}
+
+.svgDaPlanta {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svgDaPlanta path {
+  vector-effect: non-scaling-stroke;
+}
+
+.contorno {
+  fill: none;
+  stroke: rgba(231, 231, 223, 0.18);
+  stroke-width: 1;
+}
+
+.piso {
+  fill: #131611;
+  stroke: none;
+  cursor: pointer;
+  transition: fill 160ms var(--ease-lab);
+}
+
+.piso[data-comodo='varanda'] {
+  fill: #11140f;
+}
+
+.piso[data-estado='destaque'],
+.piso[data-estado='selecionado'] {
+  fill: color-mix(in srgb, var(--color-signal) 12%, #131611);
+}
+
+.textura {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.ladrilho {
+  fill: none;
+  stroke: rgba(231, 231, 223, 0.07);
+  stroke-width: 1;
+}
+
+.shaft {
+  fill: rgba(231, 231, 223, 0.05);
+  stroke: rgba(231, 231, 223, 0.22);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.moveis path {
+  fill: none;
+  stroke: rgba(165, 173, 161, 0.55);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.moveis .tapete {
+  stroke-dasharray: 3 3;
+  stroke: rgba(165, 173, 161, 0.3);
+}
+
+.poche {
+  fill: #dcdcd3;
+  pointer-events: none;
+}
+
+.peitoril {
+  fill: #0c0d0b;
+  stroke: rgba(231, 231, 223, 0.55);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.vidro {
+  fill: none;
+  stroke: rgba(230, 255, 154, 0.75);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.verga {
+  fill: none;
+  stroke: rgba(231, 231, 223, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  pointer-events: none;
+}
+
+.folha {
+  fill: none;
+  stroke: rgba(231, 231, 223, 0.7);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.arco {
+  fill: none;
+  stroke: rgba(231, 231, 223, 0.32);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.guardaCorpo {
+  fill: none;
+  stroke: rgba(230, 255, 154, 0.6);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.contornoDoFoco {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.cota {
+  fill: none;
+  stroke: rgba(165, 173, 161, 0.6);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------- textos por cima */
+
+.rotulos {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.rotulo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.rotulo[hidden] {
+  display: none;
+}
+
+.rotuloNome {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+.rotuloArea {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-mineral);
+}
+
+.rotulo[data-estado='selecionado'] .rotuloNome,
+.rotulo[data-estado='destaque'] .rotuloNome {
+  color: var(--color-signal);
+}
+
+/* Celular: só o número do cômodo, que a lista abaixo nomeia. */
+.rotuloNumero {
+  display: none;
+  min-width: 1.5rem;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.82);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--color-paper);
+}
+
+.rotulo[data-estado='selecionado'] .rotuloNumero {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+
+@media (max-width: 639px) {
+  .rotuloNome,
+  .rotuloArea {
+    display: none;
+  }
+
+  .rotuloNumero {
+    display: block;
+  }
+}
+
+/* Na planta 3D o piso é claro: o texto vira tinta, como numa planta impressa. */
+.rotulos[data-camada='3d'][data-modo='planta'] .rotuloNome {
+  color: var(--color-ink);
+}
+
+.rotulos[data-camada='3d'][data-modo='planta'] .rotuloArea {
+  color: var(--color-steel);
+}
+
+.rotulos[data-camada='3d'][data-modo='planta'] .rotulo[data-estado] {
+  padding: 0.3rem 0.55rem;
+  border-radius: 10px;
+  background: rgba(9, 10, 8, 0.86);
+}
+
+.rotulos[data-camada='3d'][data-modo='planta'] .rotulo[data-estado] .rotuloArea {
+  color: var(--color-mineral);
+}
+
+/* Na maquete, nomes só do cômodo em foco, com fundo para ler sobre as paredes. */
+.rotulos[data-modo='maquete'] .rotulo {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 10px;
+  background: rgba(9, 10, 8, 0.84);
+}
+
+.textoDaCota {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--color-mineral);
+  font-variant-numeric: tabular-nums;
+}
+
+.textoDaCota[data-vertical='sim'] {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.textoDaCota[hidden] {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .textoDaCota[data-nivel='1'] {
+    display: none;
+  }
+}
+
+.norte {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.7);
+  pointer-events: none;
+}
+
+.agulha {
+  display: grid;
+  justify-items: center;
+  gap: 0.05rem;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  color: var(--color-paper);
+}
+
+.agulha::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-right: 4px solid transparent;
+  border-bottom: 9px solid var(--color-glow);
+  border-left: 4px solid transparent;
+}
+
+.marcaDagua {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 4;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.62);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.24em;
+  color: rgba(231, 231, 223, 0.45);
+  pointer-events: none;
+}
+
+.abrir {
+  position: absolute;
+  right: 50%;
+  bottom: 1rem;
+  z-index: 5;
+  transform: translateX(50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 1px solid rgba(201, 255, 61, 0.55);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.86);
+  color: var(--color-signal);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.abrir:hover {
+  border-color: var(--color-signal);
+}
+
+.situacao {
+  position: absolute;
+  top: 3.4rem;
+  left: 50%;
+  z-index: 5;
+  max-width: min(30rem, calc(100% - 2rem));
+  transform: translateX(-50%);
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 14px;
+  background: rgba(9, 10, 8, 0.88);
+  color: var(--color-paper);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.legenda {
+  position: absolute;
+  top: 2.75rem;
+  left: 0.9rem;
+  z-index: 4;
+  max-width: calc(100% - 5rem);
+  padding: 0.3rem 0.6rem;
+  border-radius: 10px;
+  background: rgba(9, 10, 8, 0.62);
+  font-size: 0.8125rem;
+  color: var(--color-mineral);
+  pointer-events: none;
+}
+
+.legenda strong {
+  font-weight: 500;
+  color: var(--color-paper);
+}
+
+
+/* -------------------------------------------------------------- controles */
+
+.lateral {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+}
+
+.grupo {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.rotuloDoGrupo {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.segmentos {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-line);
+}
+
+.segmento {
+  min-height: 44px;
+  padding: 0 0.4rem;
+  background: var(--color-ink);
+  color: var(--color-mineral);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  transition: color 160ms var(--ease-lab), background-color 160ms var(--ease-lab);
+}
+
+.segmento:hover {
+  color: var(--color-paper);
+  background: var(--color-surface);
+}
+
+.segmento[aria-pressed='true'] {
+  background: var(--color-raised);
+  color: var(--color-paper);
+  box-shadow: inset 0 -1px 0 var(--color-signal);
+}
+
+.segmento:focus-visible {
+  outline-offset: -3px;
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+  color: var(--color-paper);
+  font-size: 0.875rem;
+  transition: border-color 160ms var(--ease-lab), background-color 160ms var(--ease-lab);
+}
+
+.botao:hover {
+  border-color: rgba(231, 231, 223, 0.32);
+  background: rgba(231, 231, 223, 0.04);
+}
+
+.linhaDeControles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.sol {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-mineral);
+}
+
+/* ----------------------------------------------------------------- lista */
+
+.lista {
+  display: grid;
+  border-top: 1px solid var(--color-line);
+}
+
+.itemDaLista {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0.5rem 0 0.25rem;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-paper);
+  font-size: 0.9375rem;
+  text-align: left;
+  transition: background-color 160ms var(--ease-lab);
+}
+
+.itemDaLista:hover {
+  background: rgba(231, 231, 223, 0.03);
+}
+
+.itemDaLista[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--color-signal) 7%, transparent);
+}
+
+.itemDaLista:focus-visible {
+  outline-offset: -2px;
+}
+
+.numero {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--color-mineral-dim);
+}
+
+.itemDaLista[aria-pressed='true'] .numero {
+  color: var(--color-signal);
+}
+
+.areaDoItem {
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-mineral);
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+}
+
+/* ---------------------------------------------------------- quadro de áreas */
+
+.rodape {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .rodape {
+    grid-template-columns: minmax(0, 1fr) 19.5rem;
+    align-items: start;
+  }
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.tabela caption {
+  padding-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--color-mineral-dim);
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid var(--color-line);
+  font-weight: 400;
+  text-align: left;
+}
+
+.tabela thead th {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-mineral);
+}
+
+.tabela td:last-child,
+.tabela th:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tabela tbody td:last-child {
+  color: var(--color-mineral);
+}
+
+.tabela tbody tr[data-selecionado='sim'] th {
+  color: var(--color-signal);
+}
+
+.tabela tfoot th,
+.tabela tfoot td {
+  border-bottom: 0;
+  border-top: 1px solid var(--color-line-strong);
+  color: var(--color-paper);
+}
+
+.tabela tfoot tr + tr th,
+.tabela tfoot tr + tr td {
+  border-top: 1px solid var(--color-line);
+}
+
+.nota {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-mineral);
+}
+
+.nota + .nota {
+  margin-top: 0.75rem;
+}

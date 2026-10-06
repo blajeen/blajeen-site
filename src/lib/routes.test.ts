@@ -26,8 +26,9 @@ describe('rotaAtiva', () => {
 describe('rotas públicas', () => {
   it('cobre as rotas exigidas pelo plano mestre, mais Novidades e o terceiro projeto', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
-    // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja.
-    expect(TODAS_AS_ROTAS).toHaveLength(63);
+    // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja, e com a
+    // demonstração do Torrelio.
+    expect(TODAS_AS_ROTAS).toHaveLength(64);
     expect(TODAS_AS_ROTAS).toContain('/loja');
     expect(TODAS_AS_ROTAS).toContain('/morvelio/wiki');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
@@ -38,6 +39,7 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/clearlio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/notalio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/produtos/planilha-financeira');
+    expect(TODAS_AS_ROTAS).toContain('/produtos/torrelio');
     expect(TODAS_AS_ROTAS).toContain('/crie-seu-projeto');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos');
     expect(TODAS_AS_ROTAS).toContain('/trabalhos/dom-guima');

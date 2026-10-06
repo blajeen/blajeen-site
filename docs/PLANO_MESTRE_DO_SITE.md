@@ -1,5 +1,15 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda pedida pelo titular — sem o conduto de energia (06/10/2026)
+
+O titular pediu para tirar o tubo verde (o conduto de energia) do site, logo depois da publicação do
+Torrelio. A medição que levou ao pedido: num celular simulado sem GPU, o conduto gastava cerca de 7 s
+de processamento em toda página (`/about` e `/produtos/vistalio` faziam 45 e 47 de desempenho no
+Lighthouse; o Torrelio, 69). O componente, o QA (`npm run qa:conduto`) e as marcas
+`data-conduto-*` saíram; o resto do layout continua igual. Isto substitui as emendas "conduto de
+energia" (28/09/2026) e "contorno do desafio do Morvelio", que ficam abaixo como histórico, e a linha
+do conduto na tabela de movimento. O registro técnico continua em `docs/conduto/IMPLEMENTACAO.md`.
+
 ## Emenda pedida pelo titular — Torrelio, demonstração sob medida (06/10/2026)
 
 O titular pediu, em Produtos, uma página para mostrar a incorporadoras e hotéis o que o estúdio
@@ -426,7 +436,7 @@ No mobile:
 | Projetos | scanline única no foco/hover | sem loop permanente |
 | Cursor | halo ambiental | ocultar em touch/reduced motion |
 | Parallax | somente mídia de projeto | deslocamento máximo 2% |
-| Conduto de energia (todas as páginas públicas) | líquido enche até 70% da tela e avança com a rolagem; travessias acompanham a rolagem | sem animação própria em reduced motion e com MOVIMENTO desligado (o nível só segue a rolagem e cada travessia enche de uma vez); descansa após 5 s; sem overshoot |
+| ~~Conduto de energia~~ (removido em 06/10/2026, a pedido do titular) | líquido enche até 70% da tela e avança com a rolagem; travessias acompanham a rolagem | sem animação própria em reduced motion e com MOVIMENTO desligado (o nível só segue a rolagem e cada travessia enche de uma vez); descansa após 5 s; sem overshoot |
 | Links | sublinhado/sinal e foco claro | feedback em <= 150 ms |
 
 Não usar smooth-scroll de terceiros, WebGL sem função narrativa, vídeo de fundo obrigatório,

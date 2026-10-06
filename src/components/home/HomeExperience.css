@@ -779,8 +779,7 @@
   align-items: center;
   gap: 32px;
 }
-/* O brilho do painel mora numa camada abaixo do conduto de energia (que fica em z-index -1): o tubo
-   que chega ao botão passa por cima do fundo e por baixo do texto, sem um corte na borda. */
+/* O brilho do painel mora numa camada abaixo do texto, sem um corte na borda. */
 .hx-final::before {
   content: "";
   position: absolute;
@@ -790,8 +789,8 @@
   background: radial-gradient(ellipse at 80% 20%, #27351b, transparent 70%);
 }
 /* Até 1320 px o painel encostava nas bordas da tela, e até ~1435 px guardava menos margem que as
-   outras seções. Agora ele respeita a mesma margem, e o conduto de energia passa por fora dele. O
-   botão não encolhe: é o texto ao lado que cede quando o painel estreita. */
+   outras seções. Agora ele respeita a mesma margem. O botão não encolhe: é o texto ao lado que cede
+   quando o painel estreita. */
 @media (min-width: 851px) {
   .hx-final {
     width: min(1320px, calc(100% - 2 * clamp(24px, 4vw, 64px)));

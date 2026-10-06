@@ -1,5 +1,10 @@
 # Blajeen Labs: conduto de energia
 
+> **Removido em 06/10/2026, a pedido do titular**, logo depois da publicação do Torrelio: num
+> celular sem GPU, o conduto custava cerca de 7 s de processamento em toda página. O código saiu do
+> site (`src/components/conduto/`, `tools/check-conduto.mjs` e as marcas `data-conduto-*`); este
+> documento fica como registro do que foi feito e de como funcionava.
+
 ## Pedido
 
 O titular pediu um elemento de design avançado que chamasse atenção: uma corrente de energia, um líquido verde num tubo de vidro percorrendo o site, talvez em 3D. Depois da primeira prévia, pediu a aparência mais realista. Em 29/09/2026 aprovou, pediu a publicação (a versão da home foi ao ar no PR #17) e pediu o conduto em todas as páginas. No mesmo dia, pediu que o líquido encha só uns 70% da tela e avance com a rolagem, também no computador em que ele aparecia sempre cheio (movimento reduzido). A emenda com a função narrativa e os limites está no topo de `docs/PLANO_MESTRE_DO_SITE.md`.

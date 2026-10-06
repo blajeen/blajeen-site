@@ -403,19 +403,23 @@
   }
 }
 
+/*
+ * O painel do sol abre no canto esquerdo da área livre do palco, acima da barra (a barra é o
+ * bloco de referência dele). Centrado no botão, ele invadia o cartão da unidade, que fica por cima
+ * do palco, e era cortado (pedido do titular).
+ */
 .solControle {
-  position: relative;
+  position: static;
 }
 
 .popoverDoSol {
   position: absolute;
   bottom: calc(100% + 0.5rem);
-  left: 50%;
+  left: 0;
   z-index: 5;
   display: grid;
   gap: 0.7rem;
-  width: min(19rem, 86vw);
-  transform: translateX(-50%);
+  width: min(19rem, 100%);
   padding: 0.9rem;
   border: 1px solid var(--color-line-strong);
   border-radius: 18px;
@@ -429,6 +433,8 @@
     position: fixed;
     bottom: 5rem;
     left: 50%;
+    width: min(19rem, 86vw);
+    transform: translateX(-50%);
   }
 }
 

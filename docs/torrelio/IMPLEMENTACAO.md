@@ -120,5 +120,5 @@ revisão do titular (`docs/DECISOES_ANTES_DE_PUBLICAR.md`, seção Torrelio).
 
 ## Pendências
 
-- Tirar ou reduzir o conduto (pedido do titular em 06/10/2026, depois desta publicação).
+- ~~Tirar ou reduzir o conduto~~: removido em 06/10/2026, logo depois desta publicação.
 - Opcional: casar as medidas da varanda da torre com as do apartamento.

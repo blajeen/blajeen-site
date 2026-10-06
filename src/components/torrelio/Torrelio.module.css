@@ -1972,3 +1972,87 @@ button.barraDaEscolhaResumo:active {
     min-height: 2.75rem;
   }
 }
+
+/* ------------------------------------------------------------------ modo holograma */
+
+/*
+ * A tela inteira preta: no holograma de stand (pirâmide, vitrine, ventilador de LED), o que é
+ * preto some e só a luz aparece. Os controles ficam embaixo e somem depois de alguns segundos sem
+ * mexer; o foco de teclado os mantém à vista.
+ */
+.holograma {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #000;
+  color: var(--color-paper);
+}
+
+/* O foco inicial fica no próprio holograma (um contêiner, não um controle): sem anel na tela toda. */
+.holograma:focus {
+  outline: none;
+}
+
+.palcoDoHolograma {
+  position: absolute;
+  inset: 0;
+}
+
+.avisoDoHolograma {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: min(28rem, calc(100% - 2rem));
+  transform: translate(-50%, -50%);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--color-mineral);
+}
+
+.dicaDoHolograma {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 50%;
+  max-width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-mineral);
+  transition: opacity 400ms var(--ease-lab);
+}
+
+.controlesDoHolograma {
+  position: absolute;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  padding: 0.45rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 24px;
+  background: rgba(9, 10, 8, 0.86);
+  backdrop-filter: blur(10px);
+  transition: opacity 400ms var(--ease-lab);
+}
+
+.controlesDoHolograma a.segmentoSolto {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-signal);
+}
+
+.holograma[data-ocioso='sim'] .dicaDoHolograma,
+.holograma[data-ocioso='sim'] .controlesDoHolograma:not(:has(:focus-visible)) {
+  opacity: 0;
+  pointer-events: none;
+}

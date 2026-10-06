@@ -41,12 +41,16 @@ describe('o link profundo', () => {
     expect(lerLink('?unidade=1803&vista=sul&hora=17.5')).toEqual({ unidade: '1803', vista: 'sul', hora: 17.5 });
     expect(lerLink('?unidade=9999&vista=cima&hora=40&modo=nave')).toEqual({});
     expect(lerLink('?quarto=1806&vista=1')).toEqual({ quarto: '1806', modo: 'hotel', vista: true });
+    expect(lerLink('?holograma=vitrine')).toEqual({ holograma: 'vitrine' });
+    expect(lerLink('?holograma=1')).toEqual({ holograma: 'piramide' });
+    expect(lerLink('?holograma=disco')).toEqual({});
   });
 
   it('monta o endereço que funciona sem JavaScript', () => {
     expect(hrefDoComando({ unidade: '1803', vista: 'sul' })).toBe('/produtos/torrelio?unidade=1803&vista=sul#demonstracao');
     expect(hrefDoComando({ foco: 'apartamento', unidade: '1803' })).toBe('/produtos/torrelio?unidade=1803#apartamento');
     expect(hrefDoComando({})).toBe('/produtos/torrelio#demonstracao');
+    expect(hrefDoComando({ holograma: 'piramide' })).toBe('/produtos/torrelio?holograma=piramide#demonstracao');
   });
 });
 

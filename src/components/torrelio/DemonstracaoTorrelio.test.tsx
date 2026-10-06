@@ -4,11 +4,16 @@ import { MotionProvider } from '@/components/motion/MotionProvider';
 import { LUZ } from '@/lib/torrelio/luz';
 import { UNIDADES } from '@/lib/torrelio/predio';
 import { criarCenaFalsa, type CenaFalsa } from './3d/falsa';
+import type { CenaHolograma, EstadoDoHolograma } from './3d/holograma';
 import { DemonstracaoTorrelio } from './DemonstracaoTorrelio';
-import { reiniciarLoja } from './loja';
+import { obterLoja, reiniciarLoja } from './loja';
 
-const { carregar } = vi.hoisted(() => ({ carregar: vi.fn() }));
+const { carregar, carregarHolograma } = vi.hoisted(() => ({ carregar: vi.fn(), carregarHolograma: vi.fn() }));
 vi.mock('./3d/carregar', () => ({ carregarTorre: carregar }));
+vi.mock('./3d/carregar-holograma', () => ({ carregarHolograma }));
+
+/** Um holograma de mentira: guarda cada estado que a interface manda. */
+let holograma: { estados: EstadoDoHolograma[]; descartado: boolean };
 
 let cena: CenaFalsa;
 const indice = (id: string) => UNIDADES.findIndex((u) => u.id === id);
@@ -39,6 +44,20 @@ describe('a demonstração do Torrelio', () => {
     cena = criarCenaFalsa();
     carregar.mockReset();
     carregar.mockImplementation(async () => cena);
+    carregarHolograma.mockReset();
+    carregarHolograma.mockImplementation(async (_host: HTMLElement, inicial: EstadoDoHolograma): Promise<CenaHolograma> => {
+      holograma = { estados: [inicial], descartado: false };
+      return {
+        aplicar: (estado) => void holograma.estados.push(estado),
+        girarUmPasso: () => {},
+        gravar: async () => null,
+        pararGravacao: () => {},
+        aoMudarContexto: () => () => {},
+        descartar: () => {
+          holograma.descartado = true;
+        },
+      };
+    });
   });
   afterEach(() => reiniciarLoja());
 
@@ -170,6 +189,36 @@ describe('a demonstração do Torrelio', () => {
     expect(within(hora).getByRole('button', { name: 'Fim de tarde' })).toHaveAttribute('aria-pressed', 'true');
     fireEvent.click(screen.getByRole('button', { name: /Voltar para o prédio/ }));
     await waitFor(() => expect(cena.ultimoEstado!.hora).toBe(20.5));
+  });
+
+  it('abre o holograma em pirâmide, troca para vitrine, acende a venda e fecha com Esc, devolvendo o foco', async () => {
+    montar();
+    const botao = screen.getByRole('button', { name: 'Holograma' });
+    botao.focus();
+    fireEvent.click(botao);
+    const dialogo = await screen.findByRole('dialog', { name: 'Modo holograma' });
+    await waitFor(() => expect(holograma.estados.at(-1)!.layout).toBe('piramide'));
+    expect(carregarHolograma).toHaveBeenCalledTimes(1);
+    // O holograma não carrega a maquete de baixo, e o endereço abre direto nele.
+    expect(carregar).not.toHaveBeenCalled();
+    expect(window.location.search).toContain('holograma=piramide');
+    fireEvent.click(within(dialogo).getByRole('button', { name: 'Vitrine' }));
+    await waitFor(() => expect(holograma.estados.at(-1)!.layout).toBe('vitrine'));
+    // Uma venda (no painel desta ou de outra janela do navegador) acende no holograma.
+    act(() => obterLoja().despachar({ tipo: 'unidade/status', ids: ['1803'], status: 'vendida', quando: '2026-10-06T15:00:00.000Z' }));
+    await waitFor(() => expect(holograma.estados.at(-1)!.luzes[indice('1803')]).toBe(LUZ.acesa));
+    fireEvent.keyDown(window, { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Modo holograma' })).toBeNull());
+    expect(holograma.descartado).toBe(true);
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Holograma' })));
+    expect(window.location.search).not.toContain('holograma');
+  });
+
+  it('abre direto no holograma pelo link do stand', async () => {
+    window.history.replaceState(null, '', '/produtos/torrelio?holograma=vitrine');
+    montar();
+    await screen.findByRole('dialog', { name: 'Modo holograma' });
+    await waitFor(() => expect(holograma.estados.at(-1)!.layout).toBe('vitrine'));
   });
 
   it('respeita o movimento reduzido do sistema', async () => {

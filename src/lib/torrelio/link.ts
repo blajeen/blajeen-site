@@ -21,6 +21,8 @@ export type Comando = {
   camada?: 'comercial' | 'obra';
   /** Para onde a página leva o foco depois do comando. */
   foco?: 'palco' | 'cartao' | 'apartamento';
+  /** Abre o modo holograma (o PC do stand pode abrir direto nele). */
+  holograma?: 'piramide' | 'vitrine';
 };
 
 export const ROTA_DA_DEMONSTRACAO = '/produtos/torrelio';
@@ -54,6 +56,9 @@ export function lerLink(consulta: string): Comando {
   if (estacao && ESTACOES.has(estacao as Estacao)) comando.estacao = estacao as Estacao;
   const camada = parametros.get('camada');
   if (camada === 'comercial' || camada === 'obra') comando.camada = camada;
+  const holograma = parametros.get('holograma');
+  if (holograma === 'piramide' || holograma === 'vitrine') comando.holograma = holograma;
+  else if (holograma === '1' || holograma === 'sim') comando.holograma = 'piramide';
   return comando;
 }
 
@@ -68,6 +73,7 @@ export function consultaDoComando(comando: Comando): string {
   if (comando.hora !== undefined) parametros.set('hora', String(comando.hora));
   if (comando.estacao) parametros.set('estacao', comando.estacao);
   if (comando.camada && comando.camada !== 'comercial') parametros.set('camada', comando.camada);
+  if (comando.holograma) parametros.set('holograma', comando.holograma);
   const texto = parametros.toString();
   return texto ? `?${texto}` : '';
 }

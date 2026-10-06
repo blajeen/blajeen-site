@@ -25,6 +25,7 @@ export const atalhos: readonly { rotulo: string; comando: Comando }[] = [
   { rotulo: 'Marcar uma venda', comando: { aba: 'painel' } },
   { rotulo: 'Ver a obra', comando: { camada: 'obra' } },
   { rotulo: 'Virar hotel', comando: { modo: 'hotel' } },
+  { rotulo: 'Ver em holograma', comando: { holograma: 'piramide' } },
 ];
 
 /** Frases curtas: cada uma com o atalho que mostra na maquete. */
@@ -106,6 +107,10 @@ export const ondeFica: readonly { titulo: string; texto: string }[] = [
   { titulo: 'Numa página do site de vocês', texto: 'No domínio de vocês, se preferirem.' },
   { titulo: 'Num endereço do empreendimento', texto: 'Para corretores e clientes.' },
   { titulo: 'Na tela do stand', texto: 'Em tela cheia, na TV ou no totem.' },
+  {
+    titulo: 'Num holograma, no stand',
+    texto: 'Pirâmide ou vitrine holográfica com uma tela, ou ventilador de LED com o vídeo gravado na demonstração. O equipamento é à parte.',
+  },
   { titulo: 'No painel de vocês', texto: 'Atrás do login da equipe, ou como uma aba nova dentro do painel que a empresa já usa.' },
 ];
 

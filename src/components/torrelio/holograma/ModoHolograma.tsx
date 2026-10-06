@@ -37,6 +37,10 @@ type Situacao = 'carregando' | 'pronto' | 'falhou' | 'perdido';
  * O modo holograma: a tela inteira preta com o prédio girando, para pirâmide, vitrine holográfica
  * ou ventilador de LED. Segue o estado da demonstração (as luzes mudam se o painel mudar, inclusive
  * em outra janela do mesmo navegador) e grava o vídeo de uma volta, sem mandar nada a lugar nenhum.
+ *
+ * Girar é a função do holograma, e o botão Girar é dele: vale mesmo com movimento reduzido. Com o
+ * movimento reduzido (no sistema ou no rodapé do site), o holograma abre parado, e a dica e os
+ * controles ficam à vista até alguém escolher.
  */
 export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoLayout, aoFechar }: Props) {
   const raiz = useRef<HTMLDivElement>(null);
@@ -46,7 +50,8 @@ export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoL
   const [espelhar, setEspelhar] = useState(true);
   const [girar180, setGirar180] = useState(false);
   const [hora, setHora] = useState<Hora>('dia');
-  const [pausado, setPausado] = useState(false);
+  // null: segue a preferência de movimento; true ou false: o que a pessoa escolheu no botão Girar.
+  const [escolha, setEscolha] = useState<boolean | null>(null);
   const [gravando, setGravando] = useState<number | null>(null);
   const [video, setVideo] = useState<{ url: string; extensao: 'mp4' | 'webm' } | null>(null);
   const [ocioso, setOcioso] = useState(false);
@@ -60,9 +65,12 @@ export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoL
     fechar.current = aoFechar;
   });
 
+  const girando = escolha ?? movimento;
+  const paradoPelaPreferencia = escolha === null && !movimento;
+
   const estado = useMemo<EstadoDoHolograma>(
-    () => ({ modo, luzes, disponiveis, hora: HORAS[hora], estacao: 'verao', movimento, layout, espelhar, girar180, girando: movimento && !pausado }),
-    [modo, luzes, disponiveis, hora, movimento, layout, espelhar, girar180, pausado],
+    () => ({ modo, luzes, disponiveis, hora: HORAS[hora], estacao: 'verao', movimento, layout, espelhar, girar180, girando }),
+    [modo, luzes, disponiveis, hora, movimento, layout, espelhar, girar180, girando],
   );
 
   // A carga lê o estado mais novo por ref: o efeito roda uma vez só.
@@ -218,7 +226,7 @@ export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoL
     <div
       ref={raiz}
       className={styles.holograma}
-      data-ocioso={ocioso ? 'sim' : 'nao'}
+      data-ocioso={ocioso && !paradoPelaPreferencia ? 'sim' : 'nao'}
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
@@ -244,7 +252,9 @@ export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoL
         </p>
       ) : null}
 
-      <p className={styles.dicaDoHolograma}>{formato.dica}</p>
+      <p className={styles.dicaDoHolograma} data-aviso={paradoPelaPreferencia ? 'sim' : undefined}>
+        {paradoPelaPreferencia ? 'Movimento reduzido neste aparelho: toque em Girar.' : formato.dica}
+      </p>
 
       <div className={styles.controlesDoHolograma} role="group" aria-label="Controles do holograma">
         <div role="group" aria-label="Formato" className={styles.segmento}>
@@ -269,20 +279,18 @@ export function ModoHolograma({ layout, modo, luzes, disponiveis, movimento, aoL
             </button>
           ))}
         </div>
-        {movimento ? (
-          <button type="button" className={styles.segmentoSolto} aria-pressed={!pausado} onClick={() => setPausado((p) => !p)}>
-            {pausado ? 'Girar' : 'Pausar'}
-          </button>
-        ) : (
-          <button type="button" className={styles.segmentoSolto} onClick={() => cena?.girarUmPasso()} disabled={!cena}>
-            Girar 90°
-          </button>
-        )}
-        {movimento ? (
-          <button type="button" className={styles.segmentoSolto} onClick={() => void gravar()} disabled={!cena} aria-pressed={gravando !== null}>
-            {gravando !== null ? `Parar gravação · ${Math.round(gravando * 100)}%` : 'Gravar vídeo (1 volta)'}
-          </button>
-        ) : null}
+        <button
+          type="button"
+          className={styles.segmentoSolto}
+          aria-pressed={girando}
+          data-aviso={paradoPelaPreferencia ? 'sim' : undefined}
+          onClick={() => setEscolha(!girando)}
+        >
+          Girar
+        </button>
+        <button type="button" className={styles.segmentoSolto} onClick={() => void gravar()} disabled={!cena} aria-pressed={gravando !== null}>
+          {gravando !== null ? `Parar gravação · ${Math.round(gravando * 100)}%` : 'Gravar vídeo (1 volta)'}
+        </button>
         {video ? (
           <a className={styles.segmentoSolto} href={video.url} download={`torrelio-holograma.${video.extensao}`}>
             Baixar vídeo ({video.extensao.toUpperCase()})

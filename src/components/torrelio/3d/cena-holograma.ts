@@ -228,7 +228,7 @@ export const criarCenaHolograma: CarregarHolograma = async (host, inicial) => {
     function quadro(agora: number) {
       pedido = 0;
       if (descartada || perdido) return;
-      const girando = (estado.girando && estado.movimento) || gravacao !== null;
+      const girando = estado.girando || gravacao !== null;
       const animando = girando || (estado.movimento && relogio < fimDasLuzes + 0.05);
       // 30 quadros por segundo bastam: a mesa gira devagar.
       if (animando && ultimoDesenho && agora - ultimoDesenho < QUADRO_MS) {
@@ -314,10 +314,6 @@ export const criarCenaHolograma: CarregarHolograma = async (host, inicial) => {
         }
         if (anterior.hora !== novo.hora || anterior.estacao !== novo.estacao) aplicarAtmosfera();
         ultimoDesenho = 0;
-        pedirQuadro();
-      },
-      girarUmPasso() {
-        giro = (giro + 90) % 360;
         pedirQuadro();
       },
       gravar(aoProgresso) {

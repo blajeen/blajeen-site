@@ -49,7 +49,6 @@ describe('a demonstração do Torrelio', () => {
       holograma = { estados: [inicial], descartado: false };
       return {
         aplicar: (estado) => void holograma.estados.push(estado),
-        girarUmPasso: () => {},
         gravar: async () => null,
         pararGravacao: () => {},
         aoMudarContexto: () => () => {},
@@ -199,6 +198,14 @@ describe('a demonstração do Torrelio', () => {
     const dialogo = await screen.findByRole('dialog', { name: 'Modo holograma' });
     await waitFor(() => expect(holograma.estados.at(-1)!.layout).toBe('piramide'));
     expect(carregarHolograma).toHaveBeenCalledTimes(1);
+    // Abre girando; o mesmo botão para e volta a girar.
+    expect(holograma.estados.at(-1)!.girando).toBe(true);
+    const girar = within(dialogo).getByRole('button', { name: 'Girar' });
+    expect(girar).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(girar);
+    await waitFor(() => expect(holograma.estados.at(-1)!.girando).toBe(false));
+    fireEvent.click(girar);
+    await waitFor(() => expect(holograma.estados.at(-1)!.girando).toBe(true));
     // O holograma não carrega a maquete de baixo, e o endereço abre direto nele.
     expect(carregar).not.toHaveBeenCalled();
     expect(window.location.search).toContain('holograma=piramide');
@@ -219,6 +226,32 @@ describe('a demonstração do Torrelio', () => {
     montar();
     await screen.findByRole('dialog', { name: 'Modo holograma' });
     await waitFor(() => expect(holograma.estados.at(-1)!.layout).toBe('vitrine'));
+  });
+
+  it('com movimento reduzido, o holograma abre parado, diz por quê e gira no botão Girar', async () => {
+    const original = window.matchMedia;
+    window.matchMedia = ((consulta: string) => ({ ...original(consulta), matches: consulta.includes('reduce') })) as typeof window.matchMedia;
+    try {
+      window.history.replaceState(null, '', '/produtos/torrelio?holograma=piramide');
+      montar();
+      const dialogo = await screen.findByRole('dialog', { name: 'Modo holograma' });
+      await waitFor(() => expect(holograma.estados.at(-1)!.movimento).toBe(false));
+      expect(holograma.estados.at(-1)!.girando).toBe(false);
+      expect(within(dialogo).getByText(/Movimento reduzido neste aparelho: toque em Girar/)).toBeInTheDocument();
+      // Parado pela preferência, os controles não somem: a dica e o botão ficam à vista.
+      expect(dialogo).toHaveAttribute('data-ocioso', 'nao');
+      const girar = within(dialogo).getByRole('button', { name: 'Girar' });
+      expect(girar).toHaveAttribute('aria-pressed', 'false');
+      fireEvent.click(girar);
+      await waitFor(() => expect(holograma.estados.at(-1)!.girando).toBe(true));
+      expect(girar).toHaveAttribute('aria-pressed', 'true');
+      // As luzes continuam sem transição: girar foi escolha de quem olha, o resto segue a preferência.
+      expect(holograma.estados.at(-1)!.movimento).toBe(false);
+      expect(within(dialogo).queryByText(/Movimento reduzido/)).toBeNull();
+      expect(within(dialogo).getByRole('button', { name: /Gravar vídeo/ })).toBeInTheDocument();
+    } finally {
+      window.matchMedia = original;
+    }
   });
 
   it('respeita o movimento reduzido do sistema', async () => {

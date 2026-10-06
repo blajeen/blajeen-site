@@ -27,7 +27,7 @@ export function Legenda() {
       </li>
       <li data-status="reservada">
         <span className={styles.marcaDoStatus} aria-hidden="true" />
-        Luz baixa · reservada
+        Luz azul · reservada
       </li>
       <li data-status="disponivel">
         <span className={styles.marcaDoStatus} aria-hidden="true" />

@@ -16,7 +16,7 @@ export const metadata: Metadata = metadadosDaRota({
     'Demonstração do que o estúdio constrói sob medida para incorporadoras e hotéis: um prédio fictício em 3D, no navegador, com cada unidade ligada à tabela, a vista de cada andar e um painel de controle aberto para teste.',
   rota: ROTAS.produtoTorrelio,
   imagem: OG.torrelio,
-  imagemAlt: 'Maquete 3D do Residencial Vértice, prédio fictício, de dia: o contorno verde marca as unidades disponíveis.',
+  imagemAlt: 'Maquete 3D do Residencial Vértice, prédio fictício, de dia: vidraças âmbar são unidades vendidas, azuis são reservadas, e o contorno verde marca as disponíveis.',
 });
 
 const linkSutil =

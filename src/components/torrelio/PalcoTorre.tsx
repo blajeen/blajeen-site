@@ -249,7 +249,7 @@ export function PalcoTorre({
           height={900}
           fetchPriority="high"
           decoding="async"
-          alt="Maquete do Residencial Vértice, prédio fictício, de dia: o contorno verde marca as unidades disponíveis."
+          alt="Maquete do Residencial Vértice, prédio fictício, de dia: vidraças âmbar são unidades vendidas, azuis são reservadas, e o contorno verde marca as disponíveis."
         />
       </picture>
       <div ref={host} className={styles.host} aria-hidden="true" />

@@ -111,8 +111,10 @@ achou três quebras de fluxo, agora corrigidas:
 Pedidos do titular: tirar as barras de rolagem da versão web e fazer tudo funcionar melhor, menos
 texto enrolativo e mais demonstração, e a maquete abrindo de dia ("noite só quando trocar").
 
-- **Dia por padrão.** A interface e o pôster abrem às 10h do verão, com o contorno das disponíveis
-  (de dia a luz das janelas quase não aparece). Os pôsteres viraram `poster-dia*.webp`, gerados pela
+- **Dia por padrão.** A interface e o pôster abrem às 10h do verão, com o contorno das disponíveis.
+  De dia e no fim de tarde a lâmpada sumia contra o céu refletido no vidro e o status ficava
+  ilegível; agora a vidraça acesa ganha a cor da luz (âmbar na vendida, azul na reservada), em
+  `materialDoVidro`, e some à medida que a noite chega, quando a própria lâmpada já diz. Os pôsteres viraram `poster-dia*.webp`, gerados pela
   cena (`tools/torrelio-poster.mjs`), e a imagem social sai do pôster de dia. A noite fica no botão,
   no atalho "Ver à noite" e no hotel ("A ocupação de cada noite").
 - **Sem barra de rolagem nos painéis.** Sobre a maquete, o espelho e o cartão rolam por dentro sem

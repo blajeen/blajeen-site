@@ -1631,3 +1631,26 @@ td[aria-selected='true'] .celula {
   }
 }
 
+
+/* ------------------------------------------------------- tela cheia (stand de vendas) */
+
+.demo[data-tela-cheia='sim'] {
+  --altura-palco: calc(100svh - 7.5rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem;
+  background: var(--color-ink);
+}
+
+.demo[data-tela-cheia='sim']:not(:fullscreen) {
+  position: fixed;
+  inset: 0;
+  z-index: 75;
+}
+
+@media (max-width: 1023px) {
+  .demo[data-tela-cheia='sim'] .palco {
+    aspect-ratio: auto;
+    height: calc(100svh - 9rem);
+  }
+}

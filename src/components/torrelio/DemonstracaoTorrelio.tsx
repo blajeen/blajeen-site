@@ -56,6 +56,9 @@ export function DemonstracaoTorrelio() {
   const [compartilhado, setCompartilhado] = useState<string | null>(null);
   const [reservado, setReservado] = useState<string | null>(null);
   const [anuncio, setAnuncio] = useState('');
+  // Tela cheia (o stand de vendas): a API do navegador, ou uma camada fixa onde ela não existe (iPhone).
+  const [telaCheia, setTelaCheia] = useState<'nao' | 'nativa' | 'camada'>('nao');
+  const botaoDaTelaCheia = useRef<HTMLButtonElement>(null);
   // Só no navegador: a largura e o dia de hoje. O servidor não sabe nenhum dos dois.
   const largo = useSyncExternalStore(assinarLargura, () => window.matchMedia(CONSULTA_LARGA).matches, () => false);
   const hoje = useSyncExternalStore(assinarNada, () => hojeLocal(), () => null);
@@ -67,6 +70,44 @@ export function DemonstracaoTorrelio() {
     const comando = lerLink(window.location.search);
     if (Object.keys(comando).length) mudar({ tipo: 'comando', comando });
   }, []);
+
+  useEffect(() => {
+    const aoMudar = () => setTelaCheia((atual) => (document.fullscreenElement ? 'nativa' : atual === 'nativa' ? 'nao' : atual));
+    document.addEventListener('fullscreenchange', aoMudar);
+    return () => document.removeEventListener('fullscreenchange', aoMudar);
+  }, []);
+
+  useEffect(() => {
+    if (telaCheia !== 'camada') return;
+    document.body.dataset['scrollLocked'] = 'true';
+    botaoDaTelaCheia.current?.focus();
+    const aoTeclar = (evento: KeyboardEvent) => {
+      if (evento.key === 'Escape' && !evento.defaultPrevented) setTelaCheia('nao');
+    };
+    window.addEventListener('keydown', aoTeclar);
+    return () => {
+      delete document.body.dataset['scrollLocked'];
+      window.removeEventListener('keydown', aoTeclar);
+    };
+  }, [telaCheia]);
+
+  const alternarTelaCheia = useCallback(() => {
+    if (telaCheia === 'nativa') {
+      void document.exitFullscreen();
+      return;
+    }
+    if (telaCheia === 'camada') {
+      setTelaCheia('nao');
+      return;
+    }
+    const alvo = raiz.current;
+    if (alvo && document.fullscreenEnabled && alvo.requestFullscreen) {
+      alvo.requestFullscreen().catch(() => setTelaCheia('camada'));
+    } else {
+      setTelaCheia('camada');
+    }
+    controle.current?.carregar();
+  }, [telaCheia]);
 
   // Os links "Ver na demonstração ↑" da página chegam aqui como comando, sem recarregar.
   useEffect(() => {
@@ -246,15 +287,30 @@ export function DemonstracaoTorrelio() {
   const outrasDisponiveis = proximaDisponivel(estado, unidade.id, 1);
 
   return (
-    <div ref={raiz} className={styles.demo} data-aba={ui.aba} data-modo={ui.modo} data-vista={ui.vista ? 'sim' : 'nao'}>
+    <div
+      ref={raiz}
+      className={styles.demo}
+      data-aba={ui.aba}
+      data-modo={ui.modo}
+      data-vista={ui.vista ? 'sim' : 'nao'}
+      data-tela-cheia={telaCheia === 'nao' ? 'nao' : 'sim'}
+      role={telaCheia === 'camada' ? 'dialog' : undefined}
+      aria-modal={telaCheia === 'camada' ? true : undefined}
+      aria-label={telaCheia === 'camada' ? 'Demonstração do Torrelio em tela cheia' : undefined}
+    >
       <div className={styles.topo}>
         <Abas rotulo="Visões da demonstração" abas={ABAS} ativa={ui.aba} aoMudar={(aba) => mudar({ tipo: 'aba', aba })} base="torrelio" />
-        <div role="group" aria-label="Uso do prédio" className={styles.segmento}>
-          {MODOS.map((m) => (
-            <button key={m.id} type="button" aria-pressed={ui.modo === m.id} onClick={() => mudar({ tipo: 'modo', modo: m.id })}>
-              {m.rotulo}
-            </button>
-          ))}
+        <div className={styles.linhaDeBotoes}>
+          <div role="group" aria-label="Uso do prédio" className={styles.segmento}>
+            {MODOS.map((m) => (
+              <button key={m.id} type="button" aria-pressed={ui.modo === m.id} onClick={() => mudar({ tipo: 'modo', modo: m.id })}>
+                {m.rotulo}
+              </button>
+            ))}
+          </div>
+          <button ref={botaoDaTelaCheia} type="button" className={styles.segmentoSolto} aria-pressed={telaCheia !== 'nao'} onClick={alternarTelaCheia}>
+            {telaCheia === 'nao' ? 'Tela cheia' : 'Sair da tela cheia'}
+          </button>
         </div>
       </div>
 

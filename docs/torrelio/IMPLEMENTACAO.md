@@ -86,17 +86,39 @@ A demonstração não envia nada a servidor e não coleta dado pessoal. A seçã
 no seu navegador" da Política de Privacidade passou a citar o que ela guarda; o texto precisa da
 revisão do titular (`docs/DECISOES_ANTES_DE_PUBLICAR.md`, seção Torrelio).
 
+## 3D
+
+- **Torre** (`src/components/torrelio/3d/`): three.js por import dinâmico, só por intenção (o pôster é
+  o LCP). Noite: 24 chamadas e ~102 mil triângulos; dia com sombra: 29 e ~139 mil; vista da varanda:
+  16–18 e ~120 mil; celular: 24 e ~77 mil. Chunk da cena: 36 KB gz sem o three. Tone mapping Neutral
+  (o AgX deixava as janelas creme); orla com gabarito de 28 m, para o 3D esconder o mar no 11º e
+  mostrá-lo do 12º para cima, como a tabela.
+- **Apartamento** (`src/components/torrelio/apartamento/`): planta fictícia de 2 dormitórios com
+  suíte (`src/lib/torrelio/planta.ts`: 9 cômodos, área útil 57,61 m², privativa 66,45 m²), planta
+  técnica em SVG que funciona sem WebGL, maquete e planta em 3D com renderizador próprio (9 a 11
+  chamadas, ~4 mil triângulos). A varanda do apartamento (1,20 m) não tem a mesma medida da varanda
+  da torre (1,6 m); o canto e a orientação batem.
+- **Nitidez** (pedido do titular, "nada borrado"): os dois renderizadores vão até 2× de densidade,
+  com MSAA abaixo de 2×; pôsteres com versão 2× (`srcset`) e retrato para celular em até 3×.
+
 ## Verificação
 
 - Testes unitários do domínio, da loja, dos textos (sem promessa de resultado, fictício declarado,
-  lista de materiais e formas de entrega) e da interface com uma cena 3D falsa (`3d/falsa.ts`): carga
-  única do 3D, escolha pelo espelho e pela torre, venda no painel acendendo a luz, desfazer,
-  restaurar, persistência, vista com foco e Esc, movimento reduzido, falha do WebGL e reserva sem
-  dado pessoal.
-- Conduto: 0 invasões em `/produtos/torrelio` e `/produtos`, a 390 e a 1440.
+  lista de materiais e formas de entrega), da planta e das paredes, e da interface com uma cena 3D
+  falsa (`3d/falsa.ts`): carga única do 3D, escolha pelo espelho e pela torre, venda no painel
+  acendendo a luz, desfazer, restaurar, persistência, vista com foco e Esc, movimento reduzido, falha
+  do WebGL e reserva sem dado pessoal. Suíte inteira: 334 testes.
+- Build de produção: torre e apartamento carregam sem erro no console, sem rolagem lateral, a 1440 e
+  a 390.
+- Lighthouse, computador: Performance 98, Acessibilidade 100, Boas práticas 96 (o único erro é um
+  script externo que o ambiente de teste bloqueia); SEO local 69 só porque o build local não é
+  indexável.
+- Lighthouse, celular: Performance 69. Neste ambiente, sem GPU, o tubo verde (conduto) é desenhado
+  por software e gasta ~7 s em toda página: `/about` faz 45 e `/produtos/vistalio`, 47, nas mesmas
+  condições. O titular pediu para tirar o conduto depois desta publicação.
+- Contraste: pior caso 7,23:1. Conduto: 0 invasões em `/produtos/torrelio` e `/produtos`.
 
 ## Pendências
 
-- Cena 3D da torre e pôsteres (em construção), apartamento 3D (em construção).
-- Prancha da torre para o titular aprovar antes do polimento.
-- Lighthouse nos dois perfis, contraste e capturas com o 3D.
+- Tirar ou reduzir o conduto (pedido do titular em 06/10/2026, depois desta publicação).
+- Opcional: casar as medidas da varanda da torre com as do apartamento.

@@ -104,9 +104,9 @@ export function criarMateriaisDaTorre(comuns: Comuns): MateriaisDaTorre {
     }),
     pedra: padrao(comuns, 'pedra', { color: new Color('#cfc6b8'), map: pedraMapa, roughness: 0.9, metalness: 0 }),
     // Bronze acetinado: sem mapa de ambiente, metal demais vira preto; aqui ele ainda pega o céu.
-    bronze: padrao(comuns, 'bronze', { color: new Color('#5b4838'), roughness: 0.5, metalness: 0.28 }),
+    bronze: padrao(comuns, 'bronze', { color: new Color('#4b4038'), roughness: 0.5, metalness: 0.28 }),
     guardaCorpo: padrao(comuns, 'guarda', { color: new Color('#a9bcb6'), roughness: 0.08, metalness: 0, transparent: true, opacity: 0.2, depthWrite: false, side: DoubleSide }),
-    madeira: materialComBrilho(comuns, 'forro', { color: new Color('#b89a7c'), map: madeiraMapa, roughness: 0.72, metalness: 0 }, {
+    madeira: materialComBrilho(comuns, 'forro', { color: new Color('#a69a8e'), map: madeiraMapa, roughness: 0.72, metalness: 0 }, {
       atributo: 'aLuzForro', cor: new Color('#ffb070'), forca: 1.35,
     }),
     lobby: materialComBrilho(comuns, 'lobby', { color: new Color('#0f1312'), roughness: 0.12, metalness: 0.1 }, {
@@ -176,13 +176,16 @@ function barra(c: Construtor, a: readonly [number, number], b: readonly [number,
   c.caixa(Math.min(a[0], b[0]) - meia, y0, Math.min(a[1], b[1]) - meia, Math.max(a[0], b[0]) + meia, y1, Math.max(a[1], b[1]) + meia, 'b');
 }
 
-/** O guarda-corpo de uma varanda (vidro + corrimão e rodapé de bronze) sobre a laje do pavimento. */
-function guardaCorpoDaVaranda(vidro: Construtor, bronze: Construtor, canto: Canto, pavimento: number) {
+/**
+ * O guarda-corpo de uma varanda (vidro + corrimão de bronze) sobre a laje do pavimento. Na vista da
+ * própria varanda, a um braço de distância, o corrimão é mais fino para não virar uma barra na tela.
+ */
+function guardaCorpoDaVaranda(vidro: Construtor, bronze: Construtor, canto: Canto, pavimento: number, corrimao = 0.03) {
   const { arestas } = plantaDaVaranda(canto);
   const piso = cota(pavimento) + PISO;
   for (const [a, b] of arestas) {
-    painel(vidro, a, b, piso + 0.02, piso + VARANDA.guardaCorpo - 0.03);
-    barra(bronze, a, b, piso + VARANDA.guardaCorpo - 0.03, piso + VARANDA.guardaCorpo, 0.04);
+    painel(vidro, a, b, piso + 0.02, piso + VARANDA.guardaCorpo - corrimao);
+    barra(bronze, a, b, piso + VARANDA.guardaCorpo - corrimao, piso + VARANDA.guardaCorpo, corrimao + 0.01);
   }
 }
 
@@ -348,9 +351,12 @@ export function construirTorre(materiais: MateriaisDaTorre, agua: Material): Tor
     caixilhos(bronze, pavimento);
     for (const canto of CANTOS) {
       guardaCorpoDaVaranda(guarda, bronze, canto, pavimento);
-      // O forro da varanda deste pavimento fica sob a laje de cima e segue a luz da unidade daqui.
+      // O deque de madeira (visto de cima) e o forro (visto de baixo, sob a laje de cima) da
+      // varanda deste pavimento seguem a luz da unidade daqui: acesa, a varanda fica quente.
       const de = madeira.totalDeVertices;
-      madeira.poligono(plantaDaVaranda(canto).piso, cota(pavimento + 1) - VIGA - 0.006, false);
+      const { piso } = plantaDaVaranda(canto);
+      madeira.poligono(piso, laje + PISO + 0.02, true);
+      madeira.poligono(piso, cota(pavimento + 1) - VIGA - 0.006, false);
       forros.push({ vao: vaoDaVaranda(pavimento, canto), de, ate: madeira.totalDeVertices });
     }
     marcar(pavimento);
@@ -441,7 +447,7 @@ export function construirVarandaPropria(
     const canto = `${sz < 0 ? 'N' : 'S'}${sx < 0 ? 'O' : 'E'}` as Canto;
     const { piso } = plantaDaVaranda(canto);
     concreto.extrudar(piso, laje - VIGA, laje + PISO);
-    guardaCorpoDaVaranda(guarda, bronze, canto, alvo.pavimento);
+    guardaCorpoDaVaranda(guarda, bronze, canto, alvo.pavimento, 0.016);
     concreto.caixa(sx * MEIA_LARGURA - 0.21, laje + PISO, sz * MEIA_PROFUNDIDADE - 0.21, sx * MEIA_LARGURA + 0.21, laje + 2.5, sz * MEIA_PROFUNDIDADE + 0.21, 'b');
   } else {
     // A janela: peitoril, viga e os montantes dos lados, no plano do vidro.

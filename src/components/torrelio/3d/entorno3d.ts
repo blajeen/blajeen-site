@@ -1,6 +1,6 @@
 import {
-  BoxGeometry, BufferGeometry, Color, DoubleSide, Group, IcosahedronGeometry, InstancedBufferAttribute,
-  InstancedMesh, Matrix4, Mesh, PlaneGeometry, Quaternion, SphereGeometry, Vector3, type Material,
+  BoxGeometry, Color, DoubleSide, Group, IcosahedronGeometry, InstancedBufferAttribute, InstancedMesh, Matrix4, Mesh, PlaneGeometry,
+  Quaternion, SphereGeometry, Vector3, type BufferGeometry, type Material,
 } from 'three';
 import {
   alturaDoMorro, AREIA, AVENIDA, LAGO, LOTE, LOTE_VIZINHO, NIVEL_DO_MAR, paisagem, PARQUE, RUA_OESTE, type Caixa,

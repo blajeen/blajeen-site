@@ -102,7 +102,7 @@ const DESENHOS: Readonly<Record<NomeDoEnquadramento, Desenho>> = {
   rooftop: { azimute: 326, elevacao: 50, alvoY: 62, de: 42, ate: 76, largura: 52 },
   // A pose do pôster: mais de frente, mais baixa e um pouco mais longe; a entrada desliza daqui
   // até a frente ¾.
-  abertura: { azimute: 340, elevacao: 6, alvoY: 35, de: -6, ate: 80, largura: 56 },
+  abertura: { azimute: 337, elevacao: 11, alvoY: 34, de: -8, ate: 82, largura: 56 },
 };
 
 export type Lente = {
@@ -137,7 +137,7 @@ export const ELEVACAO = { minima: 3, maxima: 72 } as const;
 // -------------------------------------------------------------- aproximação da vista
 
 /**
- * A pose de onde a câmera se aproxima de uma varanda antes do mergulho no escuro: 38 m para fora,
+ * A pose de onde a câmera se aproxima de uma varanda antes do mergulho no escuro: 25 m para fora,
  * 15° acima do olho, de frente para a fachada. Se o caminho até lá bater em algum prédio (o
  * vizinho a 20 m do leste, por exemplo), a direção gira para os lados até achar um vão livre.
  */
@@ -145,7 +145,7 @@ export function poseDeAproximacao(
   olho: readonly number[],
   normal: readonly number[],
   livre: (de: Vetor, ate: Vetor) => boolean,
-  distancia = 38,
+  distancia = 25,
 ): Pose {
   const base = rumoDaDirecao(normal[0]!, normal[2]!);
   const alvo: Vetor = [olho[0]!, olho[1]!, olho[2]!];

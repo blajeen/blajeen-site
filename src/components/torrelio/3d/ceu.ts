@@ -61,8 +61,8 @@ type Quadro = {
 
 /** Quadros-chave por elevação do sol, em graus. */
 const QUADROS: readonly Quadro[] = [
-  { e: -90, zenite: '#05080f', horizonte: '#121925', oposto: '#0f151e', chao: '#0a0c10', brilho: '#000000', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 1, exposicao: 1.12 },
-  { e: -14, zenite: '#060a13', horizonte: '#151c2a', oposto: '#111823', chao: '#0b0e12', brilho: '#000000', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 1, exposicao: 1.12 },
+  { e: -90, zenite: '#05080f', horizonte: '#1b2130', oposto: '#161c28', chao: '#0a0c10', brilho: '#000000', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 1, exposicao: 1.12 },
+  { e: -14, zenite: '#060a13', horizonte: '#1d2333', oposto: '#171d2a', chao: '#0b0e12', brilho: '#000000', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 1, exposicao: 1.12 },
   { e: -8, zenite: '#0a1222', horizonte: '#262a3a', oposto: '#1a2030', chao: '#101318', brilho: '#3b2a33', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 1, exposicao: 1.1 },
   { e: -4, zenite: '#13213c', horizonte: '#5a4a52', oposto: '#2c3045', chao: '#191a1e', brilho: '#a8584a', ceu: 1, sol: '#000000', intensidadeDoSol: 0, hemiForca: 0.95, exposicao: 1.06 },
   { e: -1, zenite: '#1f3256', horizonte: '#a87862', oposto: '#4c4c64', chao: '#2a2726', brilho: '#ff8a52', ceu: 1, sol: '#ff7a3c', intensidadeDoSol: 0.05, hemiForca: 0.9, exposicao: 1.02 },

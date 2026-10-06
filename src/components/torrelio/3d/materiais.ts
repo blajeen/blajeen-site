@@ -449,7 +449,7 @@ export function materialDosHalos(comuns: Comuns): { material: ShaderMaterial; fo
         float d = length(q * vec2(1.0, 1.15));
         float a = pow(max(1.0 - d, 0.0), 2.2);
         float longe = 1.0 - fatorDaNevoa(length(vMundo - cameraPosition));
-        vec3 cor = vec3(1.0, 0.66, 0.36) * a * vLuz * uForca * 0.14 * uNoite * longe;
+        vec3 cor = vec3(1.0, 0.66, 0.36) * a * vLuz * uForca * 0.26 * uNoite * longe;
         gl_FragColor = vec4(cor, 1.0);
         ${FINAL}
       }`,
@@ -720,14 +720,16 @@ export function materialDosPredios(comuns: Comuns): MeshStandardMaterial {
             float grade = mix(largura * alturaJ, jx * jy, nitidez);
             float loja = terreo > 0.5 ? step(0.6, y) * step(y, terreo - 0.5) * (1.0 - 0.6 * step(0.86, fract(s / 6.0))) : 0.0;
             mascaraJanela = max(grade * dentro, loja);
-            // Escritórios acendem por andar; casas e apartamentos, janela a janela (ou cômodo a cômodo).
-            float coluna = tipo > 2.5 ? floor(fs / 4.0) : floor(fs);
-            float sorteio = hash13(vec3(floor(fy), coluna, vJanela.w));
+            // Escritórios acendem por andar inteiro (faixas, como nas fotos de skyline); casas e
+            // apartamentos, janela a janela.
+            bool ehEscritorio = tipo > 2.5 && tipo < 3.5;
+            float coluna = tipo > 3.5 ? floor(fs / 4.0) : floor(fs);
+            float sorteio = ehEscritorio ? hash13(vec3(floor(fy), floor(fs / 9.0), vJanela.w)) : hash13(vec3(floor(fy), coluna, vJanela.w));
             float acesa = step(sorteio, vJanela.z) * dentro + loja * step(0.45, hash12(vec2(floor(s / 6.0), vJanela.w)));
             vec3 morna = mix(vec3(1.0, 0.52, 0.22), vec3(1.0, 0.7, 0.42), fract(sorteio * 7.0));
             vec3 fria = vec3(0.72, 0.8, 0.9);
-            vec3 tom = tipo > 2.5 && tipo < 3.5 ? mix(fria, morna, step(0.7, fract(sorteio * 3.0))) : morna;
-            float escritorio = tipo > 2.5 && tipo < 3.5 ? 0.55 : 1.0;
+            vec3 tom = ehEscritorio ? mix(fria, morna, step(0.6, fract(sorteio * 3.0))) : morna;
+            float escritorio = ehEscritorio ? 0.38 : 1.0;
             luzDaJanela = tom * acesa * mascaraJanela * uNoite * escritorio * (0.35 + 0.5 * fract(sorteio * 13.0)) * mix(1.0, 0.45, 1.0 - nitidez);
             vec3 vidroDia = mix(uCeuOposto, uCeuZenite, 0.4) * 0.3 + vec3(0.01, 0.013, 0.016);
             diffuseColor.rgb = mix(diffuseColor.rgb, vidroDia, mascaraJanela * 0.9);
@@ -932,7 +934,7 @@ export function texturaDeMadeira(): Texture {
   const px = 256 / 2;
   for (let i = 0; i < 2 / 0.12; i += 1) {
     const tom = 160 + Math.round((s() - 0.5) * 40);
-    g.fillStyle = `rgb(${tom}, ${Math.round(tom * 0.76)}, ${Math.round(tom * 0.58)})`;
+    g.fillStyle = `rgb(${tom}, ${Math.round(tom * 0.82)}, ${Math.round(tom * 0.68)})`;
     g.fillRect(0, i * 0.12 * px, 256, 0.12 * px);
     for (let k = 0; k < 14; k += 1) {
       g.fillStyle = `rgba(70, 40, 20, ${0.08 + s() * 0.1})`;

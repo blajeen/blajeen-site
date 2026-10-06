@@ -303,7 +303,8 @@ export function construirFachada(
       }
       atributoDeLuz.needsUpdate = true;
       escreverForros();
-      return fim;
+      // Na hora: nada para animar (sem movimento, o relógio da cena nem anda).
+      return jeito === 'instantaneo' ? Number.NEGATIVE_INFINITY : fim;
     },
     definirModo(novo) {
       modo = novo;

@@ -55,7 +55,7 @@ export function ApartamentoDemo() {
   // A hora escolhida aqui vale até a torre mandar outro pedido.
   const hora = luz && luz.pedido === contexto.pedido ? luz.hora : contexto.hora;
 
-  // Pedido vindo da torre ("Ver o apartamento por dentro"): rola até a seção e põe o foco no título.
+  // Pedido vindo da torre ("Ver por dentro", no cartão da unidade): rola até a seção e põe o foco no título.
   const ultimoPedido = useRef(contexto.pedido);
   useEffect(() => {
     if (contexto.pedido === ultimoPedido.current) return;

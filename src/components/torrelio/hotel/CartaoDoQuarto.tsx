@@ -21,7 +21,10 @@ type Props = {
   aoReservar(): void;
 };
 
-/** O cartão do quarto: categoria, andar, vista, o preço do período e a reserva de mentira. */
+/**
+ * O cartão do quarto: categoria, andar, vista, o preço do período e a reserva de mentira. O preço
+ * e as ações vêm logo depois do número, para a reserva não depender de rolar o cartão.
+ */
 export function CartaoDoQuarto({ estado, quarto, periodo, despachar, aoVerVista, reservado, aoReservar }: Props) {
   const hotel = estado.hotel;
   const categoria = CATEGORIAS.find((c) => c.id === quarto.categoria)!;
@@ -47,27 +50,6 @@ export function CartaoDoQuarto({ estado, quarto, periodo, despachar, aoVerVista,
           {quarto.pavimentos.map((p) => `${p}º`).join(' e ')} · {fundos ? 'fundos' : 'frente'} · até {quarto.capacidade} pessoas
         </p>
       </header>
-      <dl className={styles.fichas}>
-        <div>
-          <dt>Altura</dt>
-          <dd>{formatarCota(cota(quarto.pavimento))}</dd>
-        </div>
-        <div>
-          <dt>Janelas</dt>
-          <dd>{quarto.fachadas.map((f) => NOMES_DAS_FACHADAS[f]).join(' e ')}</dd>
-        </div>
-        <div>
-          <dt>Vista</dt>
-          <dd>{[...new Set(quarto.fachadas.map((f) => resumoDaVista(quarto, f)))].join(' · ')}</dd>
-        </div>
-        <div>
-          <dt>Diária</dt>
-          <dd>
-            {formatarCentavos(hotel?.diarias[quarto.categoria] ?? categoria.diariaCentavos)}
-            {hotel ? <span className="text-mineral"> · fim de semana +{formatarPontosBase(hotel.fimDeSemanaPb)}</span> : null}
-          </dd>
-        </div>
-      </dl>
       {estadia && estadia.noites > 0 ? (
         <section className={styles.cartaoBloco} aria-label="Valor do período">
           <p className="tecnica text-mineral">
@@ -101,6 +83,27 @@ export function CartaoDoQuarto({ estado, quarto, periodo, despachar, aoVerVista,
           </p>
         ) : null}
       </div>
+      <dl className={styles.fichas}>
+        <div>
+          <dt>Altura</dt>
+          <dd>{formatarCota(cota(quarto.pavimento))}</dd>
+        </div>
+        <div>
+          <dt>Janelas</dt>
+          <dd>{quarto.fachadas.map((f) => NOMES_DAS_FACHADAS[f]).join(' e ')}</dd>
+        </div>
+        <div>
+          <dt>Vista</dt>
+          <dd>{[...new Set(quarto.fachadas.map((f) => resumoDaVista(quarto, f)))].join(' · ')}</dd>
+        </div>
+        <div>
+          <dt>Diária</dt>
+          <dd>
+            {formatarCentavos(hotel?.diarias[quarto.categoria] ?? categoria.diariaCentavos)}
+            {hotel ? <span className="text-mineral"> · fim de semana +{formatarPontosBase(hotel.fimDeSemanaPb)}</span> : null}
+          </dd>
+        </div>
+      </dl>
       <p className={styles.rodapeDoCartao}>Hotel, quartos, diárias e reservas fictícios</p>
     </article>
   );

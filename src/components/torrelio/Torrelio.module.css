@@ -919,15 +919,32 @@ td[aria-selected='true'] .celula {
   }
 }
 
-.navegarDisponiveis {
+/* Os dois botões secundários dividem uma linha. */
+.acoesEmPar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.5rem;
 }
 
-.navegarDisponiveis .botao {
+.acoesEmPar .botao {
   padding: 0 0.6rem;
-  font-size: 0.8125rem;
+}
+
+/* Navegar pelas disponíveis: mais baixo e mais quieto que as ações, com o rótulo no meio. */
+.navegarDisponiveis {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rotuloDaNavegacao {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-mineral);
 }
 
 .rodapeDoCartao {
@@ -938,6 +955,12 @@ td[aria-selected='true'] .celula {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-mineral);
+}
+
+/* Logo depois das fichas (cartão do quarto), a última linha delas já separa: sem fio duplo. */
+.fichas + .rodapeDoCartao {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .obraDoAndar {

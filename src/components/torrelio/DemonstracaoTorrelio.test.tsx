@@ -113,6 +113,22 @@ describe('a demonstração do Torrelio', () => {
     await waitFor(() => expect(screen.getByRole('heading', { name: '1803' }).closest('article')).toHaveTextContent('reservada'));
   });
 
+  it('põe as ações no topo do cartão, antes dos valores, e navega pelas disponíveis', () => {
+    montar();
+    const cartao = screen.getByRole('heading', { name: '1803' }).closest('article')!;
+    const vista = within(cartao).getByRole('button', { name: /Ver a vista desta unidade/ });
+    const fluxo = within(cartao).getByRole('table', { name: /Fluxo de pagamento/ });
+    // No fim do cartão as ações ficavam escondidas pela rolagem: agora vêm antes dos valores.
+    expect(vista.compareDocumentPosition(fluxo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(within(cartao).getByRole('button', { name: /Ver por dentro/ })).toBeInTheDocument();
+    expect(within(cartao).getByRole('button', { name: 'Compartilhar' })).toBeInTheDocument();
+    const navegar = () => within(screen.getByRole('group', { name: 'Navegar pelas disponíveis' }));
+    fireEvent.click(navegar().getByRole('button', { name: 'Próxima disponível' }));
+    expect(screen.getByRole('heading', { name: '1901' })).toBeInTheDocument();
+    fireEvent.click(navegar().getByRole('button', { name: 'Disponível anterior' }));
+    expect(screen.getByRole('heading', { name: '1803' })).toBeInTheDocument();
+  });
+
   it('abre a vista da unidade, põe o foco em Voltar e sai com Esc', async () => {
     montar();
     await abrir3d();

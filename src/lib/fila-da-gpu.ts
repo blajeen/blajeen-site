@@ -1,14 +1,13 @@
 /**
  * Fila da GPU.
  *
- * Compilar shader pode levar centenas de milissegundos no processo da GPU (no Windows, o Direct3D
- * compila o conduto de energia em cerca de 200 ms). Esse processo atende uma coisa de cada vez: quem
- * espera a compilação de forma síncrona, como a cena 3D do hero em three.js, fica parado na thread
- * principal atrás de quem compilou antes. Numa página que carrega as duas coisas, isso vira tarefa
- * longa e piora o tempo de bloqueio.
+ * Compilar shader pode levar centenas de milissegundos no processo da GPU. Esse processo atende uma
+ * coisa de cada vez: quem espera a compilação de forma síncrona, como a cena 3D do hero em three.js
+ * ou a torre do Torrelio, fica parado na thread principal atrás de quem compilou antes. Numa página
+ * que carrega duas cenas, isso vira tarefa longa e piora o tempo de bloqueio.
  *
- * Quem compila pesado e não pode esperar reserva a fila; quem pode esperar (o conduto) só começa
- * quando ninguém mais está reservando. Não há espera infinita: quem espera leva um teto.
+ * Quem compila pesado e não pode esperar reserva a fila; quem pode esperar usa `quandoGpuLivre` e só
+ * começa quando ninguém mais está reservando. Não há espera infinita: quem espera leva um teto.
  */
 
 let reservas = 0;

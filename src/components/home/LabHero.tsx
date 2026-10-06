@@ -56,7 +56,7 @@ export function LabHero() {
     const node = host.current;
     if (!node) return;
     // A cena compila os shaders ao criar o ambiente e nos primeiros desenhos (sombras, materiais).
-    // Até eles passarem, a fila da GPU fica reservada: o conduto de energia espera, a cena não trava
+    // Até eles passarem, a fila da GPU fica reservada: quem espera por ela não começa, a cena não trava
     // atrás da compilação dele, e as consultas dele não esperam atrás dos quadros pesados da cena.
     const liberarGpu = reservarGpu();
     let liberarDepois = 0;
@@ -94,7 +94,7 @@ export function LabHero() {
     scene.current?.motion(ativo);
   }, [station, ativo, ready]);
   return (
-    <section className="hx-hero" aria-labelledby="lab-title" data-conduto-lado="direita">
+    <section className="hx-hero" aria-labelledby="lab-title">
       <div className="hx-hero-copy">
         <p className="hx-kicker">ESTÚDIO INDEPENDENTE / IDEIAS EM MOVIMENTO</p>
         <BrandLogo

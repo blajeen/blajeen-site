@@ -28,7 +28,6 @@ export default function Home() {
         id="trabalhos"
         className="hx-section"
         aria-labelledby="home-work-title"
-        data-conduto-lado="direita"
       >
         <div className="hx-section-heading">
           <div>
@@ -72,7 +71,6 @@ export default function Home() {
       <section
         className="hx-final"
         aria-labelledby="home-final-title"
-        data-conduto-lado="direita"
       >
         <div>
           <p className="hx-kicker">O PRÓXIMO PROJETO PODE COMEÇAR AQUI.</p>
@@ -89,7 +87,6 @@ export default function Home() {
         <Link
           href="/crie-seu-projeto"
           className="hx-button"
-          data-conduto-destino=""
         >
           Vamos criar seu projeto ↗
         </Link>

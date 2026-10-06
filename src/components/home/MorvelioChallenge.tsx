@@ -164,7 +164,6 @@ export function MorvelioChallenge() {
       id="desafio-morvelio"
       className="hx-section hx-challenge"
       aria-labelledby="challenge-title"
-      data-conduto-lado="esquerda"
     >
       <div>
         <p className="hx-kicker">03 / DO LIVRO PARA O SEU CONTROLE</p>

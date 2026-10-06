@@ -74,7 +74,8 @@ export function interfaceInicial(): EstadoDaInterface {
     unidade: UNIDADE_EM_DESTAQUE,
     quarto: null,
     camada: 'comercial',
-    hora: 20.5,
+    // De dia (pedido do titular, 06/10/2026): a noite só quando a pessoa troca.
+    hora: 10,
     estacao: 'verao',
     enquadramento: 'frente',
     contornar: false,

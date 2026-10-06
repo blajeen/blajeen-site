@@ -106,6 +106,30 @@ achou três quebras de fluxo, agora corrigidas:
 - 3D: quando a qualidade desce no fim de uma animação (aparelho lento), a cena pede um quadro novo.
   Antes, o canvas redimensionado ficava em branco até o próximo toque.
 
+## Computador, dia e textos (revisão de 06/10/2026)
+
+Pedidos do titular: tirar as barras de rolagem da versão web e fazer tudo funcionar melhor, menos
+texto enrolativo e mais demonstração, e a maquete abrindo de dia ("noite só quando trocar").
+
+- **Dia por padrão.** A interface e o pôster abrem às 10h do verão, com o contorno das disponíveis
+  (de dia a luz das janelas quase não aparece). Os pôsteres viraram `poster-dia*.webp`, gerados pela
+  cena (`tools/torrelio-poster.mjs`), e a imagem social sai do pôster de dia. A noite fica no botão,
+  no atalho "Ver à noite" e no hotel ("A ocupação de cada noite").
+- **Sem barra de rolagem nos painéis.** Sobre a maquete, o espelho e o cartão rolam por dentro sem
+  barra, e no fim do painel a roda do mouse segue para a página. No painel de controle, a maquete
+  fica presa ao lado (`position: sticky`) e o painel inteiro rola com a página.
+- **O palco cabe na tela.** No computador, `--altura-palco` desconta os atalhos e a fileira das
+  abas. "Abrir a demonstração" para nos atalhos, com o palco inteiro visível.
+- **A maquete abre sozinha** quando o palco fica 400 ms à vista, depois de a pessoa mexer na página
+  (rolar, tocar, teclar). Quem só abre a página, como uma ferramenta de medição, não carrega o 3D, e
+  o pôster continua sendo o LCP. Com economia de dados ligada, só pelo botão.
+- **Atalhos "Experimente"** no lugar do parágrafo de abertura: ver a vista do 18º, ver à noite,
+  marcar uma venda, ver a obra, virar hotel. No celular, eles ficam numa fileira que desliza.
+- **Textos.** Vantagens viraram frases curtas, cada uma com o seu "Ver na demonstração". O resto
+  também ficou mais curto: abertura, apartamento, como é feito (entregas só com o título), lista
+  do que vocês enviam, o que é fictício e as notas do apartamento. As regras de
+  `src/content/torrelio.test.ts` continuam valendo. Palavras na página: de 2.304 para ~1.450.
+
 ## Privacidade
 
 A demonstração não envia nada a servidor e não coleta dado pessoal. A seção "Preferências guardadas
@@ -114,8 +138,8 @@ revisão do titular (`docs/DECISOES_ANTES_DE_PUBLICAR.md`, seção Torrelio).
 
 ## 3D
 
-- **Torre** (`src/components/torrelio/3d/`): three.js por import dinâmico, só por intenção (o pôster é
-  o LCP). Noite: 24 chamadas e ~102 mil triângulos; dia com sombra: 29 e ~139 mil; vista da varanda:
+- **Torre** (`src/components/torrelio/3d/`): three.js por import dinâmico, depois de um gesto na
+  página e com o palco à vista (o pôster é o LCP). Noite: 24 chamadas e ~102 mil triângulos; dia com sombra: 29 e ~139 mil; vista da varanda:
   16–18 e ~120 mil; celular: 24 e ~77 mil. Chunk da cena: 36 KB gz sem o three. Tone mapping Neutral
   (o AgX deixava as janelas creme); orla com gabarito de 28 m, para o 3D esconder o mar no 11º e
   mostrá-lo do 12º para cima, como a tabela.

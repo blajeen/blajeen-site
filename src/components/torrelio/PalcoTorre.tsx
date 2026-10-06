@@ -40,16 +40,20 @@ type Props = {
  * (`images.unoptimized`), então o `srcset` é escrito aqui.
  */
 const POSTER = {
-  paisagem: '/produtos/torrelio/poster-noite.webp',
-  paisagem2x: '/produtos/torrelio/poster-noite@2x.webp',
-  retrato: '/produtos/torrelio/poster-noite-retrato.webp',
+  paisagem: '/produtos/torrelio/poster-dia.webp',
+  paisagem2x: '/produtos/torrelio/poster-dia@2x.webp',
+  retrato: '/produtos/torrelio/poster-dia-retrato.webp',
 } as const;
 
 /** Celular, economia de dados ou ponteiro grosso: o 3D só abre pelo botão (ou ao escolher uma unidade). */
-function soPeloBotao(): boolean {
+/** Quem pediu economia de dados só carrega o 3D pelo botão. */
+function economizandoDados(): boolean {
   const conexao = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return Boolean(conexao?.saveData) || !window.matchMedia('(min-width: 768px) and (pointer: fine)').matches;
+  return Boolean(conexao?.saveData);
 }
+
+/** Quanto tempo o palco precisa ficar à vista para a maquete abrir sozinha (quem passa rolando não paga a carga). */
+const PERMANENCIA_MS = 400;
 
 export function PalcoTorre({
   estadoVisual, enquadramento, girando, vista, areaLivre, marcador, controleRef, aoEscolher, aoMudarCamera, aoMudarSituacao, children,
@@ -98,25 +102,45 @@ export function PalcoTorre({
       });
   }, []);
 
-  // A intenção, no computador: o ponteiro entra no palco, um clique, ou o foco chega à demonstração.
+  // A maquete abre sozinha quando o palco fica à vista (pedido do titular: "mais demonstrativo"),
+  // mas só depois de a pessoa mexer na página (rolar, tocar, teclar): quem só abre a página, como
+  // uma ferramenta de medição, não carrega o 3D, e o pôster continua sendo o LCP. No computador,
+  // o ponteiro entrando no palco também conta.
   useEffect(() => {
     const no = palco.current;
-    if (!no || soPeloBotao()) return;
+    if (!no || economizandoDados() || typeof IntersectionObserver === 'undefined') return;
     let visivel = false;
-    const observador = new IntersectionObserver(([entrada]) => {
-      visivel = Boolean(entrada && entrada.intersectionRatio >= 0.25);
-    }, { threshold: [0, 0.25, 0.5] });
+    let mexeu = false;
+    let espera = 0;
+    const tentar = () => {
+      window.clearTimeout(espera);
+      if (visivel && mexeu) espera = window.setTimeout(carregar, PERMANENCIA_MS);
+    };
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        visivel = Boolean(entrada && entrada.intersectionRatio >= 0.4);
+        tentar();
+      },
+      { threshold: [0, 0.25, 0.4, 0.6] },
+    );
     observador.observe(no);
+    const EVENTOS = ['scroll', 'wheel', 'pointerdown', 'keydown', 'touchstart'] as const;
+    const interagiu = () => {
+      if (mexeu) return;
+      mexeu = true;
+      tentar();
+    };
+    for (const evento of EVENTOS) window.addEventListener(evento, interagiu, { passive: true });
     const intencao = () => {
-      if (visivel) carregar();
+      if (no.getBoundingClientRect().bottom > 0) carregar();
     };
     no.addEventListener('pointerenter', intencao);
-    no.addEventListener('pointerdown', intencao);
     no.addEventListener('focusin', intencao);
     return () => {
+      window.clearTimeout(espera);
       observador.disconnect();
+      for (const evento of EVENTOS) window.removeEventListener(evento, interagiu);
       no.removeEventListener('pointerenter', intencao);
-      no.removeEventListener('pointerdown', intencao);
       no.removeEventListener('focusin', intencao);
     };
   }, [carregar]);
@@ -225,7 +249,7 @@ export function PalcoTorre({
           height={900}
           fetchPriority="high"
           decoding="async"
-          alt="Maquete do Residencial Vértice, prédio fictício, à noite: as janelas acesas são unidades vendidas."
+          alt="Maquete do Residencial Vértice, prédio fictício, de dia: o contorno verde marca as unidades disponíveis."
         />
       </picture>
       <div ref={host} className={styles.host} aria-hidden="true" />

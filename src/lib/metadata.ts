@@ -15,7 +15,7 @@ export const OG = {
   morvelio: '/projects/morvelio/morvelio-icon-montanha-nome-v04.webp',
   mazelio: '/projects/mazelio/mazelio-icon-rei-v2.webp',
   socialio: '/projects/socialio/socialio-icon-cafe.webp',
-  /** O primeiro quadro da maquete do Torrelio, à noite, recortado em 1200 × 630. */
+  /** O primeiro quadro da maquete do Torrelio, de dia, recortado em 1200 × 630. */
   torrelio: '/og/torrelio.jpg',
 } as const;
 

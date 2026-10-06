@@ -66,7 +66,7 @@ describe('ApartamentoDemo', () => {
     const tabela = screen.getByRole('table', { name: /Quadro de áreas/ });
     expect(within(tabela).getByRole('row', { name: /Área útil.*57,61 m²/ })).toBeInTheDocument();
     expect(within(tabela).getByRole('row', { name: /Área privativa.*66,45 m²/ })).toBeInTheDocument();
-    expect(screen.getByText(/Mobiliário ilustrativo\. As áreas são da planta fictícia; num projeto real, vêm do memorial da incorporadora\./)).toBeInTheDocument();
+    expect(screen.getByText(/Mobiliário ilustrativo\. As áreas são da planta fictícia; no projeto, vêm do memorial\./)).toBeInTheDocument();
     // Sem pedido de ninguém, o 3D não carrega.
     expect(carga.carregar).not.toHaveBeenCalled();
   });

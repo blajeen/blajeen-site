@@ -115,7 +115,8 @@ export function DemonstracaoTorrelio() {
     const aoComando = (evento: Event) => {
       const comando = (evento as CustomEvent<Comando>).detail;
       mudar({ tipo: 'comando', comando });
-      if (comando.unidade || comando.vista) controle.current?.carregar();
+      // Todo atalho mexe na maquete (hora, camada, modo, vista): ela abre junto.
+      controle.current?.carregar();
       raiz.current?.scrollIntoView({ behavior: movimento ? 'smooth' : 'auto', block: 'start' });
     };
     window.addEventListener(EVENTO_DE_COMANDO, aoComando);
@@ -238,9 +239,9 @@ export function DemonstracaoTorrelio() {
     [ui.modo, escolherUnidade, escolherQuarto],
   );
 
-  // A demonstração abre à noite (as janelas acesas são as vendidas), mas à noite a paisagem some
-  // no escuro. Quem pede a vista pela interface a vê no fim de tarde; ao voltar, o prédio reacende,
-  // se a pessoa não tiver mudado a hora na vista. Um link com hora continua valendo como veio.
+  // À noite (quando a pessoa troca para ela), a paisagem some no escuro. Quem pede a vista pela
+  // interface com a maquete à noite a vê no fim de tarde; ao voltar, o prédio reacende, se a pessoa
+  // não tiver mudado a hora na vista. Um link com hora continua valendo como veio.
   const horaAntesDaVista = useRef<number | null>(null);
 
   const abrirVista = useCallback(() => {
@@ -549,7 +550,7 @@ export function DemonstracaoTorrelio() {
   );
 }
 
-/** A hora em que a vista abre quando a demonstração está à noite: o fim de tarde. */
+/** A hora em que a vista abre quando a maquete está à noite: o fim de tarde. */
 const HORA_DA_VISTA = PRESETS_DE_HORA.find((p) => p.id === 'fim-de-tarde')!.hora;
 
 function assinarLargura(aoMudar: () => void) {

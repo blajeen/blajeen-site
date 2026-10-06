@@ -96,13 +96,13 @@ type Desenho = {
  * A frente é a ¾ pelo noroeste: mostra a fachada da avenida, a lateral do pôr do sol e o 1803.
  */
 const DESENHOS: Readonly<Record<NomeDoEnquadramento, Desenho>> = {
-  frente: { azimute: 320, elevacao: 15, alvoY: 34, de: -2, ate: 76, largura: 44 },
-  lateral: { azimute: 264, elevacao: 11, alvoY: 34, de: -2, ate: 76, largura: 40 },
-  fundos: { azimute: 204, elevacao: 14, alvoY: 34, de: -2, ate: 76, largura: 44 },
-  rooftop: { azimute: 316, elevacao: 44, alvoY: 63, de: 52, ate: 74, largura: 40 },
+  frente: { azimute: 320, elevacao: 15, alvoY: 35, de: -6, ate: 80, largura: 54 },
+  lateral: { azimute: 264, elevacao: 11, alvoY: 35, de: -6, ate: 80, largura: 46 },
+  fundos: { azimute: 204, elevacao: 14, alvoY: 35, de: -6, ate: 80, largura: 54 },
+  rooftop: { azimute: 326, elevacao: 50, alvoY: 62, de: 42, ate: 76, largura: 52 },
   // A pose do pôster: mais de frente, mais baixa e um pouco mais longe; a entrada desliza daqui
   // até a frente ¾.
-  abertura: { azimute: 340, elevacao: 6, alvoY: 35, de: -6, ate: 80, largura: 48 },
+  abertura: { azimute: 340, elevacao: 6, alvoY: 35, de: -6, ate: 80, largura: 56 },
 };
 
 export type Lente = {

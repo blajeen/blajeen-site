@@ -75,8 +75,8 @@ export const LOTE_VIZINHO = { xMin: 24, xMax: 58, zMin: -17, zMax: 46 } as const
 export const PARQUE = { xMin: -240, xMax: 460, zMin: 22, zMax: 140 } as const;
 /** O lago do parque: uma elipse. */
 export const LAGO = { x: -35, z: 84, raioX: 62, raioZ: 27 } as const;
-/** A orla: um gabarito de 26 m na quadra da praia, que esconde o mar dos andares baixos. */
-export const ORLA = { zMin: 345, zMax: 372, gabarito: 26 } as const;
+/** A orla: um gabarito de 28 m na quadra da praia, que esconde o mar dos andares baixos. */
+export const ORLA = { zMin: 345, zMax: 372, gabarito: 28 } as const;
 /** A faixa de areia e o começo do mar. */
 export const AREIA = { zMin: 392, zMax: 455 } as const;
 export const NIVEL_DO_MAR = -0.8;
@@ -84,7 +84,7 @@ export const NIVEL_DO_MAR = -0.8;
  * Onde o mar é amostrado para a vista: daqui para longe, a névoa do 3D já o apaga. Quem vê o mar
  * nesta linha, por cima da orla, vê o mar.
  */
-export const Z_AMOSTRA_DO_MAR = 1250;
+export const Z_AMOSTRA_DO_MAR = 1600;
 
 export type TipoDeCaixa =
   | 'embasamento' | 'avenida' | 'quadra' | 'centro' | 'fundo' | 'orla' | 'casa' | 'bairro' | 'vizinho' | 'equipamento';
@@ -120,7 +120,7 @@ const MORROS: readonly Morro[] = [
   { x: 860, z: 240, raio: 330, altura: 104 },
   { x: 720, z: 520, raio: 260, altura: 86 },
   { x: 640, z: 760, raio: 170, altura: 42 },
-  { x: 1320, z: -40, raio: 520, altura: 160 },
+  { x: 1500, z: -60, raio: 560, altura: 128 },
 ];
 
 /** A altura do terreno de um morro, a uma distância `r` do centro: um monte com o pé suave. */
@@ -275,7 +275,7 @@ function gerarPaisagem(): Paisagem {
   // praia). Alguns passam do gabarito com a casa de máquinas.
   for (let x = -980; x < 540; ) {
     const largura = entre(20, 36);
-    const altura = sorte() < 0.82 ? entre(ORLA.gabarito, ORLA.gabarito + 0.5) : entre(ORLA.gabarito + 1, ORLA.gabarito + 4.5);
+    const altura = sorte() < 0.82 ? entre(ORLA.gabarito, ORLA.gabarito + 0.5) : entre(ORLA.gabarito + 1, ORLA.gabarito + 4);
     caixa('orla', x, x + largura, ORLA.zMin + entre(0, 2), ORLA.zMax - entre(0, 3), altura);
     x += largura;
   }

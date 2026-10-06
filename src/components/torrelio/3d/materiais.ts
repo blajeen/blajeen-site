@@ -1,5 +1,5 @@
 import {
-  AdditiveBlending, CanvasTexture, Color, DoubleSide, MeshStandardMaterial, NormalBlending, RepeatWrapping, ShaderMaterial,
+  AdditiveBlending, BackSide, CanvasTexture, Color, DoubleSide, MeshStandardMaterial, NormalBlending, RepeatWrapping, ShaderMaterial,
   SRGBColorSpace, Vector3, type Material, type MeshStandardMaterialParameters, type Texture, type WebGLProgramParametersWithUniforms,
 } from 'three';
 
@@ -20,6 +20,7 @@ export type Comuns = {
   uSolDir: Uniforme<Vector3>;
   uCeuZenite: Uniforme<Color>;
   uCeuHorizonte: Uniforme<Color>;
+  uCeuOposto: Uniforme<Color>;
   uCeuChao: Uniforme<Color>;
   uBrilhoDoSol: Uniforme<Color>;
   /** Luz direta do sol (cor × intensidade), para o brilho especular nos shaders próprios. */
@@ -37,6 +38,7 @@ export function criarComuns(): Comuns {
     uSolDir: { value: new Vector3(0, 1, 0) },
     uCeuZenite: { value: new Color() },
     uCeuHorizonte: { value: new Color() },
+    uCeuOposto: { value: new Color() },
     uCeuChao: { value: new Color() },
     uBrilhoDoSol: { value: new Color() },
     uLuzDoSol: { value: new Color() },
@@ -62,6 +64,7 @@ const CEU = /* glsl */ `
 uniform vec3 uSolDir;
 uniform vec3 uCeuZenite;
 uniform vec3 uCeuHorizonte;
+uniform vec3 uCeuOposto;
 uniform vec3 uCeuChao;
 uniform vec3 uBrilhoDoSol;
 uniform vec3 uLuzDoSol;
@@ -74,13 +77,16 @@ uniform float uTempo;
 vec3 corDoCeu(vec3 d) {
   float y = d.y;
   float acima = clamp(y, 0.0, 1.0);
-  vec3 c = mix(uCeuHorizonte, uCeuZenite, pow(acima, 0.5));
+  vec2 dh = normalize(d.xz + vec2(1e-5));
+  vec2 sh = normalize(uSolDir.xz + vec2(1e-5));
+  float lado = dot(dh, sh);
+  float mesmoLado = max(lado, 0.0);
+  // O horizonte esquenta do lado do sol e esfria do lado oposto.
+  vec3 horizonte = mix(uCeuOposto, uCeuHorizonte, smoothstep(-0.6, 0.85, lado));
+  vec3 c = mix(horizonte, uCeuZenite, pow(acima, 0.5));
   c = mix(c, uCeuChao, smoothstep(0.0, -0.12, y));
   float mu = max(dot(d, uSolDir), 0.0);
   float perto = 1.0 - acima;
-  vec2 dh = normalize(d.xz + vec2(1e-5));
-  vec2 sh = normalize(uSolDir.xz + vec2(1e-5));
-  float mesmoLado = max(dot(dh, sh), 0.0);
   float baixo = 1.0 - smoothstep(0.05, 0.5, uSolDir.y);
   float faixa = pow(mesmoLado, 3.0) * exp(-abs(y) * 6.0) * smoothstep(-0.3, 0.02, uSolDir.y) * baixo;
   c += uBrilhoDoSol * (0.07 * pow(mu, 6.0) + 0.22 * pow(mu, 40.0)) * (0.35 + 0.65 * perto);
@@ -92,8 +98,10 @@ vec3 corDaNevoa(vec3 d) {
   return corDoCeu(normalize(vec3(d.x, clamp(d.y, -0.05, 1.0) * 0.4 + 0.012, d.z)));
 }
 
+/** Névoa de curva cúbica: a cidade perto fica nítida e o horizonte (além de ~1,2 km) some. */
 float fatorDaNevoa(float distancia) {
-  return 1.0 - exp(-uNevoa * uNevoa * distancia * distancia);
+  float x = distancia * uNevoa;
+  return 1.0 - exp(-x * x * x);
 }
 
 vec3 aplicarNevoa(vec3 cor, vec3 mundo) {
@@ -136,8 +144,16 @@ function remendarPadrao(
 ): MeshStandardMaterial {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, comuns);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vMundoPadrao;')
+      .replace('#include <project_vertex>', `#include <project_vertex>
+        #ifdef USE_INSTANCING
+          vMundoPadrao = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
+        #else
+          vMundoPadrao = (modelMatrix * vec4(transformed, 1.0)).xyz;
+        #endif`);
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', `#include <common>\n${CEU}\nvec3 nevoaDaVista(vec3 cor) {\n  float d = length(vViewPosition);\n  vec3 dir = transpose(mat3(viewMatrix)) * (-vViewPosition) / max(d, 1e-3);\n  return mix(cor, corDaNevoa(dir), fatorDaNevoa(d));\n}`)
+      .replace('#include <common>', `#include <common>\nvarying vec3 vMundoPadrao;\n${CEU}\nvec3 nevoaDaVista(vec3 cor) {\n  return aplicarNevoa(cor, vMundoPadrao);\n}`)
       .replace('#include <tonemapping_fragment>', 'gl_FragColor.rgb = nevoaDaVista(gl_FragColor.rgb);\n#include <tonemapping_fragment>')
       .replace('#include <fog_fragment>', '');
     extra?.(shader);
@@ -192,6 +208,7 @@ export function materialDoCeu(comuns: Comuns): ShaderMaterial {
       }`,
     depthWrite: false,
     depthTest: false,
+    side: BackSide,
   });
 }
 
@@ -207,6 +224,8 @@ export type UniformsDoVidro = {
   /** 0 a 1: no modo obra, a luz dos interiores some (ninguém mora num prédio em obra). */
   uLuzesDaObra: Uniforme<number>;
   uDuracao: Uniforme<number>;
+  /** Escala da luz dos interiores (ajuste fino de arte). */
+  uIntensidadeInterior: Uniforme<number>;
   uCorBrilho: Uniforme<Color>;
   uCorPapel: Uniforme<Color>;
 };
@@ -227,6 +246,7 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
     uInteriores: { value: 1 },
     uLuzesDaObra: { value: 1 },
     uDuracao: { value: 0.4 },
+    uIntensidadeInterior: { value: 0.5 },
     uCorBrilho: { value: PALETA.brilho.clone() },
     uCorPapel: { value: PALETA.papel.clone() },
   };
@@ -274,6 +294,7 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
       uniform float uVarreduraForca;
       uniform float uInteriores;
       uniform float uLuzesDaObra;
+      uniform float uIntensidadeInterior;
       uniform vec3 uCorBrilho;
       uniform vec3 uCorPapel;
       varying vec2 vUv;
@@ -332,7 +353,8 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
         // Reflexo: cada painel levemente fora do prumo, como vidro de verdade.
         vec3 Np = normalize(N + T * (h1 - 0.5) * 0.03 + vec3(0.0, (h2 - 0.5) * 0.022, 0.0));
         float cosV = max(dot(Np, V), 0.0);
-        float fresnel = 0.06 + 0.94 * pow(1.0 - cosV, 5.0);
+        // Vidro revestido (refletivo), como nas torres de verdade: F0 bem acima do vidro comum.
+        float fresnel = 0.16 + 0.84 * pow(1.0 - cosV, 5.0);
         vec3 R = reflect(-V, Np);
         vec3 horizonte = corDoCeu(normalize(vec3(R.x, 0.015, R.z)));
         vec3 chao = uHemiChao * 0.16 + horizonte * 0.12;
@@ -341,27 +363,31 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
         vec3 brilhoDoSol = uLuzDoSol * (pow(sol, 900.0) * 9.0 + pow(sol, 70.0) * 0.18) * smoothstep(-0.02, 0.04, uSolDir.y);
 
         // Interior: a luz da unidade (com fade) e um fundo escuro de dia.
-        float luz = vLuz * uLuzesDaObra;
+        // De dia o olho está acostumado ao céu claro: a mesma lâmpada aparece bem menos.
+        float luz = vLuz * uLuzesDaObra * uIntensidadeInterior * mix(0.07, 1.0, uNoite * uNoite);
         vec3 lampada = mix(vec3(1.0, 0.62, 0.32), vec3(1.0, 0.78, 0.55), h3);
         vec3 dentro = uInteriores > 0.5 ? interior(V, N, T, p, h1, h2) : vec3(0.5, 0.46, 0.4) * (0.55 + 0.45 * vUv.y);
-        vec3 transmitido = dentro * lampada * luz * (1.35 + 0.5 * h3) + uHemiCeu * 0.03 * (0.6 + 0.4 * dentro);
+        // Nem todo cômodo aceso tem a mesma luz: uns mais fortes, um ou outro só com abajur.
+        float comodo = hash12(vec2(vId * 0.37, 5.0));
+        float intensidade = comodo < 0.18 ? 0.28 : 0.5 + 0.55 * comodo;
+        vec3 transmitido = dentro * lampada * luz * intensidade + uHemiCeu * 0.03 * (0.6 + 0.4 * dentro);
 
         // Cortinas e persianas, sorteadas por vão.
         if (vVar > 0.62) {
           float abertura = 0.22 + 0.5 * fract(vVar * 13.0);
           float lado = fract(vVar * 31.0) > 0.5 ? vUv.x : 1.0 - vUv.x;
           float tecido = smoothstep(abertura - 0.02, abertura + 0.02, lado);
-          vec3 voal = (lampada * luz * 0.95 + uHemiCeu * 0.1) * (0.85 + 0.15 * sin(p.x * 22.0));
+          vec3 voal = (lampada * luz * 0.7 + uHemiCeu * 0.08) * (0.8 + 0.2 * vUv.y);
           transmitido = mix(transmitido, voal, tecido * 0.72);
         } else if (vVar > 0.42) {
           float descida = 0.15 + 0.55 * fract(vVar * 7.0);
           float persiana = step(1.0 - descida, vUv.y);
           float lamina = 0.75 + 0.25 * smoothstep(0.35, 0.5, abs(fract(p.y * 8.0) - 0.5));
-          vec3 cor = (lampada * luz * 0.55 + uHemiCeu * 0.05) * lamina;
+          vec3 cor = (lampada * luz * 0.45 + uHemiCeu * 0.05) * lamina;
           transmitido = mix(transmitido, cor, persiana * 0.85);
         }
 
-        vec3 cor = mix(transmitido * 0.82, reflexo, fresnel) + brilhoDoSol;
+        vec3 cor = transmitido * 0.8 * (1.0 - fresnel) + reflexo * fresnel + brilhoDoSol;
 
         // Caixilhos desenhados: montantes entre painéis e trilhos em cima e embaixo, em bronze.
         float caixilho = 0.0;
@@ -377,7 +403,7 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
         float ehSel = 1.0 - step(0.5, abs(vDono - uSelecionada));
         float ehPas = (1.0 - step(0.5, abs(vDono - uPassando))) * (1.0 - ehSel);
         float ehAndar = 1.0 - step(0.5, abs(vPav - uPavimentoEmDestaque));
-        cor += uCorBrilho * 0.045 * ehSel + uCorPapel * 0.05 * ehPas + uCorPapel * 0.035 * ehAndar;
+        cor += uCorPapel * 0.04 * ehPas * (1.0 - ehSel) + uCorPapel * 0.03 * ehAndar;
         cor += uCorBrilho * uVarreduraForca * exp(-pow((vMundo.y - uVarredura) / 0.5, 2.0)) * 0.8;
 
         gl_FragColor = vec4(aplicarNevoa(cor, vMundo), 1.0);
@@ -423,7 +449,7 @@ export function materialDosHalos(comuns: Comuns): { material: ShaderMaterial; fo
         float d = length(q * vec2(1.0, 1.15));
         float a = pow(max(1.0 - d, 0.0), 2.2);
         float longe = 1.0 - fatorDaNevoa(length(vMundo - cameraPosition));
-        vec3 cor = vec3(1.0, 0.66, 0.36) * a * vLuz * uForca * (0.06 + 0.16 * uNoite) * longe;
+        vec3 cor = vec3(1.0, 0.66, 0.36) * a * vLuz * uForca * 0.14 * uNoite * longe;
         gl_FragColor = vec4(cor, 1.0);
         ${FINAL}
       }`,
@@ -514,10 +540,8 @@ export function materialDoContorno(): { material: ShaderMaterial; uniforms: Unif
         float px = max(vPixel, 1e-4);
         vec4 cor = vec4(0.0);
         if (vSel > 0.5) {
-          float largura = max(0.09, 2.6 * px);
-          float linha = faixa(dBorda, largura, px);
-          float aura = exp(-dBorda / max(0.35, 9.0 * px)) * 0.28;
-          cor = vec4(uBrilho, max(linha, aura));
+          float largura = max(0.07, 1.9 * px);
+          cor = vec4(uBrilho, faixa(dBorda, largura, px));
         } else if (vEstado.y > 0.5 && uBloqueios > 0.5) {
           float largura = max(0.05, 1.5 * px);
           float s = (p.y < largura * 2.0 || p.y > vTamanho.y - largura * 2.0) ? p.x : p.y;
@@ -619,12 +643,16 @@ export function materialDaAgua(comuns: Comuns): ShaderMaterial {
         g *= 1.0 / (1.0 + dist * 0.006);
         vec3 N = normalize(vec3(-g.x, 1.0, -g.y));
         vec3 V = normalize(cameraPosition - vMundo);
-        float fresnel = 0.02 + 0.98 * pow(1.0 - max(dot(N, V), 0.0), 5.0);
+        // Longe, as ondas viram rugosidade: o reflexo pega um céu mais alto (mais escuro) e o mar
+        // não some contra o horizonte, como nas fotos do litoral.
+        float rugosidade = smoothstep(80.0, 900.0, dist) * 0.22;
+        float fresnel = min(0.52, 0.02 + 0.98 * pow(1.0 - max(dot(N, V), 0.0), 5.0));
         vec3 R = reflect(-V, N);
-        vec3 reflexo = corDoCeu(normalize(vec3(R.x, max(R.y, 0.0), R.z)));
-        float sol = max(dot(R, uSolDir), 0.0);
-        vec3 brilho = uLuzDoSol * (pow(sol, 260.0) * 3.0 + pow(sol, 24.0) * 0.06) * smoothstep(-0.02, 0.05, uSolDir.y);
-        vec3 fundo = vCor * (uHemiCeu * 0.55 + uLuzDoSol * 0.08 * max(uSolDir.y, 0.0));
+        R = normalize(vec3(R.x, max(R.y, 0.0) + rugosidade, R.z));
+        vec3 reflexo = corDoCeu(R) * 0.78;
+        float sol = max(dot(reflect(-V, N), uSolDir), 0.0);
+        vec3 brilho = uLuzDoSol * (pow(sol, 260.0) * 3.0 + pow(sol, 18.0) * 0.12) * smoothstep(-0.02, 0.05, uSolDir.y);
+        vec3 fundo = vCor * (uHemiCeu * 0.95 + uLuzDoSol * 0.1 * max(uSolDir.y, 0.0));
         vec3 cor = mix(fundo, reflexo, fresnel) + brilho;
         // A piscina do rooftop acende de noite, em água-marinha discreta.
         cor += vec3(0.08, 0.32, 0.30) * vBrilho * uNoite * (0.8 + 0.2 * sin(q.x * 3.0 + t));
@@ -671,7 +699,7 @@ export function materialDosPredios(comuns: Comuns): MeshStandardMaterial {
           vec3 nL = normalize(vNormalLocal);
           float tipo = vEstilo.y;
           float altura = vEstilo.z;
-          if (abs(nL.y) < 0.5 && tipo < 1.5) {
+          if (abs(nL.y) < 0.5 && (tipo < 1.5 || tipo > 2.5)) {
             float s = abs(nL.x) > 0.5 ? vPredio.z : vPredio.x;
             float y = vPredio.y;
             float andar = vJanela.x;
@@ -680,8 +708,8 @@ export function materialDosPredios(comuns: Comuns): MeshStandardMaterial {
             float topo = altura - (tipo > 0.5 ? 0.0 : 1.0);
             float fs = s / modulo;
             float fy = (y - terreo) / andar;
-            float largura = tipo > 0.5 ? 0.34 : 0.62;
-            float alturaJ = tipo > 0.5 ? 0.42 : 0.56;
+            float largura = tipo > 3.5 ? 0.9 : tipo > 2.5 ? 0.84 : tipo > 0.5 ? 0.34 : 0.56;
+            float alturaJ = tipo > 3.5 ? 0.5 : tipo > 2.5 ? 0.7 : tipo > 0.5 ? 0.42 : 0.52;
             float ax = fract(fs);
             float ay = fract(fy);
             float jx = smoothstep(0.5 - largura * 0.5 - 0.03, 0.5 - largura * 0.5, ax) * (1.0 - smoothstep(0.5 + largura * 0.5, 0.5 + largura * 0.5 + 0.03, ax));
@@ -692,13 +720,16 @@ export function materialDosPredios(comuns: Comuns): MeshStandardMaterial {
             float grade = mix(largura * alturaJ, jx * jy, nitidez);
             float loja = terreo > 0.5 ? step(0.6, y) * step(y, terreo - 0.5) * (1.0 - 0.6 * step(0.86, fract(s / 6.0))) : 0.0;
             mascaraJanela = max(grade * dentro, loja);
-            float sorteio = hash13(vec3(floor(fy), floor(fs), vJanela.w));
+            // Escritórios acendem por andar; casas e apartamentos, janela a janela (ou cômodo a cômodo).
+            float coluna = tipo > 2.5 ? floor(fs / 4.0) : floor(fs);
+            float sorteio = hash13(vec3(floor(fy), coluna, vJanela.w));
             float acesa = step(sorteio, vJanela.z) * dentro + loja * step(0.45, hash12(vec2(floor(s / 6.0), vJanela.w)));
-            vec3 morna = mix(vec3(1.0, 0.6, 0.3), vec3(1.0, 0.78, 0.52), fract(sorteio * 7.0));
-            vec3 fria = vec3(0.78, 0.86, 1.0);
-            vec3 tom = tipo > 2.5 ? mix(fria, morna, step(0.7, fract(sorteio * 3.0))) : morna;
-            luzDaJanela = tom * acesa * mascaraJanela * uNoite * (0.55 + 0.6 * fract(sorteio * 13.0)) * mix(1.0, 0.3, 1.0 - nitidez);
-            vec3 vidroDia = uCeuHorizonte * 0.16 + vec3(0.012, 0.016, 0.02);
+            vec3 morna = mix(vec3(1.0, 0.52, 0.22), vec3(1.0, 0.7, 0.42), fract(sorteio * 7.0));
+            vec3 fria = vec3(0.72, 0.8, 0.9);
+            vec3 tom = tipo > 2.5 && tipo < 3.5 ? mix(fria, morna, step(0.7, fract(sorteio * 3.0))) : morna;
+            float escritorio = tipo > 2.5 && tipo < 3.5 ? 0.55 : 1.0;
+            luzDaJanela = tom * acesa * mascaraJanela * uNoite * escritorio * (0.35 + 0.5 * fract(sorteio * 13.0)) * mix(1.0, 0.45, 1.0 - nitidez);
+            vec3 vidroDia = mix(uCeuOposto, uCeuZenite, 0.4) * 0.3 + vec3(0.01, 0.013, 0.016);
             diffuseColor.rgb = mix(diffuseColor.rgb, vidroDia, mascaraJanela * 0.9);
           } else if (nL.y > 0.5) {
             diffuseColor.rgb *= 0.72 + 0.12 * hash12(floor(vPredio.xz / 3.0));
@@ -707,7 +738,7 @@ export function materialDosPredios(comuns: Comuns): MeshStandardMaterial {
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
         roughnessFactor = mix(roughnessFactor, 0.22, mascaraJanela);`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-        totalEmissiveRadiance += luzDaJanela * 2.2;`);
+        totalEmissiveRadiance += luzDaJanela * 0.8;`);
   });
 }
 
@@ -716,7 +747,7 @@ export function materialComBrilho(
   comuns: Comuns,
   chave: string,
   parametros: MeshStandardMaterialParameters,
-  brilho: { atributo: 'aAceso' | 'aBanho' | 'aLuzForro'; cor: Color; forca: number },
+  brilho: { atributo: 'aAceso' | 'aBanho' | 'aLuzForro'; cor: Color; forca: number; curva?: boolean; banhoDaBase?: boolean },
 ): MeshStandardMaterial {
   const material = new MeshStandardMaterial(parametros);
   const uDuracao = { value: 0.4 };
@@ -729,7 +760,7 @@ export function materialComBrilho(
     shader.uniforms['uLuzesDaObra'] = uLuzesDaObra;
     const tipo = brilho.atributo === 'aLuzForro' ? 'vec3' : 'float';
     const calculo = brilho.atributo === 'aLuzForro'
-      ? `float tF = clamp((uTempo - aLuzForro.z) / uDuracao, 0.0, 1.0); tF = tF * tF * (3.0 - 2.0 * tF); vAceso = mix(aLuzForro.y, aLuzForro.x, tF) * uLuzesDaObra;`
+      ? `float tF = clamp((uTempo - aLuzForro.z) / uDuracao, 0.0, 1.0); tF = tF * tF * (3.0 - 2.0 * tF); vAceso = mix(aLuzForro.y, aLuzForro.x, tF) * uLuzesDaObra * mix(0.22, 1.0, uNoite);`
       : `vAceso = ${brilho.atributo} * uNoite;`;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
@@ -747,7 +778,13 @@ export function materialComBrilho(
         uniform float uForcaDoBrilho;
         varying float vAceso;`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-        totalEmissiveRadiance += uCorDoBrilho * uForcaDoBrilho * vAceso;`);
+        totalEmissiveRadiance += uCorDoBrilho * uForcaDoBrilho * ${brilho.curva ? 'vAceso * vAceso * vAceso' : 'vAceso'};
+        ${brilho.banhoDaBase ? `{
+          // Luz de baixo para cima nos primeiros andares, a partir das jardineiras do terraço.
+          float acima = vMundoPadrao.y - 7.6;
+          float lateral = 1.0 - abs(normalize(vNormal).y);
+          totalEmissiveRadiance += vec3(1.0, 0.72, 0.45) * 0.07 * uNoite * lateral * step(0.0, acima) * exp(-acima / 9.0);
+        }` : ''}`);
   });
 }
 
@@ -869,7 +906,7 @@ export function texturaDePedra(): Texture {
     for (let coluna = -1; coluna < 5; coluna += 1) {
       const x = (coluna * 1.2 + deslocamento) * px;
       const y = linha * 0.6 * px;
-      const tom = 128 + Math.round((s() - 0.5) * 22);
+      const tom = 206 + Math.round((s() - 0.5) * 22);
       g.fillStyle = `rgb(${tom + 8}, ${tom + 3}, ${tom - 6})`;
       g.fillRect(x, y, 1.2 * px, 0.6 * px);
       for (let i = 0; i < 90; i += 1) {
@@ -879,7 +916,7 @@ export function texturaDePedra(): Texture {
       }
     }
   }
-  g.fillStyle = 'rgba(40, 36, 32, 0.75)';
+  g.fillStyle = 'rgba(70, 64, 58, 0.7)';
   for (let linha = 0; linha <= 8; linha += 1) g.fillRect(0, linha * 0.6 * px - 1, 512, 2);
   for (let linha = 0; linha < 8; linha += 1) {
     const deslocamento = (linha % 2) * 0.6;
@@ -894,8 +931,8 @@ export function texturaDeMadeira(): Texture {
   const s = sorteio(31);
   const px = 256 / 2;
   for (let i = 0; i < 2 / 0.12; i += 1) {
-    const tom = 150 + Math.round((s() - 0.5) * 40);
-    g.fillStyle = `rgb(${tom}, ${Math.round(tom * 0.68)}, ${Math.round(tom * 0.45)})`;
+    const tom = 160 + Math.round((s() - 0.5) * 40);
+    g.fillStyle = `rgb(${tom}, ${Math.round(tom * 0.76)}, ${Math.round(tom * 0.58)})`;
     g.fillRect(0, i * 0.12 * px, 256, 0.12 * px);
     for (let k = 0; k < 14; k += 1) {
       g.fillStyle = `rgba(70, 40, 20, ${0.08 + s() * 0.1})`;

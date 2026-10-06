@@ -54,6 +54,11 @@ export class Construtor {
     return this.indices.length === 0;
   }
 
+  /** Quantos vértices já foram escritos. */
+  get totalDeVertices(): number {
+    return this.vertices;
+  }
+
   /** Um vértice; devolve o índice. */
   vertice(p: Ponto, n: Ponto, u: number, v: number): number {
     this.posicoes.push(p[0], p[1], p[2]);

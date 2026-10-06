@@ -1,11 +1,10 @@
+import { criarCenaTorre } from './cena-torre';
 import type { CarregarTorre } from './contrato';
 
 /**
- * Entrada do import dinâmico da cena da torre.
- *
- * PROVISÓRIO (etapa 0): a cena em three.js ainda está sendo construída. Até lá, a carga falha e o
- * palco fica no pôster com a mensagem de reserva, enquanto o espelho e o cartão fazem tudo.
+ * Entrada do import dinâmico da cena da torre: cria o renderizador dentro de `host`, monta a cena
+ * em fatias, compila os shaders (`compileAsync`), desenha o primeiro quadro e só então resolve.
+ * Quem chama reserva a fila da GPU (`reservarGpu`) antes e a libera depois, como o LabHero.
+ * Sem WebGL2 ou com erro na montagem, a promessa é rejeitada e o pôster fica.
  */
-export const carregarTorre: CarregarTorre = async () => {
-  throw new Error('A cena 3D da torre ainda não foi construída.');
-};
+export const carregarTorre: CarregarTorre = (host, opcoes) => criarCenaTorre(host, opcoes);

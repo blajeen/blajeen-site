@@ -64,6 +64,12 @@ export interface CenaTorre {
   /** Rumo da câmera, em graus a partir do norte, no sentido horário: para a bússola. */
   aoMudarRumo(ouvinte: (rumo: number) => void): () => void;
   aoMudarCamera(ouvinte: (modo: ModoDaCamera) => void): () => void;
+  /**
+   * Opcional: o contexto WebGL caiu (GPU reiniciada, aba em segundo plano no celular) ou voltou.
+   * Perdido, a interface pode mostrar o pôster com "Recarregando a torre…"; restaurado, a cena já
+   * se redesenhou sozinha.
+   */
+  aoMudarContexto?(ouvinte: (situacao: 'perdido' | 'restaurado') => void): () => void;
   /** Números para o QA: quadros desenhados e o custo do último. */
   readonly diagnostico: { quadros: number; chamadas: number; triangulos: number };
   descartar(): void;
@@ -73,6 +79,12 @@ export type OpcoesDaTorre = {
   movimento: boolean;
   /** Celular e aparelho fraco pedem menos (sem sombra, resolução menor). */
   qualidade?: 'alto' | 'medio' | 'baixo';
+  /**
+   * Opcional: o estado que a interface já tem. Assim o primeiro quadro (o que substitui o pôster)
+   * já sai com a hora, as luzes e a seleção certas. Sem ele, a cena abre no estado do pôster
+   * (tabela de lançamento, 1803 selecionada, noite de verão às 20h30).
+   */
+  estado?: EstadoVisualTorre;
 };
 
 /** A entrada do import dinâmico: `import('./carregar').then((m) => m.carregarTorre(host, opcoes))`. */

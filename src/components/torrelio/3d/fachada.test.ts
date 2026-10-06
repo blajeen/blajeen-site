@@ -4,10 +4,10 @@ import { cota, QUARTOS, TORRE, UNIDADES } from '@/lib/torrelio/predio';
 import { NIVEL_DA_LUZ, retangulosDoModo } from './fachada';
 
 describe('a fachada viva', () => {
-  it('separa as luzes: apagada e bloqueada no escuro, reservada em luz fria, vendida em luz quente', () => {
+  it('separa as luzes: apagada e bloqueada no escuro, reservada em luz azul, vendida em luz quente', () => {
     expect(NIVEL_DA_LUZ[LUZ.apagada]).toBe(0);
     expect(NIVEL_DA_LUZ[LUZ.bloqueada]).toBe(0);
-    // O sinal é a cor: negativo é a lâmpada fria da reservada, e ela aparece quase tão forte quanto a quente.
+    // O sinal é a cor: negativo é a lâmpada azul da reservada, e ela aparece quase tão forte quanto a quente.
     expect(NIVEL_DA_LUZ[LUZ.baixa]).toBeLessThan(0);
     expect(Math.abs(NIVEL_DA_LUZ[LUZ.baixa]!)).toBeGreaterThanOrEqual(0.6);
     expect(NIVEL_DA_LUZ[LUZ.acesa]).toBe(1);

@@ -5,7 +5,7 @@
 export const LUZ = {
   /** Disponível, ou quarto livre: luz apagada. */
   apagada: 0,
-  /** Reservada: luz fria, azulada (o nome ficou do tempo em que era só uma luz mais fraca). */
+  /** Reservada: luz azul (o nome ficou do tempo em que era só uma luz mais fraca). */
   baixa: 1,
   /** Vendida, indisponível ou quarto ocupado: luz acesa. */
   acesa: 2,

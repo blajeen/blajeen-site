@@ -1,15 +1,15 @@
 /*
  * Torrelio: a demonstração. Superfícies profundas, bordas de 1 px, números tabulares e o verde
  * ácido só como sinal (disponível, foco, botão principal). As luzes das janelas são as únicas cores
- * novas: quente na vendida e fria (azulada) na reservada, e só aparecem onde representam uma janela.
+ * novas: quente na vendida e azul na reservada, e só aparecem onde representam uma janela.
  */
 
 .demo {
   --raio-palco: 28px;
   --painel-fundo: rgba(17, 19, 15, 0.93);
   --luz-acesa: #e9c47c;
-  /* Reservada: luz fria, azulada, bem diferente da luz quente das vendidas (pedido do titular). */
-  --luz-fria: #8fb6ff;
+  /* Reservada: azul, bem diferente da luz quente das vendidas (pedido do titular). */
+  --luz-fria: #5e9bff;
   --livre-esq: 0px;
   --livre-dir: 0px;
   --altura-palco: clamp(36rem, 80svh, 50rem);
@@ -575,7 +575,7 @@
 [data-status='reservada'] .marcaDoStatus {
   border-color: var(--luz-fria);
   background: linear-gradient(135deg, var(--luz-fria) 50%, transparent 50%);
-  box-shadow: 0 0 8px rgba(143, 182, 255, 0.4);
+  box-shadow: 0 0 8px rgba(94, 155, 255, 0.45);
 }
 
 [data-status='disponivel'] .marcaDoStatus {

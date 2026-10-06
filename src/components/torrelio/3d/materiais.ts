@@ -364,12 +364,12 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
 
         // Interior: a luz da unidade (com fade) e um fundo escuro de dia.
         // De dia o olho está acostumado ao céu claro: a mesma lâmpada aparece bem menos.
-        // O sinal de vLuz é a cor da lâmpada: quente na vendida, fria (azulada) na reservada.
+        // O sinal de vLuz é a cor da lâmpada: quente na vendida, azul na reservada.
         float fria = step(vLuz, -0.001);
         float luz = abs(vLuz) * uLuzesDaObra * uIntensidadeInterior * mix(0.07, 1.0, uNoite * uNoite);
         vec3 lampada = mix(
           mix(vec3(1.0, 0.62, 0.32), vec3(1.0, 0.78, 0.55), h3),
-          mix(vec3(0.5, 0.72, 1.0), vec3(0.7, 0.86, 1.0), h3),
+          mix(vec3(0.3, 0.55, 1.0), vec3(0.45, 0.68, 1.0), h3),
           fria);
         vec3 dentro = uInteriores > 0.5 ? interior(V, N, T, p, h1, h2) : vec3(0.5, 0.46, 0.4) * (0.55 + 0.45 * vUv.y);
         // Nem todo cômodo aceso tem a mesma luz: uns mais fortes, um ou outro só com abajur.
@@ -454,7 +454,7 @@ export function materialDosHalos(comuns: Comuns): { material: ShaderMaterial; fo
         float d = length(q * vec2(1.0, 1.15));
         float a = pow(max(1.0 - d, 0.0), 2.2);
         float longe = 1.0 - fatorDaNevoa(length(vMundo - cameraPosition));
-        vec3 tom = vLuz < 0.0 ? vec3(0.5, 0.72, 1.0) : vec3(1.0, 0.66, 0.36);
+        vec3 tom = vLuz < 0.0 ? vec3(0.3, 0.55, 1.0) : vec3(1.0, 0.66, 0.36);
         vec3 cor = tom * a * abs(vLuz) * uForca * 0.26 * uNoite * longe;
         gl_FragColor = vec4(cor, 1.0);
         ${FINAL}

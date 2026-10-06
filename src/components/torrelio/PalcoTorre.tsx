@@ -176,6 +176,22 @@ export function PalcoTorre({
     cena.enquadrar(enquadramento);
   }, [cena, enquadramento]);
 
+  // Ao abrir a vista longe do palco (no celular, o cartão fica embaixo dele), o palco vem para a
+  // tela: sem isso, o toque em "Ver a vista" mudava uma coisa que a pessoa não via.
+  const tinhaVista = useRef(false);
+  useEffect(() => {
+    const abriu = vista !== null && !tinhaVista.current;
+    tinhaVista.current = vista !== null;
+    const el = palco.current;
+    if (!abriu || !el) return;
+    // Também quando o topo está sob o cabeçalho fixo: a barra com o "Voltar" fica ali (no tablet em pé, o palco
+    // cresce na vista e o topo subia para fora da tela).
+    const r = el.getBoundingClientRect();
+    const margem = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    const visivel = Math.max(0, Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top));
+    if (r.top < margem - 12 || visivel < r.height * 0.85) el.scrollIntoView({ behavior: estadoVisual.movimento ? 'smooth' : 'auto', block: 'start' });
+  }, [vista, estadoVisual.movimento]);
+
   const vistaAnterior = useRef<{ indice: number; fachada: Fachada } | null>(null);
   useEffect(() => {
     if (!cena) return;
@@ -198,7 +214,7 @@ export function PalcoTorre({
   }, [cena, areaLivre]);
 
   return (
-    <div ref={palco} className={styles.palco} data-situacao={situacao} data-vista={vista ? 'sim' : 'nao'}>
+    <div ref={palco} className={styles.palco} data-situacao={situacao} data-vista={vista ? 'sim' : 'nao'} data-ancora="palco">
       <picture className={styles.poster} data-oculto={situacao === 'pronto' && !contextoPerdido ? 'sim' : 'nao'}>
         <source media="(max-width: 767px)" srcSet={POSTER.retrato} width={1080} height={1350} />
         <img

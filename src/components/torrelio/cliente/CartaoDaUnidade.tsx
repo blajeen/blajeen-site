@@ -56,7 +56,7 @@ export const CartaoDaUnidade = memo(function CartaoDaUnidade({
   }, [unidade.id]);
 
   return (
-    <article ref={cartaoRef} className={styles.cartao} aria-labelledby={tituloId} data-status={situacao.status}>
+    <article ref={cartaoRef} className={styles.cartao} aria-labelledby={tituloId} data-status={situacao.status} data-ancora="ficha">
       <header className={styles.cartaoTopo}>
         <p className="tecnica text-mineral">
           {unidade.tipologia === 'cobertura' ? 'COBERTURA DUPLEX' : 'APARTAMENTO'} · FINAL {unidade.final}

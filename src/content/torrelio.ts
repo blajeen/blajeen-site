@@ -61,7 +61,8 @@ export const vantagens: readonly { publico: string; itens: readonly Vantagem[] }
         titulo: 'Ver a vista antes de comprar.',
         texto:
           'A câmera vai até a varanda da unidade e mostra o que se vê dali. Dá para subir e descer andares e comparar a paisagem de cada um: no Vértice, o mar aparece pelos fundos a partir do 12º.',
-        comando: { unidade: '1803', vista: 'sul' },
+        // No fim de tarde: à noite, a paisagem some no escuro.
+        comando: { unidade: '1803', vista: 'sul', hora: 17.5 },
       },
       {
         titulo: 'Saber de que lado bate o sol.',

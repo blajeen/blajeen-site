@@ -118,7 +118,7 @@ function EditorDaUnidade({ estado, id, despachar }: { estado: EstadoTorrelio; id
   const rotuloDoAndar = unidade.pavimentos.map((p) => `${p}º`).join('–');
 
   return (
-    <section className={styles.editor} aria-labelledby="torrelio-editor">
+    <section className={styles.editor} aria-labelledby="torrelio-editor" data-ancora="ficha">
       <h3 id="torrelio-editor">
         Unidade {id} <span className="text-mineral">· {rotuloDoAndar} · final {unidade.final}</span>
       </h3>

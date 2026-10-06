@@ -55,13 +55,15 @@ export function ApartamentoDemo() {
   // A hora escolhida aqui vale até a torre mandar outro pedido.
   const hora = luz && luz.pedido === contexto.pedido ? luz.hora : contexto.hora;
 
-  // Pedido vindo da torre ("Ver por dentro", no cartão da unidade): rola até a seção e põe o foco no título.
+  // Pedido vindo da torre ("Ver por dentro", no cartão da unidade): rola até a demonstração (a linha
+  // da unidade e a planta logo abaixo; no celular, rolar até o título deixava a planta uma tela
+  // abaixo) e põe o foco no título da seção, para o leitor de tela começar do começo.
+  const raiz = useRef<HTMLDivElement>(null);
   const ultimoPedido = useRef(contexto.pedido);
   useEffect(() => {
     if (contexto.pedido === ultimoPedido.current) return;
     ultimoPedido.current = contexto.pedido;
-    const secao = document.getElementById('apartamento');
-    secao?.scrollIntoView?.({ behavior: movimento ? 'smooth' : 'auto', block: 'start' });
+    raiz.current?.scrollIntoView?.({ behavior: movimento ? 'smooth' : 'auto', block: 'start' });
     document.getElementById('apartamento-titulo')?.focus({ preventScroll: true });
   }, [contexto.pedido, movimento]);
 
@@ -92,7 +94,7 @@ export function ApartamentoDemo() {
   const escolher = (id: ComodoId | null) => setSelecionado((atual) => (id !== null && atual === id ? null : id));
 
   return (
-    <div className={styles.demo}>
+    <div ref={raiz} className={styles.demo}>
       <div className={styles.contexto}>
         <p className={styles.contextoTexto}>{linha}</p>
         {unidade ? (

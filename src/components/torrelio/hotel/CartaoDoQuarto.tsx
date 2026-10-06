@@ -36,7 +36,7 @@ export function CartaoDoQuarto({ estado, quarto, periodo, despachar, aoVerVista,
   const tituloId = `quarto-${quarto.id}`;
 
   return (
-    <article className={styles.cartao} aria-labelledby={tituloId} data-status={livre && cabe ? 'disponivel' : 'vendida'}>
+    <article className={styles.cartao} aria-labelledby={tituloId} data-status={livre && cabe ? 'disponivel' : 'vendida'} data-ancora="ficha">
       <header className={styles.cartaoTopo}>
         <p className="tecnica text-mineral">QUARTO · {categoria.nome.toUpperCase()}</p>
         <div className={styles.cartaoNumero}>

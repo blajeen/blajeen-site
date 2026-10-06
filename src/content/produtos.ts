@@ -1177,3 +1177,43 @@ export const produtos: readonly Produto[] = [
   vistalio,
   planilhaFinanceira,
 ];
+
+/**
+ * Demonstração de projeto sob medida: não se baixa nem se compra pronta. Mostra, com dados
+ * fictícios, o que o estúdio constrói por encomenda. Fica fora de `produtos` de propósito: aquela
+ * lista é a dos programas "sem conta e sem mensalidade, preço nenhum", e esta tem preço sob orçamento.
+ */
+export type Demonstracao = {
+  tipo: 'demonstracao';
+  id: string;
+  nome: string;
+  simbolo: ProductIconId;
+  rota: string;
+  estado: string;
+  lema: string;
+  resumo: string;
+  imagem: { src: string; alt: string };
+  /** Para quem é e onde roda: a ficha do cartão em /produtos. */
+  paraQuem: string;
+  rodaEm: string;
+};
+
+export const torrelio: Demonstracao = {
+  tipo: 'demonstracao',
+  id: 'torrelio',
+  nome: 'Torrelio',
+  simbolo: 'torre',
+  rota: ROTAS.produtoTorrelio,
+  estado: 'DEMONSTRAÇÃO · SOB MEDIDA',
+  lema: 'O espelho de vendas virou um prédio. E o mapa de quartos também.',
+  resumo:
+    'Para incorporadoras e hotéis: o empreendimento em 3D, no navegador, com cada unidade ligada à tabela, a vista de cada andar e um painel de controle. A demonstração usa um prédio fictício e fica aberta para testar.',
+  imagem: {
+    src: '/produtos/torrelio/poster-noite.webp',
+    alt: 'Maquete 3D do Residencial Vértice, prédio fictício, à noite: janelas acesas são unidades vendidas.',
+  },
+  paraQuem: 'Incorporadoras e hotéis',
+  rodaEm: 'Navegador, no site e no stand',
+};
+
+export const demonstracoes: readonly Demonstracao[] = [torrelio];

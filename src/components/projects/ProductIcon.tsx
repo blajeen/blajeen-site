@@ -9,7 +9,8 @@ export type ProductIconId =
   | 'planilha'
   | 'notas'
   | 'vistas'
-  | 'editar';
+  | 'editar'
+  | 'torre';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -122,6 +123,17 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
       <svg {...comum}>
         <path d="M12 10a3 3 0 0 1 3-3h13l8 8v21a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3Z" />
         <path d="M28 7v6a3 3 0 0 0 3 3h5" />
+      </svg>
+    );
+  }
+
+  if (id === 'torre') {
+    // Uma torre com janelas: duas acesas (vendidas) e uma marcada, como na fachada do Torrelio.
+    return (
+      <svg {...comum}>
+        <path d="M14 42V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v33M8 42h32" />
+        <path d="M20 14h3M25 14h3M20 21h3M25 21h3M20 28h3M25 28h3" />
+        <path d="M22 42v-6h4v6" />
       </svg>
     );
   }

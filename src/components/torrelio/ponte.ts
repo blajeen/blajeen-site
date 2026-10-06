@@ -1,6 +1,9 @@
 import { useSyncExternalStore } from 'react';
 import type { Estacao, TipologiaId } from '@/lib/torrelio/tipos';
 
+/** O evento que os links "Ver na demonstração" da página disparam quando há JavaScript. */
+export const EVENTO_DE_COMANDO = 'torrelio:comando';
+
 /**
  * A ponte entre a demonstração da torre e a do apartamento, que ficam em seções diferentes da
  * página. Quando a pessoa pede "Ver o apartamento por dentro" no cartão de uma unidade, a torre

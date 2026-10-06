@@ -33,10 +33,12 @@ const LAMPADAS: readonly (readonly [number, number])[] = [
 ];
 
 export async function criarCenaApartamento(host: HTMLElement, inicial: EstadoDoApartamento): Promise<CenaApartamento> {
-  const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
+  // Nitidez (pedido do titular: nada borrado): densidade da tela até 2×; abaixo de 2×, MSAA.
   // O gerador do pôster (`tools/torrelio-poster-apartamento.mjs`) pede um canvas mais denso.
-  const dprMaximo = (window as Window & { __dprDaMaquete?: number }).__dprDaMaquete ?? 1.5;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, dprMaximo));
+  const dprMaximo = (window as Window & { __dprDaMaquete?: number }).__dprDaMaquete ?? 2;
+  const densidade = Math.min(window.devicePixelRatio, dprMaximo);
+  const renderer = new T.WebGLRenderer({ antialias: densidade < 2, alpha: true, powerPreference: 'low-power' });
+  renderer.setPixelRatio(densidade);
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;

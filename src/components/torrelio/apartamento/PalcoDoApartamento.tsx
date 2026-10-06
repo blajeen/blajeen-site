@@ -1,6 +1,5 @@
 'use client';
 
-import { getImageProps } from 'next/image';
 import { useCallback, useEffect, useEffectEvent, useRef, useState, type CSSProperties } from 'react';
 import { reservarGpu } from '@/lib/fila-da-gpu';
 import { formatarArea, PLANTA, type ComodoId } from '@/lib/torrelio/planta';
@@ -15,20 +14,16 @@ const QUADROS_PESADOS_MS = 700;
 
 export type SituacaoDoPalco = 'poster' | 'carregando' | 'pronto' | 'falhou';
 
-const posterPaisagem = getImageProps({
-  src: '/produtos/torrelio/poster-apartamento.webp',
-  alt: '',
-  width: 1600,
-  height: 900,
-  sizes: '(min-width: 1024px) 70vw, 100vw',
-}).props;
-const posterRetrato = getImageProps({
-  src: '/produtos/torrelio/poster-apartamento-retrato.webp',
-  alt: '',
-  width: 960,
-  height: 1200,
-  sizes: '100vw',
-}).props;
+/**
+ * Os pôsteres da maquete (gerados da própria cena por `tools/torrelio-poster-apartamento.mjs`), com
+ * a densidade da tela: o de 2× só baixa em tela Retina e o do celular cobre até 3×. As imagens do
+ * site não passam pelo otimizador do Next (`images.unoptimized`), então o `srcset` é escrito aqui.
+ */
+const POSTER = {
+  paisagem: '/produtos/torrelio/poster-apartamento.webp',
+  paisagem2x: '/produtos/torrelio/poster-apartamento@2x.webp',
+  retrato: '/produtos/torrelio/poster-apartamento-retrato.webp',
+} as const;
 
 const COTAS = cotasDesenhadas();
 
@@ -180,9 +175,14 @@ export function PalcoDoApartamento({ estado, descricao, aoEscolher, aoPassar, ao
       data-testid="palco-do-apartamento"
     >
       <picture className={`${styles.camada} ${styles.poster}`} data-visivel={!mostrar3d && estado.modo === 'maquete' ? 'sim' : 'nao'}>
-        <source media="(max-width: 767px)" srcSet={posterRetrato.srcSet} width={960} height={1200} />
+        <source media="(max-width: 767px)" srcSet={POSTER.retrato} width={1080} height={1350} />
         <img
-          {...posterPaisagem}
+          src={POSTER.paisagem}
+          srcSet={`${POSTER.paisagem} 1600w, ${POSTER.paisagem2x} 2560w`}
+          sizes="(min-width: 1440px) 1020px, (min-width: 1024px) 72vw, 94vw"
+          width={1600}
+          height={900}
+          decoding="async"
           loading="lazy"
           alt="Maquete branca do apartamento fictício, com as paredes cortadas, vista de cima em perspectiva."
         />

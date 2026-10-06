@@ -82,7 +82,7 @@ export type OpcoesDaTorre = {
   /**
    * Opcional: o estado que a interface já tem. Assim o primeiro quadro (o que substitui o pôster)
    * já sai com a hora, as luzes e a seleção certas. Sem ele, a cena abre no estado do pôster
-   * (tabela de lançamento, 1803 selecionada, noite de verão às 20h30).
+   * (tabela de lançamento, 1803 selecionada, dia de verão às 10h, contorno das disponíveis ligado).
    */
   estado?: EstadoVisualTorre;
 };

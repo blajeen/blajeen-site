@@ -151,10 +151,19 @@ describe('a demonstração do Torrelio', () => {
     await waitFor(() => expect(cena.chamadas.some((c) => c.metodo === 'voltarAoPredio')).toBe(true));
   });
 
+  it('abre de dia; a noite só quando a pessoa troca', async () => {
+    montar();
+    await abrir3d();
+    expect(cena.ultimoEstado!.hora).toBe(10);
+    // De dia, o contorno das disponíveis fica ligado (a luz das janelas quase não aparece).
+    expect(cena.ultimoEstado!.contornar).toBe(true);
+  });
+
   it('abre a vista no fim de tarde se a maquete está à noite, e o prédio reacende ao voltar', async () => {
     montar();
     await abrir3d();
-    expect(cena.ultimoEstado!.hora).toBe(20.5);
+    fireEvent.click(within(screen.getByRole('group', { name: 'Hora do dia' })).getByRole('button', { name: 'Noite' }));
+    await waitFor(() => expect(cena.ultimoEstado!.hora).toBe(20.5));
     fireEvent.click(screen.getByRole('button', { name: /Ver a vista desta unidade/ }));
     await waitFor(() => expect(cena.ultimoEstado!.hora).toBe(17.5));
     const hora = screen.getByRole('group', { name: 'Hora do dia' });

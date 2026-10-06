@@ -2,11 +2,11 @@
 //
 // Monta a cena da torre numa página mínima servida por um Vite temporário, na pose de abertura
 // (pose A) e no estado inicial: tabela de lançamento (luzes de `statusInicial`), 1803 selecionada,
-// contorno desligado, noite de verão às 20h30. Captura o canvas e grava:
+// dia de verão às 10h, com o contorno das disponíveis (como a interface abre). Captura o canvas e grava:
 //
-//   public/produtos/torrelio/poster-noite.webp          1600 × 900 (16:9, computador em 1×)
-//   public/produtos/torrelio/poster-noite@2x.webp       2560 × 1440 (16:9, tela Retina; srcset)
-//   public/produtos/torrelio/poster-noite-retrato.webp  1080 × 1350 (4:5, celular em até 3×)
+//   public/produtos/torrelio/poster-dia.webp          1600 × 900 (16:9, computador em 1×)
+//   public/produtos/torrelio/poster-dia@2x.webp       2560 × 1440 (16:9, tela Retina; srcset)
+//   public/produtos/torrelio/poster-dia-retrato.webp  1080 × 1350 (4:5, celular em até 3×)
 //
 // Uso: node tools/torrelio-poster.mjs
 // Sem GPU, o Chromium desenha com SwiftShader (lento, mas fiel). Para outro Chromium, defina
@@ -26,9 +26,9 @@ const destino = join(raiz, 'public/produtos/torrelio');
 const QUALIDADES = [86, 82, 78, 74, 70, 66, 62];
 
 const POSTERES = [
-  { arquivo: 'poster-noite.webp', largura: 1600, altura: 900, limiteKb: 150 },
-  { arquivo: 'poster-noite@2x.webp', largura: 2560, altura: 1440, limiteKb: 320 },
-  { arquivo: 'poster-noite-retrato.webp', largura: 1080, altura: 1350, limiteKb: 170 },
+  { arquivo: 'poster-dia.webp', largura: 1600, altura: 900, limiteKb: 150 },
+  { arquivo: 'poster-dia@2x.webp', largura: 2560, altura: 1440, limiteKb: 320 },
+  { arquivo: 'poster-dia-retrato.webp', largura: 1080, altura: 1350, limiteKb: 170 },
 ];
 
 const pagina = `<!doctype html>

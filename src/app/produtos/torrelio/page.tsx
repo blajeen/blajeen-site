@@ -5,7 +5,7 @@ import { ApartamentoDemo } from '@/components/torrelio/apartamento/ApartamentoDe
 import { DemonstracaoTorrelio } from '@/components/torrelio/DemonstracaoTorrelio';
 import { VerNaDemonstracao } from '@/components/torrelio/VerNaDemonstracao';
 import {
-  entregas, ficticio, letraMiudaDasVantagens, linkDoProjeto, materiais, notaDeOndeFica, notaDosMateriais, ondeFica, passos, vantagens,
+  atalhos, entregas, ficticio, letraMiudaDasVantagens, linkDoProjeto, materiais, notaDeOndeFica, notaDosMateriais, ondeFica, passos, vantagens,
 } from '@/content/torrelio';
 import { metadadosDaRota, OG } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -16,11 +16,15 @@ export const metadata: Metadata = metadadosDaRota({
     'Demonstração do que o estúdio constrói sob medida para incorporadoras e hotéis: um prédio fictício em 3D, no navegador, com cada unidade ligada à tabela, a vista de cada andar e um painel de controle aberto para teste.',
   rota: ROTAS.produtoTorrelio,
   imagem: OG.torrelio,
-  imagemAlt: 'Maquete 3D do Residencial Vértice, prédio fictício, à noite: as janelas acesas são unidades vendidas.',
+  imagemAlt: 'Maquete 3D do Residencial Vértice, prédio fictício, de dia: o contorno verde marca as unidades disponíveis.',
 });
 
 const linkSutil =
   'tecnica inline-flex min-h-11 items-center gap-2 text-signal underline decoration-signal/30 underline-offset-4 hover:decoration-signal';
+
+/** Os atalhos acima da demonstração: pílulas com alvo de 44 px. */
+const atalho =
+  'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-line-strong px-4 text-sm whitespace-nowrap text-paper transition-colors hover:border-signal/60 hover:text-signal';
 
 export default function TorrelioPage() {
   return (
@@ -37,17 +41,14 @@ export default function TorrelioPage() {
             </div>
             <div className="lg:col-span-5 lg:pb-2">
               <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-                Uma demonstração do que o estúdio constrói para incorporadoras e hotéis: o empreendimento em 3D, no navegador, com
-                cada unidade ligada à tabela. Quem compra vê o andar, a vista e o sol de cada apartamento. Quem vende muda status,
-                preço e obra num painel, e a fachada responde na hora.
+                O empreendimento em 3D, no navegador, com cada unidade ligada à tabela de vendas.
               </p>
               <p className="mt-5 border-l border-signal/50 pl-4 text-sm leading-relaxed text-paper/80">
-                Prédio, cidade, entorno, valores, condições, obra, quartos e planta são fictícios. O que você mudar aqui fica só neste
-                navegador.
+                Prédio, cidade, valores, obra, quartos e planta são fictícios. O que você mudar fica só neste navegador.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
-                  href="#demonstracao"
+                  href="#experimente"
                   className="alvo-toque tecnica inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow"
                 >
                   ABRIR A DEMONSTRAÇÃO ↓
@@ -69,10 +70,19 @@ export default function TorrelioPage() {
         <h2 id="demonstracao-titulo" className="sr-only">
           A demonstração
         </h2>
-        <p className="medida-texto mb-6 text-[1.05rem] leading-relaxed text-mineral">
-          Duas visões do mesmo prédio. Na do cliente, escolha uma unidade e veja a vista dela. No painel, marque uma venda: a luz
-          acende na fachada. Troque para Hotel e o mesmo prédio vira um mapa de quartos.
-        </p>
+        {/* No celular, uma fileira que desliza; do tablet para cima, quebra em linhas. */}
+        <nav
+          id="experimente"
+          aria-label="Atalhos da demonstração"
+          className="mb-6 flex scroll-mt-20 items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible sm:pb-0"
+        >
+          <p className="tecnica mr-2 shrink-0 text-mineral">EXPERIMENTE</p>
+          {atalhos.map((a) => (
+            <VerNaDemonstracao key={a.rotulo} comando={a.comando} className={atalho}>
+              {a.rotulo}
+            </VerNaDemonstracao>
+          ))}
+        </nav>
         <noscript>
           <p className="mb-6 rounded-[var(--radius-control)] border border-line-strong p-4 text-sm text-paper">
             Para girar a torre e usar o painel, ative o JavaScript. O espelho abaixo mostra as unidades da demonstração.
@@ -92,7 +102,7 @@ export default function TorrelioPage() {
               <h3 id={`vantagens-${grupo.publico}`} className="tecnica text-signal">
                 {grupo.publico.toUpperCase()}
               </h3>
-              <ol className="mt-6 grid gap-6">
+              <ol className="mt-6 grid gap-4">
                 {grupo.itens.map((item, i) => (
                   <li key={item.titulo} className="grid grid-cols-[2rem_1fr] gap-x-2">
                     <span className="tecnica pt-1 text-mineral-dim" aria-hidden="true">
@@ -100,7 +110,7 @@ export default function TorrelioPage() {
                     </span>
                     <div>
                       <p className="text-[1.05rem] leading-snug tracking-[-0.01em]">{item.titulo}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-mineral">{item.texto}</p>
+                      {item.texto ? <p className="mt-2 text-sm leading-relaxed text-mineral">{item.texto}</p> : null}
                       {item.links ? (
                         <p className="mt-2 flex flex-wrap gap-x-4 text-sm">
                           {item.links.map((link) => (
@@ -135,9 +145,7 @@ export default function TorrelioPage() {
           A planta que vocês enviam vira maquete.
         </h2>
         <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
-          Item opcional do projeto: cada tipologia ganha uma maquete 3D feita a partir da planta (PDF ou DWG), com paredes, portas,
-          janelas e um mobiliário de referência, e uma vista de planta com a área de cada cômodo. Aqui, uma planta fictícia de 2
-          dormitórios com suíte, 66,45 m².
+          Opcional: cada tipologia vira maquete 3D a partir da planta (PDF ou DWG). Aqui, uma planta fictícia de 66,45 m².
         </p>
         <div className="mt-10">
           <ApartamentoDemo />
@@ -177,12 +185,11 @@ export default function TorrelioPage() {
             </h3>
             <ul className="mt-6 grid gap-0 border-t border-line">
               {entregas.map((entrega) => (
-                <li key={entrega.titulo} className="grid gap-1 border-b border-line py-4">
+                <li key={entrega.titulo} className="border-b border-line py-3.5">
                   <p className="flex flex-wrap items-baseline gap-x-3 text-[1.02rem]">
                     {entrega.titulo}
                     {entrega.opcional ? <span className="tecnica text-mineral">OPCIONAL</span> : null}
                   </p>
-                  <p className="text-sm leading-relaxed text-mineral">{entrega.texto}</p>
                 </li>
               ))}
             </ul>
@@ -193,7 +200,7 @@ export default function TorrelioPage() {
             </h3>
             <ul className="mt-6 grid gap-0 border-t border-line">
               {ondeFica.map((lugar) => (
-                <li key={lugar.titulo} className="grid gap-1 border-b border-line py-4">
+                <li key={lugar.titulo} className="grid gap-1 border-b border-line py-3.5">
                   <p className="text-[1.02rem]">{lugar.titulo}</p>
                   <p className="text-sm leading-relaxed text-mineral">{lugar.texto}</p>
                 </li>
@@ -210,7 +217,7 @@ export default function TorrelioPage() {
           A lista para começar.
         </h2>
         <p className="medida-texto mt-6 text-[1.05rem] leading-relaxed text-mineral">
-          É com isso que a torre, o entorno e o painel saem parecidos com o empreendimento de vocês. {notaDosMateriais}
+          Com isso, a torre e o painel saem parecidos com o empreendimento de vocês. {notaDosMateriais}
         </p>
         <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           {materiais.map((grupo) => (
@@ -220,7 +227,7 @@ export default function TorrelioPage() {
               </h3>
               <ol className="mt-6 grid border-t border-line">
                 {grupo.itens.map((item, i) => (
-                  <li key={item.titulo} className="grid grid-cols-[2.25rem_1fr] gap-x-2 border-b border-line py-4">
+                  <li key={item.titulo} className="grid grid-cols-[2.25rem_1fr] gap-x-2 border-b border-line py-3.5">
                     <span className="tecnica pt-1 text-mineral-dim" aria-hidden="true">
                       {String(i + 1).padStart(2, '0')}
                     </span>
@@ -243,16 +250,9 @@ export default function TorrelioPage() {
             <h2 id="ficticio-titulo" className="max-w-[18ch] text-[clamp(1.8rem,3.6vw,3rem)] leading-[1.02] tracking-[-0.05em]">
               Tudo na demonstração é inventado, menos o código.
             </h2>
-            <ul className="mt-8 grid gap-2 text-sm leading-relaxed text-mineral">
-              {ficticio.lista.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span aria-hidden="true" className="text-mineral-dim">
-                    —
-                  </span>
-                  {item[0]!.toUpperCase() + item.slice(1)}.
-                </li>
-              ))}
-            </ul>
+            <p className="mt-6 text-sm leading-relaxed text-mineral">
+              {ficticio.lista.join(', ').replace(/^./, (letra) => letra.toUpperCase())}: tudo fictício.
+            </p>
           </div>
           <div className="grid content-start gap-6 text-sm leading-relaxed lg:col-span-5 lg:col-start-8">
             <p className="text-paper/85">{ficticio.real}</p>

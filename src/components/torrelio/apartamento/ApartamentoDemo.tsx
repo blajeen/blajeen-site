@@ -105,8 +105,7 @@ export function ApartamentoDemo() {
       </div>
       {outraTipologia ? (
         <p className={styles.avisoTipologia}>
-          A demonstração tem a planta 3D só da tipologia de 2 dormitórios. Abaixo, a do final 02, com 66,45 m²; num projeto
-          real, cada tipologia ganha a sua.
+          A demonstração tem a planta 3D só da tipologia de 2 dormitórios: abaixo, a do final 02 (66,45 m²).
         </p>
       ) : null}
 
@@ -166,10 +165,10 @@ export function ApartamentoDemo() {
         <TabelaDeAreas selecionado={selecionado} />
         <div>
           <p className={styles.nota}>
-            Mobiliário ilustrativo. As áreas são da planta fictícia; num projeto real, vêm do memorial da incorporadora.
+            Mobiliário ilustrativo. As áreas são da planta fictícia; no projeto, vêm do memorial.
           </p>
           <p className={styles.nota}>
-            Área privativa: o contorno externo das paredes, com a varanda. Área útil: só o piso de cada cômodo.
+            Privativa: até o lado de fora das paredes, com a varanda. Útil: só o piso dos cômodos.
           </p>
         </div>
       </div>

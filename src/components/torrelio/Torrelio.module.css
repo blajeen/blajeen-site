@@ -12,7 +12,8 @@
   --luz-fria: #5e9bff;
   --livre-esq: 0px;
   --livre-dir: 0px;
-  --altura-palco: clamp(36rem, 80svh, 50rem);
+  /* No computador, o palco cabe na tela com os atalhos e a fileira das abas acima dele. */
+  --altura-palco: clamp(34rem, calc(100svh - 14.5rem), 50rem);
   display: grid;
   gap: 0.9rem;
   scroll-margin-top: 5.5rem;
@@ -1715,6 +1716,11 @@ td[aria-selected='true'] .celula {
     pointer-events: none;
   }
 
+  /*
+   * Os painéis sobre a maquete rolam por dentro, mas sem barra (pedido do titular: no Windows, a
+   * barra cinza larga pesava no escuro). O conteúdo cortado na borda já diz que continua, e no fim
+   * do painel a roda do mouse segue para a página, em vez de travar nele.
+   */
   .demo[data-aba='cliente'] .painelEsquerdo,
   .demo[data-aba='cliente'] .escolhaDoQuarto {
     position: absolute;
@@ -1723,7 +1729,7 @@ td[aria-selected='true'] .celula {
     left: 1rem;
     width: 340px;
     overflow: auto;
-    overscroll-behavior: contain;
+    scrollbar-width: none;
     background: var(--painel-fundo);
     backdrop-filter: blur(14px);
     pointer-events: auto;
@@ -1737,10 +1743,21 @@ td[aria-selected='true'] .celula {
     width: 360px;
     max-height: calc(100% - 2rem);
     overflow: auto;
-    overscroll-behavior: contain;
+    scrollbar-width: none;
     background: var(--painel-fundo);
     backdrop-filter: blur(14px);
     pointer-events: auto;
+  }
+
+  .demo[data-aba='cliente'] .painelEsquerdo::-webkit-scrollbar,
+  .demo[data-aba='cliente'] .escolhaDoQuarto::-webkit-scrollbar,
+  .demo[data-aba='cliente'] .cartao::-webkit-scrollbar,
+  .faixaDaVista::-webkit-scrollbar {
+    display: none;
+  }
+
+  .faixaDaVista {
+    scrollbar-width: none;
   }
 
   .demo[data-vista='sim'] .painelEsquerdo,
@@ -1748,16 +1765,27 @@ td[aria-selected='true'] .celula {
     display: none;
   }
 
+  /*
+   * No painel de controle, a maquete fica presa ao lado enquanto a página rola o painel inteiro:
+   * nada de rolagem por dentro, e a luz que acende ao marcar uma venda continua à vista.
+   */
   .demo[data-aba='painel'] .grade {
     grid-template-columns: minmax(0, 1fr) 440px;
     grid-template-areas: 'palco painel';
+    align-items: start;
+  }
+
+  .demo[data-aba='painel'] .palco {
+    position: sticky;
+    top: 5rem;
   }
 
   .demo[data-aba='painel'] .painel {
     grid-area: painel;
-    height: var(--altura-palco);
-    overflow: auto;
-    overscroll-behavior: contain;
+  }
+
+  .demo[data-tela-cheia='sim'][data-aba='painel'] .palco {
+    top: 0.75rem;
   }
 }
 

@@ -60,8 +60,14 @@ export const EscolhaDoQuarto = memo(function EscolhaDoQuarto({ estado, periodo, 
           <legend>Hóspedes</legend>
           <span role="group" aria-label="Hóspedes" className={styles.segmento}>
             {[1, 2, 3, 4].map((n) => (
-              <button key={n} type="button" aria-pressed={periodo.hospedes === n} onClick={() => aoPeriodo({ ...periodo, hospedes: n })}>
-                {n} {n === 1 ? 'pessoa' : 'pessoas'}
+              <button
+                key={n}
+                type="button"
+                aria-pressed={periodo.hospedes === n}
+                aria-label={`${n} ${n === 1 ? 'pessoa' : 'pessoas'}`}
+                onClick={() => aoPeriodo({ ...periodo, hospedes: n })}
+              >
+                {n}
               </button>
             ))}
           </span>

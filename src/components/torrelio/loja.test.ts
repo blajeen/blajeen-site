@@ -81,6 +81,13 @@ describe('a loja da demonstração', () => {
     expect(ouvinte).toHaveBeenCalledTimes(2);
   });
 
+  it('não oferece desfazer a abertura do hotel', () => {
+    const loja = criarLoja({ armazenamento: () => armazenamentoFalso(), agora });
+    loja.despachar({ tipo: 'hotel/iniciar', hoje: '2026-10-06' });
+    expect(loja.obter().estado.hotel).not.toBeNull();
+    expect(loja.obter().podeDesfazer).toBe(false);
+  });
+
   it('restaura com uma linha só no histórico e sem desfazer', () => {
     const loja = criarLoja({ armazenamento: () => armazenamentoFalso(), agora });
     loja.despachar({ tipo: 'unidade/status', ids: ['1803'], status: 'vendida' });

@@ -105,8 +105,11 @@ export function criarLoja({ armazenamento, janela = null, agora = () => new Date
       const anterior = atual().estado;
       const proximo = reduzir(anterior, { ...acao, quando: acao.quando ?? agora().toISOString() });
       if (proximo === anterior) return;
-      pilha.push(anterior);
-      if (pilha.length > DESFAZER_MAXIMO) pilha.shift();
+      // Abrir o hotel não é uma mudança de quem testa: não entra no desfazer.
+      if (acao.tipo !== 'hotel/iniciar') {
+        pilha.push(anterior);
+        if (pilha.length > DESFAZER_MAXIMO) pilha.shift();
+      }
       trocar(proximo);
       gravar();
     },

@@ -1115,6 +1115,10 @@ td[aria-selected='true'] .celula {
   float: left;
 }
 
+.periodo fieldset button {
+  min-width: 2.75rem;
+}
+
 .periodo label,
 .bloqueioForm label {
   display: grid;

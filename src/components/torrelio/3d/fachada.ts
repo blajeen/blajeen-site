@@ -19,10 +19,14 @@ import { CAMADA, CONTORNO_DA_LAJE, fachadaEfetiva, type Forro } from './torre';
  * cascateia de baixo para cima, 90 ms por andar; sem movimento, é instantâneo.
  */
 
-/** O nível de luz de cada valor de `LUZ`. */
+/**
+ * O nível de luz de cada valor de `LUZ`. O sinal diz a cor da lâmpada: positivo é luz quente
+ * (vendida), negativo é luz fria, azulada (reservada). Quente e fria têm cores bem diferentes a
+ * pedido do titular: com a reservada só mais fraca, as duas ficavam parecidas demais.
+ */
 export const NIVEL_DA_LUZ: Readonly<Record<number, number>> = {
   [LUZ.apagada]: 0,
-  [LUZ.baixa]: 0.3,
+  [LUZ.baixa]: -0.9,
   [LUZ.acesa]: 1,
   [LUZ.bloqueada]: 0,
 };

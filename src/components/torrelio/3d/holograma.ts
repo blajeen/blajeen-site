@@ -23,10 +23,12 @@ export type EstadoDoHolograma = {
   disponiveis: Uint8Array;
   hora: number;
   estacao: Estacao;
+  /** A preferência de movimento do site: liga os efeitos de tempo (as luzes acendendo devagar), não o giro. */
   movimento: boolean;
   layout: LayoutDoHolograma;
   espelhar: boolean;
   girar180: boolean;
+  /** A mesa gira. É um botão do próprio holograma e vale mesmo com movimento reduzido. */
   girando: boolean;
 };
 
@@ -35,8 +37,6 @@ export type VideoDoHolograma = { arquivo: Blob; extensao: 'mp4' | 'webm' };
 /** O contrato da cena (o three.js só chega por import dinâmico). */
 export type CenaHolograma = {
   aplicar(estado: EstadoDoHolograma): void;
-  /** Gira a mesa 90°: sem movimento, é o jeito de ver os outros lados. */
-  girarUmPasso(): void;
   /**
    * Grava uma volta da mesa, da vista da frente, sem espelho, num quadrado de 1080 px (o vídeo do
    * ventilador de LED). Resolve com `null` se o navegador não gravar ou se a gravação for parada.

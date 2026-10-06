@@ -145,7 +145,13 @@ para equipamento de stand comprado à parte:
   vitrine, para tela em cima do vidro. **Dia/Noite** (abre de dia, como a demonstração).
 - **Gravar vídeo (1 volta)**: grava no navegador, sem enviar nada, uma volta de 24 s da vista da
   frente, sem espelho, em 1080 × 1080 (MP4 quando o navegador grava MP4; senão WebM), para o
-  ventilador de LED. Com movimento reduzido, não há giro nem gravação, e "Girar 90°" mostra os lados.
+  ventilador de LED.
+- **Girar** é um botão do holograma e vale mesmo com movimento reduzido. Relato do titular: "ele nao
+  ta girando". A causa era o aparelho com movimento reduzido (no sistema ou no MOTION do rodapé):
+  antes, o holograma ficava parado e só oferecia "Girar 90°". Agora, com movimento reduzido, ele
+  abre parado e mostra "Movimento reduzido neste aparelho: toque em Girar.". Os controles não somem
+  até alguém escolher. Um toque faz girar, e a gravação também fica disponível. O acender das luzes
+  continua seguindo a preferência de movimento.
 - Link direto para o PC do stand: `/produtos/torrelio?holograma=piramide` (ou `vitrine`). Os
   controles somem depois de 3,5 s sem mexer; Esc fecha; o foco volta a quem abriu.
 - Segue o estado da demonstração: uma venda marcada no painel (nesta janela ou em outra do mesmo

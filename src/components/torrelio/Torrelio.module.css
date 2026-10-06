@@ -2051,6 +2051,16 @@ button.barraDaEscolhaResumo:active {
   color: var(--color-signal);
 }
 
+/* Parado pela preferência de movimento: a dica e o botão Girar no verde do sinal, para achar o toque. */
+.dicaDoHolograma[data-aviso='sim'] {
+  color: var(--color-signal);
+}
+
+.controlesDoHolograma .segmentoSolto[data-aviso='sim'] {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+
 .holograma[data-ocioso='sim'] .dicaDoHolograma,
 .holograma[data-ocioso='sim'] .controlesDoHolograma:not(:has(:focus-visible)) {
   opacity: 0;

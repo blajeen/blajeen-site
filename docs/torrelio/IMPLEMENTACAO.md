@@ -132,6 +132,30 @@ texto enrolativo e mais demonstração, e a maquete abrindo de dia ("noite só q
   do que vocês enviam, o que é fictício e as notas do apartamento. As regras de
   `src/content/torrelio.test.ts` continuam valendo. Palavras na página: de 2.304 para ~1.450.
 
+## Modo holograma (06/10/2026)
+
+Pedido do titular: "eu queria fazer um holograma desse 3D" → "faz no site". O botão **Holograma** da
+demonstração (e o atalho "Ver em holograma") abre a tela inteira preta com o prédio girando numa mesa,
+para equipamento de stand comprado à parte:
+
+- **Pirâmide** (tela deitada, pirâmide de acrílico de ponta para baixo no centro): quatro vistas em
+  cruz, cada uma com o "para cima" apontando para fora; quem dá a volta na pirâmide vê o prédio por
+  outro lado (a câmera anda 90° por face). **Vitrine** (vidro a 45° diante da tela): uma vista.
+- **Espelhar** (ligado): o reflexo inverte a imagem, e ela já sai invertida. **Girar 180°** na
+  vitrine, para tela em cima do vidro. **Dia/Noite** (abre de dia, como a demonstração).
+- **Gravar vídeo (1 volta)**: grava no navegador, sem enviar nada, uma volta de 24 s da vista da
+  frente, sem espelho, em 1080 × 1080 (MP4 quando o navegador grava MP4; senão WebM), para o
+  ventilador de LED. Com movimento reduzido, não há giro nem gravação, e "Girar 90°" mostra os lados.
+- Link direto para o PC do stand: `/produtos/torrelio?holograma=piramide` (ou `vitrine`). Os
+  controles somem depois de 3,5 s sem mexer; Esc fecha; o foco volta a quem abriu.
+- Segue o estado da demonstração: uma venda marcada no painel (nesta janela ou em outra do mesmo
+  navegador) acende no holograma. Entre aparelhos diferentes, só com servidor, no projeto.
+- Código: `3d/holograma.ts` (geometria das vistas, testada sem WebGL), `3d/cena-holograma.ts` (só a
+  torre e a fachada, sem céu, névoa, chão nem cidade; o reflexo do vidro também é preto; um anel
+  verde marca a base) e `holograma/ModoHolograma.tsx` (diálogo com foco preso, por portal).
+- Conferido no build de produção: pirâmide e vitrine, de dia e de noite, em 1600 × 900 e 390 × 844;
+  o vídeo gravado é um MP4 1080 × 1080 de 23,9 s.
+
 ## Privacidade
 
 A demonstração não envia nada a servidor e não coleta dado pessoal. A seção "Preferências guardadas

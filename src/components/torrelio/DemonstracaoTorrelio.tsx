@@ -20,6 +20,7 @@ import { CartaoDaUnidade } from './cliente/CartaoDaUnidade';
 import { detalheDaUnidade, FaixaDaVista } from './cliente/FaixaDaVista';
 import { FaixaDaEscolha } from './cliente/FaixaDaEscolha';
 import { Legenda, PainelDoEmpreendimento } from './cliente/PainelDoEmpreendimento';
+import { ModoHolograma } from './holograma/ModoHolograma';
 import { CartaoDoQuarto } from './hotel/CartaoDoQuarto';
 import { EscolhaDoQuarto } from './hotel/EscolhaDoQuarto';
 import { PainelDoHotel } from './hotel/PainelDoHotel';
@@ -110,11 +111,16 @@ export function DemonstracaoTorrelio() {
     controle.current?.carregar();
   }, [telaCheia]);
 
+  const quemAbriuOHolograma = useRef<HTMLElement | null>(null);
+
   // Os links "Ver na demonstração ↑" da página chegam aqui como comando, sem recarregar.
   useEffect(() => {
     const aoComando = (evento: Event) => {
       const comando = (evento as CustomEvent<Comando>).detail;
+      if (comando.holograma) quemAbriuOHolograma.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       mudar({ tipo: 'comando', comando });
+      // O holograma cobre a tela: nada a carregar nem rolar por baixo dele.
+      if (comando.holograma) return;
       // Todo atalho mexe na maquete (hora, camada, modo, vista): ela abre junto.
       controle.current?.carregar();
       raiz.current?.scrollIntoView({ behavior: movimento ? 'smooth' : 'auto', block: 'start' });
@@ -149,9 +155,24 @@ export function DemonstracaoTorrelio() {
       aba: ui.aba,
       ...(ui.modo === 'incorporadora' ? { unidade: ui.unidade } : ui.quarto ? { quarto: ui.quarto } : {}),
       ...(ui.vista ? { vista: ui.vista.fachada } : {}),
+      // Com o holograma aberto, o endereço abre direto nele (o PC do stand guarda esse link).
+      ...(ui.holograma ? { holograma: ui.holograma } : {}),
     };
     window.history.replaceState(window.history.state, '', `${window.location.pathname}${consultaDoComando(comando)}${window.location.hash}`);
-  }, [ui.modo, ui.aba, ui.unidade, ui.quarto, ui.vista]);
+  }, [ui.modo, ui.aba, ui.unidade, ui.quarto, ui.vista, ui.holograma]);
+
+  // O holograma devolve o foco a quem o abriu (o botão, ou o atalho da página).
+  const abrirHolograma = useCallback(() => {
+    quemAbriuOHolograma.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    mudar({ tipo: 'holograma', holograma: 'piramide' });
+  }, []);
+  const fecharHolograma = useCallback(() => {
+    mudar({ tipo: 'holograma', holograma: null });
+    const volta = quemAbriuOHolograma.current;
+    quemAbriuOHolograma.current = null;
+    window.requestAnimationFrame(() => (volta?.isConnected ? volta : botaoDoHolograma.current)?.focus({ preventScroll: true }));
+  }, []);
+  const botaoDoHolograma = useRef<HTMLButtonElement>(null);
 
   // Cada mudança feita aqui vira um anúncio curto para quem usa leitor de tela.
   const despacharEAnunciar = useCallback(
@@ -337,6 +358,9 @@ export function DemonstracaoTorrelio() {
               </button>
             ))}
           </div>
+          <button ref={botaoDoHolograma} type="button" className={styles.segmentoSolto} aria-pressed={ui.holograma !== null} onClick={abrirHolograma}>
+            Holograma
+          </button>
           <button ref={botaoDaTelaCheia} type="button" className={styles.segmentoSolto} aria-pressed={telaCheia !== 'nao'} onClick={alternarTelaCheia}>
             {telaCheia === 'nao' ? 'Tela cheia' : 'Sair da tela cheia'}
           </button>
@@ -541,6 +565,17 @@ export function DemonstracaoTorrelio() {
           status={barraDaEscolha.status}
           rotuloDaFicha={ui.aba === 'cliente' ? 'Detalhes' : 'Editar'}
           movimento={movimento}
+        />
+      ) : null}
+      {ui.holograma ? (
+        <ModoHolograma
+          layout={ui.holograma}
+          modo={ui.modo}
+          luzes={luzes}
+          disponiveis={disponiveis}
+          movimento={movimento}
+          aoLayout={(holograma) => mudar({ tipo: 'holograma', holograma })}
+          aoFechar={fecharHolograma}
         />
       ) : null}
       <p className="sr-only" aria-live="polite">

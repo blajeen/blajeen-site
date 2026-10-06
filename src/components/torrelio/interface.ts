@@ -43,6 +43,8 @@ export type EstadoDaInterface = {
   diaDoPainel: number;
   subAbaDoPainel: SubAbaDoPainel;
   subAbaDoHotel: SubAbaDoHotel;
+  /** O modo holograma aberto, e em que formato. */
+  holograma: 'piramide' | 'vitrine' | null;
 };
 
 export const PRESETS_DE_HORA = [
@@ -87,6 +89,7 @@ export function interfaceInicial(): EstadoDaInterface {
     diaDoPainel: 0,
     subAbaDoPainel: 'unidades',
     subAbaDoHotel: 'hoje',
+    holograma: null,
   };
 }
 
@@ -108,6 +111,7 @@ export type AcaoDaInterface =
   | { tipo: 'dia-do-painel'; dia: number }
   | { tipo: 'sub-aba'; subAba: SubAbaDoPainel }
   | { tipo: 'sub-aba-do-hotel'; subAba: SubAbaDoHotel }
+  | { tipo: 'holograma'; holograma: EstadoDaInterface['holograma'] }
   | { tipo: 'comando'; comando: Comando };
 
 export function reduzirInterface(estado: EstadoDaInterface, acao: AcaoDaInterface): EstadoDaInterface {
@@ -155,6 +159,8 @@ export function reduzirInterface(estado: EstadoDaInterface, acao: AcaoDaInterfac
       return { ...estado, subAbaDoPainel: acao.subAba };
     case 'sub-aba-do-hotel':
       return { ...estado, subAbaDoHotel: acao.subAba };
+    case 'holograma':
+      return { ...estado, holograma: acao.holograma };
     case 'comando':
       return aplicarComando(estado, acao.comando);
   }
@@ -169,6 +175,7 @@ function aplicarComando(estado: EstadoDaInterface, comando: Comando): EstadoDaIn
   if (comando.hora !== undefined) proximo.hora = comando.hora;
   if (comando.estacao) proximo.estacao = comando.estacao;
   if (comando.camada) proximo.camada = comando.camada;
+  if (comando.holograma) proximo.holograma = comando.holograma;
   if (comando.vista) {
     const alvo = proximo.modo === 'hotel' ? (proximo.quarto ? quartoPorId(proximo.quarto) : null) : unidadePorId(proximo.unidade);
     if (alvo) proximo.vista = { id: alvo.id, fachada: fachadaDaVista(alvo, comando.vista === true ? undefined : comando.vista) };

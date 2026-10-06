@@ -67,9 +67,12 @@ projeto real entrega entorno a partir de mapas, planta 3D por tipologia (opciona
 e importação de planilha; a página pode virar uma página do site da própria empresa, e o painel, uma
 aba do painel que ela já usa. Pendências:
 
-- [ ] revisar o parágrafo novo da seção "Preferências guardadas no seu navegador" da Política de
-      Privacidade, que passa a citar o que a demonstração guarda no navegador;
-- [ ] aprovar a prancha da torre 3D (dia, fim de tarde e noite, e as vistas de vários andares);
+- [x] revisar o parágrafo novo da seção "Preferências guardadas no seu navegador" da Política de
+      Privacidade, que passa a citar o que a demonstração guarda no navegador — aprovado pelo
+      titular em 06/10/2026, junto com a publicação;
+- [x] aprovar a prancha da torre 3D (dia, fim de tarde e noite, e as vistas de vários andares) —
+      aprovada pelo titular em 06/10/2026, com a resolução subida para 2× a pedido dele ("nada
+      borrado");
 - [ ] decidir se o Torrelio entra na home e se ganha uma novidade em `/novidades` no dia da publicação;
 - [ ] confirmar o botão de compartilhar com `navigator.share` e cópia do link (o WhatsApp entra pelo
       menu de compartilhar do próprio aparelho).

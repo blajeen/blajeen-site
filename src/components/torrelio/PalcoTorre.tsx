@@ -67,12 +67,13 @@ export function PalcoTorre({
   const bussola = useRef<HTMLSpanElement>(null);
   const [cena, setCena] = useState<CenaTorre | null>(null);
   const [situacao, setSituacao] = useState<SituacaoDoPalco>('poster');
+  const [contextoPerdido, setContextoPerdido] = useState(false);
   const pedido = useRef(false);
 
   // O carregamento é chamado de efeitos e de cliques: lê as props mais novas por ref.
-  const atuais = useRef({ movimento: estadoVisual.movimento, aoMudarSituacao });
+  const atuais = useRef({ estadoVisual, aoMudarSituacao });
   useEffect(() => {
-    atuais.current = { movimento: estadoVisual.movimento, aoMudarSituacao };
+    atuais.current = { estadoVisual, aoMudarSituacao };
   });
 
   const carregar = useCallback(() => {
@@ -86,7 +87,8 @@ export function PalcoTorre({
     const alvo = host.current;
     const liberarGpu = reservarGpu();
     import('./3d/carregar')
-      .then(({ carregarTorre }) => carregarTorre(alvo, { movimento: atuais.current.movimento }))
+      // O estado atual vai junto: o primeiro quadro já sai com a hora, as luzes e a escolha da página.
+      .then(({ carregarTorre }) => carregarTorre(alvo, { movimento: atuais.current.estadoVisual.movimento, estado: atuais.current.estadoVisual }))
       .then((pronta) => {
         if (!host.current) {
           pronta.descartar();
@@ -155,6 +157,8 @@ export function PalcoTorre({
       cena.aoMudarRumo((rumo) => {
         if (bussola.current) bussola.current.style.transform = `rotate(${(-rumo).toFixed(1)}deg)`;
       }),
+      // Se a GPU derrubar o contexto, o pôster volta até a cena se refazer.
+      cena.aoMudarContexto?.((estado) => setContextoPerdido(estado === 'perdido')) ?? (() => {}),
     ];
     return () => cancelar.forEach((f) => f());
   }, [cena]);
@@ -202,7 +206,7 @@ export function PalcoTorre({
 
   return (
     <div ref={palco} className={styles.palco} data-situacao={situacao} data-vista={vista ? 'sim' : 'nao'}>
-      <picture className={styles.poster} data-oculto={situacao === 'pronto' ? 'sim' : 'nao'}>
+      <picture className={styles.poster} data-oculto={situacao === 'pronto' && !contextoPerdido ? 'sim' : 'nao'}>
         <source media="(max-width: 767px)" srcSet={posterRetrato.srcSet} width={960} height={1200} />
         <img
           {...posterPaisagem}
@@ -236,6 +240,11 @@ export function PalcoTorre({
       {situacao === 'carregando' ? (
         <p className={styles.avisoDoPalco} role="status">
           Montando a torre…
+        </p>
+      ) : null}
+      {situacao === 'pronto' && contextoPerdido ? (
+        <p className={styles.avisoDoPalco} role="status">
+          Recarregando a torre…
         </p>
       ) : null}
       {situacao === 'falhou' ? (

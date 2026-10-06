@@ -9,18 +9,8 @@ import type { Enquadramento, Estacao, Fachada, Modo } from '@/lib/torrelio/tipos
  * `src/lib/torrelio/predio.ts`; o mapa de cada vão para o seu dono é `mapaDeVaos(modo)`.
  */
 
-/** Como a janela de cada unidade (ou quarto) aparece. */
-export const LUZ = {
-  /** Disponível, ou quarto livre: luz apagada. */
-  apagada: 0,
-  /** Reservada: luz baixa. */
-  baixa: 1,
-  /** Vendida, indisponível ou quarto ocupado: luz acesa. */
-  acesa: 2,
-  /** Quarto bloqueado para manutenção: apagado, com contorno tracejado. */
-  bloqueada: 3,
-} as const;
-export type Luz = (typeof LUZ)[keyof typeof LUZ];
+/** A tabela de luzes mora no domínio, que a calcula; a cena só a desenha. */
+export { LUZ, type Luz } from '@/lib/torrelio/luz';
 
 /** O que a cena precisa desenhar. A interface manda o estado inteiro; a cena aplica só a diferença. */
 export type EstadoVisualTorre = {

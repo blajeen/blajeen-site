@@ -38,6 +38,12 @@ export const ROTAS = {
   produtoEditalio: '/produtos/editalio',
   produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
+  /**
+   * Torrelio: demonstração do que o estúdio constrói sob medida para incorporadoras e hotéis (um
+   * prédio fictício em 3D ligado à tabela). Não é programa para baixar; fica em Produtos, no grupo
+   * "Sob medida", e tudo nela é fictício.
+   */
+  produtoTorrelio: '/produtos/torrelio',
   /*
    * Os sistemas que eram SaaS (Doutelio, Beautelio, Barbelio, Studelio, Foodelio e Lojalio) viraram
    * software à venda na loja, cada um em `/loja/<sistema>`. As páginas antigas, inclusive a do
@@ -153,7 +159,8 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.produtoNotalio ||
     rota === ROTAS.produtoEditalio ||
     rota === ROTAS.produtoVistalio ||
-    rota === ROTAS.produtoPlanilhaFinanceira
+    rota === ROTAS.produtoPlanilhaFinanceira ||
+    rota === ROTAS.produtoTorrelio
   )
     return 0.9;
   if (

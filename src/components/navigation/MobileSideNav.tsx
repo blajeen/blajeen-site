@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProductIcon } from '@/components/projects/ProductIcon';
 import {
+  atalhosDeDemonstracao,
   atalhosDeJogo,
   atalhosDeProduto,
   navegacaoPrincipal,
@@ -32,9 +33,9 @@ const rotasDeJogos = [
 const GAVETAS = {
   produtos: {
     titulo: 'Produtos',
-    resumo: 'Pra baixar e usar na sua máquina.',
+    resumo: 'Pra baixar e usar na sua máquina, e o que fazemos sob medida.',
     todos: { rotulo: 'Ver todos os produtos', href: ROTAS.produtos },
-    itens: atalhosDeProduto,
+    itens: [...atalhosDeProduto, ...atalhosDeDemonstracao],
   },
   jogos: {
     titulo: 'Jogos',

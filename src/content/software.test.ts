@@ -129,7 +129,7 @@ describe('o site sem a categoria SaaS', () => {
   });
 
   it('tira o SaaS do menu e do rodapé, e Produtos aponta o software da loja', () => {
-    expect(submenus.produtos.grupos.map((g) => g.titulo)).toEqual(['Programas']);
+    expect(submenus.produtos.grupos.map((g) => g.titulo)).toEqual(['Programas', 'Sob medida']);
     expect(submenus.produtos.extras.map((e) => e.href)).toEqual([`${ROTAS.loja}#software`]);
     expect(Object.keys(rodape)).not.toContain('projetos');
   });

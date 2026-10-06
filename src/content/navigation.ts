@@ -2,7 +2,7 @@ import { ROTAS } from '@/lib/routes';
 import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { MenuId, NavLink } from './types';
-import { produtos } from './produtos';
+import { demonstracoes, produtos } from './produtos';
 
 /**
  * Barra de navegação do desktop.
@@ -118,6 +118,14 @@ export const atalhosDeProduto = produtos.map((produto) => ({
   href: produto.rota,
 }));
 
+/** As demonstrações de projeto sob medida (o Torrelio): grupo próprio no menu de Produtos. */
+export const atalhosDeDemonstracao = demonstracoes.map((demonstracao) => ({
+  rotulo: demonstracao.nome,
+  estado: demonstracao.estado,
+  simbolo: demonstracao.simbolo,
+  href: demonstracao.rota,
+}));
+
 /**
  * O que cada item com lista desdobra, no menu do desktop e na gaveta do celular.
  *
@@ -129,6 +137,7 @@ export const submenus: Record<MenuId, Submenu> = {
   produtos: {
     grupos: [
       { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
+      { titulo: 'Sob medida', todos: null, itens: atalhosDeDemonstracao },
     ],
     extras: [{ rotulo: 'Software à venda', descricao: 'Sistemas completos, com código, site e marca', href: `${ROTAS.loja}#software` }],
   },
@@ -140,7 +149,8 @@ export const submenus: Record<MenuId, Submenu> = {
 
 export type AtalhoDeMenu =
   | (typeof atalhosDeJogo)[number]
-  | (typeof atalhosDeProduto)[number];
+  | (typeof atalhosDeProduto)[number]
+  | (typeof atalhosDeDemonstracao)[number];
 
 type Submenu = {
   readonly grupos: readonly {
@@ -173,7 +183,7 @@ export const rodape = {
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],
-  produtos: atalhosDeProduto.map(({ rotulo, href }) => ({ rotulo, href })),
+  produtos: [...atalhosDeProduto, ...atalhosDeDemonstracao].map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },

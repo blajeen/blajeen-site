@@ -1,5 +1,24 @@
 # Plano mestre — site institucional Blajeen Labs
 
+## Emenda pedida pelo titular — Torrelio, demonstração sob medida (06/10/2026)
+
+O titular pediu, em Produtos, uma página para mostrar a incorporadoras e hotéis o que o estúdio
+constrói: o **Torrelio** (`/produtos/torrelio`). É uma demonstração sobre um prédio **fictício**
+(Residencial Vértice, na cidade fictícia de Porto Lume) em 3D interativo, com cada unidade ligada à
+tabela (janela acesa é unidade vendida), a vista de cada andar, o sol por fachada, o espelho por
+pavimento, o cartão com preço e fluxo de pagamento, o modo obra e o modo hotel (o mesmo prédio vira
+mapa de quartos). Tem duas abas sobre o mesmo palco: **Visão do cliente** e **Painel de controle**,
+aberto para teste sem login. O que o visitante muda fica só no navegador dele (`localStorage`), com
+botão de restaurar; nada vai para servidor. A página também lista o que a empresa envia para o
+projeto, onde ele fica (inclusive numa página do site da própria empresa ou numa aba do painel que
+ela já usa) e o apartamento em 3D, item opcional, sobre uma planta fictícia.
+
+Regras desta emenda: todo bloco com dado diz que é fictício; vista e sol são simulações sobre um
+entorno simplificado; nada de número de resultado, valorização, prazo ou preço (é "sob orçamento");
+o palco 3D fica dentro do `Container`, para o conduto; o 3D só carrega por intenção (pôster antes),
+com `prefers-reduced-motion` e o botão de movimento respeitados. Entra em Produtos num grupo próprio,
+**Sob medida**, fora da lista dos programas gratuitos. Detalhes em `docs/torrelio/IMPLEMENTACAO.md`.
+
 ## Emenda pedida pelo titular — os SaaS viram software à venda na loja (05/10/2026)
 
 O titular decidiu vender os sistemas inteiros: Lojalio, Foodelio, Doutelio, Beautelio, Studelio e

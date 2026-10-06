@@ -4,9 +4,12 @@
  *
  * | Nível | DPR máximo | MSAA            | Sombra | Entorno   | Halos e interiores |
  * |-------|------------|-----------------|--------|-----------|--------------------|
- * | alto  | 1,5        | se DPR ≤ 1,25   | 2048   | completo  | sim                |
- * | médio | 1,5        | não             | 1024   | reduzido  | sim                |
- * | baixo | 1          | não             | nenhuma| reduzido  | não                |
+ * | alto  | 2          | abaixo de 2×    | 2048   | completo  | sim                |
+ * | médio | 2          | não             | 1024   | reduzido  | sim                |
+ * | baixo | 1,25       | não             | nenhuma| reduzido  | não                |
+ *
+ * O teto de 2× é pedido do titular (nada borrado): em tela Retina e no celular, a 1,5× as bordas da
+ * fachada e o contorno ficavam moles. Acima de 2× o olho não distingue no tamanho do palco.
  *
  * Ajuste adaptativo: se o p90 dos quadros de duas animações seguidas passar de 24 ms, a cena desce
  * um degrau (só a resolução e a sombra mudam em tempo de execução; o MSAA é decidido na criação).
@@ -60,7 +63,7 @@ export type Ajustes = {
   entorno: 'completo' | 'reduzido';
 };
 
-const DPR_MAXIMO: Readonly<Record<NivelDeQualidade, number>> = { alto: 1.5, medio: 1.5, baixo: 1 };
+const DPR_MAXIMO: Readonly<Record<NivelDeQualidade, number>> = { alto: 2, medio: 2, baixo: 1.25 };
 const SOMBRA: Readonly<Record<NivelDeQualidade, 0 | 1024 | 2048>> = { alto: 2048, medio: 1024, baixo: 0 };
 
 export function ajustesDoNivel(nivel: NivelDeQualidade, dprDoAparelho: number): Ajustes {
@@ -68,7 +71,8 @@ export function ajustesDoNivel(nivel: NivelDeQualidade, dprDoAparelho: number): 
   return {
     nivel,
     dpr,
-    msaa: nivel === 'alto' && dpr <= 1.25,
+    // Em 2× a densidade já alisa as bordas; abaixo disso (monitor comum, Windows a 125% ou 150%), MSAA.
+    msaa: nivel === 'alto' && dpr < 2,
     sombra: SOMBRA[nivel],
     halos: nivel !== 'baixo',
     interiores: nivel !== 'baixo',

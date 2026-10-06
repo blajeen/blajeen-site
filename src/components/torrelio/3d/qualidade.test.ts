@@ -17,19 +17,21 @@ describe('o nível de qualidade da torre', () => {
   });
 
   it('limita a resolução e a sombra por nível', () => {
+    // Nada borrado em tela Retina e no celular: até 2×.
     const alto = ajustesDoNivel('alto', 2);
-    expect(alto.dpr).toBe(1.5);
+    expect(alto.dpr).toBe(2);
     expect(alto.sombra).toBe(2048);
     expect(alto.msaa).toBe(false);
+    expect(ajustesDoNivel('alto', 3).dpr).toBe(2);
     expect(ajustesDoNivel('alto', 1).msaa).toBe(true);
-    expect(ajustesDoNivel('alto', 1.25).msaa).toBe(true);
+    expect(ajustesDoNivel('alto', 1.5).msaa).toBe(true);
     const medio = ajustesDoNivel('medio', 3);
-    expect(medio.dpr).toBe(1.5);
+    expect(medio.dpr).toBe(2);
     expect(medio.sombra).toBe(1024);
     expect(medio.msaa).toBe(false);
     expect(medio.entorno).toBe('reduzido');
     const baixo = ajustesDoNivel('baixo', 3);
-    expect(baixo.dpr).toBe(1);
+    expect(baixo.dpr).toBe(1.25);
     expect(baixo.sombra).toBe(0);
     expect(baixo.halos).toBe(false);
     expect(ajustesDoNivel('alto', 0).dpr).toBe(1);

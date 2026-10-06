@@ -1,6 +1,5 @@
 'use client';
 
-import { getImageProps } from 'next/image';
 import { useCallback, useEffect, useEffectEvent, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { reservarGpu } from '@/lib/fila-da-gpu';
 import type { Enquadramento, Fachada } from '@/lib/torrelio/tipos';
@@ -35,22 +34,16 @@ type Props = {
   children?: ReactNode;
 };
 
-const posterPaisagem = getImageProps({
-  src: '/produtos/torrelio/poster-noite.webp',
-  alt: '',
-  width: 1600,
-  height: 900,
-  priority: true,
-  sizes: '100vw',
-}).props;
-const posterRetrato = getImageProps({
-  src: '/produtos/torrelio/poster-noite-retrato.webp',
-  alt: '',
-  width: 960,
-  height: 1200,
-  priority: true,
-  sizes: '100vw',
-}).props;
+/**
+ * Os pôsteres, com a densidade da tela: o de 2× só baixa em tela Retina, e o do celular cobre até
+ * 3× (pedido do titular: nada borrado). As imagens do site não passam pelo otimizador do Next
+ * (`images.unoptimized`), então o `srcset` é escrito aqui.
+ */
+const POSTER = {
+  paisagem: '/produtos/torrelio/poster-noite.webp',
+  paisagem2x: '/produtos/torrelio/poster-noite@2x.webp',
+  retrato: '/produtos/torrelio/poster-noite-retrato.webp',
+} as const;
 
 /** Celular, economia de dados ou ponteiro grosso: o 3D só abre pelo botão (ou ao escolher uma unidade). */
 function soPeloBotao(): boolean {
@@ -207,9 +200,15 @@ export function PalcoTorre({
   return (
     <div ref={palco} className={styles.palco} data-situacao={situacao} data-vista={vista ? 'sim' : 'nao'}>
       <picture className={styles.poster} data-oculto={situacao === 'pronto' && !contextoPerdido ? 'sim' : 'nao'}>
-        <source media="(max-width: 767px)" srcSet={posterRetrato.srcSet} width={960} height={1200} />
+        <source media="(max-width: 767px)" srcSet={POSTER.retrato} width={1080} height={1350} />
         <img
-          {...posterPaisagem}
+          src={POSTER.paisagem}
+          srcSet={`${POSTER.paisagem} 1600w, ${POSTER.paisagem2x} 2560w`}
+          sizes="(min-width: 1440px) 1312px, 94vw"
+          width={1600}
+          height={900}
+          fetchPriority="high"
+          decoding="async"
           alt="Maquete do Residencial Vértice, prédio fictício, à noite: as janelas acesas são unidades vendidas."
         />
       </picture>

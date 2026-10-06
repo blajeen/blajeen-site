@@ -4,8 +4,9 @@
 // (pose A) e no estado inicial: tabela de lançamento (luzes de `statusInicial`), 1803 selecionada,
 // contorno desligado, noite de verão às 20h30. Captura o canvas e grava:
 //
-//   public/produtos/torrelio/poster-noite.webp          1600 × 900 (16:9, computador)
-//   public/produtos/torrelio/poster-noite-retrato.webp   960 × 1200 (4:5, celular)
+//   public/produtos/torrelio/poster-noite.webp          1600 × 900 (16:9, computador em 1×)
+//   public/produtos/torrelio/poster-noite@2x.webp       2560 × 1440 (16:9, tela Retina; srcset)
+//   public/produtos/torrelio/poster-noite-retrato.webp  1080 × 1350 (4:5, celular em até 3×)
 //
 // Uso: node tools/torrelio-poster.mjs
 // Sem GPU, o Chromium desenha com SwiftShader (lento, mas fiel). Para outro Chromium, defina
@@ -21,13 +22,13 @@ import { createServer } from 'vite';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const destino = join(raiz, 'public/produtos/torrelio');
-/** Teto de peso por pôster: o de 16:9 é o LCP da página. */
-const LIMITE_KB = 150;
+/** Teto de peso de cada pôster: eles são o LCP da página (o 2× só baixa em tela de alta densidade). */
 const QUALIDADES = [86, 82, 78, 74, 70, 66, 62];
 
 const POSTERES = [
-  { arquivo: 'poster-noite.webp', largura: 1600, altura: 900 },
-  { arquivo: 'poster-noite-retrato.webp', largura: 960, altura: 1200 },
+  { arquivo: 'poster-noite.webp', largura: 1600, altura: 900, limiteKb: 150 },
+  { arquivo: 'poster-noite@2x.webp', largura: 2560, altura: 1440, limiteKb: 320 },
+  { arquivo: 'poster-noite-retrato.webp', largura: 1080, altura: 1350, limiteKb: 170 },
 ];
 
 const pagina = `<!doctype html>
@@ -107,7 +108,7 @@ try {
     for (const quality of QUALIDADES) {
       const webp = await sharp(png).resize(poster.largura, poster.altura).webp({ quality, effort: 6, smartSubsample: true }).toBuffer();
       gravado = { webp, quality };
-      if (webp.length <= LIMITE_KB * 1024) break;
+      if (webp.length <= poster.limiteKb * 1024) break;
     }
     const caminho = join(destino, poster.arquivo);
     writeFileSync(caminho, gravado.webp);

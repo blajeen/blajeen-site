@@ -155,7 +155,7 @@ describe('a demonstração do Torrelio', () => {
     montar();
     await abrir3d();
     expect(cena.ultimoEstado!.hora).toBe(10);
-    // De dia, o contorno das disponíveis fica ligado (a luz das janelas quase não aparece).
+    // De dia, o contorno das disponíveis fica ligado.
     expect(cena.ultimoEstado!.contornar).toBe(true);
   });
 

@@ -186,7 +186,7 @@ export function fachadaDaVista(alvo: Unidade | Quarto, pedida?: Fachada): Fachad
   return [...alvo.fachadas].sort((a, b) => vaos(b) - vaos(a))[0]!;
 }
 
-/** De dia a luz das janelas não aparece; o contorno das disponíveis liga sozinho. */
+/** De dia o contorno das disponíveis liga sozinho: elas são as vidraças escuras, entre as acesas. */
 export function ehDeDia(hora: number, estacao: Estacao): boolean {
   return posicaoDoSol(hora, estacao).elevacao > 4;
 }

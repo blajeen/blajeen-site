@@ -394,6 +394,14 @@ export function materialDoVidro(comuns: Comuns): { material: ShaderMaterial; uni
 
         vec3 cor = transmitido * 0.8 * (1.0 - fresnel) + reflexo * fresnel + brilhoDoSol;
 
+        // De dia e no fim de tarde, a lâmpada some contra o céu refletido no vidro. Para o status
+        // continuar legível a qualquer hora (pedido do titular), a vidraça acesa ganha a cor da luz:
+        // âmbar na vendida, azul na reservada. À noite, a própria lâmpada já diz.
+        float acesa = min(abs(vLuz), 1.0) * uLuzesDaObra;
+        // Mais clara no alto da vidraça, como a luz do teto: lê como luz, e não como vidro colorido.
+        vec3 tom = lampada * (0.88 + 0.16 * h2) * (0.82 + 0.3 * vUv.y);
+        cor = mix(cor, tom, acesa * (1.0 - uNoite) * 0.82);
+
         // Caixilhos desenhados: montantes entre painéis e trilhos em cima e embaixo, em bronze.
         float caixilho = 0.0;
         for (float i = 1.0; i < 3.0; i += 1.0) {

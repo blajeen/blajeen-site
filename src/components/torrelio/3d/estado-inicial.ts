@@ -5,8 +5,9 @@ import type { EstadoVisualTorre } from './contrato';
 
 /**
  * O estado do pôster e do primeiro quadro quando a interface não manda o dela: a tabela de
- * lançamento (fictícia), a 1803 selecionada, dia de verão às 10h. De dia a luz das janelas quase
- * não aparece, e a interface liga o contorno das disponíveis: o pôster sai igual.
+ * lançamento (fictícia), a 1803 selecionada, dia de verão às 10h. De dia a vidraça acesa ganha a
+ * cor da luz (âmbar na vendida, azul na reservada) e a interface liga o contorno das disponíveis:
+ * o pôster sai igual.
  */
 export function estadoInicialDaTorre(movimento = true): EstadoVisualTorre {
   const luzes = new Uint8Array(UNIDADES.length);

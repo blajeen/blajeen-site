@@ -170,7 +170,7 @@ export function BarraDoPalco(props: Props) {
         className={styles.segmentoSolto}
         aria-pressed={contornar || deDia}
         disabled={deDia}
-        title={deDia ? 'De dia a luz das janelas não aparece: o contorno fica ligado.' : undefined}
+        title={deDia ? 'De dia o contorno das disponíveis fica sempre ligado.' : undefined}
         onClick={() => props.aoContornar(!contornar)}
       >
         {modo === 'hotel' ? 'Contornar livres' : 'Contornar disponíveis'}

@@ -1210,7 +1210,7 @@ export const torrelio: Demonstracao = {
     'Para incorporadoras e hotéis: o empreendimento em 3D, no navegador, com cada unidade ligada à tabela, a vista de cada andar e um painel de controle. A demonstração usa um prédio fictício e fica aberta para testar.',
   imagem: {
     src: '/produtos/torrelio/poster-dia.webp',
-    alt: 'Maquete 3D do Residencial Vértice, prédio fictício, de dia: o contorno verde marca as unidades disponíveis.',
+    alt: 'Maquete 3D do Residencial Vértice, prédio fictício, de dia: vidraças âmbar são unidades vendidas, azuis são reservadas, e o contorno verde marca as disponíveis.',
   },
   paraQuem: 'Incorporadoras e hotéis',
   rodaEm: 'Navegador, no site e no stand',

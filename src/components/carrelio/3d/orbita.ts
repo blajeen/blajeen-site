@@ -74,7 +74,7 @@ export type Lente = {
 };
 
 /** Respiro em volta do carro: no celular em pé ele ocupa quase a largura toda; deitado, sobra ar. */
-export const folgaDoEnquadramento = (aspecto: number) => (aspecto < 1 ? 0.06 : 0.17);
+export const folgaDoEnquadramento = (aspecto: number) => (aspecto < 1 ? 0.08 : 0.2);
 
 /**
  * Projeta um ponto na câmera que olha de `olho` para `alvo` (sem rolagem), em coordenadas
@@ -108,18 +108,18 @@ export function projetarNaLente(ponto: readonly number[], olho: Vetor, alvo: Vet
   return [(dx * rx + dz * rz) / (profundidade * meiaH) / (lente.livreX ?? 1), (dx * ux + dy * uy + dz * uz) / (profundidade * meiaV) / (lente.livreY ?? 1)];
 }
 
-const cantos = (c: Caixa): Vetor[] => {
+export const cantosDaCaixa = (c: Caixa): Vetor[] => {
   const r: Vetor[] = [];
   for (const x of [c.min[0], c.max[0]]) for (const y of [c.min[1], c.max[1]]) for (const z of [c.min[2], c.max[2]]) r.push([x, y, z]);
   return r;
 };
 
 /**
- * O menor raio em que a caixa inteira cabe na parte livre da lente, com `folga` de respiro (fração
- * da meia largura). Busca binária: de mais longe, tudo encolhe na tela.
+ * O menor raio em que todos os pontos (a silhueta do carro, ou os cantos da caixa) cabem na parte
+ * livre da lente, com `folga` de respiro (fração da meia largura). Busca binária: de mais longe,
+ * tudo encolhe na tela.
  */
-export function raioParaCaber(caixa: Caixa, azimute: number, elevacao: number, alvo: Vetor, lente: Lente, folga: number): number {
-  const pontos = cantos(caixa);
+export function raioParaCaber(pontos: readonly (readonly number[])[], azimute: number, elevacao: number, alvo: Vetor, lente: Lente, folga: number): number {
   const limite = 1 - folga;
   const cabe = (raio: number) => {
     const olho = posicaoNaOrbita({ azimute, elevacao, raio, alvo });
@@ -144,15 +144,55 @@ export function alvoDaCaixa(caixa: Caixa): Vetor {
   return [(caixa.min[0] + caixa.max[0]) / 2, caixa.min[1] + (caixa.max[1] - caixa.min[1]) * 0.42, (caixa.min[2] + caixa.max[2]) / 2];
 }
 
-/** A pose de abertura enquadrada para a lente (a do pôster e a de "enquadrar"). */
-export function poseDeAbertura(caixa: Caixa, lente: Lente): PoseDeOrbita {
+/**
+ * A pose de abertura enquadrada para a lente (a do pôster e a de "enquadrar"). Com a silhueta (os
+ * pontos extremos da malha), o enquadramento é justo; só com a caixa, os cantos dela (que o carro
+ * não tem) deixam o carro menor na tela.
+ */
+export function poseDeAbertura(caixa: Caixa, lente: Lente, silhueta?: readonly (readonly number[])[]): PoseDeOrbita {
   const alvo = alvoDaCaixa(caixa);
+  const pontos = silhueta && silhueta.length >= 8 ? silhueta : cantosDaCaixa(caixa);
   return {
     azimute: ABERTURA.azimute,
     elevacao: ABERTURA.elevacao,
-    raio: raioParaCaber(caixa, ABERTURA.azimute, ABERTURA.elevacao, alvo, lente, folgaDoEnquadramento(lente.aspecto)),
+    raio: raioParaCaber(pontos, ABERTURA.azimute, ABERTURA.elevacao, alvo, lente, folgaDoEnquadramento(lente.aspecto)),
     alvo,
   };
+}
+
+/** Direções espalhadas na esfera (espiral de Fibonacci), para achar a silhueta de uma malha. */
+export function direcoesNaEsfera(n: number): Vetor[] {
+  const r: Vetor[] = [];
+  const ouro = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < n; i += 1) {
+    const y = 1 - (2 * (i + 0.5)) / n;
+    const raio = Math.sqrt(1 - y * y);
+    r.push([Math.cos(ouro * i) * raio, y, Math.sin(ouro * i) * raio]);
+  }
+  return r;
+}
+
+/**
+ * A silhueta de uma nuvem de pontos (x, y, z em sequência): o ponto mais extremo em cada direção.
+ * É o que precisa caber na tela; dentro do fecho dela, nada aparece fora do quadro.
+ */
+export function silhuetaDosPontos(posicoes: ArrayLike<number>, direcoes: readonly Vetor[]): Vetor[] {
+  const melhores = direcoes.map(() => ({ valor: -Infinity, ponto: [0, 0, 0] as Vetor }));
+  for (let i = 0; i + 2 < posicoes.length; i += 3) {
+    const x = posicoes[i]!;
+    const y = posicoes[i + 1]!;
+    const z = posicoes[i + 2]!;
+    for (let d = 0; d < direcoes.length; d += 1) {
+      const dir = direcoes[d]!;
+      const valor = x * dir[0] + y * dir[1] + z * dir[2];
+      const melhor = melhores[d]!;
+      if (valor > melhor.valor) {
+        melhor.valor = valor;
+        melhor.ponto = [x, y, z];
+      }
+    }
+  }
+  return melhores.filter((m) => Number.isFinite(m.valor)).map((m) => m.ponto);
 }
 
 /**

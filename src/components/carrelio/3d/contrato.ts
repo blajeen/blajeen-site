@@ -122,6 +122,11 @@ export type ManifestoDoModelo = {
     tolerancia: number;
     excluirMateriais?: readonly string[];
     excluirRegioes?: readonly RegiaoDoCarro[];
+    /**
+     * Tinge também o que o arquivo marcou como metal (padrão: não, para cromado e espelho ficarem).
+     * Para arquivos em que a própria pintura é metálica; aí cromados saem por material.
+     */
+    tingirMetal?: boolean;
   };
   /**
    * Vidros assados na textura (o modelo de IA não tem vidro de verdade: a janela é uma pintura
@@ -130,15 +135,35 @@ export type ManifestoDoModelo = {
    */
   vidrosPorRegiao?: readonly RegiaoDoCarro[];
   /**
+   * Vidros que o arquivo não tem (janela vazada, comum em modelo de IA: dá para ver o fundo através
+   * do carro): quadriláteros de vidro escuro com reflexo, pelos quatro cantos no espaço do carro, um
+   * pouco para dentro da lataria (a moldura da janela esconde as bordas). A primeira aresta (do 1º
+   * para o 2º canto) sobe pela janela: é nela que o vidro faz curva, recuando 2 cm no meio, como o
+   * vidro de verdade (chato, ele refletia uma faixa de luz inteira numa mancha só).
+   */
+  janelas?: readonly (readonly [readonly [number, number, number], readonly [number, number, number], readonly [number, number, number], readonly [number, number, number]])[];
+  /**
    * O verniz da lataria. Superfície gerada por IA costuma ser ondulada, e o reflexo nítido do verniz
    * denuncia a ondulação: um verniz mais fosco (rugosidade maior) ou mais fraco esconde. Sem o
    * campo, verniz de fábrica (intensidade 1, rugosidade 0,03).
    */
   verniz?: { intensidade: number; rugosidade: number };
   /**
+   * Refaz as normais soldando os vértices de mesma posição (média pesada pela área): a malha gerada
+   * por IA vem cortada nas costuras da textura e com normais ruidosas, que o reflexo denuncia.
+   */
+  suavizarNormais?: boolean;
+  /**
+   * O teto do modelo de malha única (sem nó próprio para `teto`): nessa região a pintura vale mesmo
+   * onde o assado é mais claro, e o teto fica preto (`tetoPreto`) ou de vidro (`tetoPanoramico`).
+   */
+  tetoPorRegiao?: readonly RegiaoDoCarro[];
+  /** Metal por região (as rodas do modelo de malha única): a parte clara da textura vira alumínio polido. */
+  metalPorRegiao?: readonly RegiaoDoCarro[];
+  /**
    * Faróis e lanternas por região, para o modelo em que eles são parte da textura (sem material
-   * próprio): regiões no espaço do carro onde os faróis acendem (a parte clara da textura brilha),
-   * de onde saem os halos e a poça de luz, e que nunca são tingidas.
+   * próprio): regiões no espaço do carro onde os faróis acendem (a parte clara da textura brilha;
+   * nas lanternas, a vermelha) e de onde saem os halos e a poça de luz.
    */
   regioesDeLuz?: { farois?: readonly RegiaoDoCarro[]; lanternas?: readonly RegiaoDoCarro[] };
   /** Materiais que são telas (painel, multimídia): só eles mantêm a textura emissiva, além das luzes. */

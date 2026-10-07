@@ -9,11 +9,14 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
 ## Escolhas
 
 - **Carro: Jaecoo 5.** Lançado no Brasil em 01/10/2026, é o carro que a loja precisa vender agora.
-  Também existe modelo 3D dele com interior à venda.
+  O 3D veio do Tripo (ver abaixo).
 - **Experiência:**
   - Por fora: 3D em tempo real com acabamento de configurador. Pintura com verniz, estúdio com
-    reflexos longos, troca de cor, portas, faróis e noite.
-  - Por dentro: câmera no banco do motorista. No projeto real, fotos 360° do carro da loja.
+    reflexos longos, troca de cor, faróis e noite.
+  - Portas e por dentro: a cena e a interface fazem as duas coisas quando o modelo tem as peças e
+    as câmeras, e isso foi testado com o Car Concept. O Jaecoo 5 do Tripo não tem nenhuma das
+    duas, então a demonstração não as mostra. No projeto real, o interior vem em fotos 360° do
+    carro da loja.
   - "Na sua garagem": realidade aumentada (Quick Look no iPhone, Scene Viewer no Android).
   - Painel da loja: estoque por cor e versão, preço da loja, campanha e pedidos de test drive.
   - Holograma: para carro, só como atração de vitrine (ventilador de LED). Fica para depois,
@@ -24,23 +27,38 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   - De demonstração: estoque, preço da loja, campanha e pedidos. A página e o rodapé da
     demonstração dizem isso.
   - Os tons das cores no 3D são aproximados.
-  - Nenhum logotipo de marca é usado, e a página não diz que a Comeri usa o produto.
-- **Fora dos buscadores** (`robots: noindex`) e fora da lista de produtos até o titular aprovar a
-  publicação.
+  - A página não usa logotipos da marca. O letreiro que aparece na grade é o do próprio carro,
+    gerado junto com o modelo. A página não diz que a Comeri usa o produto.
+- **Publicação aberta**, na lista de produtos como o Torrelio e com o nome da Comeri: decisão do
+  titular em 07/10/2026.
 
 ## O modelo 3D
 
-- O titular compra o "2026 Jaecoo J5 with interior" (CGTrader, US$ 179). Antes de comprar, conferir:
-  - licença *Royalty Free* (a *Editorial* não serve);
-  - volante à esquerda;
-  - versão sem "EV" no nome;
-  - portas e porta-malas como peças separadas.
-- O arquivo-fonte comprado **nunca** entra neste repositório, que é público, porque a licença não
-  permite redistribuir. Ele vai para um repositório privado. Aqui entra só o `.glb` otimizado
-  servido pela página.
-- Até o modelo chegar, a demonstração usa o "Car Concept" das amostras glTF da Khronos
-  (CC BY 4.0, Eric Chadwick / Darmstadt Graphics Group). O crédito aparece no palco, e a marca
-  d'água diz "CARRO PROVISÓRIO". Os logotipos dele ficam escondidos.
+- O titular recusou o modelo comprado ("não vou pagar R$ 1.000 só pra um demonstrativo"). Ele
+  gerou o Jaecoo 5 no **Tripo AI**, no plano grátis, que sai com licença **CC BY 4.0**. O crédito
+  aparece no palco: "Modelo 3D do Jaecoo 5 gerado com Tripo AI (CC BY 4.0)".
+- O original (5,1 MB, uma malha, 49,8 mil triângulos, textura 4096²) está em
+  `docs/carrelio/jaecoo-5-tripo-original.glb`. Ele subiu pela `main`, na raiz, e foi movido para
+  cá. O site usa `public/produtos/carrelio/modelos/jaecoo-5.glb` (2,4 MB, textura 2048²), feito
+  com `node tools/carrelio-modelo.mjs <original.glb> <destino.glb>`.
+- O arquivo não tem portas, interior, faróis nem pintura separados. O que a cena resolve por
+  manifesto (`src/components/carrelio/3d/modelos.ts`):
+  - a cor da lataria vem de uma máscara na textura (cinza neutro médio, sem rodas e cabine);
+  - vidros, teto, rodas e luzes vêm por região, em metros no espaço do carro;
+  - verniz acetinado e normais soldadas, para disfarçar as ondulações da malha gerada.
+- Sem portas nem interior, a demonstração esconde "Portas" e "Por dentro". O interior em foto
+  360° fica como entrega do projeto real.
+- O "Car Concept" das amostras da Khronos (CC BY 4.0) ficou só para desenvolvimento e testes das
+  portas e do interior. Ele não é publicado.
+- Defeitos conhecidos do arquivo gerado:
+  - o "J5" e o letreiro traseiro saem borrados;
+  - os trilhos do teto vêm assados na malha, então o rack não muda nada;
+  - o teto preto escurece só o painel entre os trilhos;
+  - alguns brilhos assados não tingem.
+- Trocar de carro: rodar o otimizador e criar o manifesto com `manifestoDeIa({...})`, medindo
+  de novo a cor-base, a tolerância e as regiões. Depois, os pôsteres
+  (`node tools/carrelio-poster.mjs`) e a imagem de compartilhamento (`public/og/carrelio.jpg`,
+  recorte do pôster 2×).
 
 ## Código
 
@@ -58,8 +76,5 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
 
 ## Antes de publicar
 
-- Aprovação do titular para a página pública com o nome da Comeri e o carro da marca.
-- O modelo do Jaecoo 5 no lugar do provisório, e os pôsteres refeitos.
-- Política de privacidade: a seção "Preferências guardadas no seu navegador" precisa citar o
-  que a demonstração do Carrelio guarda. O texto passa pela revisão do titular.
-- Lista de produtos, sitemap e imagem de compartilhamento.
+- O titular aprova as capturas e o trecho novo da Política de Privacidade (seção "Preferências
+  guardadas no seu navegador"), que cita o que a demonstração do Carrelio guarda.

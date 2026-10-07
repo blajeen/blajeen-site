@@ -96,19 +96,19 @@ export function corDaPintura(hex: string, metalico: number): Rgb {
  *
  * - distância de croma (a, b do OKLab) à cor base, com peso 2: cor saturada (lanterna, pinça de
  *   freio) não é lataria;
- * - só o que é mais escuro que a base conta (o sombreado assado escurece a lataria, e reflexo
- *   assado é mais claro que ela): pneu, vidro escuro e grade ficam de fora;
+ * - distância de luminosidade (L do OKLab), para mais escuro e para mais claro: o sombreado assado
+ *   da lataria fica perto da base; pneu, friso e grade escura ficam abaixo, vidro assado e cromado
+ *   claro ficam acima;
  * - borda suave entre 55% e 100% da tolerância;
- * - metal (cromado, espelho) nunca é tingido.
+ * - metal (cromado, espelho) não é tingido, salvo com `tingirMetal` (arquivo com pintura metálica).
  */
-export function mascaraDaPintura(texel: Rgb, base: Rgb, tolerancia: number, metalico = 0): number {
+export function mascaraDaPintura(texel: Rgb, base: Rgb, tolerancia: number, metalico = 0, tingirMetal = false): number {
   const t = linearParaOklab(texel);
   const b = linearParaOklab(base);
   const croma = Math.hypot(t[1] - b[1], t[2] - b[2]);
-  const escurecimento = Math.max(0, b[0] - t[0]);
-  const distancia = Math.max(croma * 2, escurecimento);
+  const distancia = Math.max(croma * 2, Math.abs(b[0] - t[0]));
   const tol = Math.max(0.01, tolerancia);
-  return (1 - suave(tol * 0.55, tol, distancia)) * (1 - suave(0.35, 0.65, metalico));
+  return (1 - suave(tol * 0.55, tol, distancia)) * (tingirMetal ? 1 : 1 - suave(0.35, 0.65, metalico));
 }
 
 /**

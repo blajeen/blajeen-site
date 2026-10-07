@@ -50,10 +50,11 @@ function montar() {
 
 const ultimo = () => cena.estados.at(-1)!;
 
+/** Abre o 3D e espera a interface assinar os eventos da cena (o palco já trocou o pôster pelo carro). */
 async function abrir3d() {
   const botao = screen.queryByRole('button', { name: /Abrir o carro em 3D/ });
   if (botao) fireEvent.click(botao);
-  await waitFor(() => expect(cena.estados.length).toBeGreaterThan(0));
+  await waitFor(() => expect(cena.arrastar).toBeDefined());
 }
 
 describe('a demonstração do Carrelio', () => {

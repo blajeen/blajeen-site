@@ -23,7 +23,7 @@ export const privacidadeCatelio: LegalDocument = {
   titulo: 'Política de Privacidade do Catelio',
   resumo: 'Informações de privacidade e canal de contato do Catelio. Documento em revisão.',
   estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
+  atualizacao: { definido: true, valor: '29 de setembro de 2026', fonte: FONTE_DATA },
   secoes: [
     { id: 'estado', titulo: '1. Estado do projeto', blocos: [{ tipo: 'destaque', texto: AVISO }] },
     {
@@ -35,13 +35,22 @@ export const privacidadeCatelio: LegalDocument = {
       ],
     },
     {
+      id: 'meta',
+      titulo: '3. Medição de anúncios (SDK da Meta)',
+      blocos: [
+        { tipo: 'paragrafo', texto: 'A partir da versão 1.3 para iPhone e iPad, o Catelio inclui o SDK da Meta (Meta Platforms), usado só para medir se os anúncios do Catelio no Facebook e no Instagram trazem instalações. Ele envia à Meta a instalação, as aberturas do app e as compras feitas no jogo (valor e moeda), com dados técnicos do aparelho (modelo, versão do sistema, idioma, fuso horário e endereço IP) e um identificador anônimo criado pelo próprio SDK.' },
+        { tipo: 'paragrafo', texto: 'O app não pede permissão de rastreamento e não coleta o identificador de publicidade do aparelho, nome nem e-mail. A medição vem ligada e pode ser desligada em Conforto (no menu de pausa) → Medição de anúncios; desligada, o SDK nem inicia. Fora do iPhone e do iPad o SDK não existe.' },
+        { tipo: 'paragrafo', texto: 'Política de privacidade da Meta: facebook.com/privacy/policy' },
+      ],
+    },
+    {
       id: 'compromissos',
-      titulo: '3. Revisão da versão distribuída',
+      titulo: '4. Revisão da versão distribuída',
       blocos: [{ tipo: 'paragrafo', texto: 'O texto definitivo desta seção deve ser conferido contra o aplicativo distribuído e as declarações feitas à App Store antes de afirmar categorias de dados, retenção ou compartilhamento.' }],
     },
     {
       id: 'contato',
-      titulo: '4. Dúvidas sobre dados',
+      titulo: '5. Dúvidas sobre dados',
       blocos: [{ tipo: 'contato', rotulo: 'Privacidade do Catelio', email: site.emailEstudio, assunto: 'Privacidade Catelio' }],
     },
   ],

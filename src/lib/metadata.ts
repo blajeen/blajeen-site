@@ -17,6 +17,8 @@ export const OG = {
   socialio: '/projects/socialio/socialio-icon-cafe.webp',
   /** O primeiro quadro da maquete do Torrelio, de dia, recortado em 1200 × 630. */
   torrelio: '/og/torrelio.jpg',
+  /** O primeiro quadro do carro do Carrelio, no estúdio, recortado em 1200 × 630. */
+  carrelio: '/og/carrelio.jpg',
 } as const;
 
 export const BRASAO_ALT = 'Brasão da Blajeen Labs: o frasco de gosma verde-ácido no centro de um escudo mecânico.';

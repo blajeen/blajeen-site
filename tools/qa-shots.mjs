@@ -26,6 +26,7 @@ const ROTAS_PADRAO = [
   '/projects/docalio',
   '/projects/gramelio',
   '/produtos/torrelio',
+  '/produtos/carrelio',
   '/novidades',
   '/about',
   '/contact',

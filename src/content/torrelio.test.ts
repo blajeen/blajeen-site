@@ -51,10 +51,10 @@ describe('os textos do Torrelio', () => {
   });
 
   it('entra em Produtos como demonstração sob orçamento, fora da lista dos programas gratuitos', () => {
-    expect(demonstracoes).toEqual([torrelio]);
+    expect(demonstracoes[0]).toBe(torrelio);
     expect(produtos.map((p) => p.id)).not.toContain('torrelio');
     expect(TODAS_AS_ROTAS).toContain(torrelio.rota);
-    expect(submenus.produtos.grupos.find((g) => g.titulo === 'Sob medida')!.itens.map((i) => i.href)).toEqual([ROTAS.produtoTorrelio]);
+    expect(submenus.produtos.grupos.find((g) => g.titulo === 'Sob medida')!.itens.map((i) => i.href)).toEqual([ROTAS.produtoTorrelio, ROTAS.produtoCarrelio]);
     const listagem = readFileSync(path.join(process.cwd(), 'src/app/produtos/page.tsx'), 'utf8');
     expect(listagem).toContain("{ rotulo: 'Preço', valor: 'Sob orçamento' }");
   });

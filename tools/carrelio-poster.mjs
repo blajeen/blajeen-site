@@ -4,9 +4,14 @@
 // (`estadoDoPoster`: Prestige, Azul Gaia, por fora, no estúdio, faróis apagados, ¾ de frente) e no
 // nível alto. Captura o canvas e grava:
 //
-//   public/produtos/carrelio/poster.webp          1600 × 900 (16:9, computador em 1×)
-//   public/produtos/carrelio/poster@2x.webp       2560 × 1440 (16:9, tela Retina; srcset)
-//   public/produtos/carrelio/poster-retrato.webp  1080 × 1350 (4:5, celular)
+//   public/produtos/carrelio/palco.webp            1600 × 1200 (4:3, o palco do tablet para cima)
+//   public/produtos/carrelio/palco@2x.webp         2400 × 1800 (4:3, tela Retina; srcset)
+//   public/produtos/carrelio/palco-quadrado.webp   1080 × 1080 (1:1, o palco do celular)
+//   public/produtos/carrelio/poster.webp           1600 × 900 (16:9, a vitrine de Produtos)
+//   public/produtos/carrelio/poster@2x.webp        2560 × 1440 (16:9, a fonte da imagem de compartilhamento)
+//
+// Os do palco saem com a barra de controles no pé (`base`, a mesma área livre da página, na escala
+// do pôster): o carro fica onde o 3D vai pôr, e o pôster se dissolve no primeiro quadro sem salto.
 //
 // Uso: node tools/carrelio-poster.mjs
 // Sem GPU, o Chromium desenha com SwiftShader (lento, mas fiel). Para outro Chromium, defina
@@ -25,10 +30,17 @@ const destino = join(raiz, 'public/produtos/carrelio');
 /** Teto de peso de cada pôster: eles são o LCP da página (o 2× só baixa em tela de alta densidade). */
 const QUALIDADES = [86, 82, 78, 74, 70, 66, 62];
 
+/**
+ * A barra do pé do palco tem 64 px (`AREA_LIVRE` em `DemonstracaoCarrelio.tsx`). Na escala de cada
+ * pôster: o palco do computador tem uns 700 px de altura (tela de 900), e o do celular, 360.
+ */
+const BARRA_PX = 64;
 const POSTERES = [
-  { arquivo: 'poster.webp', largura: 1600, altura: 900, limiteKb: 150 },
-  { arquivo: 'poster@2x.webp', largura: 2560, altura: 1440, limiteKb: 320 },
-  { arquivo: 'poster-retrato.webp', largura: 1080, altura: 1350, limiteKb: 170 },
+  { arquivo: 'palco.webp', largura: 1600, altura: 1200, base: Math.round((BARRA_PX * 1200) / 700), limiteKb: 160 },
+  { arquivo: 'palco@2x.webp', largura: 2400, altura: 1800, base: Math.round((BARRA_PX * 1800) / 700), limiteKb: 330 },
+  { arquivo: 'palco-quadrado.webp', largura: 1080, altura: 1080, base: Math.round((BARRA_PX * 1080) / 360), limiteKb: 150 },
+  { arquivo: 'poster.webp', largura: 1600, altura: 900, base: 0, limiteKb: 150 },
+  { arquivo: 'poster@2x.webp', largura: 2560, altura: 1440, base: 0, limiteKb: 320 },
 ];
 
 const pagina = `<!doctype html>
@@ -50,7 +62,8 @@ import { estadoDoPoster } from '@/components/carrelio/3d/estado-inicial';
 import { MODELO_ATUAL } from '@/components/carrelio/3d/modelos';
 
 const host = document.getElementById('palco');
-criarCenaCarro(host, { modelo: MODELO_ATUAL, estado: estadoDoPoster(false), qualidade: 'alto' })
+const base = Number(new URLSearchParams(location.search).get('base')) || 0;
+criarCenaCarro(host, { modelo: MODELO_ATUAL, estado: estadoDoPoster(false), qualidade: 'alto', areaLivre: { esquerda: 0, direita: 0, topo: 0, base } })
   .then((cena) => {
     window.__cena = cena;
     window.__pronto = true;
@@ -89,7 +102,7 @@ try {
     aba.on('console', (m) => {
       if (m.type() === 'error') erros.push(`${poster.arquivo}: ${m.text()}`);
     });
-    await aba.goto(endereco, { waitUntil: 'load' });
+    await aba.goto(`${endereco}?base=${poster.base}`, { waitUntil: 'load' });
     await aba.waitForFunction(() => window.__pronto || window.__erro, null, { timeout: 600_000 });
     const erro = await aba.evaluate(() => window.__erro);
     if (erro) throw new Error(`A cena não abriu: ${erro}`);

@@ -73,8 +73,15 @@ export type Lente = {
   livreY?: number;
 };
 
-/** Respiro em volta do carro: no celular em pé ele ocupa quase a largura toda; deitado, sobra ar. */
-export const folgaDoEnquadramento = (aspecto: number) => (aspecto < 1 ? 0.08 : 0.2);
+/**
+ * Respiro em volta do carro no pior ângulo da volta da mesa (fração da meia largura): 5% da tela de
+ * cada lado, em qualquer formato de palco. No ângulo de abertura (¾), o carro ocupa uns 72% da
+ * largura; de lado, onde ele é mais comprido na tela, 90%.
+ */
+export const FOLGA_DA_MESA = 0.1;
+
+/** Quantos ângulos da volta a conta da mesa confere (a cada 7,5°). */
+const ANGULOS_DA_MESA = 48;
 
 /**
  * Projeta um ponto na câmera que olha de `olho` para `alvo` (sem rolagem), em coordenadas
@@ -120,14 +127,7 @@ export const cantosDaCaixa = (c: Caixa): Vetor[] => {
  * tudo encolhe na tela.
  */
 export function raioParaCaber(pontos: readonly (readonly number[])[], azimute: number, elevacao: number, alvo: Vetor, lente: Lente, folga: number): number {
-  const limite = 1 - folga;
-  const cabe = (raio: number) => {
-    const olho = posicaoNaOrbita({ azimute, elevacao, raio, alvo });
-    return pontos.every((p) => {
-      const ndc = projetarNaLente(p, olho, alvo, lente);
-      return ndc !== null && Math.abs(ndc[0]) <= limite && Math.abs(ndc[1]) <= limite;
-    });
-  };
+  const cabe = (raio: number) => cabeNoRaio(pontos, { azimute, elevacao, raio, alvo }, lente, folga);
   let perto = 0.5;
   let longe = 400;
   if (cabe(perto)) return perto;
@@ -139,15 +139,41 @@ export function raioParaCaber(pontos: readonly (readonly number[])[], azimute: n
   return longe;
 }
 
+/** Todos os pontos cabem na parte livre da lente, com `folga` de respiro, vistos desta pose? */
+export function cabeNoRaio(pontos: readonly (readonly number[])[], pose: PoseDeOrbita, lente: Lente, folga: number): boolean {
+  const limite = 1 - folga;
+  const olho = posicaoNaOrbita(pose);
+  return pontos.every((p) => {
+    const ndc = projetarNaLente(p, olho, pose.alvo, lente);
+    return ndc !== null && Math.abs(ndc[0]) <= limite && Math.abs(ndc[1]) <= limite;
+  });
+}
+
+/**
+ * O raio da mesa: o menor em que o carro inteiro cabe na parte livre da lente em qualquer azimute da
+ * volta, nesta elevação. A mesa gira (sozinha ou no arrasto) com o raio fixo, como a câmera parada
+ * diante de um prato giratório de estúdio: de lado, onde o carro é mais comprido na tela, ele não
+ * sai do quadro, e o enquadramento não "respira" a cada volta. A conta só refaz a busca nos ângulos
+ * em que o carro não cabe no maior raio achado até ali.
+ */
+export function raioDaMesa(pontos: readonly (readonly number[])[], elevacao: number, alvo: Vetor, lente: Lente, folga: number): number {
+  let raio = raioParaCaber(pontos, ABERTURA.azimute, elevacao, alvo, lente, folga);
+  for (let i = 0; i < ANGULOS_DA_MESA; i += 1) {
+    const azimute = (360 * i) / ANGULOS_DA_MESA;
+    if (!cabeNoRaio(pontos, { azimute, elevacao, raio, alvo }, lente, folga)) raio = raioParaCaber(pontos, azimute, elevacao, alvo, lente, folga);
+  }
+  return raio;
+}
+
 /** O alvo da órbita: o centro da caixa, um pouco abaixo do meio da altura (o carro "assenta"). */
 export function alvoDaCaixa(caixa: Caixa): Vetor {
   return [(caixa.min[0] + caixa.max[0]) / 2, caixa.min[1] + (caixa.max[1] - caixa.min[1]) * 0.42, (caixa.min[2] + caixa.max[2]) / 2];
 }
 
 /**
- * A pose de abertura enquadrada para a lente (a do pôster e a de "enquadrar"). Com a silhueta (os
- * pontos extremos da malha), o enquadramento é justo; só com a caixa, os cantos dela (que o carro
- * não tem) deixam o carro menor na tela.
+ * A pose de abertura enquadrada para a lente (a do pôster e a de "enquadrar"): o ângulo de abertura,
+ * no raio da mesa, para o carro caber na volta inteira. Com a silhueta (os pontos extremos da malha),
+ * o enquadramento é justo; só com a caixa, os cantos dela (que o carro não tem) deixam o carro menor.
  */
 export function poseDeAbertura(caixa: Caixa, lente: Lente, silhueta?: readonly (readonly number[])[]): PoseDeOrbita {
   const alvo = alvoDaCaixa(caixa);
@@ -155,7 +181,7 @@ export function poseDeAbertura(caixa: Caixa, lente: Lente, silhueta?: readonly (
   return {
     azimute: ABERTURA.azimute,
     elevacao: ABERTURA.elevacao,
-    raio: raioParaCaber(pontos, ABERTURA.azimute, ABERTURA.elevacao, alvo, lente, folgaDoEnquadramento(lente.aspecto)),
+    raio: raioDaMesa(pontos, ABERTURA.elevacao, alvo, lente, FOLGA_DA_MESA),
     alvo,
   };
 }

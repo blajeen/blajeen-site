@@ -6,23 +6,43 @@
 
 .demo {
   --raio-palco: 28px;
-  /* No computador, o carro cabe na tela com os atalhos e a fileira das abas acima dele. */
+  /* No computador, o carro cabe na tela com a fileira das abas acima dele. */
   --altura-palco: clamp(30rem, calc(100svh - 12.5rem), 46rem);
   --erro: #ffb4a8;
   --a-caminho: #f2c46b;
+  --vidro: rgba(9, 10, 8, 0.74);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
   scroll-margin-top: 5.5rem;
 }
 
-/* ------------------------------------------------------------------ topo e controles */
+/* ------------------------------------------------------------- topo: atalhos e abas */
 
+/*
+ * No celular, os atalhos numa fileira que desliza e as abas embaixo, na largura toda. No computador,
+ * uma linha só, na grade do palco: os atalhos acima do carro, as abas acima do cartão que elas trocam.
+ */
 .topo {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
+}
+
+.atalhos {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .topo {
+    grid-template-columns: minmax(0, 1fr) minmax(21rem, 25rem);
+    column-gap: 0.9rem;
+  }
+
+  .topo > .abas {
+    grid-column: 2;
+  }
 }
 
 .abas,
@@ -33,13 +53,29 @@
   padding: 3px;
   border: 1px solid var(--color-line-strong);
   border-radius: 999px;
-  background: rgba(9, 10, 8, 0.72);
+  background: var(--vidro);
+}
+
+.abas {
+  display: flex;
+  width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .abas {
+    max-width: 28rem;
+  }
 }
 
 .abas button,
 .segmento button,
 .segmentoSolto,
-.botaoPequeno {
+.botaoPequeno,
+.botaoDoCanto {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   min-height: 2.25rem;
   padding: 0 0.85rem;
   border-radius: 999px;
@@ -50,7 +86,15 @@
   transition: background-color 160ms var(--ease-lab), color 160ms var(--ease-lab), border-color 160ms var(--ease-lab);
 }
 
+.abas button svg,
+.segmento button svg,
+.segmentoSolto svg,
+.botaoDoCanto svg {
+  flex: none;
+}
+
 .abas button {
+  flex: 1 1 0;
   min-height: 2.75rem;
   padding: 0 1.15rem;
   font-size: 0.9375rem;
@@ -59,7 +103,8 @@
 .abas button:hover,
 .segmento button:hover,
 .segmentoSolto:hover,
-.botaoPequeno:hover {
+.botaoPequeno:hover,
+.botaoDoCanto:hover {
   color: var(--color-paper);
 }
 
@@ -68,11 +113,40 @@
   color: var(--color-ink);
 }
 
+/* Os pedidos novos, ao lado de "Painel da loja": o cliente pediu, a loja vê. */
+.seloDaAba {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  margin-left: 0.15rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--color-signal);
+  color: var(--color-ink);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
 .segmento button[aria-pressed='true'],
 .segmentoSolto[aria-pressed='true'] {
   background: var(--color-raised);
   color: var(--color-paper);
   box-shadow: inset 0 0 0 1px var(--color-line-strong);
+}
+
+/* Os botões de ligar e desligar do palco: ligado, a pílula acende (fundo e borda mais claros). */
+.barra3d .segmentoSolto[aria-pressed='true'] {
+  border-color: rgba(231, 231, 223, 0.4);
+  background: rgba(38, 41, 36, 0.94);
+  box-shadow: none;
+}
+
+/* Ligado: o ícone acende no verde do sinal. */
+.segmentoSolto[aria-pressed='true'] svg {
+  color: var(--color-signal);
 }
 
 .segmento button:disabled,
@@ -83,9 +157,10 @@
 }
 
 .segmentoSolto,
-.botaoPequeno {
+.botaoPequeno,
+.botaoDoCanto {
   border: 1px solid var(--color-line-strong);
-  background: rgba(9, 10, 8, 0.72);
+  background: var(--vidro);
 }
 
 .segmentoLargo {
@@ -122,13 +197,21 @@
   opacity: 0.6;
 }
 
-@media (pointer: coarse) {
-  .segmento button,
-  .segmentoSolto,
-  .botaoPequeno,
-  .abas button {
-    min-height: 2.75rem;
-  }
+/* Um link em forma de botão, dentro do texto do cartão. */
+.botaoDeTexto {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  color: var(--color-paper);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-strong);
+  text-underline-offset: 4px;
+}
+
+.botaoDeTexto:hover {
+  text-decoration-color: var(--color-paper);
 }
 
 /* --------------------------------------------------------------------------- grade */
@@ -158,11 +241,16 @@
 
 /* --------------------------------------------------------------------------- palco */
 
+/*
+ * Quadrado no celular: o carro é largo, e o palco em pé deixava metade dele vazia. 16:10 no tablet;
+ * no computador, a altura da tela.
+ */
 .palco {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  aspect-ratio: 4 / 5;
+  container: palco / inline-size;
+  aspect-ratio: 1 / 1;
   scroll-margin-top: 4.75rem;
   border: 1px solid var(--color-line-strong);
   border-radius: var(--raio-palco);
@@ -186,24 +274,6 @@
   }
 }
 
-.poster {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  transition: opacity 600ms var(--ease-lab);
-}
-
-.poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.poster[data-oculto='sim'] {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .host {
   position: absolute;
   inset: 0;
@@ -217,71 +287,163 @@
   touch-action: pan-y;
 }
 
-.marcaDagua {
+/* O pôster fica por cima do 3D enquanto ele carrega e se dissolve no primeiro quadro, que é igual. */
+.poster {
   position: absolute;
-  top: 1rem;
-  left: 50%;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-lab);
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster[data-oculto='sim'] {
+  opacity: 0;
+}
+
+/* A legenda no alto, à esquerda: o selo da demonstração e o crédito da licença do modelo. */
+.legendaDoPalco {
+  position: absolute;
+  top: 0.95rem;
+  left: 1.1rem;
   z-index: 3;
-  transform: translateX(-50%);
+  display: grid;
+  gap: 0.3rem;
+  max-width: min(26rem, calc(50% - 1.1rem));
+  pointer-events: none;
+}
+
+.marcaDagua {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.24em;
-  white-space: nowrap;
-  color: rgba(231, 231, 223, 0.45);
-  pointer-events: none;
+  color: rgba(231, 231, 223, 0.7);
 }
 
 .credito {
-  position: absolute;
-  right: 1rem;
-  bottom: 4.4rem;
-  left: 1rem;
-  z-index: 3;
   font-size: 0.625rem;
-  line-height: 1.35;
-  text-align: right;
-  color: rgba(165, 173, 161, 0.75);
-  pointer-events: none;
+  line-height: 1.4;
+  color: rgba(165, 173, 161, 0.9);
 }
 
+/* O canto de cima, à direita: tela cheia (tablet para cima) ou o zoom (celular). */
+.cantoDoPalco {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.botaoDoCanto {
+  backdrop-filter: blur(10px);
+}
+
+/*
+ * O pé do palco antes do 3D: "Abrir o carro em 3D", depois "Preparando…", no lugar onde a barra de
+ * controles vai aparecer. Não cobre o carro.
+ */
 .abrir3d {
   position: absolute;
-  top: 50%;
+  bottom: 0.75rem;
   left: 50%;
-  z-index: 3;
-  transform: translate(-50%, -50%);
-  min-height: 3rem;
-  padding: 0 1.25rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0 1.2rem 0 1rem;
+  transform: translateX(-50%);
   border: 1px solid rgba(201, 255, 61, 0.55);
   border-radius: 999px;
   background: rgba(9, 10, 8, 0.82);
+  backdrop-filter: blur(10px);
   color: var(--color-signal);
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+  transition: border-color 160ms var(--ease-lab), color 160ms var(--ease-lab);
 }
 
 .abrir3d:hover {
   border-color: var(--color-signal);
 }
 
+.abrir3d[data-carregando='sim'] {
+  cursor: progress;
+  border-color: var(--color-line-strong);
+  color: var(--color-paper);
+}
+
+.carregando {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1.5px solid rgba(231, 231, 223, 0.22);
+  border-top-color: var(--color-signal);
+  border-radius: 50%;
+  animation: girarCarregando 900ms linear infinite;
+}
+
+@keyframes girarCarregando {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .avisoDoPalco {
   position: absolute;
-  top: 2.6rem;
+  bottom: 0.75rem;
   left: 50%;
-  z-index: 3;
-  max-width: min(28rem, calc(100% - 2rem));
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
   transform: translateX(-50%);
-  padding: 0.55rem 0.9rem;
+  padding: 0.6rem 0.95rem;
   border: 1px solid var(--color-line-strong);
-  border-radius: 14px;
-  background: rgba(9, 10, 8, 0.86);
+  border-radius: 16px;
+  background: rgba(9, 10, 8, 0.88);
   color: var(--color-paper);
   font-size: 0.8125rem;
   line-height: 1.4;
-  text-align: center;
+}
+
+/* A dica de uso, uma vez, logo acima da barra: some no primeiro arrasto, no primeiro ponto ou sozinha. */
+.dica {
+  position: absolute;
+  bottom: 4.1rem;
+  left: 50%;
+  z-index: 3;
+  max-width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.68);
+  backdrop-filter: blur(8px);
+  color: var(--color-paper);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: surgir 500ms var(--ease-lab) both;
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+  }
 }
 
 /* ------------------------------------------------------------------ pontos de toque */
@@ -291,6 +453,13 @@
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  transition: opacity 400ms var(--ease-lab);
+}
+
+/* Enquanto o pôster se dissolve, os pontos já estão no lugar, mas fora da vista e do teclado. */
+.pontos[data-revelado='nao'] {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .ponto {
@@ -300,6 +469,7 @@
   will-change: transform;
 }
 
+/* O alvo é de 44 px; o desenho, um "+" num disco de vidro escuro, que vira "×" no verde quando abre. */
 .pontoBotao {
   position: absolute;
   top: -1.375rem;
@@ -313,30 +483,91 @@
 }
 
 .pontoBotao span {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--color-paper);
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid rgba(231, 231, 223, 0.92);
   border-radius: 50%;
-  background: rgba(9, 10, 8, 0.55);
-  box-shadow: 0 0 0 4px rgba(9, 10, 8, 0.35);
+  background: rgba(9, 10, 8, 0.6);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
   transition: transform 200ms var(--ease-lab), background-color 200ms var(--ease-lab), border-color 200ms var(--ease-lab);
 }
 
-.pontoBotao:hover span,
+.pontoBotao span::before,
+.pontoBotao span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--color-paper);
+  transform: translate(-50%, -50%);
+  transition: transform 200ms var(--ease-lab), background-color 200ms var(--ease-lab);
+}
+
+.pontoBotao span::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* Um anel que se espalha três vezes quando os pontos aparecem: dá para tocar. Só com movimento. */
+.pontoBotao::before {
+  content: '';
+  position: absolute;
+  inset: 0.625rem;
+  border: 1.5px solid rgba(231, 231, 223, 0.7);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.palco[data-movimento='sim'] .ponto[data-aberto='nao'] .pontoBotao::before {
+  animation: anelDoPonto 2200ms var(--ease-lab) 600ms 3;
+}
+
+@keyframes anelDoPonto {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+.pontoBotao:hover span {
+  transform: scale(1.1);
+  border-color: var(--color-signal);
+}
+
 .ponto[data-aberto='sim'] .pontoBotao span {
-  transform: scale(1.15);
   border-color: var(--color-signal);
   background: var(--color-signal);
 }
 
+.ponto[data-aberto='sim'] .pontoBotao span::before {
+  background: var(--color-ink);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ponto[data-aberto='sim'] .pontoBotao span::after {
+  background: var(--color-ink);
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
 .pontoBalao {
   position: absolute;
-  bottom: 1.6rem;
+  bottom: 1.75rem;
   left: 0;
   display: grid;
   gap: 2px;
   width: max-content;
-  max-width: 15rem;
+  max-width: min(15rem, 70vw);
   transform: translateX(-50%);
   padding: 0.55rem 0.75rem;
   border: 1px solid rgba(230, 255, 154, 0.4);
@@ -345,6 +576,20 @@
   font-size: 0.8125rem;
   line-height: 1.35;
   pointer-events: none;
+}
+
+/* Perto da borda, o balão abre para dentro do palco. */
+.ponto[data-lado='inicio'] .pontoBalao {
+  transform: translateX(-0.9rem);
+}
+
+.ponto[data-lado='fim'] .pontoBalao {
+  transform: translateX(calc(-100% + 0.9rem));
+}
+
+.ponto[data-vertical='abaixo'] .pontoBalao {
+  top: 1.75rem;
+  bottom: auto;
 }
 
 .pontoBalao strong {
@@ -357,6 +602,10 @@
 
 /* ----------------------------------------------------------------- barra do palco */
 
+/*
+ * Centrada quando cabe (as margens automáticas); quando não cabe, desliza de lado sem cortar o
+ * começo. Só aparece com o carro pronto: antes, o pé do palco é do "Abrir o carro em 3D".
+ */
 .barra3d {
   position: absolute;
   right: 0.75rem;
@@ -369,8 +618,20 @@
   overflow-x: auto;
   padding: 2px;
   scrollbar-width: none;
-  /* No celular a fileira desliza: as bordas esmaecem para dizer que há mais. */
-  mask-image: linear-gradient(90deg, transparent 0, #000 0.9rem, #000 calc(100% - 1.6rem), transparent 100%);
+  transition: opacity 400ms var(--ease-lab);
+}
+
+.barra3d > :first-child {
+  margin-left: auto;
+}
+
+.barra3d > :last-child {
+  margin-right: auto;
+}
+
+.palco[data-com3d='nao'] .barra3d {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .barra3d::-webkit-scrollbar {
@@ -384,15 +645,88 @@
   backdrop-filter: blur(10px);
 }
 
+.zoom button {
+  min-width: 2.25rem;
+  padding: 0;
+  font-size: 1rem;
+}
+
+/* No canto, o zoom fica mais leve que a barra: é a alternativa de um dedo à pinça, não o assunto. */
+.cantoDoPalco .zoom {
+  border-color: var(--color-line);
+  background: rgba(9, 10, 8, 0.55);
+  backdrop-filter: blur(10px);
+}
+
 .botaoDaGaragem {
   border-color: rgba(201, 255, 61, 0.55);
   color: var(--color-signal);
 }
 
-@media (min-width: 1280px) {
+.botaoDaGaragem:hover {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+
+/*
+ * No palco estreito (o celular, e o computador de 1024 px, onde o cartão aperta o palco), a fileira
+ * cabe sem deslizar: os ícones saem. No celular, o zoom também sai daqui e vai para o canto de cima.
+ */
+@container palco (max-width: 40rem) {
   .barra3d {
-    justify-content: center;
-    mask-image: none;
+    right: 0.5rem;
+    left: 0.5rem;
+    gap: 0.3rem;
+  }
+
+  .barra3d .segmentoSolto {
+    padding: 0 0.75rem;
+  }
+
+  .barra3d .segmentoSolto svg {
+    display: none;
+  }
+
+  /*
+   * Sem o ícone que acende, um "LED" no recuo da pílula (não alarga a fileira): oco desligado,
+   * verde ligado.
+   */
+  .barra3d .segmentoSolto[aria-pressed] {
+    position: relative;
+    padding: 0 0.6rem 0 0.95rem;
+  }
+
+  .barra3d .segmentoSolto[aria-pressed]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0.36rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: -0.2rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  .barra3d .segmentoSolto[aria-pressed='true']::before {
+    border-color: var(--color-signal);
+    background: var(--color-signal);
+    opacity: 1;
+  }
+}
+
+@container palco (max-width: 21.5rem) {
+  .barra3d .segmentoSolto {
+    padding: 0 0.62rem;
+  }
+
+  .barra3d .segmentoSolto[aria-pressed] {
+    padding: 0 0.5rem 0 0.85rem;
+  }
+
+  .barra3d .segmentoSolto[aria-pressed]::before {
+    left: 0.3rem;
   }
 }
 
@@ -421,6 +755,7 @@
 }
 
 .garagem h3 {
+  padding-right: 2rem;
   font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
@@ -454,6 +789,7 @@
 
 .lateral {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: start;
   gap: 0.9rem;
   min-width: 0;
@@ -470,8 +806,10 @@
 
 .cartao {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.15rem;
   scroll-margin-top: 5rem;
+  container-type: inline-size;
 }
 
 .cabecaDoCartao {
@@ -486,8 +824,8 @@
   border: 1px solid var(--color-line-strong);
   border-radius: 6px;
   font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.2em;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
   color: var(--color-mineral);
 }
 
@@ -596,7 +934,7 @@
 
 .preco {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.3rem;
   padding-top: 1rem;
   border-top: 1px solid var(--color-line);
 }
@@ -613,6 +951,29 @@
   color: var(--color-signal);
 }
 
+/* A campanha da loja, junto do preço a que ela se refere. */
+.campanha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.55rem;
+  margin: 0.3rem 0 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(201, 255, 61, 0.26);
+  border-radius: 12px;
+  background: rgba(201, 255, 61, 0.05);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-paper);
+}
+
+.seloDaCampanha {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--color-signal);
+}
+
 .nota {
   font-size: 0.8125rem;
   line-height: 1.45;
@@ -626,6 +987,16 @@
   gap: 0.5rem;
 }
 
+.botaoDoTestDrive {
+  flex: 1 1 auto;
+}
+
+@container (min-width: 30rem) {
+  .botaoDoTestDrive {
+    flex: 0 1 auto;
+  }
+}
+
 .testDrive {
   display: grid;
   gap: 0.85rem;
@@ -633,6 +1004,23 @@
   border: 1px solid var(--color-line-strong);
   border-radius: var(--radius-control);
   background: var(--color-raised);
+}
+
+.tituloDoTestDrive {
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.camposDoTestDrive {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@container (min-width: 30rem) {
+  .camposDoTestDrive {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
 }
 
 .campo {
@@ -655,7 +1043,8 @@
 }
 
 .demo input:not([type='checkbox']),
-.demo select {
+.demo select,
+.demo textarea {
   min-height: 2.75rem;
   width: 100%;
   padding: 0 0.8rem;
@@ -666,6 +1055,12 @@
   font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
   color-scheme: dark;
+}
+
+.demo textarea {
+  padding: 0.6rem 0.8rem;
+  line-height: 1.45;
+  resize: none;
 }
 
 .demo input[aria-invalid='true'] {
@@ -683,20 +1078,18 @@
   padding: 0.9rem 1rem;
   border: 1px solid rgba(201, 255, 61, 0.45);
   border-radius: var(--radius-control);
+  background: rgba(201, 255, 61, 0.04);
   font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.confirmacao strong {
+  font-weight: 600;
 }
 
 .confirmacao .botaoPequeno {
   justify-self: start;
-}
-
-.campanha {
-  padding: 0.7rem 0.9rem;
-  border-left: 2px solid var(--color-signal);
-  border-radius: 0 12px 12px 0;
-  background: rgba(201, 255, 61, 0.06);
-  font-size: 0.875rem;
-  line-height: 1.45;
+  color: var(--color-paper);
 }
 
 .itens {
@@ -760,15 +1153,19 @@
 
 .fontes {
   font-size: 0.6875rem;
-  line-height: 1.5;
-  color: var(--color-mineral-dim);
+  line-height: 1.6;
+  color: var(--color-mineral);
 }
 
 .fontes a {
-  color: var(--color-mineral);
+  color: var(--color-paper);
   text-decoration: underline;
   text-decoration-color: var(--color-line-strong);
   text-underline-offset: 3px;
+}
+
+.fontes a:hover {
+  text-decoration-color: var(--color-paper);
 }
 
 /* -------------------------------------------------------------------- painel da loja */
@@ -797,17 +1194,35 @@
 
 .painelDaLoja {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
+  container-type: inline-size;
 }
 
 .bloco {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.8rem;
 }
 
 .tituloDoBloco {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  scroll-margin-top: 6rem;
   font-size: 1.05rem;
   letter-spacing: -0.02em;
+}
+
+.contagem {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-signal);
+  color: var(--color-ink);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .tabelaDoEstoque {
@@ -836,11 +1251,11 @@
 
 .tabelaDoEstoque thead th {
   font-family: var(--font-mono);
-  font-size: 0.5625rem;
+  font-size: 0.625rem;
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-mineral-dim);
+  color: var(--color-mineral);
 }
 
 .tabelaDoEstoque tr[data-atual='sim'] {
@@ -890,20 +1305,44 @@
 }
 
 .contador output {
-  min-width: 1.5rem;
+  min-width: 1.75rem;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
+.prontaEntrega {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  color: var(--color-mineral);
+  white-space: nowrap;
+}
+
+.prontaEntrega::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-signal);
+}
+
 .chegada {
-  display: grid;
-  gap: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .demo .chegada select,
 .demo .chegada input {
   min-height: 2.5rem;
   font-size: 0.8125rem;
+}
+
+.demo .chegada select {
+  width: auto;
+  padding-right: 2rem;
 }
 
 .dias {
@@ -918,12 +1357,65 @@
   width: 4.5rem;
 }
 
+/*
+ * No cartão estreito (o celular, e a coluna do painel no computador), cada cor vira duas linhas: o
+ * nome com o contador na primeira, o que o cliente vê embaixo. A tabela continua tabela para o
+ * leitor de tela; o cabeçalho só sai da vista.
+ */
+@container (max-width: 34rem) {
+  .tabelaDoEstoque,
+  .tabelaDoEstoque tbody,
+  .tabelaDoEstoque caption {
+    display: block;
+  }
+
+  .tabelaDoEstoque thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .tabelaDoEstoque tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'cor qtd'
+      'sit sit';
+    align-items: center;
+    column-gap: 0.75rem;
+    padding: 0.4rem 0 0.55rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .tabelaDoEstoque tbody th,
+  .tabelaDoEstoque tbody td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .tabelaDoEstoque tbody th {
+    grid-area: cor;
+  }
+
+  .tabelaDoEstoque tbody td:nth-child(2) {
+    grid-area: qtd;
+  }
+
+  .tabelaDoEstoque tbody td:nth-child(3) {
+    grid-area: sit;
+    padding-left: 1.4rem;
+  }
+}
+
 .precosDaLoja {
   display: grid;
   gap: 0.9rem;
 }
 
-@media (min-width: 640px) {
+@container (min-width: 22rem) {
   .precosDaLoja {
     grid-template-columns: 1fr 1fr;
   }
@@ -950,20 +1442,35 @@
 
 .pedidos li {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.55rem;
   padding: 0.75rem 0.85rem;
   border: 1px solid var(--color-line-strong);
   border-radius: var(--radius-control);
   font-size: 0.875rem;
+  line-height: 1.45;
 }
 
-.pedidos li[data-atendido='sim'] {
-  border-color: rgba(201, 255, 61, 0.35);
+.pedidos li[data-atendido='nao'] {
+  border-color: rgba(201, 255, 61, 0.45);
+  background: rgba(201, 255, 61, 0.04);
 }
 
-.pedidos .selo {
-  margin-left: 0.5rem;
+.seloDoPedido {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--color-signal);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  vertical-align: 0.1em;
   color: var(--color-signal);
+}
+
+.pedidos li[data-atendido='nao'] .seloDoPedido {
+  background: var(--color-signal);
+  color: var(--color-ink);
 }
 
 .historico {
@@ -980,12 +1487,43 @@
   color: var(--color-mineral);
 }
 
+/* ------------------------------------------------------------- toque: alvos de 44 px */
+
+@media (pointer: coarse) {
+  .segmento button,
+  .segmentoSolto,
+  .botaoPequeno,
+  .botaoDoCanto,
+  .botaoDeTexto,
+  .abas button {
+    min-height: 2.75rem;
+  }
+
+  .zoom button {
+    min-width: 2.75rem;
+  }
+
+  .contador button {
+    width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .demo .chegada select,
+  .demo .chegada input {
+    min-height: 2.75rem;
+  }
+}
+
 /* ------------------------------------------------------------------- tela cheia */
 
 .demo[data-tela-cheia='sim'] {
   overflow-y: auto;
   padding: 1rem;
   background: var(--color-ink);
+}
+
+.demo[data-tela-cheia='sim'] .atalhos {
+  display: none;
 }
 
 .demo[data-tela-cheia='sim'] .palco {
@@ -997,10 +1535,25 @@
   top: 0;
 }
 
+/* ------------------------------------------------- o que muda entre celular e tablet */
+
+@media (max-width: 767px) {
+  .demo .soNoLargo {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .demo .soNoCelular {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .poster,
   .pontoBotao span,
-  .amostra {
+  .amostra,
+  .barra3d {
     transition: none;
   }
 }

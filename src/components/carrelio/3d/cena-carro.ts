@@ -249,8 +249,14 @@ export async function criarCenaCarro(host: HTMLElement, opcoes: OpcoesInternas):
     cena.add(cortinaMalha);
 
     // ---------------------------------------------------------------- estado
-    const areaLivre = { esquerda: 0, direita: 0, topo: 0, base: 0 };
-    const deslocamento = { x: 0, y: 0 };
+    // A área livre chega com as opções: o primeiro quadro já sai centrado acima da barra, como o pôster.
+    const areaLivre = {
+      esquerda: Math.max(0, opcoes.areaLivre?.esquerda ?? 0),
+      direita: Math.max(0, opcoes.areaLivre?.direita ?? 0),
+      topo: Math.max(0, opcoes.areaLivre?.topo ?? 0),
+      base: Math.max(0, opcoes.areaLivre?.base ?? 0),
+    };
+    const deslocamento = { x: (areaLivre.esquerda - areaLivre.direita) / 2, y: (areaLivre.topo - areaLivre.base) / 2 };
     const lente = (): Lente => ({
       fovVertical: fovDeFora(largura / altura),
       aspecto: largura / altura,

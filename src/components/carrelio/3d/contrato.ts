@@ -37,6 +37,9 @@ export type EstadoVisualCarro = {
 /** Um ponto de toque projetado na tela, em pixels do palco (canto superior esquerdo do host). */
 export type Projecao = { id: string; x: number; y: number; visivel: boolean };
 
+/** Espaço tomado por painéis sobre o palco, em pixels: o carro se centra no que sobra. */
+export type AreaLivre = { esquerda: number; direita: number; topo: number; base: number };
+
 export interface CenaCarro {
   /** Desenha o estado. Chamado a cada mudança; a cena anima só o que mudou. */
   aplicar(estado: EstadoVisualCarro): void;
@@ -44,7 +47,7 @@ export interface CenaCarro {
   enquadrar(): void;
   zoom(passo: 1 | -1): void;
   /** Espaço tomado por painéis sobre o palco, em pixels, para o carro ficar centrado no que sobra. */
-  definirAreaLivre(area: { esquerda: number; direita: number; topo: number; base: number }): void;
+  definirAreaLivre(area: AreaLivre): void;
   /**
    * Os pontos de toque (ids do catálogo que o manifesto do modelo posiciona) da vista atual,
    * projetados a cada quadro desenhado. Devolve a função que cancela.
@@ -187,6 +190,11 @@ export type OpcoesDoCarro = {
   modelo: ManifestoDoModelo;
   /** O estado que a interface já tem: o primeiro quadro (o que substitui o pôster) já sai certo. */
   estado: EstadoVisualCarro;
+  /**
+   * A área livre do palco desde o primeiro quadro (a barra de controles no pé): o carro já nasce
+   * centrado no que sobra, como no pôster, sem deslizar para o lugar depois da carga.
+   */
+  areaLivre?: AreaLivre;
 };
 
 /**

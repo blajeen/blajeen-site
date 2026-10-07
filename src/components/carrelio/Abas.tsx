@@ -3,9 +3,12 @@
 import { useRef, type KeyboardEvent } from 'react';
 import styles from './Carrelio.module.css';
 
+/** Um número pequeno ao lado do nome da aba (os pedidos novos), com a frase que o leitor de tela lê. */
+export type SeloDaAba = { texto: string; rotulo: string };
+
 type Props<T extends string> = {
   rotulo: string;
-  abas: readonly { id: T; rotulo: string }[];
+  abas: readonly { id: T; rotulo: string; selo?: SeloDaAba | null }[];
   ativa: T;
   aoMudar(id: T): void;
   /** Prefixo dos ids: `${base}-aba-${id}` e `${base}-painel-${id}`. */
@@ -44,6 +47,14 @@ export function Abas<T extends string>({ rotulo, abas, ativa, aoMudar, base }: P
           onKeyDown={(evento) => teclar(evento, indice)}
         >
           {aba.rotulo}
+          {aba.selo ? (
+            <>
+              <span className={styles.seloDaAba} aria-hidden="true">
+                {aba.selo.texto}
+              </span>
+              <span className="sr-only">{`, ${aba.selo.rotulo}`}</span>
+            </>
+          ) : null}
         </button>
       ))}
     </div>

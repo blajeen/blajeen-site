@@ -1,6 +1,7 @@
 'use client';
 
-import { useId, useState, type CSSProperties, type FormEvent } from 'react';
+import { useId, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { temTetoPreto, type Carro } from '@/lib/carrelio/catalogo';
 import {
   JANELA_DO_TEST_DRIVE_DIAS, NOMES_DO_PERIODO, situacaoDe, somarDias, validarTestDrive, type Dia, type EstadoCarrelio, type ItemDoEstoque, type Periodo,
@@ -8,6 +9,9 @@ import {
 import { formatarDiaComSemana, formatarDiferencaDaTabela, formatarReais } from '@/lib/carrelio/formatar';
 import type { CorId, VersaoId } from '@/lib/carrelio/tipos';
 import styles from '../Carrelio.module.css';
+
+/** Quantos itens de série aparecem antes do "mais N itens": os que mais diferenciam a versão. */
+const ITENS_A_VISTA = 6;
 
 type Props = {
   carro: Carro;
@@ -34,9 +38,10 @@ export function rotuloDoEstoque(item: ItemDoEstoque): string {
 }
 
 /**
- * O cartão do carro na visão do cliente: versão, cor (com a situação no estoque da loja), preço e
- * as ações logo no topo (pedido do titular: nada escondido no fim da rolagem); depois os itens da
- * versão, a ficha e as fontes.
+ * O cartão do carro na visão do cliente, na ordem em que a pessoa decide (pedido do titular: nada
+ * importante no fim da rolagem): versão, cor com a situação no estoque da loja, preço com a
+ * campanha, e o test drive. Depois, os itens da versão (os seis que mais pesam, e o resto num
+ * toque), a ficha e as fontes.
  */
 export function CartaoDoCarro({
   carro, loja, estado, versao, cor, hoje, aoVersao, aoCor, aoCompartilhar, compartilhado, aoPedirTestDrive, aoVerPainel,
@@ -48,11 +53,16 @@ export function CartaoDoCarro({
   const preco = estado.precos[versao];
   const diferenca = formatarDiferencaDaTabela(preco, versaoAtual.preco.lancamento * 100);
   const [pedindo, setPedindo] = useState(false);
-  const [pedido, setPedido] = useState<{ dia: Dia; periodo: Periodo } | null>(null);
+  const [pedido, setPedido] = useState<{ dia: Dia; periodo: Periodo; carro: string } | null>(null);
   const [dia, setDia] = useState<Dia>('');
   const [periodo, setPeriodo] = useState<Periodo>('manha');
   const [erro, setErro] = useState<string | null>(null);
+  const [todosOsItens, setTodosOsItens] = useState(false);
+  const confirmacao = useRef<HTMLDivElement>(null);
   const comfort = carro.versoes[0]!;
+  const nomeDoCarro = `${versaoAtual.nome} ${corAtual.nome}`;
+  const itens = todosOsItens ? versaoAtual.itens : versaoAtual.itens.slice(0, ITENS_A_VISTA);
+  const escondidos = versaoAtual.itens.length - ITENS_A_VISTA;
 
   const enviar = (evento: FormEvent) => {
     evento.preventDefault();
@@ -61,8 +71,12 @@ export function CartaoDoCarro({
     setErro(problema);
     if (problema) return;
     aoPedirTestDrive({ dia, periodo });
-    setPedido({ dia, periodo });
-    setPedindo(false);
+    // O formulário some com o botão que tinha o foco: o foco vai para a confirmação, que é lida.
+    flushSync(() => {
+      setPedido({ dia, periodo, carro: nomeDoCarro });
+      setPedindo(false);
+    });
+    confirmacao.current?.focus();
   };
 
   return (
@@ -130,15 +144,21 @@ export function CartaoDoCarro({
         <p className={styles.rotulo}>Preço da loja</p>
         <p className={styles.valor}>{formatarReais(preco)}</p>
         {diferenca ? <p className={styles.diferenca}>{diferenca}</p> : null}
+        {estado.campanha.ativa ? (
+          <p className={styles.campanha}>
+            <span className={styles.seloDaCampanha}>CAMPANHA</span>
+            {estado.campanha.texto}
+          </p>
+        ) : null}
         <p className={styles.nota}>
-          Tabela de lançamento da marca: {formatarReais(versaoAtual.preco.lancamento * 100)} no primeiro lote. Na loja, vale a tabela do dia.
+          Tabela de lançamento da marca, no primeiro lote: {formatarReais(versaoAtual.preco.lancamento * 100)}. Na loja, vale a tabela do dia.
         </p>
       </div>
 
       <div className={styles.acoes}>
         <button
           type="button"
-          className={styles.botaoPrincipal}
+          className={`${styles.botaoPrincipal} ${styles.botaoDoTestDrive}`}
           aria-expanded={pedindo}
           aria-controls={`${id}-test-drive`}
           onClick={() => {
@@ -160,33 +180,35 @@ export function CartaoDoCarro({
       ) : null}
 
       {pedindo && hoje ? (
-        <form id={`${id}-test-drive`} className={styles.testDrive} onSubmit={enviar} noValidate>
-          <p className={styles.nota}>
-            {versaoAtual.nome} {corAtual.nome}. Sem nome nem telefone: é demonstração. No projeto, o pedido pode ir para o WhatsApp da loja.
+        <form id={`${id}-test-drive`} className={styles.testDrive} onSubmit={enviar} noValidate aria-labelledby={`${id}-test-drive-titulo`}>
+          <p id={`${id}-test-drive-titulo`} className={styles.tituloDoTestDrive}>
+            Test drive do {nomeDoCarro}
           </p>
-          <label className={styles.campo}>
-            <span>Dia</span>
-            <input
-              type="date"
-              value={dia}
-              min={hoje}
-              max={somarDias(hoje, JANELA_DO_TEST_DRIVE_DIAS)}
-              onChange={(evento) => setDia(evento.target.value)}
-              aria-invalid={erro ? true : undefined}
-              aria-describedby={erro ? `${id}-erro` : undefined}
-              required
-            />
-          </label>
-          <fieldset className={styles.campo}>
-            <legend>Período</legend>
-            <div className={`${styles.segmento} ${styles.segmentoLargo}`}>
-              {(['manha', 'tarde'] as const).map((p) => (
-                <button key={p} type="button" aria-pressed={periodo === p} onClick={() => setPeriodo(p)}>
-                  {p === 'manha' ? 'Manhã' : 'Tarde'}
-                </button>
-              ))}
-            </div>
-          </fieldset>
+          <div className={styles.camposDoTestDrive}>
+            <label className={styles.campo}>
+              <span>Dia</span>
+              <input
+                type="date"
+                value={dia}
+                min={hoje}
+                max={somarDias(hoje, JANELA_DO_TEST_DRIVE_DIAS)}
+                onChange={(evento) => setDia(evento.target.value)}
+                aria-invalid={erro ? true : undefined}
+                aria-describedby={erro ? `${id}-erro` : undefined}
+                required
+              />
+            </label>
+            <fieldset className={styles.campo}>
+              <legend>Período</legend>
+              <div className={`${styles.segmento} ${styles.segmentoLargo}`}>
+                {(['manha', 'tarde'] as const).map((p) => (
+                  <button key={p} type="button" aria-pressed={periodo === p} onClick={() => setPeriodo(p)}>
+                    {p === 'manha' ? 'Manhã' : 'Tarde'}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          </div>
           {erro ? (
             <p id={`${id}-erro`} className={styles.erro}>
               {erro}
@@ -200,30 +222,40 @@ export function CartaoDoCarro({
               Cancelar
             </button>
           </div>
+          <p className={styles.nota}>Sem nome nem telefone: é demonstração. No projeto, o pedido pode ir para o WhatsApp da loja.</p>
         </form>
       ) : null}
       {pedido ? (
-        <div className={styles.confirmacao} role="status">
+        <div ref={confirmacao} tabIndex={-1} className={styles.confirmacao}>
           <p>
-            Pedido de demonstração feito: {formatarDiaComSemana(pedido.dia)}, {NOMES_DO_PERIODO[pedido.periodo]}.
+            <strong>Pedido de demonstração feito.</strong> {pedido.carro}, {formatarDiaComSemana(pedido.dia)}, {NOMES_DO_PERIODO[pedido.periodo]}.
           </p>
           <button type="button" className={styles.botaoPequeno} onClick={aoVerPainel}>
-            Ver no painel da loja
+            Ver no painel da loja <span aria-hidden="true">→</span>
           </button>
         </div>
       ) : null}
-
-      {estado.campanha.ativa ? <p className={styles.campanha}>{estado.campanha.texto}</p> : null}
 
       <section className={styles.itens} aria-labelledby={`${id}-itens`}>
         <h4 id={`${id}-itens`} className={styles.rotulo}>
           {versao === 'prestige' ? `Tudo do ${comfort.nome}, e mais` : `De série no ${versaoAtual.nome}`}
         </h4>
-        <ul>
-          {versaoAtual.itens.map((linha) => (
+        <ul id={`${id}-lista-de-itens`}>
+          {itens.map((linha) => (
             <li key={linha}>{linha}</li>
           ))}
         </ul>
+        {escondidos > 0 ? (
+          <button
+            type="button"
+            className={styles.botaoDeTexto}
+            aria-expanded={todosOsItens}
+            aria-controls={`${id}-lista-de-itens`}
+            onClick={() => setTodosOsItens((todos) => !todos)}
+          >
+            {todosOsItens ? 'Mostrar menos' : `Mais ${escondidos} ${escondidos === 1 ? 'item' : 'itens'}`}
+          </button>
+        ) : null}
       </section>
 
       <details className={styles.ficha}>

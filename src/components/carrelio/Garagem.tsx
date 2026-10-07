@@ -78,7 +78,16 @@ export function Garagem({ urlDoModelo, titulo, link, com3d, exportarUsdz, aoFech
   };
 
   return (
-    <section className={styles.garagem} aria-labelledby="carrelio-garagem-titulo">
+    <section
+      className={styles.garagem}
+      aria-labelledby="carrelio-garagem-titulo"
+      onKeyDown={(evento) => {
+        // Esc fecha, como as outras camadas do site; quem abriu recebe o foco de volta.
+        if (evento.key !== 'Escape') return;
+        evento.preventDefault();
+        aoFechar();
+      }}
+    >
       <h3 id="carrelio-garagem-titulo" ref={cabecalho} tabIndex={-1}>
         Na sua garagem
       </h3>

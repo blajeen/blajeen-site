@@ -1,51 +1,59 @@
 'use client';
 
-import { Activity, useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from 'react';
+import { Activity, useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 import { useMotion } from '@/components/motion/MotionProvider';
 import { JAECOO_5, LOJA, corPorId, temTetoPreto, versaoPorId } from '@/lib/carrelio/catalogo';
 import { diaLocal, type AcaoCarrelio } from '@/lib/carrelio/estado';
 import { consultaDoComando, hrefDoComando, lerLink, type Comando } from '@/lib/carrelio/link';
 import { PONTOS_DO_INTERIOR, type Aba, type PontoDoInterior } from '@/lib/carrelio/tipos';
-import type { EstadoVisualCarro } from './3d/contrato';
+import type { AreaLivre, EstadoVisualCarro } from './3d/contrato';
 import { MODELO_ATUAL } from './3d/modelos';
-import { Abas } from './Abas';
-import { BarraDoPalco } from './BarraDoPalco';
+import { Abas, type SeloDaAba } from './Abas';
+import { BarraDoPalco, ControlesDoZoom } from './BarraDoPalco';
 import { CartaoDoCarro } from './cliente/CartaoDoCarro';
 import { Garagem } from './Garagem';
+import { IconeSairDaTelaCheia, IconeTelaCheia } from './Icones';
 import { algumaPortaAberta, interfaceInicial, reduzirInterface } from './interface';
 import { useCarrelio } from './loja';
-import { PainelDaLoja } from './painel/PainelDaLoja';
+import { ID_DOS_PEDIDOS, PainelDaLoja } from './painel/PainelDaLoja';
 import { PalcoCarro, type ControleDoPalco, type PontoNoPalco, type SituacaoDoPalco } from './PalcoCarro';
 import { EVENTO_DE_COMANDO } from './VerNaDemonstracao';
 import styles from './Carrelio.module.css';
 
-const ABAS: readonly { id: Aba; rotulo: string }[] = [
-  { id: 'cliente', rotulo: 'Visão do cliente' },
-  { id: 'painel', rotulo: 'Painel da loja' },
-];
-
 /** Largura em que o cartão fica ao lado do carro (computador). */
 const CONSULTA_LARGA = '(min-width: 1024px)';
 
-/** A barra de controles cobre o pé do palco: o carro se centra no que sobra. */
-const AREA_LIVRE = { esquerda: 0, direita: 0, topo: 0, base: 64 } as const;
+/** A barra de controles cobre o pé do palco: o carro se centra no que sobra (o pôster foi feito igual). */
+const AREA_LIVRE: AreaLivre = { esquerda: 0, direita: 0, topo: 0, base: 64 };
 
 const INICIAL = interfaceInicial();
 
-export function DemonstracaoCarrelio() {
+type Props = {
+  /**
+   * Os atalhos da página ("Experimente"), na fileira das abas: no computador, acima do carro, com as
+   * abas acima do cartão que elas trocam; no celular, numa fileira que desliza, acima das abas.
+   */
+  atalhos?: ReactNode;
+};
+
+export function DemonstracaoCarrelio({ atalhos }: Props) {
   const { estado, despachar, desfazer, podeDesfazer, restaurar, persistente } = useCarrelio();
   const [ui, mudar] = useReducer(reduzirInterface, undefined, interfaceInicial);
   const { ativo: movimento } = useMotion();
   const controle = useRef<ControleDoPalco | null>(null);
   const raiz = useRef<HTMLDivElement>(null);
+  const quemAbriuAGaragem = useRef<HTMLElement | null>(null);
   const [situacao, setSituacao] = useState<SituacaoDoPalco>('poster');
   const [confirmandoRestaurar, setConfirmandoRestaurar] = useState(false);
   const [compartilhado, setCompartilhado] = useState<string | null>(null);
   const [anuncio, setAnuncio] = useState('');
   const [telaCheia, setTelaCheia] = useState(false);
-  // Só no navegador: o dia de hoje. O servidor não sabe.
+  // Só no navegador: o dia de hoje, a largura e se a tela cheia existe (o iPhone não deixa um
+  // elemento qualquer ocupar a tela: lá o botão nem aparece). O servidor não sabe nenhum dos três.
   const hoje = useSyncExternalStore(assinarNada, () => diaLocal(new Date()), () => null);
   const largo = useSyncExternalStore(assinarLargura, () => window.matchMedia(CONSULTA_LARGA).matches, () => false);
+  const podeTelaCheia = useSyncExternalStore(assinarNada, () => Boolean(document.fullscreenEnabled), () => false);
 
   // O link profundo (?versao=prestige&cor=azul-gaia), lido uma vez depois da hidratação: a página
   // é estática, então o servidor sempre desenha o estado-base.
@@ -139,6 +147,17 @@ export function DemonstracaoCarrelio() {
     [ui.versao, vista],
   );
 
+  // Pedido de test drive que a loja ainda não confirmou: a aba do painel mostra quantos há.
+  const pedidosNovos = estado.testDrives.filter((p) => !p.atendido).length;
+  const abas = useMemo<readonly { id: Aba; rotulo: string; selo?: SeloDaAba | null }[]>(() => {
+    const selo: SeloDaAba | null = pedidosNovos
+      ? { texto: String(pedidosNovos), rotulo: pedidosNovos === 1 ? '1 pedido de test drive novo' : `${pedidosNovos} pedidos de test drive novos` }
+      : null;
+    return [
+      { id: 'cliente', rotulo: 'Visão do cliente' },
+      { id: 'painel', rotulo: 'Painel da loja', selo },
+    ];
+  }, [pedidosNovos]);
 
   const linkDaConfiguracao = useCallback(
     (extra: Comando = {}) => `${window.location.origin}${hrefDoComando({ versao: ui.versao, cor: ui.cor, ...extra })}`,
@@ -161,8 +180,17 @@ export function DemonstracaoCarrelio() {
   }, [linkDaConfiguracao, versao.nome, cor.nome]);
 
   const abrirGaragem = useCallback(() => {
+    quemAbriuAGaragem.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     controle.current?.carregar();
     mudar({ tipo: 'garagem', aberta: true });
+  }, []);
+
+  const fecharGaragem = useCallback(() => {
+    flushSync(() => mudar({ tipo: 'garagem', aberta: false }));
+    const quem = quemAbriuAGaragem.current;
+    quemAbriuAGaragem.current = null;
+    // O foco volta a quem abriu (o botão da barra ou o atalho "Na sua garagem"), sem rolar a página.
+    if (quem?.isConnected) quem.focus({ preventScroll: true });
   }, []);
 
   const mudarEMostrar = useCallback((acao: Parameters<typeof mudar>[0]) => {
@@ -170,15 +198,21 @@ export function DemonstracaoCarrelio() {
     controle.current?.carregar();
   }, []);
 
+  // Do cartão para o painel: a aba troca e a página vai até os pedidos, com o novo no topo.
+  const verPedidosNoPainel = useCallback(() => {
+    flushSync(() => mudar({ tipo: 'aba', aba: 'painel' }));
+    const titulo = document.getElementById(ID_DOS_PEDIDOS);
+    titulo?.scrollIntoView?.({ behavior: movimento ? 'smooth' : 'auto', block: 'start' });
+    titulo?.focus({ preventScroll: true });
+  }, [movimento]);
+
   const com3d = situacao === 'pronto';
 
   return (
     <div ref={raiz} className={styles.demo} data-aba={ui.aba} data-tela-cheia={telaCheia ? 'sim' : 'nao'}>
       <div className={styles.topo}>
-        <Abas rotulo="Visões da demonstração" abas={ABAS} ativa={ui.aba} aoMudar={(aba) => mudar({ tipo: 'aba', aba })} base="carrelio" />
-        <button type="button" className={styles.segmentoSolto} aria-pressed={telaCheia} onClick={alternarTelaCheia}>
-          {telaCheia ? 'Sair da tela cheia' : 'Tela cheia'}
-        </button>
+        {atalhos ? <div className={styles.atalhos}>{atalhos}</div> : null}
+        <Abas rotulo="Visões da demonstração" abas={abas} ativa={ui.aba} aoMudar={(aba) => mudar({ tipo: 'aba', aba })} base="carrelio" />
       </div>
 
       <div className={styles.grade}>
@@ -195,6 +229,23 @@ export function DemonstracaoCarrelio() {
             aoAbrirPonto={(id) => mudar({ tipo: 'ponto-de-toque', id })}
             aoMudarSituacao={setSituacao}
           >
+            {/* O canto de cima: a tela cheia (a TV da loja) do tablet para cima; no celular, o zoom, que não cabe na barra. */}
+            <div className={styles.cantoDoPalco}>
+              {podeTelaCheia ? (
+                <button type="button" className={`${styles.botaoDoCanto} ${styles.soNoLargo}`} onClick={alternarTelaCheia}>
+                  {telaCheia ? <IconeSairDaTelaCheia /> : <IconeTelaCheia />}
+                  {telaCheia ? 'Sair da tela cheia' : 'Tela cheia'}
+                </button>
+              ) : null}
+              {com3d ? (
+                <ControlesDoZoom
+                  com3d={com3d}
+                  aoZoom={(passo) => controle.current?.zoom(passo)}
+                  aoEnquadrar={() => controle.current?.enquadrar()}
+                  className={styles.soNoCelular}
+                />
+              ) : null}
+            </div>
             {ui.garagem ? (
               <Garagem
                 urlDoModelo={MODELO_ATUAL.url}
@@ -202,7 +253,7 @@ export function DemonstracaoCarrelio() {
                 link={typeof window === 'undefined' ? '' : linkDaConfiguracao({ garagem: true })}
                 com3d={com3d}
                 exportarUsdz={() => controle.current?.exportarUsdz() ?? Promise.resolve(null)}
-                aoFechar={() => mudar({ tipo: 'garagem', aberta: false })}
+                aoFechar={fecharGaragem}
               />
             ) : null}
             <BarraDoPalco
@@ -241,11 +292,9 @@ export function DemonstracaoCarrelio() {
               aoCor={(c) => mudarEMostrar({ tipo: 'cor', cor: c })}
               aoCompartilhar={() => void compartilhar()}
               compartilhado={compartilhado}
-              aoPedirTestDrive={({ dia, periodo }) => {
-                despachar({ tipo: 'test-drive/pedir', versao: ui.versao, cor: ui.cor, dia, periodo });
-                setAnuncio('Pedido de test drive feito. Ele aparece no painel da loja.');
-              }}
-              aoVerPainel={() => mudar({ tipo: 'aba', aba: 'painel' })}
+              // A confirmação recebe o foco e é lida: nada de anúncio repetido aqui.
+              aoPedirTestDrive={({ dia, periodo }) => despachar({ tipo: 'test-drive/pedir', versao: ui.versao, cor: ui.cor, dia, periodo })}
+              aoVerPainel={verPedidosNoPainel}
             />
           </div>
         </Activity>

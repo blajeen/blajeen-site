@@ -20,70 +20,69 @@ export const metadata: Metadata = metadadosDaRota({
 const linkSutil =
   'tecnica inline-flex min-h-11 items-center gap-2 text-signal underline decoration-signal/30 underline-offset-4 hover:decoration-signal';
 
-/** Os atalhos acima da demonstração: pílulas com alvo de 44 px. */
+/** Os atalhos da demonstração: pílulas com alvo de 44 px no toque. */
 const atalho =
-  'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-line-strong px-4 text-sm whitespace-nowrap text-paper transition-colors hover:border-signal/60 hover:text-signal';
+  'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-line-strong px-4 text-sm whitespace-nowrap text-paper transition-colors hover:border-signal/60 hover:text-signal pointer-fine:min-h-9 pointer-fine:px-3 pointer-fine:text-[0.8125rem]';
 
 export default function CarrelioPage() {
   return (
     <>
-      <header className="pt-[clamp(3rem,7vw,6rem)]">
+      {/* O topo é curto de propósito: o carro aparece já na primeira tela, no celular e no computador. */}
+      <header className="pt-[clamp(2rem,4.5vw,4rem)]">
         <Container>
           <p className="tecnica text-signal">DEMONSTRAÇÃO SOB MEDIDA / CONCESSIONÁRIAS · PREPARADA PARA A {LOJA.toUpperCase()}</p>
-          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end [&>*]:min-w-0">
-            <div className="lg:col-span-7">
-              <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">Carrelio</h1>
-              <p className="mt-5 max-w-[22ch] text-[clamp(1.3rem,2.4vw,2rem)] leading-[1.15] tracking-[-0.03em] text-paper/85">
+          <div className="mt-5 grid gap-4 lg:mt-7 lg:grid-cols-12 lg:items-end lg:gap-8 [&>*]:min-w-0">
+            <h1 className="text-[clamp(3rem,6.5vw,6.25rem)] leading-[0.92] tracking-[-0.06em] lg:col-span-5">Carrelio</h1>
+            <div className="lg:col-span-7 lg:pb-1.5">
+              <p className="max-w-[34ch] text-[clamp(1.2rem,2.1vw,1.75rem)] leading-[1.18] tracking-[-0.03em] text-paper/85">
                 O showroom da loja no celular do cliente. <span className="text-mineral">Em todas as cores e na garagem dele.</span>
               </p>
-            </div>
-            <div className="lg:col-span-5 lg:pb-2">
-              <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral">
-                O Jaecoo 5 em 3D, no navegador, ligado ao estoque da loja.
+              <p className="mt-4 max-w-[62ch] border-l border-signal/50 pl-4 text-sm leading-relaxed text-paper/80">
+                O Jaecoo 5 é real; estoque, preço da loja e pedidos são de demonstração. O que você mudar fica só neste navegador.
               </p>
-              <p className="mt-5 border-l border-signal/50 pl-4 text-sm leading-relaxed text-paper/80">
-                O carro é real; estoque, preço da loja e pedidos são de demonstração. O que você mudar fica só neste navegador.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#experimente" className="alvo-toque tecnica inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow">
-                  ABRIR A DEMONSTRAÇÃO ↓
-                </a>
-                <Link
-                  href={linkDoProjeto()}
-                  className="alvo-toque tecnica inline-flex items-center rounded-full border border-line-strong px-5 text-paper hover:border-paper/40"
-                >
-                  QUERO UM PROJETO ASSIM →
-                </Link>
-              </div>
             </div>
           </div>
         </Container>
       </header>
 
       {/* ------------------------------------------------------------- 01 demonstração */}
-      <Section id="demonstracao" indice="01 / A DEMONSTRAÇÃO" rotuladaPor="demonstracao-titulo" className="scroll-mt-20">
+      <Section
+        id="demonstracao"
+        indice="01 / A DEMONSTRAÇÃO"
+        rotuladaPor="demonstracao-titulo"
+        className="scroll-mt-20 pt-[clamp(1.75rem,3.5vw,3rem)]"
+      >
         <h2 id="demonstracao-titulo" className="sr-only">
           A demonstração
         </h2>
-        {/* No celular, uma fileira que desliza; do tablet para cima, quebra em linhas. */}
-        <nav
-          id="experimente"
-          aria-label="Atalhos da demonstração"
-          className="mb-6 flex scroll-mt-20 items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible sm:pb-0"
-        >
-          <p className="tecnica mr-2 shrink-0 text-mineral">EXPERIMENTE</p>
-          {atalhos.map((a) => (
-            <VerNaDemonstracao key={a.rotulo} comando={a.comando} className={atalho}>
-              {a.rotulo}
-            </VerNaDemonstracao>
-          ))}
-        </nav>
         <noscript>
           <p className="mb-6 rounded-[var(--radius-control)] border border-line-strong p-4 text-sm text-paper">
             Para girar o carro e usar o painel, ative o JavaScript. O cartão mostra versões, cores, preço e ficha.
           </p>
         </noscript>
-        <DemonstracaoCarrelio />
+        <DemonstracaoCarrelio
+          atalhos={
+            // No celular, uma fileira que desliza (a borda esmaecida diz que há mais); no computador, cabe inteira.
+            <nav
+              id="experimente"
+              aria-label="Atalhos da demonstração"
+              className="flex scroll-mt-24 items-center gap-1.5 overflow-x-auto pr-8 [mask-image:linear-gradient(90deg,#000_calc(100%_-_2.5rem),transparent)] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible lg:pr-0 lg:[mask-image:none]"
+            >
+              <p className="tecnica mr-1 shrink-0 text-mineral">EXPERIMENTE</p>
+              {atalhos.map((a) => (
+                <VerNaDemonstracao key={a.rotulo} comando={a.comando} className={atalho}>
+                  {a.rotulo}
+                </VerNaDemonstracao>
+              ))}
+            </nav>
+          }
+        />
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Link href={linkDoProjeto()} className="alvo-toque tecnica inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow">
+            QUERO UM PROJETO ASSIM →
+          </Link>
+          <p className="text-sm text-mineral">Sob orçamento, com os carros e o estoque da sua loja.</p>
+        </div>
       </Section>
 
       {/* ---------------------------------------------------------------- 02 vantagens */}

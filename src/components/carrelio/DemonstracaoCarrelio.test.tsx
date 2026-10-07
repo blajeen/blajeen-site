@@ -138,19 +138,28 @@ describe('a demonstração do Carrelio', () => {
   it('mostra os pontos de toque da vista, com o texto da versão, onde a cena projeta', async () => {
     montar();
     await abrir3d();
+    // A primeira projeção chega com o carro: os pontos já estão montados para recebê-la (com a câmera
+    // parada, como no movimento reduzido, não vem outra), e aparecem depois que o pôster se dissolve.
     act(() => cena.projetar!([{ id: 'teto', x: 120, y: 80, visivel: true }, { id: 'farois', x: 10, y: 10, visivel: false }]));
+    const grupo = screen.getByRole('group', { name: 'Destaques por fora' });
+    expect(grupo).toHaveAttribute('data-revelado', 'nao');
+    await waitFor(() => expect(grupo).toHaveAttribute('data-revelado', 'sim'));
     const teto = screen.getByRole('button', { name: 'Teto panorâmico: Fixo, de 1,45 m².' });
     expect(teto.parentElement).not.toHaveAttribute('hidden');
     expect(teto.parentElement!.style.transform).toBe('translate3d(120.0px, 80.0px, 0)');
+    // Perto do alto do palco, o balão abre para baixo.
+    expect(teto.parentElement).toHaveAttribute('data-vertical', 'abaixo');
     expect(screen.getByRole('button', { name: 'Faróis: Full LED.', hidden: true }).parentElement).toHaveAttribute('hidden');
     fireEvent.click(teto);
     expect(teto).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('com movimento, a mesa gira sozinha; arrastar o carro para a mesa, e o botão volta a girar', async () => {
+  it('com movimento, a mesa fica parada no primeiro quadro (o do pôster) e gira depois; arrastar para, e o botão volta a girar', async () => {
     montar();
     await abrir3d();
-    expect(ultimo().girando).toBe(true);
+    // A cena nasce parada, acima da barra do pé, igual ao pôster que ela substitui.
+    expect(carregar.mock.calls[0]![1]).toMatchObject({ estado: { girando: false }, areaLivre: { base: 64 } });
+    await waitFor(() => expect(ultimo().girando).toBe(true));
     act(() => cena.arrastar!());
     await waitFor(() => expect(ultimo().girando).toBe(false));
     const girar = within(screen.getByRole('group', { name: 'Controles do carro' })).getByRole('button', { name: 'Girar' });
@@ -170,11 +179,61 @@ describe('a demonstração do Carrelio', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Agendar test drive' }));
     fireEvent.click(screen.getByRole('button', { name: 'Tarde' }));
     fireEvent.click(screen.getByRole('button', { name: 'Pedir test drive' }));
-    expect(await screen.findByText(/Pedido de demonstração feito/)).toBeInTheDocument();
+    const confirmacao = (await screen.findByText(/Pedido de demonstração feito/)).closest('div')!;
+    // O formulário some com o botão que tinha o foco: a confirmação recebe o foco e diz o carro.
+    expect(confirmacao).toHaveFocus();
+    expect(confirmacao).toHaveTextContent('Prestige Azul Gaia');
     expect(obterLoja().obter().estado.testDrives[0]).toMatchObject({ versao: 'prestige', cor: 'azul-gaia', periodo: 'tarde' });
-    fireEvent.click(screen.getByRole('button', { name: 'Ver no painel da loja' }));
-    expect(screen.getByRole('tab', { name: 'Painel da loja' })).toHaveAttribute('aria-selected', 'true');
-    expect(screen.getByRole('button', { name: 'Confirmar' })).toBeInTheDocument();
+    // A aba do painel conta o pedido que a loja ainda não confirmou.
+    expect(screen.getByRole('tab', { name: 'Painel da loja, 1 pedido de test drive novo' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Ver no painel da loja/ }));
+    expect(screen.getByRole('tab', { name: /^Painel da loja/ })).toHaveAttribute('aria-selected', 'true');
+    // A página vai até os pedidos, o primeiro bloco do painel, com o novo marcado.
+    const pedidos = screen.getByRole('heading', { name: /Pedidos de test drive/ });
+    expect(pedidos).toHaveFocus();
+    expect(pedidos).toHaveTextContent('1 novo');
+    expect(screen.getByText('NOVO')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Confirmar' }));
+    expect(screen.getByText('CONFIRMADO')).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Painel da loja' })).toBeInTheDocument();
+  });
+
+  it('põe a campanha junto do preço e resume os itens da versão, com o resto num toque', () => {
+    montar();
+    const cartao = within(screen.getByRole('tabpanel', { name: 'Visão do cliente' }));
+    expect(cartao.getByText('CAMPANHA')).toBeInTheDocument();
+    expect(cartao.getByText(/Preço de lançamento nas primeiras 3\.600 unidades/)).toBeInTheDocument();
+    expect(cartao.queryByText('Câmeras 360°')).toBeNull();
+    const mais = cartao.getByRole('button', { name: 'Mais 9 itens' });
+    expect(mais).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(mais);
+    expect(cartao.getByText('Câmeras 360°')).toBeInTheDocument();
+    expect(cartao.getByRole('button', { name: 'Mostrar menos' })).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('abre o "na sua garagem" e fecha com Esc, devolvendo o foco a quem abriu', async () => {
+    montar();
+    const botao = within(screen.getByRole('group', { name: 'Controles do carro' })).getByRole('button', { name: 'Na sua garagem' });
+    botao.focus();
+    fireEvent.click(botao);
+    const titulo = await screen.findByRole('heading', { name: 'Na sua garagem' });
+    expect(titulo).toHaveFocus();
+    fireEvent.keyDown(titulo, { key: 'Escape' });
+    expect(screen.queryByRole('heading', { name: 'Na sua garagem' })).toBeNull();
+    expect(botao).toHaveFocus();
+  });
+
+  it('só mostra a tela cheia onde o navegador deixa (no iPhone, não)', () => {
+    const { unmount } = montar();
+    expect(screen.queryByRole('button', { name: 'Tela cheia' })).toBeNull();
+    unmount();
+    Object.defineProperty(document, 'fullscreenEnabled', { configurable: true, value: true });
+    try {
+      montar();
+      expect(screen.getByRole('button', { name: 'Tela cheia' })).toBeInTheDocument();
+    } finally {
+      delete (document as { fullscreenEnabled?: boolean }).fullscreenEnabled;
+    }
   });
 
   it('abre pelo link e pelos atalhos da página', async () => {

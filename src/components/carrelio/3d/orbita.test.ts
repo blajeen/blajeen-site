@@ -1,17 +1,30 @@
 import { describe, expect, it } from 'vitest';
 import {
-  alvoDaCaixa, cantosDaCaixa, direcaoDoOlhar, direcoesNaEsfera, ELEVACAO, folgaDoEnquadramento, fovDeDentro, fovDeFora, limitarElevacao, limitarInclinacao, limitesDoRaio,
-  MolaVetorial, olharPara, pertoDe, poseDeAbertura, posicaoNaOrbita, projetarNaLente, raioParaCaber, silhuetaDosPontos, type Caixa, type Lente,
+  ABERTURA, alvoDaCaixa, cabeNoRaio, cantosDaCaixa, direcaoDoOlhar, direcoesNaEsfera, ELEVACAO, FOLGA_DA_MESA, fovDeDentro, fovDeFora, limitarElevacao, limitarInclinacao,
+  limitesDoRaio, MolaVetorial, olharPara, pertoDe, poseDeAbertura, posicaoNaOrbita, projetarNaLente, raioDaMesa, raioParaCaber, silhuetaDosPontos, type Caixa, type Lente,
 } from './orbita';
 
 /** O Jaecoo ajustado: 4,38 m de comprimento, 2,2 m com os retrovisores, 1,73 m de altura. */
 const CARRO: Caixa = { min: [-1.1, 0, -2.19], max: [1.1, 1.73, 2.19] };
+/** O palco: computador (4:3 e 16:9), tablet em pé (16:10), celular (1:1), tela cheia em pé, com a barra de 64 px no pé. */
 const LENTES: Lente[] = [
   { fovVertical: fovDeFora(16 / 9), aspecto: 16 / 9 },
-  { fovVertical: fovDeFora(4 / 5), aspecto: 4 / 5 },
+  { fovVertical: fovDeFora(932 / 700), aspecto: 932 / 700, livreY: (700 - 64) / 700 },
+  { fovVertical: fovDeFora(16 / 10), aspecto: 16 / 10, livreY: (482 - 64) / 482 },
+  { fovVertical: fovDeFora(1), aspecto: 1, livreY: (360 - 64) / 360 },
   { fovVertical: fovDeFora(390 / 844), aspecto: 390 / 844 },
   { fovVertical: fovDeFora(16 / 9), aspecto: 16 / 9, livreX: 0.6 },
 ];
+
+/** O quanto o carro (os cantos da caixa) chega perto da borda da parte livre, de 0 (centro) a 1 (borda). */
+function maiorExtremo(raio: number, azimute: number, lente: Lente): number {
+  const alvo = alvoDaCaixa(CARRO);
+  const olho = posicaoNaOrbita({ azimute, elevacao: ABERTURA.elevacao, raio, alvo });
+  return Math.max(...cantosDaCaixa(CARRO).map((c) => {
+    const ndc = projetarNaLente(c, olho, alvo, lente)!;
+    return Math.max(Math.abs(ndc[0]), Math.abs(ndc[1]));
+  }));
+}
 
 describe('a câmera do carro', () => {
   it('põe o azimute 0 na frente (+Z) e o 90 do lado do motorista (+X)', () => {
@@ -24,26 +37,33 @@ describe('a câmera do carro', () => {
     expect(pertoDe(350, 10)).toBe(370);
   });
 
-  it('enquadra o carro inteiro na parte livre da tela, deitado e em pé', () => {
+  it('enquadra o carro inteiro, com respiro, em qualquer ângulo da volta da mesa, deitado e em pé', () => {
     for (const lente of LENTES) {
       const pose = poseDeAbertura(CARRO, lente);
-      const olho = posicaoNaOrbita(pose);
-      for (const canto of cantosDaCaixa(CARRO)) {
-        const ndc = projetarNaLente(canto, olho, pose.alvo, lente)!;
-        expect(Math.abs(ndc[0]), JSON.stringify(lente)).toBeLessThanOrEqual(1);
-        expect(Math.abs(ndc[1])).toBeLessThanOrEqual(1);
-      }
-      // E justo: um pouco mais perto, algum canto passa do respiro.
-      const limite = 1 - folgaDoEnquadramento(lente.aspecto);
-      const perto = { ...pose, raio: pose.raio * 0.97 };
-      const passa = cantosDaCaixa(CARRO).some((c) => {
-        const ndc = projetarNaLente(c, posicaoNaOrbita(perto), perto.alvo, lente);
-        return !ndc || Math.abs(ndc[0]) > limite || Math.abs(ndc[1]) > limite;
-      });
-      expect(passa).toBe(true);
+      // A volta inteira, a cada 5°: o carro nunca passa do respiro (5% da tela de cada lado).
+      let pior = 0;
+      for (let azimute = 0; azimute < 360; azimute += 5) pior = Math.max(pior, maiorExtremo(pose.raio, azimute, lente));
+      expect(pior, JSON.stringify(lente)).toBeLessThanOrEqual(1 - FOLGA_DA_MESA + 0.005);
+      // E justo: um pouco mais perto, em algum ângulo da volta, o carro passa do respiro.
+      let piorPerto = 0;
+      for (let azimute = 0; azimute < 360; azimute += 5) piorPerto = Math.max(piorPerto, maiorExtremo(pose.raio * 0.97, azimute, lente));
+      expect(piorPerto).toBeGreaterThan(1 - FOLGA_DA_MESA);
     }
     // Com painel cobrindo 40% da largura, a câmera recua.
-    expect(poseDeAbertura(CARRO, LENTES[3]!).raio).toBeGreaterThan(poseDeAbertura(CARRO, LENTES[0]!).raio);
+    expect(poseDeAbertura(CARRO, LENTES[5]!).raio).toBeGreaterThan(poseDeAbertura(CARRO, LENTES[0]!).raio);
+  });
+
+  it('não muda o raio enquanto a mesa gira: o da abertura já serve para a volta inteira', () => {
+    const lente = LENTES[3]!;
+    const alvo = alvoDaCaixa(CARRO);
+    const raio = raioDaMesa(cantosDaCaixa(CARRO), ABERTURA.elevacao, alvo, lente, FOLGA_DA_MESA);
+    // De lado, o carro pede mais distância do que de ¾ (o ângulo de abertura).
+    expect(raioParaCaber(cantosDaCaixa(CARRO), 90, ABERTURA.elevacao, alvo, lente, FOLGA_DA_MESA)).toBeGreaterThan(
+      raioParaCaber(cantosDaCaixa(CARRO), ABERTURA.azimute, ABERTURA.elevacao, alvo, lente, FOLGA_DA_MESA),
+    );
+    for (let azimute = 0; azimute < 360; azimute += 15) {
+      expect(cabeNoRaio(cantosDaCaixa(CARRO), { azimute, elevacao: ABERTURA.elevacao, raio: raio * 1.001, alvo }, lente, FOLGA_DA_MESA), String(azimute)).toBe(true);
+    }
   });
 
   it('abre a pose ¾ de frente, um pouco acima dos olhos, mirando abaixo do meio do carro', () => {
@@ -111,7 +131,7 @@ describe('a câmera do carro', () => {
     const direcoes = direcoesNaEsfera(96);
     expect(direcoes).toHaveLength(96);
     for (const d of direcoes) expect(Math.hypot(...d)).toBeCloseTo(1, 6);
-    // A silhueta enquadra mais justo que os cantos da caixa (que o carro não tem).
+    // A silhueta de uma caixa são os próprios cantos: enquadra igual.
     const caixaPontos = cantosDaCaixa(CARRO).flat();
     expect(raioParaCaber(silhuetaDosPontos(caixaPontos, direcoes), 36, 8, alvoDaCaixa(CARRO), LENTES[0]!, 0.2)).toBeCloseTo(
       raioParaCaber(cantosDaCaixa(CARRO), 36, 8, alvoDaCaixa(CARRO), LENTES[0]!, 0.2),

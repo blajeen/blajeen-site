@@ -78,3 +78,35 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
 
 - O titular aprova as capturas e o trecho novo da Política de Privacidade (seção "Preferências
   guardadas no seu navegador"), que cita o que a demonstração do Carrelio guarda.
+
+## Revisão de design (07/10/2026)
+
+Pedido do titular: "é importante ficar bom pra conquistar o cliente". O padrão é configurador de
+montadora, no celular e no computador.
+
+- **Câmera:** o raio da órbita é o da mesa (`raioDaMesa` em `3d/orbita.ts`): o menor em que o carro
+  inteiro cabe em qualquer ângulo da volta, com 5% da tela de respiro de cada lado
+  (`FOLGA_DA_MESA`). Antes ele era medido só no ângulo de abertura, e no celular a frente saía do
+  quadro de lado. A mesa gira com o raio fixo, sem o enquadramento "respirar".
+- **Palco:** quadrado no celular (o 4:5 deixava metade vazia), 16:10 no tablet, a altura da tela no
+  computador. A área livre da barra (64 px) entra já na criação da cena (`OpcoesDoCarro.areaLivre`).
+- **Pôsteres:** os do palco saem no formato e com a barra do palco (`palco-quadrado.webp`,
+  `palco.webp` e `palco@2x.webp`). O pôster fica por cima do 3D enquanto ele carrega e se dissolve no
+  primeiro quadro, que é igual; a mesa só começa a girar depois. `poster.webp` e `poster@2x.webp`
+  continuam para a vitrine de Produtos e para a imagem de compartilhamento, que não foi refeita.
+- **Palco, controles:** legenda (DEMONSTRAÇÃO e o crédito do modelo) no alto, à esquerda. Antes do
+  3D, o pé do palco é "Abrir o carro em 3D" e depois "Preparando"; a barra só aparece com o carro
+  pronto. Barra: Noite, Faróis, Girar, zoom (afastar, centralizar, aproximar) e Na sua garagem. No
+  celular ela cabe sem deslizar: sem ícones, com o zoom no canto de cima. A tela cheia fica no canto,
+  do tablet para cima, só onde o navegador deixa (no iPhone, não existe para um elemento comum).
+- **Pontos de toque:** "+" num disco de vidro, que vira "×" no verde quando abre; um anel pulsa três
+  vezes quando eles aparecem (só com movimento); o balão abre para dentro do palco; a dica "Arraste
+  para girar · os + mostram os itens" aparece uma vez.
+- **Cartão:** a campanha fica junto do preço; os itens da versão mostram os seis que mais pesam, e o
+  resto num toque; a confirmação do test drive diz o carro e recebe o foco.
+- **Painel:** os pedidos de test drive vêm primeiro, com "NOVO" e a contagem na aba "Painel da loja";
+  "Ver no painel da loja" leva até eles. No cartão estreito, o estoque vira duas linhas por cor
+  (container query), sem transbordar no celular; alvos de 44 px no toque; a campanha em duas linhas.
+- **Página:** topo mais curto, para o carro aparecer na primeira tela; os atalhos "Experimente" foram
+  para a fileira das abas (acima do carro, no computador); "Quero um projeto assim" vem logo depois
+  da demonstração.

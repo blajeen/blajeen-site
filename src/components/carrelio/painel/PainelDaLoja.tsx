@@ -8,8 +8,10 @@ import {
 } from '@/lib/carrelio/estado';
 import { formatarDiaComSemana, formatarDiferencaDaTabela, formatarReais, lerValorEmReais } from '@/lib/carrelio/formatar';
 import type { CorId, VersaoId } from '@/lib/carrelio/tipos';
-import { rotuloDoEstoque } from '../cliente/CartaoDoCarro';
 import styles from '../Carrelio.module.css';
+
+/** O título dos pedidos de test drive: o "ver no painel da loja" do cartão leva a página até ele. */
+export const ID_DOS_PEDIDOS = 'carrelio-pedidos';
 
 type Props = {
   carro: Carro;
@@ -23,17 +25,53 @@ type Props = {
 
 /**
  * O painel da loja: o que a equipe muda e o cliente vê na hora, na outra aba (ou em outra janela
- * do mesmo navegador). Estoque por cor e versão, preço da loja, campanha e pedidos de test drive.
+ * do mesmo navegador). Primeiro os pedidos de test drive (é o cliente esperando resposta), depois o
+ * estoque por cor e versão, o preço da loja, a campanha e o que mudou.
  */
 export function PainelDaLoja({ carro, estado, despachar, versao, cor, aoMostrar }: Props) {
   const id = useId();
+  const novos = estado.testDrives.filter((p) => !p.atendido).length;
   return (
     <div className={styles.painelDaLoja}>
-      <section aria-labelledby={`${id}-estoque`} className={styles.bloco}>
+      <section aria-labelledby={ID_DOS_PEDIDOS} className={styles.bloco}>
+        <h3 id={ID_DOS_PEDIDOS} className={styles.tituloDoBloco} tabIndex={-1}>
+          Pedidos de test drive
+          {novos ? <span className={styles.contagem}>{novos === 1 ? '1 novo' : `${novos} novos`}</span> : null}
+        </h3>
+        {estado.testDrives.length === 0 ? (
+          <p className={styles.nota}>Nenhum pedido ainda. Peça um na visão do cliente: ele aparece aqui.</p>
+        ) : (
+          <ul className={styles.pedidos}>
+            {estado.testDrives.map((pedido) => {
+              const nome = `${carro.versoes.find((v) => v.id === pedido.versao)!.nome} ${carro.cores.find((c) => c.id === pedido.cor)!.nome}`;
+              return (
+                <li key={pedido.id} data-atendido={pedido.atendido ? 'sim' : 'nao'}>
+                  <p>
+                    <span className={styles.seloDoPedido}>{pedido.atendido ? 'CONFIRMADO' : 'NOVO'}</span>
+                    <strong>{formatarDiaComSemana(pedido.dia)}</strong>, {NOMES_DO_PERIODO[pedido.periodo]} · {nome}
+                  </p>
+                  <span className={styles.acoes}>
+                    {!pedido.atendido ? (
+                      <button type="button" className={styles.botaoPequeno} onClick={() => despachar({ tipo: 'test-drive/atender', id: pedido.id })}>
+                        Confirmar
+                      </button>
+                    ) : null}
+                    <button type="button" className={styles.botaoPequeno} onClick={() => despachar({ tipo: 'test-drive/remover', id: pedido.id })}>
+                      Remover
+                    </button>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
+      <section aria-labelledby={`${id}-estoque`} className={`${styles.bloco} ${styles.blocoDoEstoque}`}>
         <h3 id={`${id}-estoque`} className={styles.tituloDoBloco}>
           Estoque
         </h3>
-        <p className={styles.nota}>Some ou tire carros: a cor muda na hora para quem vê o carro.</p>
+        <p className={styles.nota}>Ponha ou tire carros: a situação da cor muda na hora para quem vê o carro.</p>
         {carro.versoes.map((v) => (
           <table key={v.id} className={styles.tabelaDoEstoque}>
             <caption>{v.nome}</caption>
@@ -41,7 +79,7 @@ export function PainelDaLoja({ carro, estado, despachar, versao, cor, aoMostrar 
               <tr>
                 <th scope="col">Cor</th>
                 <th scope="col">Na loja</th>
-                <th scope="col">Sem carro na loja</th>
+                <th scope="col">Para o cliente</th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +117,7 @@ export function PainelDaLoja({ carro, estado, despachar, versao, cor, aoMostrar 
                     </td>
                     <td>
                       {item.quantidade > 0 ? (
-                        <span className={styles.nota}>{rotuloDoEstoque(item)}</span>
+                        <span className={styles.prontaEntrega}>Pronta entrega</span>
                       ) : (
                         <Chegada
                           // Outra aba mudou a previsão: o rascunho recomeça dela.
@@ -116,39 +154,6 @@ export function PainelDaLoja({ carro, estado, despachar, versao, cor, aoMostrar 
       </section>
 
       <Campanha key={estado.campanha.texto} estado={estado} despachar={despachar} />
-
-      <section aria-labelledby={`${id}-pedidos`} className={styles.bloco}>
-        <h3 id={`${id}-pedidos`} className={styles.tituloDoBloco}>
-          Pedidos de test drive
-        </h3>
-        {estado.testDrives.length === 0 ? (
-          <p className={styles.nota}>Nenhum pedido ainda. Peça um na visão do cliente: ele aparece aqui.</p>
-        ) : (
-          <ul className={styles.pedidos}>
-            {estado.testDrives.map((pedido) => {
-              const nome = `${carro.versoes.find((v) => v.id === pedido.versao)!.nome} ${carro.cores.find((c) => c.id === pedido.cor)!.nome}`;
-              return (
-                <li key={pedido.id} data-atendido={pedido.atendido ? 'sim' : 'nao'}>
-                  <p>
-                    <strong>{formatarDiaComSemana(pedido.dia)}</strong>, {NOMES_DO_PERIODO[pedido.periodo]} · {nome}
-                    {pedido.atendido ? <span className={styles.selo}>CONFIRMADO</span> : null}
-                  </p>
-                  <span className={styles.acoes}>
-                    {!pedido.atendido ? (
-                      <button type="button" className={styles.botaoPequeno} onClick={() => despachar({ tipo: 'test-drive/atender', id: pedido.id })}>
-                        Confirmar
-                      </button>
-                    ) : null}
-                    <button type="button" className={styles.botaoPequeno} onClick={() => despachar({ tipo: 'test-drive/remover', id: pedido.id })}>
-                      Remover
-                    </button>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
 
       <section aria-labelledby={`${id}-historico`} className={styles.bloco}>
         <h3 id={`${id}-historico`} className={styles.tituloDoBloco}>
@@ -198,6 +203,7 @@ function Chegada({ rotulo, dias, aoMudar }: { rotulo: string; dias: number | nul
             min={1}
             max={CHEGADA_MAXIMA_DIAS}
             value={rascunho}
+            aria-label={`${rotulo}: chega em quantos dias`}
             onChange={(evento) => setRascunho(evento.target.value)}
             onBlur={() => {
               const numero = Number(rascunho);
@@ -205,7 +211,7 @@ function Chegada({ rotulo, dias, aoMudar }: { rotulo: string; dias: number | nul
               else setRascunho(String(dias));
             }}
           />
-          <span>dias</span>
+          <span aria-hidden="true">dias</span>
         </label>
       ) : null}
     </span>
@@ -246,13 +252,17 @@ function PrecoDaVersao({ rotulo, centavos, tabela, aoMudar }: { rotulo: string; 
           }
         }}
         aria-invalid={erro ? true : undefined}
-        aria-describedby={`${id}-tabela`}
+        aria-describedby={`${id}-tabela${erro ? ` ${id}-erro` : ''}`}
       />
       <p id={`${id}-tabela`} className={styles.nota}>
         Tabela da marca: {formatarReais(tabela)}
         {diferenca ? ` · ${diferenca}` : ''}
       </p>
-      {erro ? <p className={styles.erro}>{erro}</p> : null}
+      {erro ? (
+        <p id={`${id}-erro`} className={styles.erro}>
+          {erro}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -271,14 +281,22 @@ function Campanha({ estado, despachar }: { estado: EstadoCarrelio; despachar(aca
       </label>
       <div className={styles.campo}>
         <label htmlFor={id}>Texto</label>
-        <input
+        {/* Duas linhas: a frase inteira cabe à vista, até no celular. Enter guarda, como nos preços. */}
+        <textarea
           id={id}
+          rows={2}
           value={texto}
           maxLength={CAMPANHA_MAXIMA}
           onChange={(evento) => setTexto(evento.target.value)}
+          onKeyDown={(evento) => {
+            if (evento.key !== 'Enter') return;
+            evento.preventDefault();
+            evento.currentTarget.blur();
+          }}
           onBlur={() => despachar({ tipo: 'campanha', ativa: estado.campanha.ativa, texto })}
+          aria-describedby={`${id}-contagem`}
         />
-        <p className={styles.nota}>
+        <p id={`${id}-contagem`} className={styles.nota}>
           {texto.length}/{CAMPANHA_MAXIMA}
         </p>
       </div>

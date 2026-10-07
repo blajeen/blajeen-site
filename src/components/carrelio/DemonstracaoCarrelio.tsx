@@ -12,6 +12,7 @@ import { MODELO_ATUAL } from './3d/modelos';
 import { Abas, type SeloDaAba } from './Abas';
 import { BarraDoPalco, ControlesDoZoom } from './BarraDoPalco';
 import { CartaoDoCarro } from './cliente/CartaoDoCarro';
+import { DETALHES_DO_JAECOO_5 } from './detalhes';
 import { Garagem } from './Garagem';
 import { IconeEntrar, IconeSairDaTelaCheia, IconeTelaCheia } from './Icones';
 import { INTERIOR_DO_JAECOO_5 } from './interior/foto';
@@ -154,7 +155,7 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
       JAECOO_5.pontos.flatMap((ponto) => {
         const texto = ponto.texto[ui.versao];
         if (ponto.vista !== vistaNo3d || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
-        return [{ id: ponto.id, rotulo: ponto.rotulo, texto }];
+        return [{ id: ponto.id, rotulo: ponto.rotulo, texto, detalhe: DETALHES_DO_JAECOO_5[ponto.id] }];
       }),
     [ui.versao, vistaNo3d],
   );
@@ -167,7 +168,7 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
     return JAECOO_5.pontos.flatMap((ponto) => {
       if (!fotoDeDentro.pontos.some((p) => p.id === ponto.id)) return [];
       const texto = ponto.texto[ui.versao] ?? `Só na ${versaoDaFoto.nome}.`;
-      return [{ id: ponto.id, rotulo: ponto.rotulo, texto }];
+      return [{ id: ponto.id, rotulo: ponto.rotulo, texto, detalhe: DETALHES_DO_JAECOO_5[ponto.id] }];
     });
   }, [fotoDeDentro, ui.versao]);
 

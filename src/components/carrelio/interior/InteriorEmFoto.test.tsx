@@ -119,6 +119,12 @@ describe('o carro por dentro, em foto', () => {
     // Abrir um ponto acende o holofote; um toque fora dele fecha.
     fireEvent.click(screen.getByRole('button', { name: /^Painel digital:/, hidden: true }));
     expect(screen.getByRole('button', { name: /^Painel digital:/, hidden: true })).toHaveAttribute('aria-expanded', 'true');
+    // Os pontos com foto de perto: multimídia, teto e câmbio (este, só por dentro).
+    const cambio = screen.getByRole('button', { name: 'Câmbio: Automático, híbrido dedicado (1DHT).', hidden: true });
+    fireEvent.click(cambio);
+    expect(cambio.parentElement!.querySelector('img')).toHaveAttribute('src', '/produtos/carrelio/detalhes/cambio.webp');
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar: Câmbio' }));
+    expect(cambio).toHaveAttribute('aria-expanded', 'false');
     // Voltar para fora esconde a foto e deixa o resto como estava.
     fireEvent.click(within(barra()).getByRole('button', { name: 'Por fora' }));
     expect(interior).toHaveAttribute('data-ativo', 'nao');

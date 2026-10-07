@@ -248,6 +248,7 @@
 .palco {
   position: relative;
   overflow: hidden;
+  overflow: clip;
   isolation: isolate;
   container: palco / inline-size;
   aspect-ratio: 1 / 1;
@@ -598,6 +599,148 @@
 
 .pontoBalao span {
   color: var(--color-mineral);
+}
+
+/* -------------------------------------------------------------- fotos de detalhe */
+
+/* No balão (palco largo), a foto vem em cima do texto. */
+.balaoComFoto {
+  width: min(16rem, 70vw);
+}
+
+.fotoDoDetalhe {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.45rem;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #121311;
+}
+
+.fotoDoDetalhe picture,
+.fotoDoDetalhe img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fotoDoDetalhe img {
+  object-fit: cover;
+}
+
+/* A segunda foto (o porta-malas vazio) entra e sai devagar por cima da primeira, com movimento. */
+.alternativaDoDetalhe {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.palco[data-movimento='sim'] .fotoDoDetalhe[data-alterna='sim'] .alternativaDoDetalhe {
+  animation: alternarDetalhe 7s ease-in-out infinite;
+}
+
+@keyframes alternarDetalhe {
+  0%,
+  38% {
+    opacity: 0;
+  }
+
+  50%,
+  88% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.seloDoDetalhe {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.45rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.8);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pontoBalao .seloDoDetalhe {
+  color: var(--color-paper);
+}
+
+/* O cartão do celular: só no palco estreito (no largo, a foto está no balão). */
+.cartaoDoDetalhe {
+  display: none;
+}
+
+@container palco (max-width: 30rem) {
+  .ponto[data-detalhe='sim'] .pontoBalao {
+    display: none;
+  }
+
+  /* O cartão cobre o alto do palco: a legenda e o canto saem enquanto ele está aberto. */
+  .palco:has(.cartaoDoDetalhe) .legendaDoPalco,
+  .palco:has(.cartaoDoDetalhe) .cantoDoPalco {
+    visibility: hidden;
+  }
+
+  .cartaoDoDetalhe {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    left: 0.6rem;
+    z-index: 6;
+    display: block;
+    padding: 0.4rem;
+    border: 1px solid rgba(230, 255, 154, 0.4);
+    border-radius: 16px;
+    background: rgba(9, 10, 8, 0.94);
+    backdrop-filter: blur(10px);
+    animation: surgir 260ms var(--ease-lab) both;
+  }
+
+  .cartaoDoDetalhe .fotoDoDetalhe {
+    max-height: 11.5rem;
+    margin-bottom: 0;
+    border-radius: 11px;
+  }
+
+  .textoDoCartao {
+    display: grid;
+    gap: 2px;
+    padding: 0.5rem 0.4rem 0.2rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .textoDoCartao strong {
+    font-weight: 600;
+  }
+
+  .textoDoCartao span {
+    color: var(--color-mineral);
+  }
+
+  .fecharDetalhe {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 50%;
+    background: rgba(9, 10, 8, 0.82);
+    font-size: 1.15rem;
+    line-height: 1;
+  }
 }
 
 /* ------------------------------------------------------- convite para entrar no carro */

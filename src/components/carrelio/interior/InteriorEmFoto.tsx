@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type RefObject } from 'react';
 import type { LuzId, VersaoId } from '@/lib/carrelio/tipos';
 import type { AreaLivre } from '../3d/contrato';
-import type { PontoNoPalco } from '../PalcoCarro';
+import { CartaoDoDetalhe, FotoDoDetalhe } from '../Detalhe';
+import { ALTURA_DO_BALAO, type PontoNoPalco } from '../PalcoCarro';
 import { aproximar, arrastar, chegou, prender, projetar, tamanhoBase, transformacao, zoomEm, type CameraDaFoto, type Tamanho } from './camera';
 import { CORES_DA_LUZ, corDaLuz, type FotoDoInterior } from './foto';
 import styles from '../Carrelio.module.css';
@@ -90,9 +91,9 @@ export function InteriorEmFoto(props: Props) {
   const gesto = useRef<Gesto>({ tipo: 'nenhum' });
   const toques = useRef(new Map<number, { x: number; y: number }>());
   // O laço de quadros lê as props mais novas por ref.
-  const atuais = useRef({ movimento, pontoAberto, areaLivre });
+  const atuais = useRef({ movimento, pontoAberto, areaLivre, pontos });
   useEffect(() => {
-    atuais.current = { movimento, pontoAberto, areaLivre };
+    atuais.current = { movimento, pontoAberto, areaLivre, pontos };
   });
 
   const desenhar = useCallback(() => {
@@ -117,7 +118,8 @@ export function InteriorEmFoto(props: Props) {
       if (!visivel) continue;
       marcador.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0)`;
       const lado = p.x < tamanho.largura * 0.3 ? 'inicio' : p.x > tamanho.largura * 0.7 ? 'fim' : 'meio';
-      const vertical = p.y < 150 ? 'abaixo' : 'acima';
+      const comFoto = atuais.current.pontos.some((item) => item.id === ponto.id && item.detalhe);
+      const vertical = p.y < (comFoto ? ALTURA_DO_BALAO.comFoto : ALTURA_DO_BALAO.simples + 30) ? 'abaixo' : 'acima';
       if (marcador.dataset['lado'] !== lado) marcador.dataset['lado'] = lado;
       if (marcador.dataset['vertical'] !== vertical) marcador.dataset['vertical'] = vertical;
     }
@@ -469,7 +471,7 @@ export function InteriorEmFoto(props: Props) {
       <div className={styles.pontos} role="group" aria-label="Destaques por dentro" data-revelado="sim">
         {pontosNaFoto.map((ponto) => {
           const aberto = pontoAberto === ponto.id;
-          const detalhe = foto.detalhes[ponto.id];
+          const { detalhe } = ponto;
           return (
             <div
               key={ponto.id}
@@ -479,6 +481,7 @@ export function InteriorEmFoto(props: Props) {
               }}
               className={styles.ponto}
               data-aberto={aberto ? 'sim' : 'nao'}
+              data-detalhe={detalhe ? 'sim' : 'nao'}
               hidden
             >
               <button
@@ -494,12 +497,8 @@ export function InteriorEmFoto(props: Props) {
                 <span aria-hidden="true" />
               </button>
               {aberto ? (
-                <p className={`${styles.pontoBalao} ${detalhe ? css.balaoComFoto : ''}`} aria-hidden="true">
-                  {detalhe ? (
-                    <picture>
-                      <img src={detalhe.src} width={detalhe.largura} height={detalhe.altura} alt="" className={css.fotoDoBalao} />
-                    </picture>
-                  ) : null}
+                <p className={`${styles.pontoBalao}${detalhe ? ` ${styles.balaoComFoto}` : ''}`} aria-hidden="true">
+                  {detalhe ? <FotoDoDetalhe detalhe={detalhe} /> : null}
                   <strong>{ponto.rotulo}</strong>
                   <span>{ponto.texto}</span>
                 </p>
@@ -508,6 +507,12 @@ export function InteriorEmFoto(props: Props) {
           );
         })}
       </div>
+
+      {pontosNaFoto
+        .filter((ponto) => ponto.id === pontoAberto && ponto.detalhe)
+        .map((ponto) => (
+          <CartaoDoDetalhe key={ponto.id} ponto={ponto} detalhe={ponto.detalhe!} aoFechar={() => aoAbrirPonto(null)} />
+        ))}
 
       {dica && ativo ? (
         <p className={css.dica} aria-hidden="true">

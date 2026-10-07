@@ -21,8 +21,6 @@ export type PontoNaFoto = {
   zoom: number;
 };
 
-export type DetalheDoPonto = { src: string; largura: number; altura: number; alt: string };
-
 export type FotoDoInterior = {
   largura: number;
   altura: number;
@@ -36,8 +34,6 @@ export type FotoDoInterior = {
   versao: VersaoId;
   legenda: string;
   pontos: readonly PontoNaFoto[];
-  /** Uma foto de perto, mostrada no balão do ponto. */
-  detalhes: Readonly<Record<string, DetalheDoPonto>>;
   /** Onde a câmera para quando a pessoa entra no carro (o centro, em fração da foto). */
   centro: { x: number; y: number };
   /** O quadradinho do convite "Entrar no carro" (112 px). */
@@ -65,6 +61,8 @@ export const INTERIOR_DO_JAECOO_5: FotoDoInterior = {
     { id: 'teto', x: 0.47, y: 0.18, zoom: 1.35 },
     { id: 'painel', x: 0.361, y: 0.57, zoom: 2.1 },
     { id: 'volante', x: 0.271, y: 0.625, zoom: 1.7 },
+    // A ponta do seletor, à direita da coluna, logo acima do botão de partida.
+    { id: 'cambio', x: 0.427, y: 0.6, zoom: 2.2 },
     // No alto da tela: no celular, a fileira de cores cobre o pé do painel.
     { id: 'multimidia', x: 0.499, y: 0.575, zoom: 1.9 },
     { id: 'luzAmbiente', x: 0.651, y: 0.605, zoom: 1.5 },
@@ -72,14 +70,6 @@ export const INTERIOR_DO_JAECOO_5: FotoDoInterior = {
     { id: 'carregador', x: 0.5, y: 0.75, zoom: 1.9 },
     { id: 'bancos', x: 0.27, y: 0.88, zoom: 1.4 },
   ],
-  detalhes: {
-    multimidia: {
-      src: `${PASTA}/multimidia.webp`,
-      largura: 640,
-      altura: 360,
-      alt: 'A multimídia vertical de perto, com o mapa, a música e o ar-condicionado de duas zonas.',
-    },
-  },
   centro: { x: 0.5, y: 0.5 },
   miniatura: `${PASTA}/miniatura.webp`,
 };

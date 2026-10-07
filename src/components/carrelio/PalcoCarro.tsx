@@ -5,6 +5,8 @@ import { flushSync } from 'react-dom';
 import { reservarGpu } from '@/lib/fila-da-gpu';
 import type { PortaId, Vista } from '@/lib/carrelio/tipos';
 import type { AreaLivre, CenaCarro, EstadoVisualCarro, ManifestoDoModelo } from './3d/contrato';
+import { CartaoDoDetalhe, FotoDoDetalhe } from './Detalhe';
+import type { DetalheDoPonto } from './detalhes';
 import { IconeGirar } from './Icones';
 import styles from './Carrelio.module.css';
 
@@ -27,8 +29,11 @@ export type ControleDoPalco = {
 
 export type SituacaoDoPalco = 'poster' | 'carregando' | 'pronto' | 'falhou';
 
-/** Um ponto de toque da vista atual, já com o texto da versão escolhida. */
-export type PontoNoPalco = { id: string; rotulo: string; texto: string };
+/** Um ponto de toque da vista atual, já com o texto da versão escolhida (e a foto de detalhe, se houver). */
+export type PontoNoPalco = { id: string; rotulo: string; texto: string; detalhe?: DetalheDoPonto | undefined };
+
+/** Acima disto (px do alto do palco), o balão abre para baixo; com foto, ele é bem mais alto. */
+export const ALTURA_DO_BALAO = { simples: 120, comFoto: 290 } as const;
 
 type Props = {
   estadoVisual: EstadoVisualCarro;
@@ -97,9 +102,9 @@ export function PalcoCarro({
   const pedido = useRef(false);
 
   // O carregamento é chamado de efeitos e de cliques: lê as props mais novas por ref.
-  const atuais = useRef({ estadoVisual, modelo, areaLivre, aoMudarSituacao });
+  const atuais = useRef({ estadoVisual, modelo, areaLivre, aoMudarSituacao, pontos });
   useEffect(() => {
-    atuais.current = { estadoVisual, modelo, areaLivre, aoMudarSituacao };
+    atuais.current = { estadoVisual, modelo, areaLivre, aoMudarSituacao, pontos };
   });
 
   const carregar = useCallback(() => {
@@ -232,7 +237,8 @@ export function PalcoCarro({
           if (!projecao.visivel) continue;
           no.style.transform = `translate3d(${projecao.x.toFixed(1)}px, ${projecao.y.toFixed(1)}px, 0)`;
           const lado = largura && projecao.x < largura * 0.3 ? 'inicio' : largura && projecao.x > largura * 0.7 ? 'fim' : 'meio';
-          const vertical = projecao.y < 120 ? 'abaixo' : 'acima';
+          const comFoto = atuais.current.pontos.some((ponto) => ponto.id === projecao.id && ponto.detalhe);
+          const vertical = projecao.y < (comFoto ? ALTURA_DO_BALAO.comFoto : ALTURA_DO_BALAO.simples) ? 'abaixo' : 'acima';
           if (no.dataset['lado'] !== lado) no.dataset['lado'] = lado;
           if (no.dataset['vertical'] !== vertical) no.dataset['vertical'] = vertical;
         }
@@ -308,6 +314,7 @@ export function PalcoCarro({
                 }}
                 className={styles.ponto}
                 data-aberto={aberto ? 'sim' : 'nao'}
+                data-detalhe={ponto.detalhe ? 'sim' : 'nao'}
                 hidden
               >
                 <button
@@ -323,7 +330,8 @@ export function PalcoCarro({
                   <span aria-hidden="true" />
                 </button>
                 {aberto ? (
-                  <p className={styles.pontoBalao} aria-hidden="true">
+                  <p className={`${styles.pontoBalao}${ponto.detalhe ? ` ${styles.balaoComFoto}` : ''}`} aria-hidden="true">
+                    {ponto.detalhe ? <FotoDoDetalhe detalhe={ponto.detalhe} /> : null}
                     <strong>{ponto.rotulo}</strong>
                     <span>{ponto.texto}</span>
                   </p>
@@ -333,6 +341,11 @@ export function PalcoCarro({
           })}
         </div>
       ) : null}
+      {com3d && !dentro
+        ? pontos
+            .filter((ponto) => ponto.id === pontoAberto && ponto.detalhe)
+            .map((ponto) => <CartaoDoDetalhe key={ponto.id} ponto={ponto} detalhe={ponto.detalhe!} aoFechar={() => aoAbrirPonto(null)} />)
+        : null}
 
       {com3d && revelado && dica === 'visivel' && estadoVisual.vista === 'fora' && !dentro ? (
         <p className={styles.dica} aria-hidden="true">

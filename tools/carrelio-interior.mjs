@@ -15,8 +15,9 @@
 //   - acesas: telas e faixas juntas (o que fica aceso quando o resto escurece);
 //   - janelas: para-brisa, janelas e teto de vidro, que à noite viram céu escuro.
 //
-// E a multimídia de perto (a segunda foto de divulgação, já de volante à esquerda), para o balão do
-// ponto da multimídia, e a miniatura do convite para entrar no carro.
+// E as fotos de detalhe, que aparecem no balão de cada ponto (de fora, no 3D, e de dentro, na foto):
+// a multimídia de perto, o teto panorâmico, o câmbio e o porta-malas vazio e cheio. Mais a miniatura
+// do convite para entrar no carro.
 //
 // Todas as coordenadas abaixo são da foto original (3840 × 2560, antes do espelho).
 //
@@ -30,9 +31,28 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGEM = join(raiz, 'docs/carrelio/fotos/jaecoo-5-interior-divulgacao.avif');
-const DETALHE_DA_MULTIMIDIA = join(raiz, 'docs/carrelio/fotos/jaecoo-5-multimidia-divulgacao.avif');
+const FOTOS = join(raiz, 'docs/carrelio/fotos');
+const ORIGEM = join(FOTOS, 'jaecoo-5-interior-divulgacao.avif');
 const DESTINO = join(raiz, 'public/produtos/carrelio/interior');
+const DESTINO_DOS_DETALHES = join(raiz, 'public/produtos/carrelio/detalhes');
+
+/**
+ * As fotos de detalhe dos pontos: arquivo de origem, nome na página e tamanho final. O porta-malas
+ * cheio vem mais largo: o recorte o deixa em 3:2, igual ao vazio (os dois se alternam no balão).
+ */
+const DETALHES = [
+  { origem: 'jaecoo-5-multimidia-divulgacao.avif', nome: 'multimidia', largura: 640, altura: 360 },
+  { origem: 'jaecoo-5-teto-divulgacao.jpg', nome: 'teto', largura: 960, altura: 540 },
+  { origem: 'jaecoo-5-cambio-divulgacao.jpg', nome: 'cambio', largura: 960, altura: 540 },
+  { origem: 'jaecoo-5-porta-malas-vazio-divulgacao.avif', nome: 'porta-malas-vazio', largura: 960, altura: 640 },
+  {
+    origem: 'jaecoo-5-porta-malas-cheio-divulgacao.png',
+    nome: 'porta-malas-cheio',
+    largura: 960,
+    altura: 640,
+    recorte: { left: 249, top: 0, width: 1288, height: 859 },
+  },
+];
 const L = 3840;
 const A = 2560;
 
@@ -259,6 +279,11 @@ const miniatura = join(DESTINO, 'miniatura.webp');
 await imagem.clone().extract({ left: 1650, top: 1230, width: 700, height: 700 }).resize({ width: 112, height: 112 }).webp({ quality: 86, effort: 6 }).toFile(miniatura);
 console.log(`miniatura: ${kb(miniatura)}`);
 
-const detalhe = join(DESTINO, 'multimidia.webp');
-await sharp(DETALHE_DA_MULTIMIDIA).webp({ quality: 84, effort: 6 }).toFile(detalhe);
-console.log(`multimidia: ${kb(detalhe)}`);
+mkdirSync(DESTINO_DOS_DETALHES, { recursive: true });
+for (const { origem, nome, largura, altura, recorte } of DETALHES) {
+  const caminho = join(DESTINO_DOS_DETALHES, `${nome}.webp`);
+  let foto = sharp(join(FOTOS, origem)).flatten({ background: '#ffffff' });
+  if (recorte) foto = foto.extract(recorte);
+  await foto.resize({ width: largura, height: altura, fit: 'cover' }).webp({ quality: 82, effort: 6 }).toFile(caminho);
+  console.log(`detalhes/${nome}: ${kb(caminho)}`);
+}

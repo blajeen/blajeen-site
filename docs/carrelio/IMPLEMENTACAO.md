@@ -90,6 +90,21 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   - link: `?vista=dentro`, `?luz=roxo` (leva para dentro) e `&ambiente=noite`.
 - O 3D fica por fora, parado e escondido embaixo da foto. A foto só carrega na primeira entrada.
 
+## Fotos de detalhe dos pontos
+
+- O titular mandou mais fotos de divulgação (07/10/2026): teto panorâmico, porta-malas vazio e
+  cheio e o câmbio na coluna ("seta"). Pedido: "adiciona também no mesmo padrão" da multimídia.
+- Cada foto aparece no ponto dela, por fora (3D) e por dentro (foto): teto e porta-malas por fora;
+  multimídia, teto e câmbio (ponto novo) por dentro. O porta-malas alterna cheio e vazio devagar,
+  com um selo dizendo qual é qual (sem movimento, fica o cheio).
+- No computador, a foto vem no balão do ponto. No celular, o balão não cabe: o ponto aberto vira um
+  cartão grande no alto do palco, com a foto, o texto e um botão de fechar.
+- As fotos ficam em `docs/carrelio/fotos/` e saem leves (16 a 64 KB) em
+  `public/produtos/carrelio/detalhes/`, pelo mesmo `tools/carrelio-interior.mjs`. A lista fica em
+  `src/components/carrelio/detalhes.ts`.
+- O texto do câmbio fica no que a ficha confirma ("Automático, híbrido dedicado (1DHT)"); a posição
+  do seletor é a da foto de divulgação.
+
 ## Código
 
 - Domínio (`src/lib/carrelio/`): `tipos`, `catalogo`, `estado`, `persistencia`, `link` e

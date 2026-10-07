@@ -108,6 +108,7 @@ Pendências:
       ser entrega do projeto (fotos 360° na loja);
 - [x] aprovar as capturas do interior em foto antes de publicar — aprovadas pelo titular em
       07/10/2026 ("pode").
+- [ ] aprovar as capturas das fotos de detalhe (teto, porta-malas e câmbio) antes de publicar.
 
 ## Revalio
 

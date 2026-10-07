@@ -176,6 +176,7 @@ export const JAECOO_5: Carro = {
     },
     { id: 'luzAmbiente', rotulo: 'Luz ambiente', vista: 'dentro', texto: { comfort: null, prestige: 'Personalizável, no painel e nas portas.' } },
     { id: 'som', rotulo: 'Som', vista: 'dentro', texto: { comfort: '4 alto-falantes.', prestige: 'Sony, com 8 alto-falantes.' } },
+    { id: 'cambio', rotulo: 'Câmbio', vista: 'dentro', texto: { comfort: 'Automático, híbrido dedicado (1DHT).', prestige: 'Automático, híbrido dedicado (1DHT).' } },
   ],
   lancamento: { inicioDasVendas: '2026-10-01', primeiroLote: 3600, divulgadoEm: '2026-09-30' },
   fontes: [

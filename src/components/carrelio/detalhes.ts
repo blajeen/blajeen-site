@@ -8,25 +8,29 @@
 
 const PASTA = '/produtos/carrelio/detalhes';
 
+/** Uma foto do ponto. O rótulo só aparece com mais de uma foto: é o nome da aba. */
+export type FotoDoPonto = { src: string; rotulo?: string };
+
 export type DetalheDoPonto = {
-  src: string;
   largura: number;
   altura: number;
-  /** Um selo sobre a foto (quando ela se alterna com outra, diz qual é qual). */
-  legenda?: string;
-  /** Uma segunda foto, do mesmo tamanho, que se alterna com a primeira (só com movimento). */
-  alternativa?: { src: string; legenda: string };
+  /**
+   * Uma foto, ou mais de uma em abas, do mesmo tamanho; a primeira abre selecionada. O porta-malas
+   * abre vazio, e a segunda aba é ele cheio (pedido do titular, 07/10/2026).
+   */
+  fotos: readonly FotoDoPonto[];
 };
 
 export const DETALHES_DO_JAECOO_5: Readonly<Record<string, DetalheDoPonto>> = {
-  multimidia: { src: `${PASTA}/multimidia.webp`, largura: 640, altura: 360 },
-  teto: { src: `${PASTA}/teto.webp`, largura: 960, altura: 540 },
-  cambio: { src: `${PASTA}/cambio.webp`, largura: 960, altura: 540 },
+  multimidia: { largura: 640, altura: 360, fotos: [{ src: `${PASTA}/multimidia.webp` }] },
+  teto: { largura: 960, altura: 540, fotos: [{ src: `${PASTA}/teto.webp` }] },
+  cambio: { largura: 960, altura: 540, fotos: [{ src: `${PASTA}/cambio.webp` }] },
   portaMalas: {
-    src: `${PASTA}/porta-malas-cheio.webp`,
     largura: 960,
     altura: 640,
-    legenda: 'Cheio',
-    alternativa: { src: `${PASTA}/porta-malas-vazio.webp`, legenda: 'Vazio' },
+    fotos: [
+      { src: `${PASTA}/porta-malas-vazio.webp`, rotulo: 'Vazio' },
+      { src: `${PASTA}/porta-malas-cheio.webp`, rotulo: 'Cheio' },
+    ],
   },
 };

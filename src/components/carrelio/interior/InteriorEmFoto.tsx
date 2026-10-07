@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type RefObject } from 'react';
 import type { LuzId, VersaoId } from '@/lib/carrelio/tipos';
 import type { AreaLivre } from '../3d/contrato';
-import { CartaoDoDetalhe, FotoDoDetalhe } from '../Detalhe';
-import { ALTURA_DO_BALAO, type PontoNoPalco } from '../PalcoCarro';
+import { BalaoDoPonto, CartaoDoDetalhe } from '../Detalhe';
+import { alturaDoBalao, posicaoDoBalao } from '../balao';
+import type { PontoNoPalco } from '../PalcoCarro';
 import { aproximar, arrastar, chegou, prender, projetar, tamanhoBase, transformacao, zoomEm, type CameraDaFoto, type Tamanho } from './camera';
 import { CORES_DA_LUZ, corDaLuz, type FotoDoInterior } from './foto';
 import styles from '../Carrelio.module.css';
@@ -117,11 +118,14 @@ export function InteriorEmFoto(props: Props) {
       marcador.hidden = !visivel;
       if (!visivel) continue;
       marcador.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0)`;
-      const lado = p.x < tamanho.largura * 0.3 ? 'inicio' : p.x > tamanho.largura * 0.7 ? 'fim' : 'meio';
-      const comFoto = atuais.current.pontos.some((item) => item.id === ponto.id && item.detalhe);
-      const vertical = p.y < (comFoto ? ALTURA_DO_BALAO.comFoto : ALTURA_DO_BALAO.simples + 30) ? 'abaixo' : 'acima';
+      const item = atuais.current.pontos.find((dado) => dado.id === ponto.id);
+      if (!item) continue;
+      // Embaixo ficam a barra do pé e a fileira de cores: o balão não abre por cima delas.
+      const base = Math.max(atuais.current.areaLivre.base, cores ? tamanho.altura - cores.topo : 0);
+      const { lado, vertical, ajuste } = posicaoDoBalao(p, { largura: tamanho.largura, altura: tamanho.altura, base }, alturaDoBalao(item));
       if (marcador.dataset['lado'] !== lado) marcador.dataset['lado'] = lado;
       if (marcador.dataset['vertical'] !== vertical) marcador.dataset['vertical'] = vertical;
+      marcador.style.setProperty('--ajuste', `${ajuste}px`);
     }
     const aberto = atuais.current.pontoAberto ? foto.pontos.find((p) => p.id === atuais.current.pontoAberto) : undefined;
     if (aberto && holofote.current) {
@@ -496,13 +500,7 @@ export function InteriorEmFoto(props: Props) {
               >
                 <span aria-hidden="true" />
               </button>
-              {aberto ? (
-                <p className={`${styles.pontoBalao}${detalhe ? ` ${styles.balaoComFoto}` : ''}`} aria-hidden="true">
-                  {detalhe ? <FotoDoDetalhe detalhe={detalhe} /> : null}
-                  <strong>{ponto.rotulo}</strong>
-                  <span>{ponto.texto}</span>
-                </p>
-              ) : null}
+              {aberto ? <BalaoDoPonto ponto={ponto} /> : null}
             </div>
           );
         })}

@@ -27,7 +27,15 @@ export type Situacao = 'pronta-entrega' | 'a-caminho' | 'sob-encomenda';
 
 export type Aba = 'cliente' | 'painel';
 
+/**
+ * A cor da luz ambiente na vista de dentro (o Prestige tem luz ambiente personalizável). As cores
+ * da demonstração são de exemplo: a interface diz isso.
+ */
+export type LuzId = 'azul' | 'ciano' | 'verde' | 'roxo' | 'rosa' | 'vermelho' | 'ambar' | 'branco';
+
 export const VERSOES: readonly VersaoId[] = ['comfort', 'prestige'];
 export const CORES: readonly CorId[] = ['branco-arctic', 'preto-andromeda', 'cinza-centaurus', 'azul-gaia'];
 export const PORTAS: readonly PortaId[] = ['dianteiraEsquerda', 'dianteiraDireita', 'traseiraEsquerda', 'traseiraDireita', 'portaMalas'];
 export const PONTOS_DO_INTERIOR: readonly PontoDoInterior[] = ['motorista', 'bancoTraseiro', 'portaMalas'];
+/** A primeira é a da foto (o azul de fábrica). */
+export const LUZES: readonly LuzId[] = ['azul', 'ciano', 'verde', 'roxo', 'rosa', 'vermelho', 'ambar', 'branco'];

@@ -44,6 +44,9 @@ describe('o link da demonstração', () => {
     expect(lerLink('?versao=sport&cor=rosa&vista=lado&ponto=teto')).toEqual({});
     expect(lerLink('?ponto=bancoTraseiro')).toEqual({ ponto: 'bancoTraseiro', vista: 'dentro' });
     expect(lerLink('?garagem=sim')).toEqual({ garagem: true });
+    // A cor da luz ambiente leva para dentro do carro; cor que não existe fica de fora.
+    expect(lerLink('?luz=roxo')).toEqual({ luz: 'roxo', vista: 'dentro' });
+    expect(lerLink('?luz=dourado')).toEqual({});
   });
 
   it('escreve a consulta na ordem de leitura e sem o que já é padrão', () => {
@@ -51,12 +54,16 @@ describe('o link da demonstração', () => {
       '?versao=comfort&cor=branco-arctic',
     );
     expect(consultaDoComando({ vista: 'dentro', ponto: 'portaMalas' })).toBe('?vista=dentro&ponto=portaMalas');
+    // A luz de fábrica (azul) não entra no endereço, e luz por fora não faz sentido.
+    expect(consultaDoComando({ vista: 'dentro', luz: 'azul' })).toBe('?vista=dentro');
+    expect(consultaDoComando({ vista: 'fora', luz: 'roxo' })).toBe('');
+    expect(consultaDoComando({ vista: 'dentro', ambiente: 'noite', luz: 'roxo' })).toBe('?vista=dentro&luz=roxo&ambiente=noite');
     expect(consultaDoComando({})).toBe('');
     expect(hrefDoComando({ ambiente: 'noite', farois: true })).toBe('/produtos/carrelio?farois=1&ambiente=noite#demonstracao');
   });
 
   it('ida e volta: o que a página escreve, a página lê', () => {
-    const comando = { versao: 'prestige', cor: 'cinza-centaurus', vista: 'dentro', ponto: 'bancoTraseiro', ambiente: 'noite' } as const;
+    const comando = { versao: 'prestige', cor: 'cinza-centaurus', vista: 'dentro', ponto: 'bancoTraseiro', luz: 'ambar', ambiente: 'noite' } as const;
     expect(lerLink(consultaDoComando(comando))).toEqual(comando);
   });
 });

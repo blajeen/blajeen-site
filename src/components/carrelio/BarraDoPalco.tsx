@@ -1,13 +1,8 @@
 'use client';
 
 import type { Ambiente, PontoDoInterior, Vista } from '@/lib/carrelio/tipos';
-import { IconeCentralizar, IconeFarol, IconeGaragem, IconeGirar, IconeNoite } from './Icones';
+import { IconeCentralizar, IconeFarol, IconeGaragem, IconeGirar, IconeNoite, IconeVoltar } from './Icones';
 import styles from './Carrelio.module.css';
-
-const VISTAS: readonly { id: Vista; rotulo: string }[] = [
-  { id: 'fora', rotulo: 'Por fora' },
-  { id: 'dentro', rotulo: 'Por dentro' },
-];
 
 const PONTOS: readonly { id: PontoDoInterior; rotulo: string }[] = [
   { id: 'motorista', rotulo: 'Motorista' },
@@ -18,7 +13,7 @@ const PONTOS: readonly { id: PontoDoInterior; rotulo: string }[] = [
 type Props = {
   vista: Vista;
   ponto: PontoDoInterior;
-  /** Pontos de dentro que o modelo 3D tem; sem nenhum (o carro gerado no Tripo), não há "Por dentro". */
+  /** Pontos de dentro que o modelo 3D tem (o carro gerado no Tripo não tem nenhum). */
   pontosDisponiveis: readonly PontoDoInterior[];
   portasAbertas: boolean;
   temPortas: boolean;
@@ -43,22 +38,23 @@ type Props = {
  * cabe na tela sem deslizar: os ícones saem e o zoom sobe para o canto do palco (lá ele é a
  * alternativa de um dedo à pinça). Cada botão de ligar e desligar usa `aria-pressed`; os de ícone
  * têm nome acessível.
+ *
+ * Entrar no carro é um convite no palco ("Entrar no carro"), fora desta fileira; por dentro, ela
+ * começa pelo "Por fora", que sai, e fica só com o que vale lá dentro.
  */
 export function BarraDoPalco(props: Props) {
   const { vista, ponto, pontosDisponiveis, portasAbertas, temPortas, farois, ambiente, girando, com3d } = props;
   const pontos = PONTOS.filter((p) => pontosDisponiveis.includes(p.id));
   const noite = ambiente === 'noite';
+  const fora = vista === 'fora';
   return (
     <div className={styles.barra3d} role="group" aria-label="Controles do carro" data-barra="">
-      {pontos.length > 0 ? (
-        <div role="group" aria-label="Vista" className={styles.segmento}>
-          {VISTAS.map((v) => (
-            <button key={v.id} type="button" aria-pressed={vista === v.id} onClick={() => props.aoVista(v.id)}>
-              {v.rotulo}
-            </button>
-          ))}
-        </div>
-      ) : null}
+      {fora ? null : (
+        <button type="button" className={styles.segmentoSolto} onClick={() => props.aoVista('fora')}>
+          <IconeVoltar />
+          Por fora
+        </button>
+      )}
       {vista === 'dentro' && pontos.length > 1 ? (
         <div role="group" aria-label="De onde olhar" className={styles.segmento}>
           {pontos.map((p) => (
@@ -68,7 +64,7 @@ export function BarraDoPalco(props: Props) {
           ))}
         </div>
       ) : null}
-      {vista === 'fora' && temPortas ? (
+      {fora && temPortas ? (
         <button type="button" className={styles.segmentoSolto} aria-pressed={portasAbertas} onClick={() => props.aoPortas(!portasAbertas)}>
           Portas
         </button>
@@ -77,21 +73,26 @@ export function BarraDoPalco(props: Props) {
         <IconeNoite />
         Noite
       </button>
-      <button type="button" className={styles.segmentoSolto} aria-pressed={farois} onClick={() => props.aoFarois(!farois)}>
-        <IconeFarol />
-        Faróis
-      </button>
-      {vista === 'fora' ? (
+      {fora ? (
+        <button type="button" className={styles.segmentoSolto} aria-pressed={farois} onClick={() => props.aoFarois(!farois)}>
+          <IconeFarol />
+          Faróis
+        </button>
+      ) : null}
+      {fora ? (
         <button type="button" className={styles.segmentoSolto} aria-pressed={girando} onClick={() => props.aoGirar(!girando)}>
           <IconeGirar />
           Girar
         </button>
       ) : null}
-      <ControlesDoZoom com3d={com3d} aoZoom={props.aoZoom} aoEnquadrar={props.aoEnquadrar} className={styles.soNoLargo} />
-      <button type="button" className={`${styles.segmentoSolto} ${styles.botaoDaGaragem}`} onClick={props.aoGaragem}>
-        <IconeGaragem />
-        Na sua garagem
-      </button>
+      {/* Por dentro, o zoom é da foto: vale mesmo sem o 3D. */}
+      <ControlesDoZoom com3d={com3d || !fora} aoZoom={props.aoZoom} aoEnquadrar={props.aoEnquadrar} className={styles.soNoLargo} />
+      {fora ? (
+        <button type="button" className={`${styles.segmentoSolto} ${styles.botaoDaGaragem}`} onClick={props.aoGaragem}>
+          <IconeGaragem />
+          Na sua garagem
+        </button>
+      ) : null}
     </div>
   );
 }

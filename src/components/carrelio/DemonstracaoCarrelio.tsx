@@ -13,7 +13,9 @@ import { Abas, type SeloDaAba } from './Abas';
 import { BarraDoPalco, ControlesDoZoom } from './BarraDoPalco';
 import { CartaoDoCarro } from './cliente/CartaoDoCarro';
 import { Garagem } from './Garagem';
-import { IconeSairDaTelaCheia, IconeTelaCheia } from './Icones';
+import { IconeEntrar, IconeSairDaTelaCheia, IconeTelaCheia } from './Icones';
+import { INTERIOR_DO_JAECOO_5 } from './interior/foto';
+import { InteriorEmFoto, type ControleDoInterior } from './interior/InteriorEmFoto';
 import { algumaPortaAberta, interfaceInicial, reduzirInterface } from './interface';
 import { useCarrelio } from './loja';
 import { ID_DOS_PEDIDOS, PainelDaLoja } from './painel/PainelDaLoja';
@@ -42,6 +44,7 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
   const [ui, mudar] = useReducer(reduzirInterface, undefined, interfaceInicial);
   const { ativo: movimento } = useMotion();
   const controle = useRef<ControleDoPalco | null>(null);
+  const controleDeDentro = useRef<ControleDoInterior | null>(null);
   const raiz = useRef<HTMLDivElement>(null);
   const quemAbriuAGaragem = useRef<HTMLElement | null>(null);
   const [situacao, setSituacao] = useState<SituacaoDoPalco>('poster');
@@ -81,12 +84,13 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
       aba: ui.aba,
       vista: ui.vista,
       ponto: ui.ponto,
+      luz: ui.luz,
       ambiente: ui.ambiente,
       ...(ui.versao !== INICIAL.versao || ui.cor !== INICIAL.cor ? { versao: ui.versao, cor: ui.cor } : {}),
     };
     const url = `${window.location.pathname}${consultaDoComando(comando)}${window.location.hash}`;
     if (url !== `${window.location.pathname}${window.location.search}${window.location.hash}`) window.history.replaceState(window.history.state, '', url);
-  }, [ui.aba, ui.versao, ui.cor, ui.vista, ui.ponto, ui.ambiente]);
+  }, [ui.aba, ui.versao, ui.cor, ui.vista, ui.ponto, ui.luz, ui.ambiente]);
 
   useEffect(() => {
     const aoMudar = () => setTelaCheia(document.fullscreenElement === raiz.current);
@@ -113,8 +117,16 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
 
   const pontosDoInterior = useMemo(() => PONTOS_DO_INTERIOR.filter((p) => MODELO_ATUAL.interior[p]), []);
   const temPortas = Object.keys(MODELO_ATUAL.portas).length > 0;
-  // Sem interior no modelo, um link com `vista=dentro` mostra o carro por fora.
-  const vista = pontosDoInterior.length > 0 ? ui.vista : 'fora';
+  // Sem interior no modelo 3D, a vista de dentro é a foto do interior.
+  const fotoDeDentro = pontosDoInterior.length > 0 ? null : INTERIOR_DO_JAECOO_5;
+  const temInterior = pontosDoInterior.length > 0 || fotoDeDentro !== null;
+  const vista = temInterior ? ui.vista : 'fora';
+  const dentroEmFoto = vista === 'dentro' && fotoDeDentro !== null;
+  // Com a foto à vista, o 3D fica por fora, parado, embaixo dela (e volta igual quando a pessoa sai).
+  const vistaNo3d = dentroEmFoto ? 'fora' : vista;
+  // A foto do interior só é montada na primeira entrada, e fica montada (sair e voltar é instantâneo).
+  const [interiorMontado, setInteriorMontado] = useState(false);
+  if (dentroEmFoto && !interiorMontado) setInteriorMontado(true);
   const versao = versaoPorId(JAECOO_5, ui.versao);
   const cor = corPorId(JAECOO_5, ui.cor);
   const girando = ui.girando ?? movimento;
@@ -127,13 +139,13 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
       rackDeTeto: versao.noTresD.rackDeTeto,
       portas: ui.portas,
       farois: ui.farois,
-      vista,
+      vista: vistaNo3d,
       ponto: ui.ponto,
       ambiente: ui.ambiente,
       girando: vista === 'fora' && girando,
       movimento,
     }),
-    [cor.hex, ui.versao, ui.cor, versao, ui.portas, ui.farois, vista, ui.ponto, ui.ambiente, girando, movimento],
+    [cor.hex, ui.versao, ui.cor, versao, ui.portas, ui.farois, vistaNo3d, vista, ui.ponto, ui.ambiente, girando, movimento],
   );
 
   // Os pontos de toque da vista atual que o modelo 3D posiciona, com o texto da versão escolhida.
@@ -141,11 +153,23 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
     () =>
       JAECOO_5.pontos.flatMap((ponto) => {
         const texto = ponto.texto[ui.versao];
-        if (ponto.vista !== vista || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
+        if (ponto.vista !== vistaNo3d || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
         return [{ id: ponto.id, rotulo: ponto.rotulo, texto }];
       }),
-    [ui.versao, vista],
+    [ui.versao, vistaNo3d],
   );
+
+  // Os pontos da foto do interior. A foto é de uma versão: o que a outra não tem aparece assim mesmo,
+  // dizendo de qual versão é (a pessoa está vendo o item na foto).
+  const pontosDaFoto = useMemo<PontoNoPalco[]>(() => {
+    if (!fotoDeDentro) return [];
+    const versaoDaFoto = versaoPorId(JAECOO_5, fotoDeDentro.versao);
+    return JAECOO_5.pontos.flatMap((ponto) => {
+      if (!fotoDeDentro.pontos.some((p) => p.id === ponto.id)) return [];
+      const texto = ponto.texto[ui.versao] ?? `Só na ${versaoDaFoto.nome}.`;
+      return [{ id: ponto.id, rotulo: ponto.rotulo, texto }];
+    });
+  }, [fotoDeDentro, ui.versao]);
 
   // Pedido de test drive que a loja ainda não confirmou: a aba do painel mostra quantos há.
   const pedidosNovos = estado.testDrives.filter((p) => !p.atendido).length;
@@ -207,6 +231,8 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
   }, [movimento]);
 
   const com3d = situacao === 'pronto';
+  const zoom = (passo: 1 | -1) => (dentroEmFoto ? controleDeDentro.current?.zoom(passo) : controle.current?.zoom(passo));
+  const enquadrar = () => (dentroEmFoto ? controleDeDentro.current?.enquadrar() : controle.current?.enquadrar());
 
   return (
     <div ref={raiz} className={styles.demo} data-aba={ui.aba} data-tela-cheia={telaCheia ? 'sim' : 'nao'}>
@@ -228,6 +254,27 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
             aoArrastar={() => mudar({ tipo: 'girar', girando: false })}
             aoAbrirPonto={(id) => mudar({ tipo: 'ponto-de-toque', id })}
             aoMudarSituacao={setSituacao}
+            dentro={dentroEmFoto}
+            credito={dentroEmFoto ? fotoDeDentro?.legenda : undefined}
+            camadaDeDentro={
+              interiorMontado && fotoDeDentro ? (
+                <InteriorEmFoto
+                  foto={fotoDeDentro}
+                  ativo={dentroEmFoto}
+                  pontos={pontosDaFoto}
+                  pontoAberto={dentroEmFoto ? ui.pontoAberto : null}
+                  luz={ui.luz}
+                  noite={ui.ambiente === 'noite'}
+                  movimento={movimento}
+                  versao={ui.versao}
+                  areaLivre={AREA_LIVRE}
+                  controleRef={controleDeDentro}
+                  aoAbrirPonto={(id) => mudar({ tipo: 'ponto-de-toque', id })}
+                  aoMudarLuz={(luz) => mudar({ tipo: 'luz', luz })}
+                  aoVerNaVersaoDaFoto={() => mudar({ tipo: 'versao', versao: fotoDeDentro.versao })}
+                />
+              ) : null
+            }
           >
             {/* O canto de cima: a tela cheia (a TV da loja) do tablet para cima; no celular, o zoom, que não cabe na barra. */}
             <div className={styles.cantoDoPalco}>
@@ -237,15 +284,27 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
                   {telaCheia ? 'Sair da tela cheia' : 'Tela cheia'}
                 </button>
               ) : null}
-              {com3d ? (
-                <ControlesDoZoom
-                  com3d={com3d}
-                  aoZoom={(passo) => controle.current?.zoom(passo)}
-                  aoEnquadrar={() => controle.current?.enquadrar()}
-                  className={styles.soNoCelular}
-                />
+              {com3d || dentroEmFoto ? (
+                <ControlesDoZoom com3d aoZoom={zoom} aoEnquadrar={enquadrar} className={styles.soNoCelular} />
               ) : null}
             </div>
+            {/* O convite para entrar no carro: no palco, à vista, e sem esperar o 3D (a foto não precisa dele). */}
+            {temInterior && vista === 'fora' && !ui.garagem ? (
+              <button type="button" className={styles.convite} onClick={() => mudarEMostrar({ tipo: 'vista', vista: 'dentro' })}>
+                {fotoDeDentro ? (
+                  <span className={styles.conviteMiniatura} aria-hidden="true">
+                    <picture>
+                      <img src={fotoDeDentro.miniatura} alt="" width={56} height={56} decoding="async" />
+                    </picture>
+                  </span>
+                ) : null}
+                <span className={styles.conviteTexto}>
+                  <strong>Entrar no carro</strong>
+                  <span>Painel, telas e luz ambiente</span>
+                </span>
+                <IconeEntrar />
+              </button>
+            ) : null}
             {ui.garagem ? (
               <Garagem
                 urlDoModelo={MODELO_ATUAL.url}
@@ -272,8 +331,8 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
               aoFarois={(acesos) => mudarEMostrar({ tipo: 'farois', acesos })}
               aoAmbiente={(ambiente) => mudarEMostrar({ tipo: 'ambiente', ambiente })}
               aoGirar={(valor) => mudarEMostrar({ tipo: 'girar', girando: valor })}
-              aoZoom={(passo) => controle.current?.zoom(passo)}
-              aoEnquadrar={() => controle.current?.enquadrar()}
+              aoZoom={zoom}
+              aoEnquadrar={enquadrar}
               aoGaragem={abrirGaragem}
             />
           </PalcoCarro>

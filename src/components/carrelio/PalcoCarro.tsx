@@ -41,6 +41,14 @@ type Props = {
   aoArrastar(): void;
   aoAbrirPonto(id: string | null): void;
   aoMudarSituacao?(situacao: SituacaoDoPalco): void;
+  /**
+   * A vista de dentro quando ela não é do 3D (a foto do interior): montada por cima do carro, que
+   * fica parado e escondido embaixo. `dentro` diz se ela está à vista.
+   */
+  camadaDeDentro?: ReactNode;
+  dentro?: boolean;
+  /** O crédito da legenda, no lugar do crédito do modelo 3D (o da foto, por dentro). */
+  credito?: string | undefined;
   /** Camadas por cima do carro: a barra de controles, o canto de cima, o "na sua garagem". */
   children?: ReactNode;
 };
@@ -73,7 +81,7 @@ const NOME_DA_VISTA: Readonly<Record<Vista, string>> = { fora: 'por fora', dentr
  * e então a barra de controles, que só aparece com o carro pronto para eles.
  */
 export function PalcoCarro({
-  estadoVisual, modelo, pontos, pontoAberto, areaLivre, controleRef, aoTocarPeca, aoArrastar, aoAbrirPonto, aoMudarSituacao, children,
+  estadoVisual, modelo, pontos, pontoAberto, areaLivre, controleRef, aoTocarPeca, aoArrastar, aoAbrirPonto, aoMudarSituacao, camadaDeDentro, dentro = false, credito, children,
 }: Props) {
   const palco = useRef<HTMLDivElement>(null);
   const host = useRef<HTMLDivElement>(null);
@@ -257,7 +265,8 @@ export function PalcoCarro({
       className={styles.palco}
       data-situacao={situacao}
       data-com3d={com3d ? 'sim' : 'nao'}
-      data-vista={estadoVisual.vista}
+      data-vista={dentro ? 'dentro' : estadoVisual.vista}
+      data-dentro={dentro ? 'sim' : 'nao'}
       data-ambiente={estadoVisual.ambiente}
       data-movimento={estadoVisual.movimento ? 'sim' : 'nao'}
       data-ancora="palco"
@@ -277,14 +286,16 @@ export function PalcoCarro({
         />
       </picture>
 
-      {/* A legenda do palco: o selo da demonstração e o crédito que a licença do modelo pede. */}
+      {camadaDeDentro}
+
+      {/* A legenda do palco: o selo da demonstração e o crédito que a licença do modelo (ou da foto) pede. */}
       <div className={styles.legendaDoPalco}>
-        <p className={styles.marcaDagua}>{modelo.provisorio ? 'CARRO PROVISÓRIO · DEMONSTRAÇÃO' : 'DEMONSTRAÇÃO'}</p>
-        {modelo.credito ? <p className={styles.credito}>{modelo.credito}</p> : null}
+        <p className={styles.marcaDagua}>{modelo.provisorio && !dentro ? 'CARRO PROVISÓRIO · DEMONSTRAÇÃO' : 'DEMONSTRAÇÃO'}</p>
+        {(credito ?? modelo.credito) ? <p className={styles.credito}>{credito ?? modelo.credito}</p> : null}
       </div>
 
       {/* Montados junto com o 3D (a primeira projeção já os posiciona, mesmo com a câmera parada) e revelados depois do pôster. */}
-      {com3d ? (
+      {com3d && !dentro ? (
         <div className={styles.pontos} role="group" aria-label={`Destaques ${NOME_DA_VISTA[estadoVisual.vista]}`} data-revelado={revelado ? 'sim' : 'nao'}>
           {pontos.map((ponto) => {
             const aberto = pontoAberto === ponto.id;
@@ -323,13 +334,13 @@ export function PalcoCarro({
         </div>
       ) : null}
 
-      {com3d && revelado && dica === 'visivel' && estadoVisual.vista === 'fora' ? (
+      {com3d && revelado && dica === 'visivel' && estadoVisual.vista === 'fora' && !dentro ? (
         <p className={styles.dica} aria-hidden="true">
           Arraste para girar{pontos.length > 0 ? ' · os + mostram os itens' : ''}
         </p>
       ) : null}
 
-      {situacao === 'poster' || situacao === 'carregando' ? (
+      {(situacao === 'poster' || situacao === 'carregando') && !dentro ? (
         // Um botão só, do pôster até o carro pronto: quem chegou nele pelo teclado não perde o foco.
         <button
           ref={botaoDeAbrir}
@@ -352,7 +363,7 @@ export function PalcoCarro({
           Recarregando o carro…
         </p>
       ) : null}
-      {situacao === 'falhou' ? (
+      {situacao === 'falhou' && !dentro ? (
         <p className={styles.avisoDoPalco} role="status">
           Seu navegador não abriu o 3D. Cores, versões, preço e ficha continuam no cartão.
         </p>

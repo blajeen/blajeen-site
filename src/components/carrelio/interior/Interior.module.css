@@ -8,7 +8,9 @@
   position: absolute;
   inset: 0;
   z-index: 3;
+  /* `clip`, e não só `hidden`: a foto é maior que o palco, e um foco perto da borda rolaria a camada. */
   overflow: hidden;
+  overflow: clip;
   border-radius: inherit;
   background: #050605;
   transition: opacity 520ms var(--ease-lab), visibility 0s linear 0s;
@@ -24,6 +26,8 @@
 .visor {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  overflow: clip;
   cursor: grab;
   touch-action: pan-y;
   outline: none;
@@ -210,17 +214,6 @@
   opacity: 1;
 }
 
-.balaoComFoto {
-  width: min(16rem, 70vw);
-}
-
-.fotoDoBalao {
-  width: 100%;
-  height: auto;
-  margin-bottom: 0.45rem;
-  border-radius: 8px;
-}
-
 .dica {
   position: absolute;
   top: 50%;
@@ -387,15 +380,6 @@
 
 /* No palco estreito, a fileira ocupa a largura e o título encolhe para caber. */
 @container palco (max-width: 30rem) {
-  /* No palco pequeno, a foto de perto não cabe no balão: a câmera já aproxima da multimídia. */
-  .fotoDoBalao {
-    display: none;
-  }
-
-  .balaoComFoto {
-    width: max-content;
-  }
-
   .luzes {
     right: 0.5rem;
     bottom: 3.85rem;

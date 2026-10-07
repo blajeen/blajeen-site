@@ -15,8 +15,9 @@
 //   - acesas: telas e faixas juntas (o que fica aceso quando o resto escurece);
 //   - janelas: para-brisa, janelas e teto de vidro, que à noite viram céu escuro.
 //
-// E a multimídia de perto (a segunda foto de divulgação, já de volante à esquerda), para o balão do
-// ponto da multimídia, e a miniatura do convite para entrar no carro.
+// E as fotos de detalhe, que aparecem no balão de cada ponto (de fora, no 3D, e de dentro, na foto):
+// a multimídia de perto, o teto panorâmico, o câmbio e o porta-malas vazio e cheio. Mais a miniatura
+// do convite para entrar no carro.
 //
 // Todas as coordenadas abaixo são da foto original (3840 × 2560, antes do espelho).
 //
@@ -28,11 +29,23 @@ import { mkdirSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { prepararPortaMalas } from './carrelio-porta-malas.mjs';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGEM = join(raiz, 'docs/carrelio/fotos/jaecoo-5-interior-divulgacao.avif');
-const DETALHE_DA_MULTIMIDIA = join(raiz, 'docs/carrelio/fotos/jaecoo-5-multimidia-divulgacao.avif');
+const FOTOS = join(raiz, 'docs/carrelio/fotos');
+const ORIGEM = join(FOTOS, 'jaecoo-5-interior-divulgacao.avif');
 const DESTINO = join(raiz, 'public/produtos/carrelio/interior');
+const DESTINO_DOS_DETALHES = join(raiz, 'public/produtos/carrelio/detalhes');
+
+/**
+ * As fotos de detalhe dos pontos: arquivo de origem, nome na página e tamanho final. As duas do
+ * porta-malas (vazio e cheio) saem de `tools/carrelio-porta-malas.mjs`, com o carro na mesma cor.
+ */
+const DETALHES = [
+  { origem: 'jaecoo-5-multimidia-divulgacao.avif', nome: 'multimidia', largura: 640, altura: 360 },
+  { origem: 'jaecoo-5-teto-divulgacao.jpg', nome: 'teto', largura: 960, altura: 540 },
+  { origem: 'jaecoo-5-cambio-divulgacao.jpg', nome: 'cambio', largura: 960, altura: 540 },
+];
 const L = 3840;
 const A = 2560;
 
@@ -259,6 +272,12 @@ const miniatura = join(DESTINO, 'miniatura.webp');
 await imagem.clone().extract({ left: 1650, top: 1230, width: 700, height: 700 }).resize({ width: 112, height: 112 }).webp({ quality: 86, effort: 6 }).toFile(miniatura);
 console.log(`miniatura: ${kb(miniatura)}`);
 
-const detalhe = join(DESTINO, 'multimidia.webp');
-await sharp(DETALHE_DA_MULTIMIDIA).webp({ quality: 84, effort: 6 }).toFile(detalhe);
-console.log(`multimidia: ${kb(detalhe)}`);
+mkdirSync(DESTINO_DOS_DETALHES, { recursive: true });
+for (const { origem, nome, largura, altura } of DETALHES) {
+  const caminho = join(DESTINO_DOS_DETALHES, `${nome}.webp`);
+  await sharp(join(FOTOS, origem)).resize({ width: largura, height: altura, fit: 'cover' }).webp({ quality: 82, effort: 6 }).toFile(caminho);
+  console.log(`detalhes/${nome}: ${kb(caminho)}`);
+}
+const azul = await prepararPortaMalas(FOTOS, DESTINO_DOS_DETALHES);
+for (const nome of ['porta-malas-cheio', 'porta-malas-vazio']) console.log(`detalhes/${nome}: ${kb(join(DESTINO_DOS_DETALHES, `${nome}.webp`))}`);
+console.log(`azul da lataria (OKLab): matiz ${azul.matiz.toFixed(1)}°, luminosidade ${azul.luminosidade.toFixed(3)}`);

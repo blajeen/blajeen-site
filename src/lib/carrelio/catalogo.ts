@@ -6,8 +6,11 @@ import type { CorId, VersaoId, Vista } from './tipos';
  * carros chineses para atrair clientes.
  *
  * Tudo aqui é público e vem das fontes no fim do arquivo (lançamento de 30/09/2026). Os tons das
- * cores são aproximações para o 3D, não a amostra de fábrica. Os preços são os de lançamento
- * divulgados pela marca: na loja, valem os da tabela do dia (a demonstração diz isso).
+ * cores são aproximações para o 3D, não a amostra de fábrica. O do Azul Gaia foi medido na foto de
+ * divulgação do porta-malas (a lataria azul), para o 3D e as fotos dos pontos mostrarem o mesmo
+ * azul ("deixa as cores iguais das fotos dos carros", pedido do titular em 07/10/2026). Os preços
+ * são os de lançamento divulgados pela marca: na loja, valem os da tabela do dia (a demonstração
+ * diz isso).
  */
 
 /**
@@ -95,7 +98,7 @@ export const JAECOO_5: Carro = {
     { id: 'branco-arctic', nome: 'Branco Arctic', hex: '#e6e8e6', tetoPretoNoPrestige: true },
     { id: 'preto-andromeda', nome: 'Preto Andromeda', hex: '#15171b', tetoPretoNoPrestige: false },
     { id: 'cinza-centaurus', nome: 'Cinza Centaurus', hex: '#6c7075', tetoPretoNoPrestige: false },
-    { id: 'azul-gaia', nome: 'Azul Gaia', hex: '#4f6377', tetoPretoNoPrestige: false },
+    { id: 'azul-gaia', nome: 'Azul Gaia', hex: '#435a8a', tetoPretoNoPrestige: false },
   ],
   versoes: [
     {
@@ -176,6 +179,7 @@ export const JAECOO_5: Carro = {
     },
     { id: 'luzAmbiente', rotulo: 'Luz ambiente', vista: 'dentro', texto: { comfort: null, prestige: 'Personalizável, no painel e nas portas.' } },
     { id: 'som', rotulo: 'Som', vista: 'dentro', texto: { comfort: '4 alto-falantes.', prestige: 'Sony, com 8 alto-falantes.' } },
+    { id: 'cambio', rotulo: 'Câmbio', vista: 'dentro', texto: { comfort: 'Automático, híbrido dedicado (1DHT).', prestige: 'Automático, híbrido dedicado (1DHT).' } },
   ],
   lancamento: { inicioDasVendas: '2026-10-01', primeiroLote: 3600, divulgadoEm: '2026-09-30' },
   fontes: [

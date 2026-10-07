@@ -90,6 +90,37 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   - link: `?vista=dentro`, `?luz=roxo` (leva para dentro) e `&ambiente=noite`.
 - O 3D fica por fora, parado e escondido embaixo da foto. A foto só carrega na primeira entrada.
 
+## Fotos de detalhe dos pontos
+
+- O titular mandou mais fotos de divulgação (07/10/2026): teto panorâmico, porta-malas vazio e
+  cheio e o câmbio na coluna ("seta"). Pedido: "adiciona também no mesmo padrão" da multimídia.
+- Cada foto aparece no ponto dela, por fora (3D) e por dentro (foto): teto e porta-malas por fora;
+  multimídia, teto e câmbio (ponto novo) por dentro. O porta-malas alterna cheio e vazio devagar,
+  com um selo dizendo qual é qual (sem movimento, fica o cheio).
+- No computador, a foto vem no balão do ponto. No celular, o balão não cabe: o ponto aberto vira um
+  cartão grande no alto do palco, com a foto, o texto e um botão de fechar.
+- As fotos ficam em `docs/carrelio/fotos/` e saem leves (16 a 64 KB) em
+  `public/produtos/carrelio/detalhes/`, pelo mesmo `tools/carrelio-interior.mjs`. A lista fica em
+  `src/components/carrelio/detalhes.ts`.
+- O texto do câmbio fica no que a ficha confirma ("Automático, híbrido dedicado (1DHT)"); a posição
+  do seletor é a da foto de divulgação.
+
+## O mesmo azul no 3D e nas fotos
+
+- Pedido do titular (07/10/2026): "deixa as cores iguais das fotos dos carros" e "a foto do
+  porta-malas cheio ficou um pouco clara, melhor aplicar um filtro".
+- As duas fotos do porta-malas eram de carros de cores diferentes (o cheio azul; o vazio, um cinza
+  esverdeado de outro mercado), e o carro trocava de cor quando elas se alternavam.
+  `tools/carrelio-porta-malas.mjs` (chamado por `tools/carrelio-interior.mjs`) mede o azul da
+  lataria do cheio no OKLab (matiz e croma por luminosidade) e pinta a lataria do vazio com ele,
+  mantendo o sombreado e os reflexos da foto. As duas passam pelo mesmo filtro: meios-tons mais
+  escuros, o branco estourado contido e uma vinheta leve.
+- O Azul Gaia do 3D passou de `#4f6377` (um azul acinzentado estimado) para `#435a8a`, medido no
+  mesmo azul: no pôster, matiz de 263° e croma de 0,073 no OKLab, contra 263° e 0,08 nas fotos.
+  A luminosidade do 3D ficou um pouco acima da das fotos, para o carro não sumir no estúdio escuro.
+  Pôsteres refeitos (`node tools/carrelio-poster.mjs`) e imagem de compartilhamento recortada do
+  pôster 2× (1200 × 630, centro). Branco, preto e cinza continuam estimados: não há foto deles.
+
 ## Código
 
 - Domínio (`src/lib/carrelio/`): `tipos`, `catalogo`, `estado`, `persistencia`, `link` e

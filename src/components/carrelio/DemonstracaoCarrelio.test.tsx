@@ -108,7 +108,7 @@ describe('a demonstração do Carrelio', () => {
   it('manda a cor, o teto preto e os itens da versão para a cena', async () => {
     montar();
     await abrir3d();
-    expect(ultimo()).toMatchObject({ pintura: '#4f6377', tetoPreto: false, tetoPanoramico: true, vista: 'fora' });
+    expect(ultimo()).toMatchObject({ pintura: '#435a8a', tetoPreto: false, tetoPanoramico: true, vista: 'fora' });
     fireEvent.click(screen.getByRole('radio', { name: /Branco Arctic/ }));
     await waitFor(() => expect(ultimo()).toMatchObject({ pintura: '#e6e8e6', tetoPreto: true }));
     expect(screen.getByText(/Branco Arctic, teto preto/)).toBeInTheDocument();
@@ -153,6 +153,11 @@ describe('a demonstração do Carrelio', () => {
     expect(screen.getByRole('button', { name: 'Faróis: Full LED.', hidden: true }).parentElement).toHaveAttribute('hidden');
     fireEvent.click(teto);
     expect(teto).toHaveAttribute('aria-expanded', 'true');
+    // O ponto do teto tem foto de detalhe: no balão (computador) e no cartão com "fechar" (celular).
+    const balao = teto.parentElement!.querySelector('p')!;
+    expect(balao.querySelector('img')).toHaveAttribute('src', '/produtos/carrelio/detalhes/teto.webp');
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar: Teto panorâmico' }));
+    expect(teto).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('com movimento, a mesa fica parada no primeiro quadro (o do pôster) e gira depois; arrastar para, e o botão volta a girar', async () => {

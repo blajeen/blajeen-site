@@ -108,6 +108,9 @@ Pendências:
       ser entrega do projeto (fotos 360° na loja);
 - [x] aprovar as capturas do interior em foto antes de publicar — aprovadas pelo titular em
       07/10/2026 ("pode").
+- [x] aprovar as capturas das fotos de detalhe (teto, porta-malas e câmbio) e do azul novo (o
+      carro das duas fotos do porta-malas no mesmo azul, o filtro no cheio e o Azul Gaia do 3D
+      medido nas fotos) antes de publicar — aprovadas pelo titular em 07/10/2026 ("pode").
 
 ## Revalio
 

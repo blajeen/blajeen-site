@@ -1228,12 +1228,12 @@ export const carrelio: Demonstracao = {
   simbolo: 'carro',
   rota: ROTAS.produtoCarrelio,
   estado: 'DEMONSTRAÇÃO · SOB MEDIDA',
-  lema: 'O showroom da loja no celular do cliente. Por fora, por dentro e na garagem dele.',
+  lema: 'O showroom da loja no celular do cliente. Em todas as cores e na garagem dele.',
   resumo:
-    'Para concessionárias: cada carro em 3D, no navegador, com cores, versões, interior e realidade aumentada, ligado ao estoque da loja e a um painel da equipe. Preparada para a Comeri Omoda, com o Jaecoo 5; estoque e pedidos são de demonstração.',
+    'Para concessionárias: cada carro em 3D, no navegador, com cores, versões e realidade aumentada, ligado ao estoque da loja e a um painel da equipe; no projeto, o interior entra em foto 360°. Preparada para a Comeri Omoda, com o Jaecoo 5; estoque e pedidos são de demonstração.',
   imagem: {
     src: '/produtos/carrelio/poster.webp',
-    alt: 'O SUV da demonstração, em 3D, num estúdio escuro, visto de três quartos de frente.',
+    alt: 'O Jaecoo 5 em 3D, num estúdio escuro, visto de três quartos de frente.',
   },
   paraQuem: 'Concessionárias e revendas',
   rodaEm: 'Navegador, no site, no celular e na TV da loja',

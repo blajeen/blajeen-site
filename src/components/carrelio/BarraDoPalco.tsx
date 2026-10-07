@@ -22,7 +22,7 @@ const AMBIENTES: readonly { id: Ambiente; rotulo: string }[] = [
 type Props = {
   vista: Vista;
   ponto: PontoDoInterior;
-  /** Pontos de dentro que o modelo 3D tem (o provisório não tem banco de trás, por exemplo). */
+  /** Pontos de dentro que o modelo 3D tem; sem nenhum (o carro gerado no Tripo), não há "Por dentro". */
   pontosDisponiveis: readonly PontoDoInterior[];
   portasAbertas: boolean;
   temPortas: boolean;
@@ -51,13 +51,15 @@ export function BarraDoPalco(props: Props) {
   const pontos = PONTOS.filter((p) => pontosDisponiveis.includes(p.id));
   return (
     <div className={styles.barra3d} role="group" aria-label="Controles do carro">
-      <div role="group" aria-label="Vista" className={styles.segmento}>
-        {VISTAS.map((v) => (
-          <button key={v.id} type="button" aria-pressed={vista === v.id} onClick={() => props.aoVista(v.id)}>
-            {v.rotulo}
-          </button>
-        ))}
-      </div>
+      {pontos.length > 0 ? (
+        <div role="group" aria-label="Vista" className={styles.segmento}>
+          {VISTAS.map((v) => (
+            <button key={v.id} type="button" aria-pressed={vista === v.id} onClick={() => props.aoVista(v.id)}>
+              {v.rotulo}
+            </button>
+          ))}
+        </div>
+      ) : null}
       {vista === 'dentro' && pontos.length > 1 ? (
         <div role="group" aria-label="De onde olhar" className={styles.segmento}>
           {pontos.map((p) => (

@@ -212,7 +212,7 @@ export function PalcoCarro({
           height={900}
           fetchPriority="high"
           decoding="async"
-          alt="O SUV da demonstração, em 3D, num estúdio escuro, visto de três quartos de frente."
+          alt="O Jaecoo 5 em 3D, num estúdio escuro, visto de três quartos de frente."
         />
       </picture>
       <div ref={host} className={styles.host} aria-hidden="true" />

@@ -19,9 +19,8 @@ export type Vantagem = { titulo: string; comando?: Comando };
 
 /** Atalhos acima da demonstração: um toque e o carro mostra a coisa (pedido do titular). */
 export const atalhos: readonly { rotulo: string; comando: Comando }[] = [
-  { rotulo: 'Entrar no carro', comando: { vista: 'dentro' } },
-  { rotulo: 'Abrir as portas', comando: { vista: 'fora', portas: true } },
   { rotulo: 'Ver à noite', comando: { ambiente: 'noite', farois: true } },
+  { rotulo: 'Preto Andromeda', comando: { cor: 'preto-andromeda' } },
   { rotulo: 'Branco com teto preto', comando: { versao: 'prestige', cor: 'branco-arctic' } },
   { rotulo: 'Mexer no estoque', comando: { aba: 'painel' } },
   { rotulo: 'Na sua garagem', comando: { garagem: true } },
@@ -42,7 +41,7 @@ export const vantagens: readonly { publico: string; itens: readonly Vantagem[] }
     publico: 'Para quem compra',
     itens: [
       { titulo: 'Ver a cor certa antes de ir à loja.', comando: { cor: 'cinza-centaurus' } },
-      { titulo: 'Sentar no banco do motorista pela tela.', comando: { vista: 'dentro' } },
+      { titulo: 'Girar o carro com o dedo, de todos os lados.' },
       { titulo: 'Comparar as versões pelo que muda de verdade.', comando: { versao: 'comfort' } },
       { titulo: 'Ver o carro em tamanho real na garagem.', comando: { garagem: true } },
       { titulo: 'Saber se tem pronta entrega naquela cor.', comando: { versao: 'prestige', cor: 'preto-andromeda' } },
@@ -74,7 +73,7 @@ export const notaDeOndeFica = 'Ligar ao site ou ao sistema da loja depende de co
 export const entregas: readonly { titulo: string; opcional?: boolean }[] = [
   { titulo: 'Cada carro em 3D, leve para o celular' },
   { titulo: 'Cores e versões de cada carro' },
-  { titulo: 'Interior em foto 360°' },
+  { titulo: 'Interior em foto 360°, feita na loja' },
   { titulo: 'Painel com estoque, preços e campanhas' },
   { titulo: 'Pedido de test drive para o WhatsApp da loja' },
   { titulo: '"Na sua garagem", em realidade aumentada', opcional: true },

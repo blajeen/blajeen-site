@@ -5,17 +5,17 @@ import { VerNaDemonstracao } from '@/components/carrelio/VerNaDemonstracao';
 import { Container, Section } from '@/components/layout/Section';
 import { LOJA } from '@/lib/carrelio/catalogo';
 import { atalhos, demonstracao, entregas, linkDoProjeto, materiais, notaDeOndeFica, notaDosMateriais, ondeFica, passos, vantagens } from '@/content/carrelio';
+import { metadadosDaRota, OG } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
 
-/**
- * Fora dos buscadores até o titular aprovar a publicação: a página mostra o nome de uma loja real
- * (com autorização do titular) e ainda não está na lista de produtos.
- */
-export const metadata: Metadata = {
-  title: 'Carrelio — o showroom da concessionária, em 3D | Blajeen Labs',
-  description: `Demonstração preparada para a ${LOJA}: o Jaecoo 5 em 3D no navegador, por fora e por dentro, com cores, versões, estoque da loja e pedido de test drive.`,
-  robots: { index: false, follow: false },
-};
+/** Publicação aberta, com o nome da loja, autorizada pelo titular em 07/10/2026. */
+export const metadata: Metadata = metadadosDaRota({
+  titulo: 'Carrelio — o showroom da concessionária, em 3D | Blajeen Labs',
+  descricao: `Demonstração preparada para a ${LOJA}: o Jaecoo 5 em 3D no navegador, com cores, versões, realidade aumentada, estoque da loja e pedido de test drive.`,
+  rota: ROTAS.produtoCarrelio,
+  imagem: OG.carrelio,
+  imagemAlt: 'O Jaecoo 5 em 3D, num estúdio escuro, visto de três quartos de frente.',
+});
 
 const linkSutil =
   'tecnica inline-flex min-h-11 items-center gap-2 text-signal underline decoration-signal/30 underline-offset-4 hover:decoration-signal';
@@ -34,7 +34,7 @@ export default function CarrelioPage() {
             <div className="lg:col-span-7">
               <h1 className="text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em]">Carrelio</h1>
               <p className="mt-5 max-w-[22ch] text-[clamp(1.3rem,2.4vw,2rem)] leading-[1.15] tracking-[-0.03em] text-paper/85">
-                O showroom da loja no celular do cliente. <span className="text-mineral">Por fora, por dentro e na garagem dele.</span>
+                O showroom da loja no celular do cliente. <span className="text-mineral">Em todas as cores e na garagem dele.</span>
               </p>
             </div>
             <div className="lg:col-span-5 lg:pb-2">

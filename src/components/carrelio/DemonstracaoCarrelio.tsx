@@ -103,6 +103,10 @@ export function DemonstracaoCarrelio() {
     [despachar],
   );
 
+  const pontosDoInterior = useMemo(() => PONTOS_DO_INTERIOR.filter((p) => MODELO_ATUAL.interior[p]), []);
+  const temPortas = Object.keys(MODELO_ATUAL.portas).length > 0;
+  // Sem interior no modelo, um link com `vista=dentro` mostra o carro por fora.
+  const vista = pontosDoInterior.length > 0 ? ui.vista : 'fora';
   const versao = versaoPorId(JAECOO_5, ui.versao);
   const cor = corPorId(JAECOO_5, ui.cor);
   const girando = ui.girando ?? movimento;
@@ -115,13 +119,13 @@ export function DemonstracaoCarrelio() {
       rackDeTeto: versao.noTresD.rackDeTeto,
       portas: ui.portas,
       farois: ui.farois,
-      vista: ui.vista,
+      vista,
       ponto: ui.ponto,
       ambiente: ui.ambiente,
-      girando: ui.vista === 'fora' && girando,
+      girando: vista === 'fora' && girando,
       movimento,
     }),
-    [cor.hex, ui.versao, ui.cor, versao, ui.portas, ui.farois, ui.vista, ui.ponto, ui.ambiente, girando, movimento],
+    [cor.hex, ui.versao, ui.cor, versao, ui.portas, ui.farois, vista, ui.ponto, ui.ambiente, girando, movimento],
   );
 
   // Os pontos de toque da vista atual que o modelo 3D posiciona, com o texto da versão escolhida.
@@ -129,14 +133,12 @@ export function DemonstracaoCarrelio() {
     () =>
       JAECOO_5.pontos.flatMap((ponto) => {
         const texto = ponto.texto[ui.versao];
-        if (ponto.vista !== ui.vista || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
+        if (ponto.vista !== vista || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
         return [{ id: ponto.id, rotulo: ponto.rotulo, texto }];
       }),
-    [ui.versao, ui.vista],
+    [ui.versao, vista],
   );
 
-  const pontosDoInterior = useMemo(() => PONTOS_DO_INTERIOR.filter((p) => MODELO_ATUAL.interior[p]), []);
-  const temPortas = Object.keys(MODELO_ATUAL.portas).length > 0;
 
   const linkDaConfiguracao = useCallback(
     (extra: Comando = {}) => `${window.location.origin}${hrefDoComando({ versao: ui.versao, cor: ui.cor, ...extra })}`,
@@ -204,7 +206,7 @@ export function DemonstracaoCarrelio() {
               />
             ) : null}
             <BarraDoPalco
-              vista={ui.vista}
+              vista={vista}
               ponto={ui.ponto}
               pontosDisponiveis={pontosDoInterior}
               portasAbertas={algumaPortaAberta(ui.portas)}

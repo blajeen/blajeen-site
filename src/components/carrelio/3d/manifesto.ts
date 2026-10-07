@@ -1,7 +1,8 @@
 import type { PortaId, Vista } from '@/lib/carrelio/tipos';
-import type { ManifestoDoModelo } from './contrato';
+import type { ManifestoDoModelo, PecaPorNo, PecaPorRegiao } from './contrato';
 import { hexValido } from './cores';
 import type { Caixa } from './orbita';
+import { ehPecaPorRegiao, pecaValida } from './pecas';
 import { regiaoValida } from './regioes';
 
 /**
@@ -103,8 +104,12 @@ export function validarManifesto(m: ManifestoDoModelo, json: GltfJson): string[]
   for (const nome of m.teto) no('teto', nome);
   for (const nome of m.rack) no('rack', nome);
   for (const nome of m.esconder) no('esconder', nome);
-  for (const [porta, peca] of Object.entries(m.portas) as [PortaId, { no: string; graus: number }][]) {
-    no(`portas.${porta}`, peca.no);
+  for (const [porta, peca] of Object.entries(m.portas) as [PortaId, PecaPorNo | PecaPorRegiao][]) {
+    if (ehPecaPorRegiao(peca)) {
+      if (!pecaValida(peca)) problemas.push(`portas.${porta}: contorno ou dobradiça inválidos.`);
+    } else {
+      no(`portas.${porta}`, peca.no);
+    }
     if (!Number.isFinite(peca.graus) || Math.abs(peca.graus) > 120) problemas.push(`portas.${porta}: ${peca.graus}° não é abertura de porta.`);
   }
   for (const [id, ponto] of Object.entries(m.pontos)) if (!finito(ponto)) problemas.push(`pontos.${id}: posição inválida.`);

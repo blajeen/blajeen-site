@@ -145,6 +145,9 @@ export function materialDoHalo(textura: Texture, cor: Color): SpriteMaterial {
 
 // ------------------------------------------------------------ pintura por máscara
 
+/** O forro: o verso da casca da malha de IA, visto de dentro (linear, fosco). */
+export const COR_DO_FORRO = new Color().setRGB(0.032, 0.033, 0.035);
+
 /** Uniforms comuns a todos os materiais pintados por máscara: trocar a cor muda um lugar só. */
 export type UniformesDaPintura = {
   uCorDaPintura: { value: Color };
@@ -187,7 +190,9 @@ export type RegioesDaMascara = {
 export type FaixasDaMascara = Record<keyof RegioesDaMascara, [number, number]>;
 
 const CABECALHO_DO_VERTICE = 'varying vec3 vPosCarro;\nvoid main() {';
-const POSICAO_NO_CARRO = '#include <worldpos_vertex>\n\tvPosCarro = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;';
+// A posição de repouso (o atributo, antes dos ossos): numa peça que abre, as regiões (vidro, luzes,
+// rodas) ficam presas à peça em vez de escorregar por ela enquanto ela gira.
+const POSICAO_NO_CARRO = '#include <worldpos_vertex>\n\tvPosCarro = ( modelMatrix * vec4( position, 1.0 ) ).xyz;';
 
 /**
  * As declarações e funções da máscara (antes do `main`): o peso das regiões, o OKLab e a conta que
@@ -214,6 +219,7 @@ uniform float uFarol;
 uniform float uLanterna;
 uniform vec3 uCorDoFarol;
 uniform vec3 uCorDaLanterna;
+uniform vec3 uCorDoForro;
 
 // Peso de um ponto numa região: caixa inclinada em X (tipo 0) ou cilindro deitado em X (tipo 1).
 float carPesoDaRegiao( int i, vec3 p ) {
@@ -297,7 +303,22 @@ function corpoDaMascara(faixas: FaixasDaMascara): { pintura: string; verniz: str
 	// Vidro assado: o que a textura mostra, bem mais escuro, liso e sem metal.
 	diffuseColor.rgb *= mix( 1.0, 0.2, carM.vidro );
 	roughnessFactor = mix( roughnessFactor, 0.12, carM.vidro );
-	metalnessFactor = mix( metalnessFactor, 0.0, carM.vidro );`,
+	metalnessFactor = mix( metalnessFactor, 0.0, carM.vidro );
+	float carFrente = 1.0;
+	#ifdef CAR_VERSO
+		// O verso da casca, visto de dentro (porta aberta, câmera de dentro): o vidro some, para a vista
+		// atravessar o para-brisa e o teto panorâmico; o resto vira forro escuro e fosco.
+		if ( ! gl_FrontFacing ) {
+			if ( carM.vidro > 0.5 ) discard;
+			carFrente = 0.0;
+			carM.pintura = 0.0;
+			carM.vidro = 0.0;
+			carM.metal = 0.0;
+			diffuseColor.rgb = uCorDoForro;
+			roughnessFactor = 0.85;
+			metalnessFactor = 0.0;
+		}
+	#endif`,
     verniz: /* glsl */ `#include <lights_physical_fragment>
 	#ifdef USE_CLEARCOAT
 		material.clearcoat = saturate( material.clearcoat * carM.pintura + 0.35 * carM.vidro );
@@ -307,8 +328,8 @@ function corpoDaMascara(faixas: FaixasDaMascara): { pintura: string; verniz: str
 	float carVermelho = clamp( ( carTexel.r - max( carTexel.g, carTexel.b ) ) * 8.0, 0.0, 1.0 );
 	// Só acende o que não é lataria: a região pega um pouco de para-choque em volta da lente.
 	float carNaoPintura = 1.0 - carM.pintura;
-	totalEmissiveRadiance += uCorDoFarol * uFarol * carPesoEntre( ${f('farol')}, vPosCarro ) * smoothstep( 0.16, 0.5, carM.lum ) * carNaoPintura;
-	totalEmissiveRadiance += uCorDaLanterna * uLanterna * carPesoEntre( ${f('lanterna')}, vPosCarro ) * ( 0.3 + 0.7 * carVermelho ) * carNaoPintura;`,
+	totalEmissiveRadiance += uCorDoFarol * uFarol * carPesoEntre( ${f('farol')}, vPosCarro ) * smoothstep( 0.16, 0.5, carM.lum ) * carNaoPintura * carFrente;
+	totalEmissiveRadiance += uCorDaLanterna * uLanterna * carPesoEntre( ${f('lanterna')}, vPosCarro ) * ( 0.3 + 0.7 * carVermelho ) * carNaoPintura * carFrente;`,
   };
 }
 
@@ -318,7 +339,16 @@ function corpoDaMascara(faixas: FaixasDaMascara): { pintura: string; verniz: str
  */
 export function injetarMascara(
   material: MeshPhysicalMaterial,
-  opcoes: { base: Rgb; tolerancia: number; regioes: RegioesDaMascara; uniformes: UniformesDaPintura; tingir: boolean; tingirMetal?: boolean },
+  opcoes: {
+    base: Rgb;
+    tolerancia: number;
+    regioes: RegioesDaMascara;
+    uniformes: UniformesDaPintura;
+    tingir: boolean;
+    tingirMetal?: boolean;
+    /** O verso das faces aparece (material `DoubleSide`): forro escuro, e o vidro some por dentro. */
+    verso?: boolean;
+  },
 ): void {
   const { regioes } = opcoes;
   const ordem = ['excluir', 'vidro', 'teto', 'metal', 'farol', 'lanterna'] as const;
@@ -340,6 +370,7 @@ export function injetarMascara(
     uTolerancia: { value: opcoes.tolerancia },
     uTingir: { value: opcoes.tingir ? 1 : 0 },
     uTingirMetal: { value: opcoes.tingirMetal ? 1 : 0 },
+    uCorDoForro: { value: COR_DO_FORRO.clone() },
   };
   // A pintura por máscara substitui o acabamento do arquivo onde tinge (iridescência e brilho de
   // tecido não combinam com a cor nova).
@@ -349,7 +380,8 @@ export function injetarMascara(
   }
   const corpo = corpoDaMascara(faixas);
   const declaracoes = glslDaMascara(todas.length, faixas);
-  const chave = `carrelio:mascara:${todas.length}:${Object.values(faixas).flat().join(',')}`;
+  const chave = `carrelio:mascara:${todas.length}:${Object.values(faixas).flat().join(',')}${opcoes.verso ? ':verso' : ''}`;
+  if (opcoes.verso) material.defines = { ...material.defines, CAR_VERSO: '' };
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, opcoes.uniformes, locais);
     shader.vertexShader = shader.vertexShader.replace('void main() {', CABECALHO_DO_VERTICE).replace('#include <worldpos_vertex>', POSICAO_NO_CARRO);

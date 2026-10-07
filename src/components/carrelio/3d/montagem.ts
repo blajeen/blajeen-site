@@ -1,17 +1,18 @@
 import {
-  Bone, Box3, BufferAttribute, BufferGeometry, Euler, Group, Matrix3, Matrix4, Mesh, MeshBasicMaterial, Skeleton, SkinnedMesh, Vector2, Vector3, type Material,
-  type MeshPhysicalMaterial, type MeshStandardMaterial, type Object3D, type Quaternion, type Texture,
+  Bone, Box3, BufferAttribute, BufferGeometry, DoubleSide, Euler, Group, Matrix3, Matrix4, Mesh, MeshBasicMaterial, Object3D, Skeleton, SkinnedMesh, Vector2, Vector3,
+  Quaternion, type Material, type MeshPhysicalMaterial, type MeshStandardMaterial, type Texture,
 } from 'three';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { PORTAS, type PortaId } from '@/lib/carrelio/tipos';
 import { simplificarPorGrade } from './colisao';
-import type { ManifestoDoModelo, RegiaoDoCarro } from './contrato';
+import type { ManifestoDoModelo, PecaPorRegiao, RegiaoDoCarro } from './contrato';
 import { hexParaLinear } from './cores';
 import { ajusteDoModelo, comprimentoEmZ, noModelo, type AjusteDoModelo } from './manifesto';
 import { direcoesNaEsfera, silhuetaDosPontos } from './orbita';
 import {
   COR_DA_LANTERNA, COR_DO_FAROL, criarTinta, criarVidro, injetarMascara, luzDeMaterial, paraFisico, VERNIZ_DE_FABRICA, type UniformesDaPintura, type Verniz,
 } from './materiais';
+import { ehPecaPorRegiao, pecaDoPonto, refinarNaFronteira } from './pecas';
 import { tamanhoDaRegiao } from './regioes';
 
 /**
@@ -24,6 +25,9 @@ import { tamanhoDaRegiao } from './regioes';
  * IA), as malhas são comuns, sem esqueleto. Para os toques e para os pontos atrás da lataria, cada
  * peça ganha uma malha de colisão invisível e simplificada, presa ao osso dela.
  */
+
+/** O maior lado de um triângulo na emenda de uma peça recortada (m): a borda da peça sai com essa precisão. */
+const ARESTA_NA_EMENDA = 0.025;
 
 /** Quanto o meio do vidro de `janelas` recua para dentro (m) e em quantas faixas ele é dividido. */
 const CURVA_DA_JANELA = 0.02;
@@ -293,6 +297,160 @@ function acertarNormalMap(m: MeshStandardMaterial, fonteTinhaTangente: boolean, 
   if (fisico.clearcoatNormalScale) fisico.clearcoatNormalScale.y *= -1;
 }
 
+/**
+ * A geometria com os vértices novos do refino (`refinarNaFronteira`): cada um é o meio dos dois pais,
+ * em todos os atributos (as direções voltam a ter comprimento 1). Sem índice: quem usa é
+ * `extrairTriangulos`, com os índices do refino.
+ */
+function estenderVertices(origem: BufferGeometry, pais: Uint32Array): Record<string, BufferAttribute> {
+  const total = origem.getAttribute('position').count + pais.length / 2;
+  const atributos: Record<string, BufferAttribute> = {};
+  for (const [nome, atributo] of Object.entries(origem.attributes)) {
+    const tamanho = atributo.itemSize;
+    const dados = new Float32Array(total * tamanho);
+    for (let i = 0; i < atributo.count; i += 1) {
+      for (let c = 0; c < tamanho; c += 1) dados[i * tamanho + c] = atributo.getComponent(i, c);
+    }
+    // Normal e tangente: a média de duas direções é refeita unitária (a tangente guarda o sinal em w).
+    const direcao = nome === 'normal' || nome === 'tangent' ? 3 : 0;
+    for (let k = 0; k < pais.length / 2; k += 1) {
+      const n = atributo.count + k;
+      const a = pais[k * 2]!;
+      const b = pais[k * 2 + 1]!;
+      for (let c = 0; c < tamanho; c += 1) dados[n * tamanho + c] = (dados[a * tamanho + c]! + dados[b * tamanho + c]!) / 2;
+      if (direcao) {
+        const l = Math.hypot(dados[n * tamanho]!, dados[n * tamanho + 1]!, dados[n * tamanho + 2]!) || 1;
+        for (let c = 0; c < 3; c += 1) dados[n * tamanho + c] = dados[n * tamanho + c]! / l;
+        if (tamanho === 4) dados[n * tamanho + 3] = dados[a * tamanho + 3]!;
+      }
+    }
+    atributos[nome] = new BufferAttribute(dados, tamanho);
+  }
+  return atributos;
+}
+
+/** Uma geometria só com alguns triângulos de `indices` (os vértices que eles usam, com todos os atributos). */
+function extrairTriangulos(atributos: Record<string, BufferAttribute>, indices: Uint32Array, triangulos: readonly number[]): BufferGeometry {
+  const novoDoVelho = new Int32Array(atributos['position']!.count).fill(-1);
+  const velhos: number[] = [];
+  const novoIndice = new Uint32Array(triangulos.length * 3);
+  let k = 0;
+  for (const t of triangulos) {
+    for (let j = 0; j < 3; j += 1) {
+      const v = indices[t * 3 + j]!;
+      let n = novoDoVelho[v]!;
+      if (n < 0) {
+        n = velhos.length;
+        novoDoVelho[v] = n;
+        velhos.push(v);
+      }
+      novoIndice[k] = n;
+      k += 1;
+    }
+  }
+  const geometria = new BufferGeometry();
+  for (const [nome, atributo] of Object.entries(atributos)) {
+    const tamanho = atributo.itemSize;
+    const origem = atributo.array as Float32Array;
+    const dados = new Float32Array(velhos.length * tamanho);
+    velhos.forEach((v, i) => dados.set(origem.subarray(v * tamanho, v * tamanho + tamanho), i * tamanho));
+    geometria.setAttribute(nome, new BufferAttribute(dados, tamanho));
+  }
+  geometria.setIndex(new BufferAttribute(velhos.length > 65535 ? novoIndice : new Uint16Array(novoIndice), 1));
+  return geometria;
+}
+
+/**
+ * Recorta da malha as peças que abrem por região (modelo de malha única): os triângulos de cada peça
+ * saem para uma malha nova, filha de um nó na dobradiça. Assim a montagem trata a peça como trata a
+ * de um arquivo com nós (osso, colisão, junção por material). Os vértices não se movem: fechada, a
+ * peça fica idêntica ao arquivo, sem emenda nem sobreposição. Devolve o nó de cada peça.
+ */
+function recortarPecas(gltf: GLTF, escondidos: Set<Object3D>, manifesto: ManifestoDoModelo, ancestral: (o: Object3D, alvos: Set<Object3D>) => boolean): Map<PortaId, Object3D> {
+  const nos = new Map<PortaId, Object3D>();
+  const recortes = PORTAS.flatMap((id) => {
+    const peca = manifesto.portas[id];
+    return peca && ehPecaPorRegiao(peca) ? [{ id, peca }] : [];
+  });
+  if (recortes.length === 0) return nos;
+
+  const malhas: Mesh[] = [];
+  gltf.scene.traverse((o) => {
+    if ((o as Mesh).isMesh && !ancestral(o, escondidos)) malhas.push(o as Mesh);
+  });
+  // O ajuste (escala e posição) sai da caixa do modelo, que o recorte não muda: a conta vem antes.
+  const caixa = new Box3();
+  const v = new Vector3();
+  for (const malha of malhas) {
+    const p = malha.geometry.getAttribute('position');
+    for (let i = 0; i < p.count; i += 1) caixa.expandByPoint(v.fromBufferAttribute(p, i).applyMatrix4(malha.matrixWorld));
+  }
+  if (caixa.isEmpty()) return nos;
+  const ajuste = ajusteDoModelo({ min: caixa.min.toArray() as [number, number, number], max: caixa.max.toArray() as [number, number, number] }, manifesto.comprimentoM);
+  const doModelo = new Matrix4().compose(new Vector3(...ajuste.deslocamento), new Quaternion(), new Vector3(ajuste.escala, ajuste.escala, ajuste.escala));
+  const doCarroParaOModelo = doModelo.clone().invert();
+
+  const raiz = gltf.scene;
+  const inversaDaRaiz = raiz.matrixWorld.clone().invert();
+  const noDa = (id: PortaId, peca: PecaPorRegiao): Object3D => {
+    let no = nos.get(id);
+    if (no) return no;
+    no = new Object3D();
+    no.name = `carrelio:peca:${id}`;
+    // O nó fica na dobradiça (no espaço do modelo), sem rotação: o eixo local é o do carro.
+    const naDobradica = new Vector3(...peca.dobradica).applyMatrix4(doCarroParaOModelo);
+    new Matrix4().multiplyMatrices(inversaDaRaiz, new Matrix4().makeTranslation(naDobradica)).decompose(no.position, no.quaternion, no.scale);
+    raiz.add(no);
+    no.updateMatrixWorld(true);
+    nos.set(id, no);
+    return no;
+  };
+
+  const pecas = recortes.map((r) => r.peca);
+  for (const malha of malhas) {
+    const geometria = malha.geometry;
+    const p = geometria.getAttribute('position');
+    const paraOCarro = new Matrix4().multiplyMatrices(doModelo, malha.matrixWorld);
+    const noCarro = new Float64Array(p.count * 3);
+    for (let i = 0; i < p.count; i += 1) {
+      v.fromBufferAttribute(p, i).applyMatrix4(paraOCarro);
+      noCarro[i * 3] = v.x;
+      noCarro[i * 3 + 1] = v.y;
+      noCarro[i * 3 + 2] = v.z;
+    }
+    const indices = geometria.index ? Array.from({ length: geometria.index.count }, (_, i) => geometria.index!.getX(i)) : Array.from({ length: p.count }, (_, i) => i);
+    const refino = refinarNaFronteira(noCarro, indices, pecas, ARESTA_NA_EMENDA);
+    if (refino.dono.every((d) => d === 0)) continue;
+    const atributos = estenderVertices(geometria, refino.pais);
+    const listas = new Map<number, number[]>();
+    refino.dono.forEach((d, t) => {
+      const lista = listas.get(d) ?? [];
+      lista.push(t);
+      listas.set(d, lista);
+    });
+    for (const [d, lista] of listas) {
+      if (d === 0) continue;
+      const { id, peca } = recortes[d - 1]!;
+      const no = noDa(id, peca);
+      const pedaco = new Mesh(extrairTriangulos(atributos, refino.indices, lista), malha.material);
+      pedaco.name = `${malha.name}:${id}`;
+      pedaco.userData['name'] = pedaco.name;
+      // A mesma posição no mundo: a matriz da malha original, vista do nó.
+      new Matrix4().multiplyMatrices(no.matrixWorld.clone().invert(), malha.matrixWorld).decompose(pedaco.position, pedaco.quaternion, pedaco.scale);
+      no.add(pedaco);
+    }
+    const daCarroceria = listas.get(0);
+    if (daCarroceria?.length) {
+      malha.geometry = extrairTriangulos(atributos, refino.indices, daCarroceria);
+    } else {
+      malha.removeFromParent();
+    }
+    geometria.dispose();
+  }
+  raiz.updateMatrixWorld(true);
+  return nos;
+}
+
 export type OpcoesDaMontagem = {
   manifesto: ManifestoDoModelo;
   uniformes: UniformesDaPintura;
@@ -319,19 +477,37 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
   const escondidos = conjunto(manifesto.esconder);
   const tetos = conjunto(manifesto.teto);
   const racks = conjunto(manifesto.rack);
+  const ancestral = (o: Object3D, alvos: Set<Object3D>): boolean => {
+    for (let p: Object3D | null = o; p; p = p.parent) if (alvos.has(p)) return true;
+    return false;
+  };
+  // Peças por região (malha única): recortadas agora, cada uma vira um nó na dobradiça.
+  const recortadas = recortarPecas(gltf, escondidos, manifesto, ancestral);
+  modelo.updateMatrixWorld(true);
   const pecasDoManifesto = PORTAS.flatMap((id) => {
     const peca = manifesto.portas[id];
-    const no = peca ? porNome.get(peca.no) : undefined;
-    if (!peca || !no) {
-      if (peca) console.warn(`[carrelio] A peça ${id} aponta para o nó "${peca.no}", que não existe.`);
+    if (!peca) return [];
+    if (ehPecaPorRegiao(peca)) {
+      const no = recortadas.get(id);
+      if (!no) console.warn(`[carrelio] A peça ${id} não pegou nenhum triângulo: confira os contornos.`);
+      return no ? [{ id, no, eixo: peca.eixo, graus: peca.graus }] : [];
+    }
+    const no = porNome.get(peca.no);
+    if (!no) {
+      console.warn(`[carrelio] A peça ${id} aponta para o nó "${peca.no}", que não existe.`);
       return [];
     }
     return [{ id, no, eixo: peca.eixo, graus: peca.graus }];
   });
   const nosDasPartes = pecasDoManifesto.map((p) => p.no);
-  const ancestral = (o: Object3D, alvos: Set<Object3D>): boolean => {
-    for (let p: Object3D | null = o; p; p = p.parent) if (alvos.has(p)) return true;
-    return false;
+  /** Peças por região, com o índice da parte (1 em diante), para achar a peça de um ponto do carro. */
+  const regioesDasPartes = pecasDoManifesto.flatMap((p, i) => {
+    const peca = manifesto.portas[p.id];
+    return peca && ehPecaPorRegiao(peca) ? [{ parte: i + 1, contornos: peca.contornos }] : [];
+  });
+  const parteDoPonto = (p: readonly number[]): number => {
+    const k = pecaDoPonto(p, regioesDasPartes);
+    return k > 0 ? regioesDasPartes[k - 1]!.parte : 0;
   };
   const parteDe = (o: Object3D): number => {
     for (let p: Object3D | null = o; p; p = p.parent) {
@@ -454,6 +630,7 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
   // As regiões são do espaço do carro; o shader mede no mundo, que é o espaço do carro (o grupo
   // fica na origem da cena com o ajuste).
   const comRegioes = Boolean(mascara) || Object.values(regioes).some((lista) => lista.length > 0);
+  const comInterior = regioesDasPartes.length > 0 || Object.keys(manifesto.interior).length > 0;
   const baseDaMascara = hexParaLinear(mascara?.corBase ?? '#808080');
 
   const vidro = criarVidro();
@@ -532,7 +709,13 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
           fisico.clearcoatRoughness = 0.03;
         }
         const excluido = (mascara?.excluirMateriais ?? []).includes(original.name);
-        injetarMascara(fisico, { base: baseDaMascara, tolerancia: mascara?.tolerancia ?? 0.1, regioes, uniformes, tingir: Boolean(mascara) && !excluido, tingirMetal: mascara?.tingirMetal ?? false });
+        // Com portas que abrem ou câmeras de dentro, a malha de casca única aparece por dentro: o verso
+        // vira forro escuro, e o do vidro some (a vista atravessa o para-brisa e o teto de vidro).
+        if (comInterior) fisico.side = DoubleSide;
+        injetarMascara(fisico, {
+          base: baseDaMascara, tolerancia: mascara?.tolerancia ?? 0.1, regioes, uniformes, tingir: Boolean(mascara) && !excluido, tingirMetal: mascara?.tingirMetal ?? false,
+          verso: comInterior,
+        });
         mascarados.push(fisico);
         final = fisico;
       }
@@ -556,10 +739,13 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
   if (manifesto.janelas?.length) {
     const posicoes: number[] = [];
     const indices: number[] = [];
+    // A parte de cada vértice: a janela da porta vai junto com a porta (a do centro do quadrilátero).
+    const partesDosVertices: number[] = [];
     const centroDoCarro = caixa.getCenter(new Vector3());
     for (const quad of manifesto.janelas) {
       const [a, b, c, d] = quad.map((p) => new Vector3(...p)) as [Vector3, Vector3, Vector3, Vector3];
       const meio = new Vector3().add(a).add(b).add(c).add(d).multiplyScalar(0.25);
+      const parte = parteDoPonto(meio.toArray());
       const paraDentro = new Vector3().subVectors(b, a).cross(new Vector3().subVectors(d, a)).normalize();
       if (paraDentro.dot(new Vector3().subVectors(centroDoCarro, meio)) < 0) paraDentro.negate();
       const base = posicoes.length / 3;
@@ -570,6 +756,7 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
         for (const [inicio, fim] of [[a, b], [d, c]] as const) {
           p.lerpVectors(inicio, fim, v).addScaledVector(paraDentro, recuo);
           posicoes.push(...noModelo([p.x, p.y, p.z], ajuste));
+          partesDosVertices.push(parte);
         }
       }
       // Linha i: (a-b na linha i, d-c na linha i) = (k, k + 1); a ordem dos cantos é a do manifesto.
@@ -583,8 +770,12 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
     if (comOssos) {
       const n = posicoes.length / 3;
       const pesos = new Uint8Array(n * 4);
-      for (let i = 0; i < n; i += 1) pesos[i * 4] = 255;
-      g.setAttribute('skinIndex', new BufferAttribute(new Uint8Array(n * 4), 4));
+      const ossos = new Uint8Array(n * 4);
+      for (let i = 0; i < n; i += 1) {
+        pesos[i * 4] = 255;
+        ossos[i * 4] = partesDosVertices[i]!;
+      }
+      g.setAttribute('skinIndex', new BufferAttribute(ossos, 4));
       g.setAttribute('skinWeight', new BufferAttribute(pesos, 4, true));
     }
     g.setIndex(indices);
@@ -663,15 +854,17 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
     const regioesDoTipo: readonly RegiaoDoCarro[] = tipo === 'farol' ? regioes.farol : regioes.lanterna;
     for (const r of regioesDoTipo) {
       const centroNoCarro = new Vector3(...r.centro);
-      const centroNoModelo = new Vector3(...noModelo(r.centro, ajuste));
+      // A lanterna da tampa traseira vai com a tampa: o halo fica no osso da peça que contém a região.
+      const parte = parteDoPonto(r.centro);
+      const repousoInverso = repousos[parte]!.clone().invert();
       const lateral = Math.sign(r.centro[0]) * 0.32;
       fontesDeLuz.push({
         tipo,
         noCarro: centroNoCarro,
-        naPeca: centroNoModelo,
-        normal: new Vector3(lateral, 0, tipo === 'farol' ? 1 : -1).normalize(),
+        naPeca: new Vector3(...noModelo(r.centro, ajuste)).applyMatrix4(repousoInverso),
+        normal: new Vector3(lateral, 0, tipo === 'farol' ? 1 : -1).normalize().transformDirection(repousoInverso),
         tamanho: tamanhoDaRegiao(r),
-        parte: 0,
+        parte,
       });
     }
   }

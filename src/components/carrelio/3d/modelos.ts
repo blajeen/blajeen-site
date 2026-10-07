@@ -1,4 +1,5 @@
-import type { ManifestoDoModelo, RegiaoDoCarro } from './contrato';
+import type { ManifestoDoModelo, PecaPorRegiao, RegiaoDoCarro } from './contrato';
+import { espelharPeca } from './pecas';
 
 /**
  * Os modelos 3D do Carrelio: um manifesto por arquivo, conferido no próprio glTF (os testes leem o
@@ -51,6 +52,95 @@ export function manifestoDeIa(m: Pick<ManifestoDoModelo, 'id' | 'url' | 'credito
 /** As rodas do Jaecoo: entre-eixos de 2,62 m, aro de 18" com pneu de ~0,74 m. */
 const RODAS_DO_JAECOO = rodas(1.37, -1.27, 0.82, 0.375, 0.39, 0.18);
 
+/**
+ * As portas do Jaecoo, recortadas da malha pelas emendas da lataria (medidas em vistas laterais
+ * ortográficas do arquivo, com grade em metros). A porta é tudo que fica de x 0,685 para fora dentro
+ * do contorno de lado: a lata, a forração de dentro (x 0,70 a 0,76), a moldura do vidro e, na da
+ * frente, o retrovisor. Os bancos e o fim do painel ficam aquém de x 0,68, e a borda do teto (x 0,60
+ * a 0,68) também: a moldura escura vai com a porta, o teto na cor da lataria fica.
+ */
+const DE_FORA_DA_CABINE: readonly [number, number] = [0.685, 1.3];
+
+/**
+ * Dianteira esquerda: a emenda da frente desce do canto do retrovisor por trás do para-lama; em
+ * cima, a moldura acompanha a coluna A até o teto; atrás, a emenda da coluna B (z −0,163), que divide
+ * a coluna preta entre as duas portas, como no carro.
+ */
+const DIANTEIRA_ESQUERDA: PecaPorRegiao = {
+  contornos: [
+    {
+      plano: 'zy',
+      pontos: [
+        // A emenda da frente, de baixo até o canto do retrovisor.
+        [0.888, 0.355], [0.92, 1.16],
+        // A borda de baixo da coluna A (onde a lataria vira a moldura preta), 1,2 cm para dentro do preto.
+        [0.88, 1.188], [0.84, 1.224], [0.8, 1.256], [0.76, 1.282], [0.72, 1.32], [0.68, 1.352], [0.64, 1.382], [0.6, 1.406], [0.56, 1.432],
+        [0.52, 1.454], [0.48, 1.478], [0.44, 1.502], [0.4, 1.524], [0.36, 1.548], [0.32, 1.568], [0.28, 1.586], [0.24, 1.6], [0.2, 1.612],
+        [0.16, 1.62], [0.12, 1.626], [0.06, 1.631], [-0.04, 1.636], [-0.163, 1.64],
+        // A emenda da coluna B, até embaixo.
+        [-0.166, 0.355],
+      ],
+      faixa: DE_FORA_DA_CABINE,
+    },
+    // O retrovisor, que é preso na porta e passa da coluna A para a frente, de lado.
+    { plano: 'zy', pontos: [[0.56, 1.1], [0.87, 1.1], [0.87, 1.43], [0.56, 1.43]], faixa: [0.84, 1.3] },
+  ],
+  // A dobradiça um pouco à frente da borda da porta, perto da lata: a borda sai sem entrar no para-lama.
+  dobradica: [0.9, 0.8, 0.93],
+  eixo: 'y',
+  graus: -65,
+};
+
+/**
+ * Traseira esquerda: da emenda da coluna B até a da coluna C; embaixo, a emenda contorna a caixa da
+ * roda de trás. Em cima, a moldura vai até o vidro fixo de trás (z −1,13).
+ */
+const TRASEIRA_ESQUERDA: PecaPorRegiao = {
+  contornos: [
+    {
+      plano: 'zy',
+      pontos: [
+        // A emenda da coluna B; em cima, a moldura até 1 cm abaixo da borda do teto (y 1,655).
+        [-0.166, 0.355], [-0.163, 1.64], [-0.6, 1.645], [-1.1, 1.645], [-1.13, 1.642],
+        // A moldura até o vidro fixo de trás, e a emenda que desce da linha de cintura até o arco.
+        [-1.13, 1.27], [-1.184, 1.25], [-1.184, 1.22], [-1.18, 1.18], [-1.17, 1.14], [-1.16, 1.1], [-1.148, 1.06], [-1.136, 1.02], [-1.12, 0.96],
+        [-1.106, 0.92], [-1.086, 0.88], [-1.066, 0.86], [-1.045, 0.82], [-1.025, 0.785],
+        // O arco da roda (onde a lataria vira o escuro do arco), 1 cm para o lado da porta.
+        [-1.012, 0.76], [-0.968, 0.72], [-0.936, 0.68], [-0.91, 0.64], [-0.892, 0.6], [-0.876, 0.56], [-0.866, 0.52], [-0.858, 0.48],
+        [-0.854, 0.44], [-0.852, 0.4], [-0.852, 0.355],
+      ],
+      faixa: DE_FORA_DA_CABINE,
+    },
+  ],
+  dobradica: [0.9, 0.8, -0.15],
+  eixo: 'y',
+  graus: -65,
+};
+
+/**
+ * A tampa traseira, de trás: o aerofólio no alto, o vidro entre as colunas D e o painel de baixo,
+ * com a parte de dentro das lanternas, até o para-choque. Ela gira na borda de trás do teto.
+ */
+const TAMPA_TRASEIRA: PecaPorRegiao = {
+  contornos: [
+    {
+      plano: 'xy',
+      // As emendas da vista de trás, meio centímetro para dentro da tampa (a linha escura fica na
+      // carroceria). O arquivo não é simétrico: a emenda da direita fica 2 cm mais perto do centro.
+      pontos: [
+        [0.675, 1.765], [0.675, 1.62], [0.615, 1.6], [0.62, 1.3], [0.655, 1.255], [0.66, 1.13], [0.666, 1.0], [0.67, 0.8], [0.655, 0.745], [0.62, 0.732],
+        [-0.6, 0.732], [-0.633, 0.745], [-0.648, 0.8], [-0.643, 1.0], [-0.638, 1.13], [-0.632, 1.255], [-0.6, 1.3], [-0.595, 1.6], [-0.655, 1.62],
+        [-0.655, 1.765],
+      ],
+      // Um pouco do teto vai junto (a 3 cm do eixo, ele quase não sai do lugar): a emenda fica limpa.
+      faixa: [-2.6, -1.655],
+    },
+  ],
+  dobradica: [0, 1.665, -1.685],
+  eixo: 'x',
+  graus: 75,
+};
+
 /** O Jaecoo 5 de verdade, gerado no Tripo a partir de fotos (CC BY 4.0). */
 export const MODELO_JAECOO_5: ManifestoDoModelo = manifestoDeIa({
   id: 'jaecoo-5',
@@ -72,6 +162,8 @@ export const MODELO_JAECOO_5: ManifestoDoModelo = manifestoDeIa({
       ...RODAS_DO_JAECOO,
       // A cabine por dentro (os bancos aparecem pelas janelas vazadas).
       { centro: [0, 1.05, -0.45], meias: [0.7, 0.55, 1.32] },
+      // A forração das portas (x 0,70 a 0,76), que aparece com a porta aberta: é interior, não lataria.
+      ...espelhar({ centro: [0.73, 0.79, -0.14], meias: [0.065, 0.42, 1.03] }),
     ],
   },
   vidrosPorRegiao: [
@@ -84,11 +176,20 @@ export const MODELO_JAECOO_5: ManifestoDoModelo = manifestoDeIa({
   tetoPorRegiao: [{ centro: [0, 1.705, -0.64], meias: [0.53, 0.07, 1.08] }],
   metalPorRegiao: RODAS_DO_JAECOO,
   janelas: [
-    // As janelas das portas vêm vazadas no arquivo: um vidro de cada lado, por dentro da moldura. A
-    // borda de cima desce para trás e a de trás para na coluna C: ali a lataria entra, e o vidro
-    // passava da moldura (conferido com o vidro pintado de vermelho, de lado e de ¾).
-    ...quadEspelhado([[0.8, 1.21, 0.78], [0.66, 1.68, 0.2], [0.67, 1.648, -1.09], [0.8, 1.21, -1.15]]),
+    // As janelas das portas vêm vazadas no arquivo: um vidro por porta, por dentro da moldura, que
+    // vai junto quando a porta abre (a coluna B esconde a junta). A borda de cima desce para trás e a
+    // de trás para na coluna C: ali a lataria entra, e o vidro passava da moldura (conferido com o
+    // vidro pintado de vermelho, de lado e de ¾).
+    ...quadEspelhado([[0.8, 1.21, 0.78], [0.66, 1.68, 0.2], [0.665, 1.665, -0.12], [0.8, 1.21, -0.12]]),
+    ...quadEspelhado([[0.8, 1.21, -0.21], [0.665, 1.665, -0.21], [0.67, 1.648, -1.09], [0.8, 1.21, -1.15]]),
   ],
+  portas: {
+    dianteiraEsquerda: DIANTEIRA_ESQUERDA,
+    dianteiraDireita: espelharPeca(DIANTEIRA_ESQUERDA),
+    traseiraEsquerda: TRASEIRA_ESQUERDA,
+    traseiraDireita: espelharPeca(TRASEIRA_ESQUERDA),
+    portaMalas: TAMPA_TRASEIRA,
+  },
   regioesDeLuz: {
     farois: espelhar({ centro: [0.72, 0.927, 1.96], meias: [0.17, 0.055, 0.14] }),
     lanternas: [...espelhar({ centro: [0.64, 1.175, -2.1], meias: [0.17, 0.035, 0.07] }), ...espelhar({ centro: [0.66, 0.62, -2.12], meias: [0.1, 0.03, 0.06] })],

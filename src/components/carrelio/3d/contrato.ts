@@ -91,8 +91,11 @@ export type ManifestoDoModelo = {
   lanternas: readonly string[];
   /** Nós escondidos (logotipos e placas de terceiros, por exemplo). */
   esconder: readonly string[];
-  /** Peças que abrem: o nó (com o pivô na dobradiça), o eixo local e o ângulo de abertura. */
-  portas: Readonly<Partial<Record<PortaId, { no: string; eixo: 'x' | 'y' | 'z'; graus: number }>>>;
+  /**
+   * Peças que abrem: o nó (com o pivô na dobradiça), o eixo local e o ângulo de abertura. No modelo
+   * de malha única (IA), a peça vem recortada da malha por contornos (`PecaPorRegiao`).
+   */
+  portas: Readonly<Partial<Record<PortaId, PecaPorNo | PecaPorRegiao>>>;
   /** Posições dos pontos de toque, em metros, no espaço do carro já ajustado (frente para +Z). */
   pontos: Readonly<Record<string, readonly [number, number, number]>>;
   /** Câmeras de dentro: olho e alvo, no mesmo espaço. */
@@ -176,6 +179,35 @@ export type ManifestoDoModelo = {
   /** Ajustes finos de acabamento por material, para o que o arquivo trouxe fora do tom. */
   acabamentos?: Readonly<Record<string, { cor?: string; rugosidade?: number; metalico?: number }>>;
 };
+
+/** Peça que abre, achada por um nó do arquivo (o pivô do nó é a dobradiça). */
+export type PecaPorNo = { no: string; eixo: 'x' | 'y' | 'z'; graus: number };
+
+/**
+ * Peça que abre, recortada da malha única (modelo gerado por IA, sem nós separados): os triângulos
+ * com o centróide dentro de algum dos contornos saem da carroceria e giram em volta da dobradiça.
+ * Os vértices não se movem, então a peça fechada fica idêntica ao arquivo.
+ */
+export type PecaPorRegiao = {
+  contornos: readonly ContornoDaPeca[];
+  /** Um ponto do eixo da dobradiça, em metros, no espaço do carro. */
+  dobradica: readonly [number, number, number];
+  /** O eixo da dobradiça, no espaço do carro; `graus` positivos giram pela regra da mão direita. */
+  eixo: 'x' | 'y' | 'z';
+  graus: number;
+};
+
+/**
+ * Um pedaço de uma peça recortada: um polígono num plano do carro e a faixa da coordenada que sobra
+ * (um prisma). Plano `zy` (vista de lado; a faixa é em x), `xy` (vista de trás; faixa em z) ou `xz`
+ * (vista de cima; faixa em y). Pontos e faixa em metros, no espaço do carro.
+ */
+export type ContornoDaPeca = {
+  plano: 'zy' | 'xy' | 'xz';
+  pontos: readonly (readonly [number, number])[];
+  faixa: readonly [number, number];
+};
+
 
 /**
  * Uma região no espaço do carro já ajustado, em metros, com borda suave de 2 cm: uma caixa (centro,

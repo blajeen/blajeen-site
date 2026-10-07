@@ -122,21 +122,40 @@ const TRASEIRA_ESQUERDA: PecaPorRegiao = {
  * com a parte de dentro das lanternas, até o para-choque. Ela gira na borda de trás do teto.
  */
 const TAMPA_TRASEIRA: PecaPorRegiao = {
+  // As emendas da vista de trás, meio centímetro para dentro da tampa (a linha escura fica na
+  // carroceria). O arquivo não é simétrico: a emenda da direita (x < 0) fica 2 cm mais perto do
+  // centro. Por dentro, a tampa é só a casca (aerofólio, vidro e painel): na frente do vidro ficam o
+  // forro do teto e a tampa do bagageiro, que são da cabine. Por isso a profundidade muda com a
+  // altura, em três faixas.
   contornos: [
     {
+      // Acima do vidro: o aerofólio, da emenda no teto para trás.
       plano: 'xy',
-      // As emendas da vista de trás, meio centímetro para dentro da tampa (a linha escura fica na
-      // carroceria). O arquivo não é simétrico: a emenda da direita fica 2 cm mais perto do centro.
-      pontos: [
-        [0.675, 1.765], [0.675, 1.62], [0.615, 1.6], [0.62, 1.3], [0.655, 1.255], [0.66, 1.13], [0.666, 1.0], [0.67, 0.8], [0.655, 0.745], [0.62, 0.732],
-        [-0.6, 0.732], [-0.633, 0.745], [-0.648, 0.8], [-0.643, 1.0], [-0.638, 1.13], [-0.632, 1.255], [-0.6, 1.3], [-0.595, 1.6], [-0.655, 1.62],
-        [-0.655, 1.765],
-      ],
-      // Um pouco do teto vai junto (a 3 cm do eixo, ele quase não sai do lugar): a emenda fica limpa.
+      pontos: [[0.675, 1.765], [0.675, 1.62], [0.615, 1.6], [-0.595, 1.6], [-0.655, 1.62], [-0.655, 1.765]],
       faixa: [-2.6, -1.655],
     },
+    {
+      // O alto do vidro, que faz curva (de cima, ele avança nos cantos): atrás de uma linha entre o
+      // vidro e o forro, a 1 a 4 cm de cada um (medidos de 20 em 20 cm).
+      plano: 'xz',
+      pontos: [
+        [0.6155, -2.6], [0.6155, -1.58], [0.55, -1.58], [0.5, -1.6], [0.4, -1.665], [0.2, -1.722], [0, -1.738],
+        [-0.2, -1.722], [-0.4, -1.665], [-0.5, -1.6], [-0.55, -1.58], [-0.5955, -1.58], [-0.5955, -2.6],
+      ],
+      faixa: [1.53, 1.6],
+    },
+    {
+      // O resto do vidro e o painel: atrás de z −1,70 (a tampa do bagageiro acaba em −1,693).
+      plano: 'xy',
+      pontos: [
+        [0.6162, 1.53], [0.62, 1.3], [0.655, 1.255], [0.66, 1.13], [0.666, 1.0], [0.67, 0.8], [0.655, 0.745], [0.62, 0.732],
+        [-0.6, 0.732], [-0.633, 0.745], [-0.648, 0.8], [-0.643, 1.0], [-0.638, 1.13], [-0.632, 1.255], [-0.6, 1.3], [-0.5962, 1.53],
+      ],
+      faixa: [-2.6, -1.7],
+    },
   ],
-  dobradica: [0, 1.665, -1.685],
+  // No alto da emenda, logo acima do aerofólio (y 1,707): ao abrir, nada da tampa entra na cabine.
+  dobradica: [0, 1.71, -1.655],
   eixo: 'x',
   graus: 75,
 };

@@ -6,6 +6,7 @@ import { JAECOO_5 } from '@/lib/carrelio/catalogo';
 import type { ManifestoDoModelo } from './contrato';
 import { ajusteDoModelo, caixaDosNos, caixaNoCarro, comprimentoEmZ, lerGlb, matrizDaRotacao, noCarro, noModelo, pontosDaVista, transformar, validarManifesto } from './manifesto';
 import { manifestoDeIa, MODELO_ATUAL, MODELO_DE_TESTE_DA_MASCARA, MODELO_JAECOO_5, MODELO_PROVISORIO } from './modelos';
+import { ehPecaPorRegiao } from './pecas';
 import { pesoDasRegioes } from './regioes';
 
 const PUBLICO = join(process.cwd(), 'public');
@@ -24,11 +25,13 @@ const dentroDaCaixa = (p: readonly number[], c: { min: readonly number[]; max: r
   p.every((v, i) => v >= c.min[i]! - folga && v <= c.max[i]! + folga);
 
 describe('o manifesto do Jaecoo 5 (o modelo da página)', () => {
-  it('é o modelo atual, com o crédito da licença e sem portas nem interior', () => {
+  it('é o modelo atual, com o crédito da licença, as cinco peças recortadas e sem interior 3D', () => {
     expect(MODELO_ATUAL).toBe(MODELO_JAECOO_5);
     expect(MODELO_ATUAL.provisorio).toBe(false);
     expect(MODELO_ATUAL.credito).toBe('Modelo 3D do Jaecoo 5 gerado com Tripo AI (CC BY 4.0)');
-    expect(Object.keys(MODELO_ATUAL.portas)).toHaveLength(0);
+    // As quatro portas e a tampa saem da malha única por região; o teto panorâmico é fixo.
+    expect(Object.keys(MODELO_ATUAL.portas).sort()).toEqual([...PORTAS].sort());
+    for (const peca of Object.values(MODELO_ATUAL.portas)) expect(ehPecaPorRegiao(peca)).toBe(true);
     expect(Object.keys(MODELO_ATUAL.interior)).toHaveLength(0);
     expect(existsSync(arquivo(MODELO_ATUAL))).toBe(true);
   });
@@ -97,7 +100,7 @@ describe('o manifesto do modelo de IA', () => {
       pintura: ['Tinta'],
       teto: ['Teto'],
       esconder: [],
-      portas: { portaMalas: { no: 'Tampa', eixo: 'x', graus: 400 } },
+      portas: { portaMalas: { no: 'Tampa', eixo: 'x', graus: 400 }, dianteiraEsquerda: { contornos: [], dobradica: [0.9, 0.8, 0.93], eixo: 'y', graus: -65 } },
       variante: 'Azul',
       pinturaPorMascara: { corBase: 'branco', tolerancia: 2 },
       vidrosPorRegiao: [{ centro: [0, 0, 0], meias: [0, 1, 1] }],
@@ -108,7 +111,7 @@ describe('o manifesto do modelo de IA', () => {
       acabamentos: {},
     };
     const problemas = validarManifesto(errado, json).join('\n');
-    for (const trecho of ['"Tinta"', '"Teto"', '"Tampa"', '400°', 'variante', 'corBase', 'tolerancia', 'vidrosPorRegiao']) expect(problemas).toContain(trecho);
+    for (const trecho of ['"Tinta"', '"Teto"', '"Tampa"', '400°', 'portas.dianteiraEsquerda: contorno', 'variante', 'corBase', 'tolerancia', 'vidrosPorRegiao']) expect(problemas).toContain(trecho);
     expect(validarManifesto({ ...MODELO_JAECOO_5, pinturaPorMascara: undefined } as unknown as ManifestoDoModelo, { nodes: [], materials: [] })).toContain(
       'pintura: sem materiais de pintura e sem pinturaPorMascara, a cor não muda.',
     );

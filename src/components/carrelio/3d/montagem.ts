@@ -26,9 +26,6 @@ import { tamanhoDaRegiao } from './regioes';
  * peça ganha uma malha de colisão invisível e simplificada, presa ao osso dela.
  */
 
-/** O maior lado de um triângulo na emenda de uma peça recortada (m): a borda da peça sai com essa precisão. */
-const ARESTA_NA_EMENDA = 0.025;
-
 /** Quanto o meio do vidro de `janelas` recua para dentro (m) e em quantas faixas ele é dividido. */
 const CURVA_DA_JANELA = 0.02;
 const LINHAS_DA_JANELA = 8;
@@ -298,11 +295,11 @@ function acertarNormalMap(m: MeshStandardMaterial, fonteTinhaTangente: boolean, 
 }
 
 /**
- * A geometria com os vértices novos do refino (`refinarNaFronteira`): cada um é o meio dos dois pais,
- * em todos os atributos (as direções voltam a ter comprimento 1). Sem índice: quem usa é
- * `extrairTriangulos`, com os índices do refino.
+ * A geometria com os vértices novos do refino e do corte (`refinarNaFronteira`): cada um fica entre
+ * os dois pais, no peso dado, em todos os atributos (as direções voltam a ter comprimento 1). Sem
+ * índice: quem usa é `extrairTriangulos`, com os índices do refino.
  */
-function estenderVertices(origem: BufferGeometry, pais: Uint32Array): Record<string, BufferAttribute> {
+function estenderVertices(origem: BufferGeometry, pais: Uint32Array, pesos: Float64Array): Record<string, BufferAttribute> {
   const total = origem.getAttribute('position').count + pais.length / 2;
   const atributos: Record<string, BufferAttribute> = {};
   for (const [nome, atributo] of Object.entries(origem.attributes)) {
@@ -311,13 +308,14 @@ function estenderVertices(origem: BufferGeometry, pais: Uint32Array): Record<str
     for (let i = 0; i < atributo.count; i += 1) {
       for (let c = 0; c < tamanho; c += 1) dados[i * tamanho + c] = atributo.getComponent(i, c);
     }
-    // Normal e tangente: a média de duas direções é refeita unitária (a tangente guarda o sinal em w).
+    // Normal e tangente: a mistura de duas direções é refeita unitária (a tangente guarda o sinal em w).
     const direcao = nome === 'normal' || nome === 'tangent' ? 3 : 0;
     for (let k = 0; k < pais.length / 2; k += 1) {
       const n = atributo.count + k;
       const a = pais[k * 2]!;
       const b = pais[k * 2 + 1]!;
-      for (let c = 0; c < tamanho; c += 1) dados[n * tamanho + c] = (dados[a * tamanho + c]! + dados[b * tamanho + c]!) / 2;
+      const t = pesos[k]!;
+      for (let c = 0; c < tamanho; c += 1) dados[n * tamanho + c] = dados[a * tamanho + c]! + (dados[b * tamanho + c]! - dados[a * tamanho + c]!) * t;
       if (direcao) {
         const l = Math.hypot(dados[n * tamanho]!, dados[n * tamanho + 1]!, dados[n * tamanho + 2]!) || 1;
         for (let c = 0; c < 3; c += 1) dados[n * tamanho + c] = dados[n * tamanho + c]! / l;
@@ -419,9 +417,9 @@ function recortarPecas(gltf: GLTF, escondidos: Set<Object3D>, manifesto: Manifes
       noCarro[i * 3 + 2] = v.z;
     }
     const indices = geometria.index ? Array.from({ length: geometria.index.count }, (_, i) => geometria.index!.getX(i)) : Array.from({ length: p.count }, (_, i) => i);
-    const refino = refinarNaFronteira(noCarro, indices, pecas, ARESTA_NA_EMENDA);
+    const refino = refinarNaFronteira(noCarro, indices, pecas);
     if (refino.dono.every((d) => d === 0)) continue;
-    const atributos = estenderVertices(geometria, refino.pais);
+    const atributos = estenderVertices(geometria, refino.pais, refino.pesos);
     const listas = new Map<number, number[]>();
     refino.dono.forEach((d, t) => {
       const lista = listas.get(d) ?? [];
@@ -736,6 +734,8 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
   // quadrilátero), com o meio recuado para dentro: chato, ele refletia uma faixa de luz do estúdio
   // inteira, numa mancha clara que tomava a janela; curvo, a faixa vira uma linha, como num carro.
   // Para dentro, e não para fora, porque a moldura da lataria fica a 1 ou 2 cm do vidro.
+  // Os vidros das peças também entram na colisão delas: o toque na janela da porta abre a porta.
+  const vidrosDasPartes = new Map<number, number[]>();
   if (manifesto.janelas?.length) {
     const posicoes: number[] = [];
     const indices: number[] = [];
@@ -746,6 +746,7 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
       const [a, b, c, d] = quad.map((p) => new Vector3(...p)) as [Vector3, Vector3, Vector3, Vector3];
       const meio = new Vector3().add(a).add(b).add(c).add(d).multiplyScalar(0.25);
       const parte = parteDoPonto(meio.toArray());
+      if (parte > 0) vidrosDasPartes.set(parte, [...(vidrosDasPartes.get(parte) ?? []), ...[a, b, c, a, c, d].flatMap((p) => noModelo([p.x, p.y, p.z], ajuste))]);
       const paraDentro = new Vector3().subVectors(b, a).cross(new Vector3().subVectors(d, a)).normalize();
       if (paraDentro.dot(new Vector3().subVectors(centroDoCarro, meio)) < 0) paraDentro.negate();
       const base = posicoes.length / 3;
@@ -800,9 +801,21 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
     );
     const simples = simplificarPorGrade(juncao.geometria.getAttribute('position').array as Float32Array, juncao.geometria.index!.array as Uint16Array | Uint32Array, 0.05 / ajuste.escala);
     juncao.geometria.dispose();
+    let { posicoes, indices } = simples;
+    const vidros = vidrosDasPartes.get(parte);
+    if (vidros) {
+      // Os vidros da peça (triângulos soltos, no espaço do modelo), levados ao osso dela.
+      const base = posicoes.length / 3;
+      const repousoInverso = repousos[parte]!.clone().invert();
+      const p = new Vector3();
+      const mais = new Float32Array(vidros.length);
+      for (let i = 0; i < vidros.length; i += 3) p.set(vidros[i]!, vidros[i + 1]!, vidros[i + 2]!).applyMatrix4(repousoInverso).toArray(mais, i);
+      posicoes = Float32Array.from([...posicoes, ...mais]);
+      indices = Uint32Array.from([...indices, ...Array.from({ length: vidros.length / 3 }, (_, i) => base + i)]);
+    }
     const g = new BufferGeometry();
-    g.setAttribute('position', new BufferAttribute(simples.posicoes, 3));
-    g.setIndex(new BufferAttribute(simples.indices, 1));
+    g.setAttribute('position', new BufferAttribute(posicoes, 3));
+    g.setIndex(new BufferAttribute(indices, 1));
     g.computeBoundingSphere();
     g.computeBoundingBox();
     geometrias.push(g);

@@ -30,8 +30,11 @@ export type ControleDoPalco = {
 
 export type SituacaoDoPalco = 'poster' | 'carregando' | 'pronto' | 'falhou';
 
-/** Um ponto de toque da vista atual, já com o texto da versão escolhida (e a foto de detalhe, se houver). */
-export type PontoNoPalco = { id: string; rotulo: string; texto: string; detalhe?: DetalheDoPonto | undefined };
+/**
+ * Um ponto de toque da vista atual, já com o texto da versão escolhida (e a foto de detalhe, se
+ * houver). Com `acao`, o ponto faz a coisa em vez de abrir o balão (o "+" da porta entra no carro).
+ */
+export type PontoNoPalco = { id: string; rotulo: string; texto: string; detalhe?: DetalheDoPonto | undefined; acao?: 'entrar' | undefined };
 
 
 type Props = {
@@ -44,6 +47,8 @@ type Props = {
   aoTocarPeca(peca: PortaId): void;
   aoArrastar(): void;
   aoAbrirPonto(id: string | null): void;
+  /** O "+" da porta: entrar no carro. */
+  aoEntrar?(): void;
   aoMudarSituacao?(situacao: SituacaoDoPalco): void;
   /**
    * A vista de dentro quando ela não é do 3D (a foto do interior): montada por cima do carro, que
@@ -85,7 +90,7 @@ const NOME_DA_VISTA: Readonly<Record<Vista, string>> = { fora: 'por fora', dentr
  * e então a barra de controles, que só aparece com o carro pronto para eles.
  */
 export function PalcoCarro({
-  estadoVisual, modelo, pontos, pontoAberto, areaLivre, controleRef, aoTocarPeca, aoArrastar, aoAbrirPonto, aoMudarSituacao, camadaDeDentro, dentro = false, credito, children,
+  estadoVisual, modelo, pontos, pontoAberto, areaLivre, controleRef, aoTocarPeca, aoArrastar, aoAbrirPonto, aoEntrar, aoMudarSituacao, camadaDeDentro, dentro = false, credito, children,
 }: Props) {
   const palco = useRef<HTMLDivElement>(null);
   const host = useRef<HTMLDivElement>(null);
@@ -317,21 +322,42 @@ export function PalcoCarro({
                 className={styles.ponto}
                 data-aberto={aberto ? 'sim' : 'nao'}
                 data-detalhe={ponto.detalhe ? 'sim' : 'nao'}
+                data-acao={ponto.acao}
                 hidden
               >
-                <button
-                  type="button"
-                  className={styles.pontoBotao}
-                  aria-expanded={aberto}
-                  aria-label={`${ponto.rotulo}: ${ponto.texto}`}
-                  onClick={() => {
-                    setDica('fim');
-                    aoAbrirPonto(aberto ? null : ponto.id);
-                  }}
-                >
-                  <span aria-hidden="true" />
-                </button>
-                {aberto ? <BalaoDoPonto ponto={ponto} /> : null}
+                {ponto.acao === 'entrar' ? (
+                  // O "+" da porta não abre balão: entra no carro. O rótulo ao lado diz isso.
+                  <>
+                    <button
+                      type="button"
+                      className={styles.pontoBotao}
+                      aria-label={ponto.rotulo}
+                      onClick={() => {
+                        setDica('fim');
+                        aoEntrar?.();
+                      }}
+                    >
+                      <span aria-hidden="true" />
+                    </button>
+                    <span className={styles.rotuloDoPonto} aria-hidden="true">
+                      Entrar
+                    </span>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className={styles.pontoBotao}
+                    aria-expanded={aberto}
+                    aria-label={`${ponto.rotulo}: ${ponto.texto}`}
+                    onClick={() => {
+                      setDica('fim');
+                      aoAbrirPonto(aberto ? null : ponto.id);
+                    }}
+                  >
+                    <span aria-hidden="true" />
+                  </button>
+                )}
+                {aberto && !ponto.acao ? <BalaoDoPonto ponto={ponto} /> : null}
               </div>
             );
           })}

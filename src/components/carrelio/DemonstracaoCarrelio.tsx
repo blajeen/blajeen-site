@@ -155,9 +155,11 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
       JAECOO_5.pontos.flatMap((ponto) => {
         const texto = ponto.texto[ui.versao];
         if (ponto.vista !== vistaNo3d || !texto || !MODELO_ATUAL.pontos[ponto.id]) return [];
-        return [{ id: ponto.id, rotulo: ponto.rotulo, texto, detalhe: DETALHES_DO_JAECOO_5[ponto.id] }];
+        // O "+" de entrar só aparece quando há o que ver por dentro.
+        if (ponto.acao === 'entrar' && !temInterior) return [];
+        return [{ id: ponto.id, rotulo: ponto.rotulo, texto, detalhe: DETALHES_DO_JAECOO_5[ponto.id], acao: ponto.acao }];
       }),
-    [ui.versao, vistaNo3d],
+    [ui.versao, vistaNo3d, temInterior],
   );
 
   // Os pontos da foto do interior. A foto é de uma versão: o que a outra não tem aparece assim mesmo,
@@ -254,6 +256,7 @@ export function DemonstracaoCarrelio({ atalhos }: Props) {
             aoTocarPeca={(porta) => mudar({ tipo: 'porta', porta })}
             aoArrastar={() => mudar({ tipo: 'girar', girando: false })}
             aoAbrirPonto={(id) => mudar({ tipo: 'ponto-de-toque', id })}
+            aoEntrar={() => mudarEMostrar({ tipo: 'vista', vista: 'dentro' })}
             aoMudarSituacao={setSituacao}
             dentro={dentroEmFoto}
             credito={dentroEmFoto ? fotoDeDentro?.legenda : undefined}

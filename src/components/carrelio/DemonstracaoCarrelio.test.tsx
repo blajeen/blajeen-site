@@ -25,7 +25,7 @@ vi.mock('./3d/modelos', () => {
     lanternas: ['Taillight'],
     esconder: [],
     portas: { dianteiraEsquerda: { no: 'DoorL', eixo: 'y', graus: 60 }, portaMalas: { no: 'Hatch', eixo: 'x', graus: -70 } },
-    pontos: { farois: [0.7, 0.7, 2], rodas: [0.9, 0.35, 1.3], teto: [0, 1.6, 0], portaMalas: [0, 1, -2], multimidia: [0, 1.1, 0.6] },
+    pontos: { farois: [0.7, 0.7, 2], rodas: [0.9, 0.35, 1.3], entrar: [1, 1, 0.3], teto: [0, 1.6, 0], portaMalas: [0, 1, -2], multimidia: [0, 1.1, 0.6] },
     interior: { motorista: { olho: [0.35, 1.15, -0.1], alvo: [0.35, 1, 1] } },
   };
   return { MODELO_ATUAL: modelo };
@@ -157,6 +157,17 @@ describe('a demonstração do Carrelio', () => {
     expect(teto.parentElement!.querySelector('img')).toHaveAttribute('src', '/produtos/carrelio/detalhes/teto.webp');
     fireEvent.click(screen.getByRole('button', { name: 'Fechar: Teto panorâmico' }));
     expect(teto).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('o "+" da porta entra no carro, sem abrir balão', async () => {
+    montar();
+    await abrir3d();
+    act(() => cena.projetar!([{ id: 'entrar', x: 300, y: 300, visivel: true }]));
+    await waitFor(() => expect(screen.getByRole('group', { name: 'Destaques por fora' })).toHaveAttribute('data-revelado', 'sim'));
+    const entrar = screen.getByRole('button', { name: 'Entrar no carro' });
+    expect(entrar).not.toHaveAttribute('aria-expanded');
+    fireEvent.click(entrar);
+    await waitFor(() => expect(ultimo()).toMatchObject({ vista: 'dentro', girando: false }));
   });
 
   it('o porta-malas abre com as fotos em abas: primeiro vazio, depois cheio', async () => {

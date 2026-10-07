@@ -561,6 +561,45 @@
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
+/* O "+" da porta, que entra no carro: em verde (o sinal do site), com o rótulo ao lado. */
+.ponto[data-acao='entrar'] .pontoBotao span {
+  border-color: var(--color-signal);
+  background: rgba(9, 10, 8, 0.72);
+}
+
+.ponto[data-acao='entrar'] .pontoBotao span::before,
+.ponto[data-acao='entrar'] .pontoBotao span::after {
+  background: var(--color-signal);
+}
+
+.ponto[data-acao='entrar'] .pontoBotao::before {
+  border-color: rgba(201, 255, 61, 0.75);
+}
+
+.rotuloDoPonto {
+  position: absolute;
+  top: 0;
+  left: 1.05rem;
+  transform: translateY(-50%);
+  padding: 0.22rem 0.6rem;
+  border: 1px solid rgba(201, 255, 61, 0.45);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.82);
+  color: var(--color-signal);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Perto da borda direita, o rótulo vai para o outro lado do "+". */
+.ponto[data-lado='fim'] .rotuloDoPonto {
+  right: 1.05rem;
+  left: auto;
+}
+
 .pontoBalao {
   position: absolute;
   bottom: 1.75rem;

@@ -53,6 +53,11 @@ export type PontoDeToque = {
   rotulo: string;
   vista: Vista;
   texto: Readonly<Record<VersaoId, string | null>>;
+  /**
+   * Um ponto que faz uma coisa em vez de abrir o balão: o "+" na porta leva para dentro do carro
+   * (pedido do titular, 07/10/2026: "coloca um + na porta como alternativa para entrar no carro").
+   */
+  acao?: 'entrar';
 };
 
 export type ItemDaFicha = { rotulo: string; valor: string };
@@ -155,6 +160,7 @@ export const JAECOO_5: Carro = {
       texto: { comfort: 'Halógenos, com luz diurna de LED.', prestige: 'Full LED.' },
     },
     { id: 'rodas', rotulo: 'Rodas', vista: 'fora', texto: { comfort: 'Liga leve de 18".', prestige: 'Liga leve de 18".' } },
+    { id: 'entrar', rotulo: 'Entrar no carro', vista: 'fora', texto: { comfort: 'Ver por dentro.', prestige: 'Ver por dentro.' }, acao: 'entrar' },
     { id: 'teto', rotulo: 'Teto panorâmico', vista: 'fora', texto: { comfort: null, prestige: 'Fixo, de 1,45 m².' } },
     {
       id: 'portaMalas',

@@ -60,7 +60,12 @@ describe('o manifesto do Jaecoo 5 (o modelo da página)', () => {
     expect(pontosDaVista(MODELO_ATUAL, 'fora').sort()).toEqual([...deFora].sort());
     expect(pontosDaVista(MODELO_ATUAL, 'dentro')).toEqual([]);
     for (const p of Object.values(MODELO_ATUAL.pontos)) expect(dentroDaCaixa(p, caixa)).toBe(true);
-    const { farois, rodas, teto, portaMalas } = MODELO_ATUAL.pontos as Record<string, [number, number, number]>;
+    const { farois, rodas, teto, portaMalas, entrar } = MODELO_ATUAL.pontos as Record<string, [number, number, number]>;
+    // O "+" de entrar fica na porta da frente do motorista, por fora, na altura da maçaneta.
+    expect(entrar![0]).toBeGreaterThan(caixa.max[0] - 0.2);
+    expect(entrar![1]).toBeGreaterThan(0.8);
+    expect(entrar![2]).toBeGreaterThan(-0.2);
+    expect(entrar![2]).toBeLessThan(0.9);
     // O farol na frente, à esquerda; a roda da frente, por fora; o teto em cima; o porta-malas atrás.
     expect(farois![2]).toBeGreaterThan(1.8);
     expect(farois![0]).toBeGreaterThan(0);

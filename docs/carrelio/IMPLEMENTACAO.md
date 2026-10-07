@@ -89,6 +89,9 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
     lugar a um aviso com "Ver na Prestige";
   - link: `?vista=dentro`, `?luz=roxo` (leva para dentro) e `&ambiente=noite`.
 - O 3D fica por fora, parado e escondido embaixo da foto. A foto só carrega na primeira entrada.
+- Outro jeito de entrar (pedido do titular, 07/10/2026: "coloca um + na porta como alternativa
+  para entrar no carro"): um "+" verde com o rótulo "Entrar" na maçaneta da porta do motorista, no
+  3D. Ele não abre balão: leva para dentro. Só aparece quando há vista de dentro.
 
 ## Fotos de detalhe dos pontos
 

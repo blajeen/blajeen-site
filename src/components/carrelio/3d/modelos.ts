@@ -60,6 +60,9 @@ export const MODELO_JAECOO_5: ManifestoDoModelo = manifestoDeIa({
   pontos: {
     farois: [0.75, 0.94, 2.03],
     rodas: [0.98, 0.37, 1.37],
+    // Na maçaneta da porta do motorista (+X é o lado do motorista), um pouco para fora da lataria:
+    // o "+" que leva para dentro do carro.
+    entrar: [0.97, 1.0, 0.25],
     teto: [0, 1.79, -0.35],
     portaMalas: [0, 1.02, -2.23],
   },

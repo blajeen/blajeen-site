@@ -74,10 +74,13 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   de dentro. Trocar de carro é trocar o `.glb` e o manifesto.
 - Página: `src/app/produtos/carrelio/page.tsx`, com os textos em `src/content/carrelio.ts`.
 
-## Antes de publicar
+## Publicação
 
-- O titular aprova as capturas e o trecho novo da Política de Privacidade (seção "Preferências
-  guardadas no seu navegador"), que cita o que a demonstração do Carrelio guarda.
+- O titular aprovou as capturas e o trecho novo da Política de Privacidade em 07/10/2026 ("pode
+  publicar"). O trecho fica na seção "Preferências guardadas no seu navegador" e cita o que a
+  demonstração do Carrelio guarda.
+- Falta testar o "Na sua garagem" num aparelho de verdade. O QA daqui roda sem GPU e não alcança
+  a realidade aumentada.
 
 ## Revisão de design (07/10/2026)
 
@@ -93,7 +96,8 @@ montadora, no celular e no computador.
 - **Pôsteres:** os do palco saem no formato e com a barra do palco (`palco-quadrado.webp`,
   `palco.webp` e `palco@2x.webp`). O pôster fica por cima do 3D enquanto ele carrega e se dissolve no
   primeiro quadro, que é igual; a mesa só começa a girar depois. `poster.webp` e `poster@2x.webp`
-  continuam para a vitrine de Produtos e para a imagem de compartilhamento, que não foi refeita.
+  continuam para a vitrine de Produtos e para a imagem de compartilhamento, refeita do novo
+  `poster@2x.webp`.
 - **Palco, controles:** legenda (DEMONSTRAÇÃO e o crédito do modelo) no alto, à esquerda. Antes do
   3D, o pé do palco é "Abrir o carro em 3D" e depois "Preparando"; a barra só aparece com o carro
   pronto. Barra: Noite, Faróis, Girar, zoom (afastar, centralizar, aproximar) e Na sua garagem. No

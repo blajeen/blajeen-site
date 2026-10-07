@@ -29,7 +29,7 @@ export const VERNIZ_DE_FABRICA: Verniz = { intensidade: 1, rugosidade: 0.03 };
 export function criarTinta(flocos: { mapa: Texture; escala: Vector2 } | null, verniz: Verniz): MeshPhysicalMaterial {
   const m = new MeshPhysicalMaterial({
     name: 'carrelio:tinta',
-    color: 0x4f6377,
+    color: 0x435a8a,
     metalness: 0.6,
     roughness: 0.36,
     clearcoat: verniz.intensidade,

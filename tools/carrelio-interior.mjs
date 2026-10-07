@@ -29,6 +29,7 @@ import { mkdirSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { prepararPortaMalas } from './carrelio-porta-malas.mjs';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const FOTOS = join(raiz, 'docs/carrelio/fotos');
@@ -37,21 +38,13 @@ const DESTINO = join(raiz, 'public/produtos/carrelio/interior');
 const DESTINO_DOS_DETALHES = join(raiz, 'public/produtos/carrelio/detalhes');
 
 /**
- * As fotos de detalhe dos pontos: arquivo de origem, nome na página e tamanho final. O porta-malas
- * cheio vem mais largo: o recorte o deixa em 3:2, igual ao vazio (os dois se alternam no balão).
+ * As fotos de detalhe dos pontos: arquivo de origem, nome na página e tamanho final. As duas do
+ * porta-malas (vazio e cheio) saem de `tools/carrelio-porta-malas.mjs`, com o carro na mesma cor.
  */
 const DETALHES = [
   { origem: 'jaecoo-5-multimidia-divulgacao.avif', nome: 'multimidia', largura: 640, altura: 360 },
   { origem: 'jaecoo-5-teto-divulgacao.jpg', nome: 'teto', largura: 960, altura: 540 },
   { origem: 'jaecoo-5-cambio-divulgacao.jpg', nome: 'cambio', largura: 960, altura: 540 },
-  { origem: 'jaecoo-5-porta-malas-vazio-divulgacao.avif', nome: 'porta-malas-vazio', largura: 960, altura: 640 },
-  {
-    origem: 'jaecoo-5-porta-malas-cheio-divulgacao.png',
-    nome: 'porta-malas-cheio',
-    largura: 960,
-    altura: 640,
-    recorte: { left: 249, top: 0, width: 1288, height: 859 },
-  },
 ];
 const L = 3840;
 const A = 2560;
@@ -280,10 +273,11 @@ await imagem.clone().extract({ left: 1650, top: 1230, width: 700, height: 700 })
 console.log(`miniatura: ${kb(miniatura)}`);
 
 mkdirSync(DESTINO_DOS_DETALHES, { recursive: true });
-for (const { origem, nome, largura, altura, recorte } of DETALHES) {
+for (const { origem, nome, largura, altura } of DETALHES) {
   const caminho = join(DESTINO_DOS_DETALHES, `${nome}.webp`);
-  let foto = sharp(join(FOTOS, origem)).flatten({ background: '#ffffff' });
-  if (recorte) foto = foto.extract(recorte);
-  await foto.resize({ width: largura, height: altura, fit: 'cover' }).webp({ quality: 82, effort: 6 }).toFile(caminho);
+  await sharp(join(FOTOS, origem)).resize({ width: largura, height: altura, fit: 'cover' }).webp({ quality: 82, effort: 6 }).toFile(caminho);
   console.log(`detalhes/${nome}: ${kb(caminho)}`);
 }
+const azul = await prepararPortaMalas(FOTOS, DESTINO_DOS_DETALHES);
+for (const nome of ['porta-malas-cheio', 'porta-malas-vazio']) console.log(`detalhes/${nome}: ${kb(join(DESTINO_DOS_DETALHES, `${nome}.webp`))}`);
+console.log(`azul da lataria (OKLab): matiz ${azul.matiz.toFixed(1)}°, luminosidade ${azul.luminosidade.toFixed(3)}`);

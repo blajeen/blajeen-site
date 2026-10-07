@@ -105,6 +105,22 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
 - O texto do câmbio fica no que a ficha confirma ("Automático, híbrido dedicado (1DHT)"); a posição
   do seletor é a da foto de divulgação.
 
+## O mesmo azul no 3D e nas fotos
+
+- Pedido do titular (07/10/2026): "deixa as cores iguais das fotos dos carros" e "a foto do
+  porta-malas cheio ficou um pouco clara, melhor aplicar um filtro".
+- As duas fotos do porta-malas eram de carros de cores diferentes (o cheio azul; o vazio, um cinza
+  esverdeado de outro mercado), e o carro trocava de cor quando elas se alternavam.
+  `tools/carrelio-porta-malas.mjs` (chamado por `tools/carrelio-interior.mjs`) mede o azul da
+  lataria do cheio no OKLab (matiz e croma por luminosidade) e pinta a lataria do vazio com ele,
+  mantendo o sombreado e os reflexos da foto. As duas passam pelo mesmo filtro: meios-tons mais
+  escuros, o branco estourado contido e uma vinheta leve.
+- O Azul Gaia do 3D passou de `#4f6377` (um azul acinzentado estimado) para `#435a8a`, medido no
+  mesmo azul: no pôster, matiz de 263° e croma de 0,073 no OKLab, contra 263° e 0,08 nas fotos.
+  A luminosidade do 3D ficou um pouco acima da das fotos, para o carro não sumir no estúdio escuro.
+  Pôsteres refeitos (`node tools/carrelio-poster.mjs`) e imagem de compartilhamento recortada do
+  pôster 2× (1200 × 630, centro). Branco, preto e cinza continuam estimados: não há foto deles.
+
 ## Código
 
 - Domínio (`src/lib/carrelio/`): `tipos`, `catalogo`, `estado`, `persistencia`, `link` e

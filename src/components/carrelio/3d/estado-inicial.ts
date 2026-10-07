@@ -5,7 +5,7 @@ import type { EstadoVisualCarro } from './contrato';
  * Gaia, por fora, no estúdio, faróis apagados, portas fechadas, câmera ¾ de frente. A interface abre
  * neste estado (`interfaceInicial`), e o 3D troca o pôster sem salto.
  */
-export const COR_DO_POSTER = '#4f6377';
+export const COR_DO_POSTER = '#435a8a';
 
 export function estadoDoPoster(movimento: boolean): EstadoVisualCarro {
   return {

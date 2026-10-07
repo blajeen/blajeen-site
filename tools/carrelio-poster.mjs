@@ -13,7 +13,8 @@
 // Os do palco saem com a barra de controles no pé (`base`, a mesma área livre da página, na escala
 // do pôster): o carro fica onde o 3D vai pôr, e o pôster se dissolve no primeiro quadro sem salto.
 //
-// Uso: node tools/carrelio-poster.mjs
+// Uso: node tools/carrelio-poster.mjs [arquivo.webp ...]
+// Com nomes de arquivo, refaz só esses pôsteres (o 2× grande às vezes derruba o SwiftShader).
 // Sem GPU, o Chromium desenha com SwiftShader (lento, mas fiel). Para outro Chromium, defina
 // CHROMIUM_PATH. Nada de rede: a página só carrega o código e o modelo do próprio repositório.
 
@@ -96,7 +97,8 @@ try {
   navegador = await chromium.launch({ ...(executavel ? { executablePath: executavel } : {}), args: ['--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   mkdirSync(destino, { recursive: true });
 
-  for (const poster of POSTERES) {
+  const pedidos = process.argv.slice(2);
+  for (const poster of pedidos.length ? POSTERES.filter((p) => pedidos.includes(p.arquivo)) : POSTERES) {
     const aba = await navegador.newPage({ viewport: { width: poster.largura, height: poster.altura }, deviceScaleFactor: 1 });
     aba.on('pageerror', (e) => erros.push(`${poster.arquivo}: ${e.message}`));
     aba.on('console', (m) => {

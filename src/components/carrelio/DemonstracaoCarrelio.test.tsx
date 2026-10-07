@@ -108,7 +108,7 @@ describe('a demonstração do Carrelio', () => {
   it('manda a cor, o teto preto e os itens da versão para a cena', async () => {
     montar();
     await abrir3d();
-    expect(ultimo()).toMatchObject({ pintura: '#4f6377', tetoPreto: false, tetoPanoramico: true, vista: 'fora' });
+    expect(ultimo()).toMatchObject({ pintura: '#435a8a', tetoPreto: false, tetoPanoramico: true, vista: 'fora' });
     fireEvent.click(screen.getByRole('radio', { name: /Branco Arctic/ }));
     await waitFor(() => expect(ultimo()).toMatchObject({ pintura: '#e6e8e6', tetoPreto: true }));
     expect(screen.getByText(/Branco Arctic, teto preto/)).toBeInTheDocument();

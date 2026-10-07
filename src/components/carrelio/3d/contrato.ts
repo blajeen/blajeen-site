@@ -184,9 +184,11 @@ export type ManifestoDoModelo = {
 export type PecaPorNo = { no: string; eixo: 'x' | 'y' | 'z'; graus: number };
 
 /**
- * Peça que abre, recortada da malha única (modelo gerado por IA, sem nós separados): os triângulos
- * com o centróide dentro de algum dos contornos saem da carroceria e giram em volta da dobradiça.
- * Os vértices não se movem, então a peça fechada fica idêntica ao arquivo.
+ * Peça que abre, recortada da malha única (modelo gerado por IA, sem nós separados): a peça é a
+ * união dos contornos, e a malha é cortada exatamente na borda dela (os triângulos que a atravessam
+ * se repartem ali). O que fica dentro sai da carroceria e gira em volta da dobradiça. Os vértices
+ * não se movem, então a peça fechada fica idêntica ao arquivo. Onde duas peças se sobrepõem, vale a
+ * primeira na ordem de `PORTAS`.
  */
 export type PecaPorRegiao = {
   contornos: readonly ContornoDaPeca[];
@@ -207,7 +209,6 @@ export type ContornoDaPeca = {
   pontos: readonly (readonly [number, number])[];
   faixa: readonly [number, number];
 };
-
 
 /**
  * Uma região no espaço do carro já ajustado, em metros, com borda suave de 2 cm: uma caixa (centro,

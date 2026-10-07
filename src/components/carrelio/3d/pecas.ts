@@ -147,6 +147,27 @@ export function refinarNaFronteira(
   arestaMaxima = ARESTA_NA_EMENDA,
   passadas = 8,
 ): Refino {
+  const etapas = etapasDoRecorte(pontos, indices, pecas, arestaMaxima, passadas);
+  for (;;) {
+    const etapa = etapas.next();
+    if (etapa.done) return etapa.value;
+  }
+}
+
+/** Quantos triângulos uma etapa confere antes de devolver a vez (uns poucos milissegundos). */
+const TRIANGULOS_POR_ETAPA = 12000;
+
+/**
+ * `refinarNaFronteira` em etapas: o gerador para (`yield`) a cada bloco de triângulos, para quem
+ * monta o carro devolver a vez ao navegador entre um bloco e outro, e devolve o resultado no fim.
+ */
+export function* etapasDoRecorte(
+  pontos: ArrayLike<number>,
+  indices: ArrayLike<number>,
+  pecas: readonly Pick<PecaPorRegiao, 'contornos'>[],
+  arestaMaxima = ARESTA_NA_EMENDA,
+  passadas = 8,
+): Generator<void, Refino, void> {
   const p: number[] = Array.from(pontos);
   const pais: number[] = [];
   const pesos: number[] = [];
@@ -274,8 +295,11 @@ export function refinarNaFronteira(
       if (comprimento(b, c) > arestaMaxima) dividir.add(chave(b, c));
       if (comprimento(c, a) > arestaMaxima) dividir.add(chave(c, a));
     };
-    if (candidatos) for (const t of candidatos) conferir(t);
-    else for (let t = 0; t < tris.length; t += 3) conferir(t);
+    const lista = candidatos ?? Array.from({ length: tris.length / 3 }, (_, i) => i * 3);
+    for (let i = 0; i < lista.length; i += 1) {
+      conferir(lista[i]!);
+      if (i % TRIANGULOS_POR_ETAPA === TRIANGULOS_POR_ETAPA - 1) yield;
+    }
     if (dividir.size === 0) break;
     const meio = new Map<number, number>();
     const meioDe = (a: number, b: number) => {
@@ -306,6 +330,7 @@ export function refinarNaFronteira(
     }
     tris = novos;
     candidatos = nascidos;
+    yield;
   }
 
   // ------------------------------------------------------- 2. corte e 3. donos
@@ -409,6 +434,7 @@ export function refinarNaFronteira(
     }
     tris = novos;
     donos = novosDonos;
+    yield;
   }
   return { indices: Uint32Array.from(tris), dono: Uint8Array.from(donos), pais: Uint32Array.from(pais), pesos: Float64Array.from(pesos) };
 }

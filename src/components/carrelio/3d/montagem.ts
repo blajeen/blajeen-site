@@ -12,7 +12,7 @@ import { direcoesNaEsfera, silhuetaDosPontos } from './orbita';
 import {
   COR_DA_LANTERNA, COR_DO_FAROL, criarTinta, criarVidro, injetarMascara, luzDeMaterial, paraFisico, VERNIZ_DE_FABRICA, type UniformesDaPintura, type Verniz,
 } from './materiais';
-import { ehPecaPorRegiao, pecaDoPonto, refinarNaFronteira } from './pecas';
+import { ehPecaPorRegiao, etapasDoRecorte, pecaDoPonto, type Refino } from './pecas';
 import { tamanhoDaRegiao } from './regioes';
 
 /**
@@ -364,7 +364,13 @@ function extrairTriangulos(atributos: Record<string, BufferAttribute>, indices: 
  * de um arquivo com nós (osso, colisão, junção por material). Os vértices não se movem: fechada, a
  * peça fica idêntica ao arquivo, sem emenda nem sobreposição. Devolve o nó de cada peça.
  */
-function recortarPecas(gltf: GLTF, escondidos: Set<Object3D>, manifesto: ManifestoDoModelo, ancestral: (o: Object3D, alvos: Set<Object3D>) => boolean): Map<PortaId, Object3D> {
+async function recortarPecas(
+  gltf: GLTF,
+  escondidos: Set<Object3D>,
+  manifesto: ManifestoDoModelo,
+  ancestral: (o: Object3D, alvos: Set<Object3D>) => boolean,
+  fatia: () => Promise<void>,
+): Promise<Map<PortaId, Object3D>> {
   const nos = new Map<PortaId, Object3D>();
   const recortes = PORTAS.flatMap((id) => {
     const peca = manifesto.portas[id];
@@ -417,7 +423,14 @@ function recortarPecas(gltf: GLTF, escondidos: Set<Object3D>, manifesto: Manifes
       noCarro[i * 3 + 2] = v.z;
     }
     const indices = geometria.index ? Array.from({ length: geometria.index.count }, (_, i) => geometria.index!.getX(i)) : Array.from({ length: p.count }, (_, i) => i);
-    const refino = refinarNaFronteira(noCarro, indices, pecas);
+    // Em etapas: o navegador ganha a vez entre um bloco de triângulos e outro.
+    const etapas = etapasDoRecorte(noCarro, indices, pecas);
+    let etapa = etapas.next();
+    while (!etapa.done) {
+      await fatia();
+      etapa = etapas.next();
+    }
+    const refino: Refino = etapa.value;
     if (refino.dono.every((d) => d === 0)) continue;
     const atributos = estenderVertices(geometria, refino.pais, refino.pesos);
     const listas = new Map<number, number[]>();
@@ -480,7 +493,7 @@ export async function montarCarro(gltf: GLTF, opcoes: OpcoesDaMontagem): Promise
     return false;
   };
   // Peças por região (malha única): recortadas agora, cada uma vira um nó na dobradiça.
-  const recortadas = recortarPecas(gltf, escondidos, manifesto, ancestral);
+  const recortadas = await recortarPecas(gltf, escondidos, manifesto, ancestral, fatia);
   modelo.updateMatrixWorld(true);
   const pecasDoManifesto = PORTAS.flatMap((id) => {
     const peca = manifesto.portas[id];

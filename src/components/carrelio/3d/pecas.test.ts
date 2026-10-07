@@ -302,6 +302,13 @@ describe('as peças do Jaecoo 5, recortadas do arquivo de verdade', () => {
     expect(erros.at(-1)).toBeLessThan(0.01);
   });
 
+  it('deixa as lanternas na lateral, dos dois lados: o centro delas cai na emenda da tampa', () => {
+    // A montagem só põe o halo numa peça que contém a região com 3 cm de folga.
+    for (const r of MODELO_JAECOO_5.regioesDeLuz?.lanternas ?? []) {
+      for (const peca of pecas) expect(distanciaAPeca(r.centro, peca)).toBeGreaterThan(-0.03);
+    }
+  });
+
   it('deixa a cabine na carroceria: bancos, painel e assoalho do meio não vão com as portas', () => {
     for (let t = 0; t < r.indices.length; t += 3) {
       const d = r.dono[t / 3]!;

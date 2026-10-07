@@ -44,6 +44,13 @@ export const ROTAS = {
    * "Sob medida", e tudo nela é fictício.
    */
   produtoTorrelio: '/produtos/torrelio',
+  /**
+   * Carrelio: demonstração do showroom 3D que o estúdio constrói sob medida para concessionárias,
+   * preparada para a Comeri Omoda (pedido do titular, 07/10/2026). Fica com o Torrelio, no grupo
+   * "Sob medida" de Produtos. O carro é real (Jaecoo 5); estoque, preço da loja e pedidos são de
+   * demonstração.
+   */
+  produtoCarrelio: '/produtos/carrelio',
   /*
    * Os sistemas que eram SaaS (Doutelio, Beautelio, Barbelio, Studelio, Foodelio e Lojalio) viraram
    * software à venda na loja, cada um em `/loja/<sistema>`. As páginas antigas, inclusive a do

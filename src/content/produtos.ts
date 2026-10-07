@@ -1179,8 +1179,8 @@ export const produtos: readonly Produto[] = [
 ];
 
 /**
- * Demonstração de projeto sob medida: não se baixa nem se compra pronta. Mostra, com dados
- * fictícios, o que o estúdio constrói por encomenda. Fica fora de `produtos` de propósito: aquela
+ * Demonstração de projeto sob medida: não se baixa nem se compra pronta. Mostra, com dados de
+ * demonstração, o que o estúdio constrói por encomenda. Fica fora de `produtos` de propósito: aquela
  * lista é a dos programas "sem conta e sem mensalidade, preço nenhum", e esta tem preço sob orçamento.
  */
 export type Demonstracao = {
@@ -1216,4 +1216,27 @@ export const torrelio: Demonstracao = {
   rodaEm: 'Navegador, no site e no stand',
 };
 
-export const demonstracoes: readonly Demonstracao[] = [torrelio];
+/**
+ * Carrelio: preparado para a Comeri Omoda, que pediu carros chineses para atrair clientes. O
+ * titular autorizou o nome da loja na demonstração e a publicação aberta (07/10/2026). O carro é
+ * real; estoque, preço da loja e pedidos são de demonstração.
+ */
+export const carrelio: Demonstracao = {
+  tipo: 'demonstracao',
+  id: 'carrelio',
+  nome: 'Carrelio',
+  simbolo: 'carro',
+  rota: ROTAS.produtoCarrelio,
+  estado: 'DEMONSTRAÇÃO · SOB MEDIDA',
+  lema: 'O showroom da loja no celular do cliente. Por fora, por dentro e na garagem dele.',
+  resumo:
+    'Para concessionárias: cada carro em 3D, no navegador, com cores, versões, interior e realidade aumentada, ligado ao estoque da loja e a um painel da equipe. Preparada para a Comeri Omoda, com o Jaecoo 5; estoque e pedidos são de demonstração.',
+  imagem: {
+    src: '/produtos/carrelio/poster.webp',
+    alt: 'O SUV da demonstração, em 3D, num estúdio escuro, visto de três quartos de frente.',
+  },
+  paraQuem: 'Concessionárias e revendas',
+  rodaEm: 'Navegador, no site, no celular e na TV da loja',
+};
+
+export const demonstracoes: readonly Demonstracao[] = [torrelio, carrelio];

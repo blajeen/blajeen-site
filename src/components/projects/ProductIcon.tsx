@@ -10,7 +10,8 @@ export type ProductIconId =
   | 'notas'
   | 'vistas'
   | 'editar'
-  | 'torre';
+  | 'torre'
+  | 'carro';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -134,6 +135,18 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
         <path d="M14 42V9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v33M8 42h32" />
         <path d="M20 14h3M25 14h3M20 21h3M25 21h3M20 28h3M25 28h3" />
         <path d="M22 42v-6h4v6" />
+      </svg>
+    );
+  }
+
+  if (id === 'carro') {
+    // Um SUV de perfil, como o carro da demonstração do Carrelio.
+    return (
+      <svg {...comum}>
+        <path d="M4.5 31v-6a3 3 0 0 1 2-2.8L9 21.5l1.6-5.6a2 2 0 0 1 1.9-1.4H30a3 3 0 0 1 2.3 1.1L37 21l4.6 1.3a2.6 2.6 0 0 1 1.9 2.5V31" />
+        <path d="M4.5 31H9M17 31h14M39 31h4.5M12 21.5h21.5M21.5 15v6.5" />
+        <circle cx="13" cy="31" r="4" />
+        <circle cx="35" cy="31" r="4" />
       </svg>
     );
   }

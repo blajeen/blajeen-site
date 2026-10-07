@@ -77,6 +77,28 @@ aba do painel que ela já usa. Pendências:
 - [ ] confirmar o botão de compartilhar com `navigator.share` e cópia do link (o WhatsApp entra pelo
       menu de compartilhar do próprio aparelho).
 
+## Carrelio
+
+A demonstração sob medida para concessionárias (`/produtos/carrelio`, pedido de 07/10/2026) foi
+preparada para a Comeri Omoda, que pediu carros chineses para atrair clientes. Decidido pelo
+titular:
+- o nome da loja aparece na demonstração ("pode colocar no demonstrativo porque foi eles que me
+  pediu");
+- a publicação é aberta, na lista de produtos como o Torrelio (07/10/2026);
+- o carro é o Jaecoo 5;
+- o modelo 3D comprado (US$ 179) foi recusado. O titular vai gerar o carro no Tripo (plano grátis,
+  CC BY 4.0, com crédito no palco). Até lá, o palco usa o Car Concept da Khronos (CC BY 4.0).
+
+Pendências:
+
+- [ ] revisar o trecho novo da seção "Preferências guardadas no seu navegador" da Política de
+      Privacidade, que passa a citar o que a demonstração do Carrelio guarda no navegador;
+- [ ] aprovar as capturas da demonstração (computador e celular) antes da publicação;
+- [ ] trocar o carro provisório pelo Jaecoo 5 gerado no Tripo, e refazer os pôsteres e a imagem de
+      compartilhamento;
+- [ ] conferir com a Comeri, quando ela topar, os preços, as condições e o estoque reais. Até lá,
+      estoque, preço da loja e campanha são de demonstração, e a página diz isso.
+
 ## Revalio
 
 - [ ] comparar este pacote com `C:\dev\revalio\docs\publicacao`;

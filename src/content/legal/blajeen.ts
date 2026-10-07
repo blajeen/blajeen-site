@@ -214,7 +214,7 @@ export const privacidadeEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O site guarda no seu próprio navegador duas preferências de exibição — se o movimento da interface está ligado ou desligado, e se a abertura do laboratório já foi exibida nesta sessão —, os itens da sacola até o pedido, se você usar a loja, e, se você mexer na demonstração do Torrelio, o que mudou nela (status e preços das unidades, condição de pagamento, obra, diárias e reservas do hotel fictício). A demonstração não pede nome, e-mail nem qualquer outro dado pessoal.',
+            'O site guarda no seu próprio navegador duas preferências de exibição — se o movimento da interface está ligado ou desligado, e se a abertura do laboratório já foi exibida nesta sessão —, os itens da sacola até o pedido, se você usar a loja, e, se você mexer nas demonstrações, o que mudou nelas: no Torrelio, status e preços das unidades, condição de pagamento, obra, diárias e reservas do hotel fictício; no Carrelio, estoque, preço da loja, campanha e pedidos de test drive de demonstração (carro, cor, dia e período). As demonstrações não pedem nome, e-mail, telefone nem qualquer outro dado pessoal.',
         },
         {
           tipo: 'paragrafo',

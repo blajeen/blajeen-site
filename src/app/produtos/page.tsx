@@ -11,7 +11,7 @@ import { ROTAS } from '@/lib/routes';
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Produtos — Blajeen Labs',
   descricao:
-    'Produtos do laboratório pra baixar e usar: o Clearlio, que limpa o computador com desfazer, e a planilha de controle financeiro. Sem conta, sem anúncio e sem versão paga. E o Torrelio, a demonstração do que fazemos sob medida para incorporadoras e hotéis.',
+    'Produtos do laboratório pra baixar e usar: o Clearlio, que limpa o computador com desfazer, e a planilha de controle financeiro. Sem conta, sem anúncio e sem versão paga. E as demonstrações do que fazemos sob medida: o Torrelio, para incorporadoras e hotéis, e o Carrelio, para concessionárias.',
   rota: ROTAS.produtos,
 });
 
@@ -169,7 +169,7 @@ export default function ProdutosPage() {
           Demonstrações do que fazemos por encomenda.
         </h2>
         <p className="medida-texto mt-5 text-[1.02rem] leading-relaxed text-mineral">
-          Não é para baixar: é para experimentar, com dados fictícios, e pedir o seu.
+          Não é para baixar: é para experimentar, com dados de demonstração, e pedir o seu.
         </p>
         <div className="mt-10 grid gap-5">
           {demonstracoes.map((demonstracao) => (

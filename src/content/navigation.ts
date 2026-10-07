@@ -118,7 +118,7 @@ export const atalhosDeProduto = produtos.map((produto) => ({
   href: produto.rota,
 }));
 
-/** As demonstrações de projeto sob medida (o Torrelio): grupo próprio no menu de Produtos. */
+/** As demonstrações de projeto sob medida (Torrelio e Carrelio): grupo próprio no menu de Produtos. */
 export const atalhosDeDemonstracao = demonstracoes.map((demonstracao) => ({
   rotulo: demonstracao.nome,
   estado: demonstracao.estado,

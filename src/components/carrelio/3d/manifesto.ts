@@ -1,6 +1,8 @@
 import type { PortaId, Vista } from '@/lib/carrelio/tipos';
-import type { CaixaDoCarro, ManifestoDoModelo } from './contrato';
+import type { ManifestoDoModelo } from './contrato';
 import { hexValido } from './cores';
+import type { Caixa } from './orbita';
+import { regiaoValida } from './regioes';
 
 /**
  * O manifesto do modelo contra o arquivo, sem three.js: lê o GLB (cabeçalho, JSON e binário),
@@ -121,7 +123,10 @@ export function validarManifesto(m: ManifestoDoModelo, json: GltfJson): string[]
     if (!hexValido(mascara.corBase)) problemas.push(`pinturaPorMascara.corBase: "${mascara.corBase}" não é #rrggbb.`);
     if (!(mascara.tolerancia > 0 && mascara.tolerancia <= 1)) problemas.push('pinturaPorMascara.tolerancia: fica entre 0 e 1.');
     for (const nome of mascara.excluirMateriais ?? []) material('pinturaPorMascara.excluirMateriais', nome);
+    if (!(mascara.excluirRegioes ?? []).every(regiaoValida)) problemas.push('pinturaPorMascara.excluirRegioes: região inválida.');
   }
+  if (!(m.vidrosPorRegiao ?? []).every(regiaoValida)) problemas.push('vidrosPorRegiao: região inválida.');
+  if (![...(m.regioesDeLuz?.farois ?? []), ...(m.regioesDeLuz?.lanternas ?? [])].every(regiaoValida)) problemas.push('regioesDeLuz: região inválida.');
   if (m.verniz && !(m.verniz.intensidade >= 0 && m.verniz.intensidade <= 1 && m.verniz.rugosidade >= 0 && m.verniz.rugosidade <= 1)) {
     problemas.push('verniz: intensidade e rugosidade ficam entre 0 e 1.');
   }
@@ -225,7 +230,7 @@ function posicoesDoAcessor(glb: Glb, indice: number): Float32Array | null {
  * A caixa dos vértices dos nós (e descendentes) no espaço do modelo, com a rotação do manifesto.
  * Sem `nomes`, a cena inteira; `excluir` tira nós (e o que está embaixo deles).
  */
-export function caixaDosNos(glb: Glb, opcoes: { nomes?: readonly string[]; excluir?: readonly string[]; rotacao?: readonly [number, number, number] } = {}): CaixaDoCarro | null {
+export function caixaDosNos(glb: Glb, opcoes: { nomes?: readonly string[]; excluir?: readonly string[]; rotacao?: readonly [number, number, number] } = {}): Caixa | null {
   const json = glb.json;
   const nos = json.nodes ?? [];
   const mundo = matrizesDosNos(json, opcoes.rotacao);
@@ -267,7 +272,7 @@ export type AjusteDoModelo = { escala: number; deslocamento: [number, number, nu
  * O ajuste que leva a caixa do modelo ao espaço do carro: comprimento (em Z) igual a
  * `comprimentoM`, centrado em X e em Z, e o ponto mais baixo (as rodas) em y = 0.
  */
-export function ajusteDoModelo(caixa: CaixaDoCarro, comprimentoM: number): AjusteDoModelo {
+export function ajusteDoModelo(caixa: Caixa, comprimentoM: number): AjusteDoModelo {
   const comprimento = caixa.max[2] - caixa.min[2];
   const escala = comprimento > 1e-6 ? comprimentoM / comprimento : 1;
   return {
@@ -284,7 +289,7 @@ export function noModelo(p: readonly number[], a: AjusteDoModelo): [number, numb
   return [(p[0]! - a.deslocamento[0]) / a.escala, (p[1]! - a.deslocamento[1]) / a.escala, (p[2]! - a.deslocamento[2]) / a.escala];
 }
 
-export function caixaNoCarro(c: CaixaDoCarro, a: AjusteDoModelo): CaixaDoCarro {
+export function caixaNoCarro(c: Caixa, a: AjusteDoModelo): Caixa {
   return { min: noCarro(c.min, a), max: noCarro(c.max, a) };
 }
 
@@ -292,6 +297,6 @@ export function caixaNoCarro(c: CaixaDoCarro, a: AjusteDoModelo): CaixaDoCarro {
  * Aviso de orientação: depois da rotação, o comprimento precisa estar em Z (o carro é mais comprido
  * que largo). Se não estiver, a frente veio de lado e o manifesto precisa de `rotacao`.
  */
-export function comprimentoEmZ(caixa: CaixaDoCarro): boolean {
+export function comprimentoEmZ(caixa: Caixa): boolean {
   return caixa.max[2] - caixa.min[2] >= caixa.max[0] - caixa.min[0];
 }

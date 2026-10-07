@@ -111,18 +111,24 @@ export type ManifestoDoModelo = {
   rotacao?: readonly [number, number, number];
   /**
    * Pintura por máscara, para o modelo sem materiais de pintura separados (malha única gerada por
-   * IA, com a cor assada na textura): o shader tinge o que tem a cor da lataria. `corBase` é a cor
-   * da lataria no arquivo (sRGB); `tolerancia` (0 a 1, distância no OKLab) diz o quanto de sombreado
-   * assado ainda conta como lataria. Metal, vidro, faróis e lanternas nunca são tingidos; o resto
-   * que tiver a cor da lataria e não for lataria sai por material ou por região (caixas no espaço do
-   * carro). Só vale quando `pintura` está vazia.
+   * IA, com a cor da lataria assada na textura): o shader tinge o que tem a cor da lataria e mantém
+   * o sombreado assado. `corBase` é a cor da lataria no arquivo (sRGB); `tolerancia` (0 a 1,
+   * distância no OKLab, para mais claro e para mais escuro) diz o quanto ainda conta como lataria.
+   * Metal, vidro e luzes nunca são tingidos; o que tiver a cor da lataria sem ser lataria (rodas,
+   * por exemplo) sai por material ou por região. Só vale quando `pintura` está vazia.
    */
   pinturaPorMascara?: {
     corBase: string;
     tolerancia: number;
     excluirMateriais?: readonly string[];
-    excluirRegioes?: readonly CaixaDoCarro[];
+    excluirRegioes?: readonly RegiaoDoCarro[];
   };
+  /**
+   * Vidros assados na textura (o modelo de IA não tem vidro de verdade: a janela é uma pintura
+   * opaca, às vezes com os bancos assados atrás). Nessas regiões a cena não tinge e desenha vidro
+   * escuro com reflexo, mantendo o que a textura mostra, bem mais escuro.
+   */
+  vidrosPorRegiao?: readonly RegiaoDoCarro[];
   /**
    * O verniz da lataria. Superfície gerada por IA costuma ser ondulada, e o reflexo nítido do verniz
    * denuncia a ondulação: um verniz mais fosco (rugosidade maior) ou mais fraco esconde. Sem o
@@ -131,9 +137,10 @@ export type ManifestoDoModelo = {
   verniz?: { intensidade: number; rugosidade: number };
   /**
    * Faróis e lanternas por região, para o modelo em que eles são parte da textura (sem material
-   * próprio): caixas no espaço do carro que acendem com os faróis (e nunca são tingidas).
+   * próprio): regiões no espaço do carro onde os faróis acendem (a parte clara da textura brilha),
+   * de onde saem os halos e a poça de luz, e que nunca são tingidas.
    */
-  regioesDeLuz?: { farois?: readonly CaixaDoCarro[]; lanternas?: readonly CaixaDoCarro[] };
+  regioesDeLuz?: { farois?: readonly RegiaoDoCarro[]; lanternas?: readonly RegiaoDoCarro[] };
   /** Materiais que são telas (painel, multimídia): só eles mantêm a textura emissiva, além das luzes. */
   telas?: readonly string[];
   /** Por material, mapas com marcas de terceiros: a cena tira o mapa e o material fica liso. */
@@ -142,8 +149,14 @@ export type ManifestoDoModelo = {
   acabamentos?: Readonly<Record<string, { cor?: string; rugosidade?: number; metalico?: number }>>;
 };
 
-/** Uma caixa alinhada aos eixos, em metros, no espaço do carro já ajustado. */
-export type CaixaDoCarro = { min: readonly [number, number, number]; max: readonly [number, number, number] };
+/**
+ * Uma região no espaço do carro já ajustado, em metros, com borda suave de 2 cm: uma caixa (centro,
+ * meias medidas e inclinação em graus em torno de X, para vidro deitado como o para-brisa) ou um
+ * cilindro deitado em X (roda: centro, raio e meia largura).
+ */
+export type RegiaoDoCarro =
+  | { centro: readonly [number, number, number]; meias: readonly [number, number, number]; inclinacao?: number }
+  | { centro: readonly [number, number, number]; raio: number; meiaLargura: number };
 
 export type OpcoesDoCarro = {
   modelo: ManifestoDoModelo;

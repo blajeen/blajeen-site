@@ -1,5 +1,5 @@
 import type { Comando } from '@/lib/carrelio/link';
-import type { Aba, Ambiente, CorId, PontoDoInterior, PortaId, VersaoId, Vista } from '@/lib/carrelio/tipos';
+import { LUZES, type Aba, type Ambiente, type CorId, type LuzId, type PontoDoInterior, type PortaId, type VersaoId, type Vista } from '@/lib/carrelio/tipos';
 
 /**
  * O estado da interface da demonstração (o que a pessoa está olhando), separado do estado da loja
@@ -15,6 +15,8 @@ export type EstadoDaInterface = {
   vista: Vista;
   ponto: PontoDoInterior;
   ambiente: Ambiente;
+  /** A cor da luz ambiente, por dentro. */
+  luz: LuzId;
   /**
    * A mesa gira. `null` enquanto ninguém escolheu: segue a preferência de movimento (gira com
    * movimento, parado sem). Arrastar o carro ou apertar "Girar" vira escolha de quem olha.
@@ -36,6 +38,7 @@ export type AcaoDaInterface =
   | { tipo: 'vista'; vista: Vista }
   | { tipo: 'ponto'; ponto: PontoDoInterior }
   | { tipo: 'ambiente'; ambiente: Ambiente }
+  | { tipo: 'luz'; luz: LuzId }
   | { tipo: 'girar'; girando: boolean }
   | { tipo: 'ponto-de-toque'; id: string | null }
   | { tipo: 'garagem'; aberta: boolean }
@@ -68,6 +71,7 @@ export function interfaceInicial(): EstadoDaInterface {
     vista: 'fora',
     ponto: 'motorista',
     ambiente: 'estudio',
+    luz: LUZES[0]!,
     girando: null,
     pontoAberto: null,
     garagem: false,
@@ -104,6 +108,8 @@ export function reduzirInterface(estado: EstadoDaInterface, acao: AcaoDaInterfac
     case 'ambiente':
       // À noite, os faróis acendem junto: é o que a pessoa foi ver.
       return estado.ambiente === acao.ambiente ? estado : { ...estado, ambiente: acao.ambiente, farois: acao.ambiente === 'noite' ? true : estado.farois };
+    case 'luz':
+      return estado.luz === acao.luz ? estado : { ...estado, luz: acao.luz };
     case 'girar':
       return estado.girando === acao.girando ? estado : { ...estado, girando: acao.girando };
     case 'ponto-de-toque':
@@ -121,6 +127,7 @@ export function reduzirInterface(estado: EstadoDaInterface, acao: AcaoDaInterfac
       if (comando.portas !== undefined) proximo.portas = comando.portas ? ABERTAS : FECHADAS;
       if (comando.vista) proximo.vista = comando.vista;
       if (comando.ponto) proximo = reduzirInterface(proximo, { tipo: 'ponto', ponto: comando.ponto });
+      if (comando.luz) proximo.luz = comando.luz;
       if (comando.garagem) proximo.garagem = true;
       // Um atalho mostra uma coisa: a mesa para, para a pessoa ver o que pediu.
       proximo.girando = false;

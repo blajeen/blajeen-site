@@ -19,7 +19,9 @@ export type Vantagem = { titulo: string; comando?: Comando };
 
 /** Atalhos acima da demonstração: um toque e o carro mostra a coisa (pedido do titular). */
 export const atalhos: readonly { rotulo: string; comando: Comando }[] = [
-  { rotulo: 'Ver à noite', comando: { ambiente: 'noite', farois: true } },
+  { rotulo: 'Entrar no carro', comando: { vista: 'dentro' } },
+  { rotulo: 'Luz ambiente à noite', comando: { vista: 'dentro', ambiente: 'noite', luz: 'roxo' } },
+  { rotulo: 'Ver à noite', comando: { vista: 'fora', ambiente: 'noite', farois: true } },
   { rotulo: 'Preto Andromeda', comando: { cor: 'preto-andromeda' } },
   { rotulo: 'Branco com teto preto', comando: { versao: 'prestige', cor: 'branco-arctic' } },
   { rotulo: 'Mexer no estoque', comando: { aba: 'painel' } },
@@ -42,6 +44,7 @@ export const vantagens: readonly { publico: string; itens: readonly Vantagem[] }
     itens: [
       { titulo: 'Ver a cor certa antes de ir à loja.', comando: { cor: 'cinza-centaurus' } },
       { titulo: 'Girar o carro com o dedo, de todos os lados.' },
+      { titulo: 'Entrar no carro e trocar a cor da luz ambiente.', comando: { vista: 'dentro', luz: 'ciano' } },
       { titulo: 'Comparar as versões pelo que muda de verdade.', comando: { versao: 'comfort' } },
       { titulo: 'Ver o carro em tamanho real na garagem.', comando: { garagem: true } },
       { titulo: 'Saber se tem pronta entrega naquela cor.', comando: { versao: 'prestige', cor: 'preto-andromeda' } },
@@ -90,12 +93,14 @@ export const passos: readonly { titulo: string; texto: string }[] = [
 export const demonstracao = {
   real: [
     'o Jaecoo 5: ficha, versões, itens de série, cores e preços de lançamento, como a marca divulgou em 30/09/2026',
+    'o interior, numa foto de divulgação da Jaecoo, espelhada porque o carro da foto tem o volante à direita',
     'o código: a demonstração roda no seu navegador, e o que você muda fica só nele',
   ],
   deDemonstracao: [
     'o estoque, o preço da loja e a campanha',
     'os pedidos de test drive',
     'os tons das cores no 3D, que são aproximados',
+    'as cores da luz ambiente, que são de exemplo',
   ],
   naoFaz: 'Não vende, não reserva carro, não simula financiamento e não fala em nome da loja. No projeto, essas ligações são combinadas à parte.',
   semLogin: 'O painel está sem login porque é demonstração; no projeto, fica atrás do login da equipe.',

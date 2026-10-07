@@ -136,7 +136,7 @@ export const JAECOO_5: Carro = {
         'Porta-malas com abertura elétrica',
         'Câmeras 360°',
         'Carregador de celular por indução de 50 W',
-        'Chave presencial e luz ambiente',
+        'Chave presencial e luz ambiente personalizável',
         'Retrovisores com rebatimento automático',
         'Sensor de estacionamento dianteiro',
         'Pacote ADAS 2.5, com 17 assistências à condução',
@@ -168,6 +168,14 @@ export const JAECOO_5: Carro = {
       texto: { comfort: 'De tecido.', prestige: 'De couro; os da frente com ajuste elétrico e ventilação.' },
     },
     { id: 'carregador', rotulo: 'Carregador', vista: 'dentro', texto: { comfort: null, prestige: 'Por indução, de 50 W.' } },
+    {
+      id: 'volante',
+      rotulo: 'Assistências à condução',
+      vista: 'dentro',
+      texto: { comfort: 'Piloto automático.', prestige: 'Pacote ADAS 2.5, com 17 assistências.' },
+    },
+    { id: 'luzAmbiente', rotulo: 'Luz ambiente', vista: 'dentro', texto: { comfort: null, prestige: 'Personalizável, no painel e nas portas.' } },
+    { id: 'som', rotulo: 'Som', vista: 'dentro', texto: { comfort: '4 alto-falantes.', prestige: 'Sony, com 8 alto-falantes.' } },
   ],
   lancamento: { inicioDasVendas: '2026-10-01', primeiroLote: 3600, divulgadoEm: '2026-09-30' },
   fontes: [
@@ -186,6 +194,10 @@ export const JAECOO_5: Carro = {
     {
       rotulo: 'Auto+: itens de série das duas versões',
       url: 'https://www.automaistv.com.br/segredos/exclusivo-descobrimos-versoes-do-jaecoo-5-e-todos-os-itens-de-serie/',
+    },
+    {
+      rotulo: 'Comprecar: equipamentos da Prestige, com a luz ambiente personalizável',
+      url: 'https://www.comprecar.com.br/revista/jaecoo-5-chega-ao-brasil-a-partir-de-r-154990',
     },
   ],
 };

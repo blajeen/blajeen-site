@@ -1,5 +1,5 @@
 import { ehCor, ehVersao } from './estado';
-import { PONTOS_DO_INTERIOR, type Ambiente, type Aba, type CorId, type PontoDoInterior, type VersaoId, type Vista } from './tipos';
+import { LUZES, PONTOS_DO_INTERIOR, type Ambiente, type Aba, type CorId, type LuzId, type PontoDoInterior, type VersaoId, type Vista } from './tipos';
 
 /**
  * O link profundo da demonstração: `?versao=prestige&cor=azul-gaia&vista=dentro` abre o carro já
@@ -15,6 +15,8 @@ export type Comando = {
   cor?: CorId;
   vista?: Vista;
   ponto?: PontoDoInterior;
+  /** A cor da luz ambiente, que se vê por dentro. */
+  luz?: LuzId;
   /** Abre (ou fecha) todas as portas e o porta-malas. */
   portas?: boolean;
   farois?: boolean;
@@ -46,6 +48,12 @@ export function lerLink(consulta: string): Comando {
     comando.ponto = ponto as PontoDoInterior;
     comando.vista ??= 'dentro';
   }
+  // A luz ambiente só se vê por dentro: quem manda a cor quer ver o carro por dentro.
+  const luz = parametros.get('luz');
+  if (LUZES.includes(luz as LuzId)) {
+    comando.luz = luz as LuzId;
+    comando.vista ??= 'dentro';
+  }
   const portas = parametros.get('portas');
   if (portas === 'abertas' || sim(portas)) comando.portas = true;
   if (sim(parametros.get('farois'))) comando.farois = true;
@@ -63,6 +71,7 @@ export function consultaDoComando(comando: Comando): string {
   if (comando.cor) parametros.set('cor', comando.cor);
   if (comando.vista === 'dentro') parametros.set('vista', 'dentro');
   if (comando.ponto && comando.vista === 'dentro' && comando.ponto !== 'motorista') parametros.set('ponto', comando.ponto);
+  if (comando.luz && comando.vista === 'dentro' && comando.luz !== LUZES[0]) parametros.set('luz', comando.luz);
   if (comando.portas) parametros.set('portas', 'abertas');
   if (comando.farois) parametros.set('farois', '1');
   if (comando.ambiente && comando.ambiente !== 'estudio') parametros.set('ambiente', comando.ambiente);

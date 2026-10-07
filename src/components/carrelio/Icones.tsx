@@ -87,3 +87,21 @@ export function IconeSairDaTelaCheia() {
     </Icone>
   );
 }
+
+/** Sair do carro: a seta para trás. */
+export function IconeVoltar() {
+  return (
+    <Icone>
+      <path d="M16 10H4.5M9 5.5 4.5 10 9 14.5" />
+    </Icone>
+  );
+}
+
+/** Entrar no carro: a seta para a frente. */
+export function IconeEntrar() {
+  return (
+    <Icone>
+      <path d="M4 10h11.5M11 5.5l4.5 4.5-4.5 4.5" />
+    </Icone>
+  );
+}

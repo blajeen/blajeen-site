@@ -13,10 +13,11 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
 - **Experiência:**
   - Por fora: 3D em tempo real com acabamento de configurador. Pintura com verniz, estúdio com
     reflexos longos, troca de cor, faróis e noite.
-  - Portas e por dentro: a cena e a interface fazem as duas coisas quando o modelo tem as peças e
-    as câmeras, e isso foi testado com o Car Concept. O Jaecoo 5 do Tripo não tem nenhuma das
-    duas, então a demonstração não as mostra. No projeto real, o interior vem em fotos 360° do
-    carro da loja.
+  - Por dentro: em foto (ver "Por dentro, em foto", abaixo). O 3D gerado por IA não tem interior,
+    e uma foto de verdade ganha de qualquer interior gerado. No projeto real, o interior vem em
+    fotos 360° do carro da loja.
+  - Portas: a cena abre portas e porta-malas quando o modelo tem as peças; no Jaecoo do Tripo,
+    elas são recortadas da malha (trabalho em andamento, em outro ramo).
   - "Na sua garagem": realidade aumentada (Quick Look no iPhone, Scene Viewer no Android).
   - Painel da loja: estoque por cor e versão, preço da loja, campanha e pedidos de test drive.
   - Holograma: para carro, só como atração de vitrine (ventilador de LED). Fica para depois,
@@ -46,8 +47,7 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   - a cor da lataria vem de uma máscara na textura (cinza neutro médio, sem rodas e cabine);
   - vidros, teto, rodas e luzes vêm por região, em metros no espaço do carro;
   - verniz acetinado e normais soldadas, para disfarçar as ondulações da malha gerada.
-- Sem portas nem interior, a demonstração esconde "Portas" e "Por dentro". O interior em foto
-  360° fica como entrega do projeto real.
+- Sem portas, a demonstração esconde "Portas". Sem interior no 3D, "Por dentro" é a foto.
 - O "Car Concept" das amostras da Khronos (CC BY 4.0) ficou só para desenvolvimento e testes das
   portas e do interior. Ele não é publicado.
 - Defeitos conhecidos do arquivo gerado:
@@ -59,6 +59,36 @@ porque foi eles que me pediu"). O objetivo é conquistar a loja como cliente.
   de novo a cor-base, a tolerância e as regiões. Depois, os pôsteres
   (`node tools/carrelio-poster.mjs`) e a imagem de compartilhamento (`public/og/carrelio.jpg`,
   recorte do pôster 2×).
+
+## Por dentro, em foto
+
+- Pedido do titular (07/10/2026): "faz coisas interessantes, quero algo bem chamativo". Ele mandou
+  duas fotos de divulgação da Jaecoo (subiram pela `main`, na raiz) e escolheu usá-las ("para de
+  extremismo, é só um demonstrativo"). Estão em `docs/carrelio/fotos/`.
+- A foto do interior é de um carro de mão inglesa (volante à direita). O Jaecoo 5 do Brasil tem o
+  volante à esquerda, então `node tools/carrelio-interior.mjs` espelha a foto e cola de volta, sem
+  espelho, o que tem letra: a multimídia, o painel de instrumentos, a etiqueta do airbag e os
+  botões. O nome da marca na placa do volante sai (a página não mostra logotipo de marca). A
+  página diz que a imagem é ilustrativa e que foi espelhada.
+- O mesmo script gera as máscaras que a página usa por CSS:
+  - a luz ambiente: as faixas do painel e das portas, com o reflexo delas, achadas pela cor;
+  - as telas, que continuam acesas à noite;
+  - as janelas, que à noite viram céu escuro.
+  A cor da luz troca por `mix-blend-mode: color`: a faixa mantém o brilho da foto e troca o tom.
+  As cores são de exemplo, e a página diz isso. A luz ambiente personalizável é item da Prestige.
+- A experiência (`src/components/carrelio/interior/`):
+  - convite "Entrar no carro" no palco, com a miniatura num anel com as cores da luz;
+  - entrada com a câmera chegando de perto, telas e faixas acendendo em sequência (só com
+    movimento);
+  - arrastar para olhar em volta, pinça e roda com Ctrl para aproximar, duplo clique e teclado
+    (setas, + e −); no computador, o mouse vira a cabeça um pouco;
+  - pontos de toque com holofote: a câmera vai até o item e o resto escurece. A multimídia mostra
+    a segunda foto, de perto;
+  - "Noite" por dentro apaga a cabine e deixa acesas só as telas e a luz ambiente;
+  - a foto é da Prestige. Na Comfort, os pontos dizem o que a Comfort tem, e a fileira de cores dá
+    lugar a um aviso com "Ver na Prestige";
+  - link: `?vista=dentro`, `?luz=roxo` (leva para dentro) e `&ambiente=noite`.
+- O 3D fica por fora, parado e escondido embaixo da foto. A foto só carrega na primeira entrada.
 
 ## Código
 

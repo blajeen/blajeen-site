@@ -1,0 +1,454 @@
+/*
+ * O carro por dentro, em foto. As camadas da foto ficam num quadro só (o que a câmera move) e se
+ * misturam entre si: a cor da luz ambiente troca o tom das faixas (`color`) e o brilho soma luz em
+ * volta delas (`screen`). À noite a foto escurece e só o que é aceso continua aceso.
+ */
+
+.interior {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #050605;
+  transition: opacity 520ms var(--ease-lab), visibility 0s linear 0s;
+}
+
+.interior[data-ativo='nao'] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-lab), visibility 0s linear 420ms;
+}
+
+.visor {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.visor:active {
+  cursor: grabbing;
+}
+
+/* Com zoom, os dois eixos são da foto (a página não rola debaixo do dedo). */
+.interior[data-aproximado='sim'] .visor {
+  touch-action: none;
+}
+
+.visor:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-signal);
+}
+
+.quadro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  isolation: isolate;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.camada {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.base {
+  transition: filter 700ms var(--ease-lab);
+}
+
+/* À noite: a cabine apagada, o céu escuro nas janelas, e acesas só as telas e a luz ambiente. */
+.interior[data-noite='sim'] .base {
+  filter: brightness(0.3) saturate(0.78) contrast(1.06);
+}
+
+.janelas {
+  background: linear-gradient(180deg, #070b18 0%, #0d1428 55%, #18203a 100%);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--mascara-janelas);
+  mask-image: var(--mascara-janelas);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-lab);
+}
+
+.interior[data-noite='sim'] .janelas {
+  opacity: 0.94;
+}
+
+.acesas {
+  -webkit-mask-image: var(--mascara-acesas);
+  mask-image: var(--mascara-acesas);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-lab);
+}
+
+.interior[data-noite='sim'] .acesas {
+  opacity: 1;
+}
+
+/* Na entrada, telas e faixas começam apagadas e acendem em sequência (só com movimento). */
+.telasApagadas,
+.faixasApagadas {
+  background: #020302;
+  opacity: 0;
+}
+
+.telasApagadas {
+  -webkit-mask-image: var(--mascara-telas);
+  mask-image: var(--mascara-telas);
+}
+
+.faixasApagadas {
+  -webkit-mask-image: var(--mascara-faixas);
+  mask-image: var(--mascara-faixas);
+}
+
+.corDaLuz {
+  background-color: var(--luz);
+  mix-blend-mode: color;
+  -webkit-mask-image: var(--mascara-faixas);
+  mask-image: var(--mascara-faixas);
+  transition: background-color 600ms var(--ease-lab);
+}
+
+.brilhoDaLuz {
+  background-color: var(--luz);
+  mix-blend-mode: screen;
+  -webkit-mask-image: var(--mascara-brilho);
+  mask-image: var(--mascara-brilho);
+  opacity: 0.32;
+  transition: background-color 600ms var(--ease-lab), opacity 700ms var(--ease-lab);
+}
+
+.interior[data-noite='sim'] .brilhoDaLuz {
+  opacity: 0.9;
+}
+
+.interior[data-movimento='sim'][data-ativo='sim'] .quadro {
+  animation: entrarNoCarro 1100ms var(--ease-lab) both;
+}
+
+.interior[data-movimento='sim'][data-ativo='sim'] .telasApagadas {
+  animation: acender 900ms var(--ease-lab) 420ms both;
+}
+
+.interior[data-movimento='sim'][data-ativo='sim'] .faixasApagadas {
+  animation: acender 1000ms var(--ease-lab) 820ms both;
+}
+
+.interior[data-movimento='sim'][data-ativo='sim'] .brilhoDaLuz {
+  animation: brilharAoAcender 1600ms var(--ease-lab) 820ms backwards;
+}
+
+@keyframes entrarNoCarro {
+  from {
+    filter: blur(10px) brightness(0.55);
+  }
+
+  to {
+    filter: none;
+  }
+}
+
+@keyframes acender {
+  from {
+    opacity: 0.94;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes brilharAoAcender {
+  0% {
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 1;
+  }
+}
+
+/* Um véu no alto e no pé: a legenda, o canto e a barra ficam legíveis sobre o teto claro e o céu. */
+.veu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 6, 5, 0.62) 0, rgba(5, 6, 5, 0.18) 5.5rem, transparent 8rem),
+    linear-gradient(0deg, rgba(5, 6, 5, 0.5) 0, transparent 7rem);
+}
+
+/* O holofote: o ponto aberto fica claro e o resto escurece em volta. */
+.holofote {
+  --x: 50%;
+  --y: 50%;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x) var(--y), transparent 0, transparent 4.5rem, rgba(3, 4, 3, 0.62) 11rem, rgba(3, 4, 3, 0.72) 100%);
+  opacity: 0;
+  transition: opacity 450ms var(--ease-lab);
+}
+
+.holofote[data-aceso='sim'] {
+  opacity: 1;
+}
+
+.balaoComFoto {
+  width: min(16rem, 70vw);
+}
+
+.fotoDoBalao {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.45rem;
+  border-radius: 8px;
+}
+
+.dica {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.78);
+  backdrop-filter: blur(8px);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: dicaSome 6500ms var(--ease-lab) both;
+}
+
+@keyframes dicaSome {
+  0% {
+    opacity: 0;
+  }
+
+  10%,
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------- luz ambiente */
+
+/* Acima da barra do pé, no meio: a fileira de cores. */
+.luzes {
+  position: absolute;
+  bottom: 4.1rem;
+  left: 50%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.35rem 0.5rem 0.35rem 0.9rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.82);
+  backdrop-filter: blur(10px);
+  min-inline-size: 0;
+}
+
+.tituloDasLuzes {
+  float: left;
+  display: grid;
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.tituloDasLuzes span {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-mineral);
+}
+
+.amostras {
+  display: flex;
+  align-items: center;
+}
+
+/* Cada cor: um alvo de 34 px com a bolinha de 20 px no meio. */
+.amostra {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  cursor: pointer;
+}
+
+.amostra::before {
+  content: '';
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--amostra);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+  transition: transform 180ms var(--ease-lab), box-shadow 180ms var(--ease-lab);
+}
+
+.amostra:hover::before {
+  transform: scale(1.12);
+}
+
+.amostra input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.amostra:has(input:checked)::before {
+  box-shadow:
+    0 0 0 2px #090a08,
+    0 0 0 3.5px var(--amostra),
+    0 0 14px 2px color-mix(in srgb, var(--amostra) 70%, transparent);
+}
+
+.amostra:has(input:focus-visible) {
+  border-radius: 50%;
+  outline: 2px solid var(--color-signal);
+  outline-offset: -2px;
+}
+
+.interior[data-noite='sim'] .amostra::before {
+  box-shadow: 0 0 10px 1px color-mix(in srgb, var(--amostra) 55%, transparent);
+}
+
+.interior[data-noite='sim'] .amostra:has(input:checked)::before {
+  box-shadow:
+    0 0 0 2px #090a08,
+    0 0 0 3.5px var(--amostra),
+    0 0 18px 4px color-mix(in srgb, var(--amostra) 80%, transparent);
+}
+
+.avisoDaVersao {
+  gap: 0.6rem;
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.45rem 0.45rem 0.45rem 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.avisoDaVersao strong {
+  display: block;
+  font-weight: 400;
+  color: var(--color-mineral);
+}
+
+.botaoDaVersao {
+  flex: none;
+  min-height: 2.25rem;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(201, 255, 61, 0.55);
+  border-radius: 999px;
+  color: var(--color-signal);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.botaoDaVersao:hover {
+  border-color: var(--color-signal);
+}
+
+/* No palco estreito, a fileira ocupa a largura e o título encolhe para caber. */
+@container palco (max-width: 30rem) {
+  /* No palco pequeno, a foto de perto não cabe no balão: a câmera já aproxima da multimídia. */
+  .fotoDoBalao {
+    display: none;
+  }
+
+  .balaoComFoto {
+    width: max-content;
+  }
+
+  .luzes {
+    right: 0.5rem;
+    bottom: 3.85rem;
+    left: 0.5rem;
+    justify-content: space-between;
+    gap: 0.4rem;
+    padding: 0.2rem 0.35rem 0.2rem 0.75rem;
+    transform: none;
+  }
+
+  .tituloDasLuzes span {
+    display: none;
+  }
+
+  .amostra {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+
+  .amostra::before {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .avisoDaVersao {
+    width: auto;
+    max-width: none;
+  }
+
+  .avisoDaVersao strong {
+    display: none;
+  }
+}
+
+@container palco (max-width: 21.5rem) {
+  .tituloDasLuzes {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interior,
+  .interior[data-ativo='nao'],
+  .base,
+  .janelas,
+  .acesas,
+  .corDaLuz,
+  .brilhoDaLuz,
+  .holofote {
+    transition: none;
+  }
+
+  .dica {
+    animation: none;
+  }
+}

@@ -600,6 +600,130 @@
   color: var(--color-mineral);
 }
 
+/* ------------------------------------------------------- convite para entrar no carro */
+
+/*
+ * No pé do palco, à esquerda, acima da barra: a miniatura do interior num anel com as cores da
+ * luz ambiente (que gira devagar, com movimento) e o convite. Aparece antes do 3D: entrar no carro
+ * é foto e não espera o carro carregar.
+ */
+.convite {
+  position: absolute;
+  bottom: 4.25rem;
+  left: 0.75rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3.25rem;
+  padding: 0.3rem 1rem 0.3rem 0.3rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.86);
+  backdrop-filter: blur(10px);
+  text-align: left;
+  transition: border-color 160ms var(--ease-lab), transform 200ms var(--ease-lab);
+}
+
+.convite:hover {
+  border-color: var(--color-signal);
+}
+
+.convite:hover svg {
+  transform: translateX(2px);
+}
+
+.convite svg {
+  flex: none;
+  color: var(--color-signal);
+  transition: transform 200ms var(--ease-lab);
+}
+
+.conviteMiniatura {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.conviteMiniatura::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: conic-gradient(#2f8cff, #22d3ee, #34f08a, #9b5cff, #ff4fb3, #ff2d3c, #ffae2b, #2f8cff);
+}
+
+.palco[data-movimento='sim'] .conviteMiniatura::before {
+  animation: anelDaLuz 6s linear infinite;
+}
+
+@keyframes anelDaLuz {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.conviteMiniatura picture,
+.conviteMiniatura img {
+  display: block;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.conviteMiniatura picture {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.conviteTexto {
+  display: grid;
+  gap: 1px;
+  line-height: 1.2;
+}
+
+.conviteTexto strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.conviteTexto span {
+  font-size: 0.6875rem;
+  color: var(--color-mineral);
+}
+
+@container palco (max-width: 30rem) {
+  /* No palco pequeno, a dica de arrastar sobe para não cair debaixo do convite. */
+  .palco:has(.convite) .dica {
+    bottom: 7.4rem;
+  }
+
+  .convite {
+    left: 0.5rem;
+    min-height: 2.75rem;
+    gap: 0.55rem;
+    padding: 0.25rem 0.85rem 0.25rem 0.25rem;
+  }
+
+  .conviteMiniatura {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .conviteTexto span {
+    display: none;
+  }
+}
+
 /* ----------------------------------------------------------------- barra do palco */
 
 /*
@@ -607,6 +731,7 @@
  * começo. Só aparece com o carro pronto: antes, o pé do palco é do "Abrir o carro em 3D".
  */
 .barra3d {
+  --folga-da-barra: 0.4rem;
   position: absolute;
   right: 0.75rem;
   bottom: 0.75rem;
@@ -614,24 +739,41 @@
   z-index: 4;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--folga-da-barra);
   overflow-x: auto;
   padding: 2px;
   scrollbar-width: none;
   transition: opacity 400ms var(--ease-lab);
 }
 
-.barra3d > :first-child {
+/* As margens automáticas ficam em pseudo-elementos: um botão escondido por CSS no fim da fileira
+   (o zoom, no celular) não desequilibra o centro. */
+.barra3d::before,
+.barra3d::after {
+  content: '';
+  flex: none;
+}
+
+/* Sem largura e sem a folga que o `gap` daria: só empurram para o centro. */
+.barra3d::before {
+  margin-right: calc(var(--folga-da-barra) * -1);
   margin-left: auto;
 }
 
-.barra3d > :last-child {
+.barra3d::after {
   margin-right: auto;
+  margin-left: calc(var(--folga-da-barra) * -1);
 }
 
 .palco[data-com3d='nao'] .barra3d {
   visibility: hidden;
   opacity: 0;
+}
+
+/* Por dentro, em foto, a barra vale mesmo sem o 3D aberto (o link que leva direto para dentro). */
+.palco[data-dentro='sim'] .barra3d {
+  visibility: visible;
+  opacity: 1;
 }
 
 .barra3d::-webkit-scrollbar {
@@ -674,9 +816,9 @@
  */
 @container palco (max-width: 40rem) {
   .barra3d {
+    --folga-da-barra: 0.3rem;
     right: 0.5rem;
     left: 0.5rem;
-    gap: 0.3rem;
   }
 
   .barra3d .segmentoSolto {

@@ -129,8 +129,9 @@ describe('a demonstração do Carrelio', () => {
     await waitFor(() => expect(ultimo().portas.dianteiraEsquerda).toBe(false));
     act(() => cena.tocar!('portaMalas'));
     await waitFor(() => expect(ultimo().portas.portaMalas).toBe(true));
-    fireEvent.click(within(barra).getByRole('button', { name: 'Por dentro' }));
+    fireEvent.click(screen.getByRole('button', { name: /Entrar no carro/ }));
     await waitFor(() => expect(ultimo()).toMatchObject({ vista: 'dentro', ponto: 'motorista', girando: false }));
+    expect(within(barra).getByRole('button', { name: 'Por fora' })).toBeInTheDocument();
     // O modelo de teste só tem o motorista por dentro: nada de escolher o banco de trás.
     expect(within(barra).queryByRole('button', { name: 'Banco de trás' })).toBeNull();
   });

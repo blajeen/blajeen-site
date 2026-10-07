@@ -27,6 +27,7 @@ const ROTAS_PADRAO = [
   '/projects/gramelio',
   '/produtos/torrelio',
   '/produtos/carrelio',
+  '/produtos/carrelio?vista=dentro',
   '/novidades',
   '/about',
   '/contact',
@@ -69,7 +70,8 @@ function argumento(nome, padrao) {
 const rotas = argumento('rotas', ROTAS_PADRAO);
 const larguras = argumento('larguras', LARGURAS_PADRAO).map(Number);
 
-const nomeDeArquivo = (rota) => (rota === '/' ? 'home' : rota.replace(/^\//, '').replace(/\//g, '-'));
+// A consulta vira parte do nome (o Windows não aceita "?" em nome de arquivo).
+const nomeDeArquivo = (rota) => (rota === '/' ? 'home' : rota.replace(/^\//, '').replace(/[/?=&]/g, '-'));
 
 await rm(SAIDA, { recursive: true, force: true });
 await mkdir(SAIDA, { recursive: true });

@@ -1,6 +1,6 @@
 import {
-  Mesh, NeutralToneMapping, PerspectiveCamera, PlaneGeometry, Quaternion, Raycaster, Scene, ShaderMaterial, Sprite, SRGBColorSpace, Vector2, Vector3,
-  WebGLRenderer, type Color, type Texture,
+  Mesh, NeutralToneMapping, PerspectiveCamera, PlaneGeometry, Quaternion, Raycaster, Scene, ShaderMaterial, Sprite, SRGBColorSpace, TextureLoader, Vector2,
+  Vector3, WebGLRenderer, type Color, type Texture,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { PortaId } from '@/lib/carrelio/tipos';
@@ -172,7 +172,7 @@ export async function criarCenaCarro(host: HTMLElement, opcoes: OpcoesInternas):
     await fatia();
 
     // ---------------------------------------------------------------- carro
-    const gltf = await new GLTFLoader().loadAsync(manifesto.url);
+    const gltf = await carregadorDoModelo().loadAsync(manifesto.url);
     if (descartada) throw new Error('A cena foi descartada durante a carga.');
     tempos['arquivo'] = agora() - inicio;
     for (const problema of validarManifesto(manifesto, gltf.parser.json)) console.warn(`[carrelio] ${problema}`);
@@ -1086,4 +1086,19 @@ export async function criarCenaCarro(host: HTMLElement, opcoes: OpcoesInternas):
     canvas.remove();
     throw erro;
   }
+}
+
+/**
+ * O GLTFLoader do jeito que a CSP do site deixa. A textura embutida no .glb vira uma URL `blob:`, e
+ * o ImageBitmapLoader (o padrão no Chrome) busca essa URL com `fetch`, que a CSP bloqueia
+ * (`connect-src` só aceita a própria origem). Com o TextureLoader, a imagem entra por `<img>`, e
+ * `img-src` aceita `blob:`. É o mesmo caminho que o GLTFLoader já usa no Safari antigo e no Firefox.
+ */
+function carregadorDoModelo(): GLTFLoader {
+  const carregador = new GLTFLoader();
+  carregador.register((parser) => {
+    parser.textureLoader = new TextureLoader(parser.options.manager);
+    return { name: 'carrelio_texturas_por_imagem' };
+  });
+  return carregador;
 }

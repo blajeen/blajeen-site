@@ -25,7 +25,7 @@ vi.mock('./3d/modelos', () => {
     lanternas: ['Taillight'],
     esconder: [],
     portas: { dianteiraEsquerda: { no: 'DoorL', eixo: 'y', graus: 60 }, portaMalas: { no: 'Hatch', eixo: 'x', graus: -70 } },
-    pontos: { farois: [0.7, 0.7, 2], rodas: [0.9, 0.35, 1.3], teto: [0, 1.6, 0], multimidia: [0, 1.1, 0.6] },
+    pontos: { farois: [0.7, 0.7, 2], rodas: [0.9, 0.35, 1.3], teto: [0, 1.6, 0], portaMalas: [0, 1, -2], multimidia: [0, 1.1, 0.6] },
     interior: { motorista: { olho: [0.35, 1.15, -0.1], alvo: [0.35, 1, 1] } },
   };
   return { MODELO_ATUAL: modelo };
@@ -154,10 +154,33 @@ describe('a demonstração do Carrelio', () => {
     fireEvent.click(teto);
     expect(teto).toHaveAttribute('aria-expanded', 'true');
     // O ponto do teto tem foto de detalhe: no balão (computador) e no cartão com "fechar" (celular).
-    const balao = teto.parentElement!.querySelector('p')!;
-    expect(balao.querySelector('img')).toHaveAttribute('src', '/produtos/carrelio/detalhes/teto.webp');
+    expect(teto.parentElement!.querySelector('img')).toHaveAttribute('src', '/produtos/carrelio/detalhes/teto.webp');
     fireEvent.click(screen.getByRole('button', { name: 'Fechar: Teto panorâmico' }));
     expect(teto).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('o porta-malas abre com as fotos em abas: primeiro vazio, depois cheio', async () => {
+    montar();
+    await abrir3d();
+    act(() => cena.projetar!([{ id: 'portaMalas', x: 200, y: 400, visivel: true }]));
+    await waitFor(() => expect(screen.getByRole('group', { name: 'Destaques por fora' })).toHaveAttribute('data-revelado', 'sim'));
+    const portaMalas = screen.getByRole('button', { name: 'Porta-malas: 410 l, com abertura elétrica.' });
+    fireEvent.click(portaMalas);
+    // O balão (computador) e o cartão (celular) têm as mesmas abas; o CSS mostra um ou outro.
+    const [abas] = screen.getAllByRole('tablist', { name: 'Fotos: Porta-malas' });
+    const vazio = within(abas!).getByRole('tab', { name: 'Vazio' });
+    const cheio = within(abas!).getByRole('tab', { name: 'Cheio' });
+    expect(vazio).toHaveAttribute('aria-selected', 'true');
+    expect(cheio).toHaveAttribute('aria-selected', 'false');
+    const painel = document.getElementById(vazio.getAttribute('aria-controls')!)!;
+    expect(within(painel).getByRole('img')).toHaveAttribute('alt', 'Porta-malas, vazio');
+    fireEvent.click(cheio);
+    expect(cheio).toHaveAttribute('aria-selected', 'true');
+    expect(within(painel).getByRole('img')).toHaveAttribute('alt', 'Porta-malas, cheio');
+    // Pelo teclado: a seta volta para a primeira aba e leva o foco junto.
+    fireEvent.keyDown(cheio, { key: 'ArrowRight' });
+    expect(vazio).toHaveAttribute('aria-selected', 'true');
+    expect(vazio).toHaveFocus();
   });
 
   it('com movimento, a mesa fica parada no primeiro quadro (o do pôster) e gira depois; arrastar para, e o botão volta a girar', async () => {

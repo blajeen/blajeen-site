@@ -5,7 +5,8 @@ import { flushSync } from 'react-dom';
 import { reservarGpu } from '@/lib/fila-da-gpu';
 import type { PortaId, Vista } from '@/lib/carrelio/tipos';
 import type { AreaLivre, CenaCarro, EstadoVisualCarro, ManifestoDoModelo } from './3d/contrato';
-import { CartaoDoDetalhe, FotoDoDetalhe } from './Detalhe';
+import { alturaDoBalao, posicaoDoBalao } from './balao';
+import { BalaoDoPonto, CartaoDoDetalhe } from './Detalhe';
 import type { DetalheDoPonto } from './detalhes';
 import { IconeGirar } from './Icones';
 import styles from './Carrelio.module.css';
@@ -32,8 +33,6 @@ export type SituacaoDoPalco = 'poster' | 'carregando' | 'pronto' | 'falhou';
 /** Um ponto de toque da vista atual, já com o texto da versão escolhida (e a foto de detalhe, se houver). */
 export type PontoNoPalco = { id: string; rotulo: string; texto: string; detalhe?: DetalheDoPonto | undefined };
 
-/** Acima disto (px do alto do palco), o balão abre para baixo; com foto, ele é bem mais alto. */
-export const ALTURA_DO_BALAO = { simples: 120, comFoto: 290 } as const;
 
 type Props = {
   estadoVisual: EstadoVisualCarro;
@@ -229,18 +228,21 @@ export function PalcoCarro({
       // Os marcadores andam por estilo direto, sem render do React a cada quadro. Perto da borda, o
       // balão abre para dentro do palco (de lado e, no alto, para baixo).
       cena.aoProjetar((projecoes) => {
-        const { largura } = tamanho.current;
+        const { largura, altura } = tamanho.current;
         for (const projecao of projecoes) {
           const no = marcadores.current.get(projecao.id);
           if (!no) continue;
           no.hidden = !projecao.visivel;
           if (!projecao.visivel) continue;
           no.style.transform = `translate3d(${projecao.x.toFixed(1)}px, ${projecao.y.toFixed(1)}px, 0)`;
-          const lado = largura && projecao.x < largura * 0.3 ? 'inicio' : largura && projecao.x > largura * 0.7 ? 'fim' : 'meio';
-          const comFoto = atuais.current.pontos.some((ponto) => ponto.id === projecao.id && ponto.detalhe);
-          const vertical = projecao.y < (comFoto ? ALTURA_DO_BALAO.comFoto : ALTURA_DO_BALAO.simples) ? 'abaixo' : 'acima';
+          const ponto = atuais.current.pontos.find((p) => p.id === projecao.id);
+          if (!ponto) continue;
+          // Palco ainda sem medida: sem limite embaixo (o balão abre em cima ou embaixo, nunca de lado).
+          const palco = { largura, altura: altura || Number.POSITIVE_INFINITY, base: atuais.current.areaLivre.base };
+          const { lado, vertical, ajuste } = posicaoDoBalao(projecao, palco, alturaDoBalao(ponto));
           if (no.dataset['lado'] !== lado) no.dataset['lado'] = lado;
           if (no.dataset['vertical'] !== vertical) no.dataset['vertical'] = vertical;
+          no.style.setProperty('--ajuste', `${ajuste}px`);
         }
       }),
       // Se a GPU derrubar o contexto, o pôster volta até a cena se refazer.
@@ -329,13 +331,7 @@ export function PalcoCarro({
                 >
                   <span aria-hidden="true" />
                 </button>
-                {aberto ? (
-                  <p className={`${styles.pontoBalao}${ponto.detalhe ? ` ${styles.balaoComFoto}` : ''}`} aria-hidden="true">
-                    {ponto.detalhe ? <FotoDoDetalhe detalhe={ponto.detalhe} /> : null}
-                    <strong>{ponto.rotulo}</strong>
-                    <span>{ponto.texto}</span>
-                  </p>
-                ) : null}
+                {aberto ? <BalaoDoPonto ponto={ponto} /> : null}
               </div>
             );
           })}

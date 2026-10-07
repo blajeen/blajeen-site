@@ -593,11 +593,34 @@
   bottom: auto;
 }
 
-.pontoBalao strong {
+/* Sem espaço em cima nem embaixo: de lado, centrado no ponto e preso dentro do palco (`--ajuste`). */
+.ponto[data-vertical='lado'] .pontoBalao {
+  top: 0;
+  bottom: auto;
+  transform: translateY(calc(-50% + var(--ajuste, 0px)));
+}
+
+.ponto[data-vertical='lado'][data-lado='inicio'] .pontoBalao {
+  left: 1.75rem;
+  transform: translateY(calc(-50% + var(--ajuste, 0px)));
+}
+
+.ponto[data-vertical='lado'][data-lado='fim'] .pontoBalao {
+  right: 1.75rem;
+  left: auto;
+  transform: translateY(calc(-50% + var(--ajuste, 0px)));
+}
+
+.textoDoBalao {
+  display: grid;
+  gap: 2px;
+}
+
+.textoDoBalao strong {
   font-weight: 600;
 }
 
-.pontoBalao span {
+.textoDoBalao span {
   color: var(--color-mineral);
 }
 
@@ -608,70 +631,70 @@
   width: min(16rem, 70vw);
 }
 
+/* A foto e, quando há mais de uma, as abas em cima dela. */
+.detalhe {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+/* As abas das fotos (Vazio, Cheio): a pílula do site, com a aba atual em papel. */
+.abasDoDetalhe {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgba(9, 10, 8, 0.6);
+  pointer-events: auto;
+}
+
+.abasDoDetalhe button {
+  flex: 1 1 0;
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  color: var(--color-mineral);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: background-color 160ms var(--ease-lab), color 160ms var(--ease-lab);
+}
+
+.abasDoDetalhe button:hover {
+  color: var(--color-paper);
+}
+
+.abasDoDetalhe button[aria-selected='true'] {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
 .fotoDoDetalhe {
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 0.45rem;
   overflow: hidden;
   border-radius: 8px;
   background: #121311;
 }
 
-.fotoDoDetalhe picture,
+/* As fotos ficam empilhadas; a da aba atual aparece (com movimento, esmaecendo). */
+.fotoDoDetalhe picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: opacity 260ms var(--ease-lab);
+}
+
+.fotoDoDetalhe picture[data-ativa='nao'] {
+  opacity: 0;
+}
+
 .fotoDoDetalhe img {
   display: block;
   width: 100%;
   height: 100%;
-}
-
-.fotoDoDetalhe img {
   object-fit: cover;
-}
-
-/* A segunda foto (o porta-malas vazio) entra e sai devagar por cima da primeira, com movimento. */
-.alternativaDoDetalhe {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-}
-
-.palco[data-movimento='sim'] .fotoDoDetalhe[data-alterna='sim'] .alternativaDoDetalhe {
-  animation: alternarDetalhe 7s ease-in-out infinite;
-}
-
-@keyframes alternarDetalhe {
-  0%,
-  38% {
-    opacity: 0;
-  }
-
-  50%,
-  88% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.seloDoDetalhe {
-  position: absolute;
-  top: 0.45rem;
-  left: 0.45rem;
-  padding: 0.18rem 0.5rem;
-  border-radius: 999px;
-  background: rgba(9, 10, 8, 0.8);
-  color: var(--color-paper);
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.pontoBalao .seloDoDetalhe {
-  color: var(--color-paper);
 }
 
 /* O cartão do celular: só no palco estreito (no largo, a foto está no balão). */
@@ -705,10 +728,28 @@
     animation: surgir 260ms var(--ease-lab) both;
   }
 
+  .cartaoDoDetalhe .detalhe {
+    margin-bottom: 0;
+  }
+
   .cartaoDoDetalhe .fotoDoDetalhe {
     max-height: 11.5rem;
-    margin-bottom: 0;
     border-radius: 11px;
+  }
+
+  /* Com abas, o "fechar" fica na fileira delas, à direita, e não em cima da foto. */
+  .cartaoDoDetalhe[data-abas='sim'] .abasDoDetalhe {
+    margin-right: 2.75rem;
+  }
+
+  .cartaoDoDetalhe[data-abas='sim'] .abasDoDetalhe button {
+    min-height: 2.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .cartaoDoDetalhe[data-abas='sim'] .fecharDetalhe {
+    top: 0.65rem;
+    right: 0.65rem;
   }
 
   .textoDoCartao {
@@ -1838,7 +1879,14 @@
   .poster,
   .pontoBotao span,
   .amostra,
-  .barra3d {
+  .barra3d,
+  .fotoDoDetalhe picture,
+  .abasDoDetalhe button {
     transition: none;
   }
+}
+
+/* O MOTION do rodapé desligado também troca a foto na hora. */
+.palco[data-movimento='nao'] .fotoDoDetalhe picture {
+  transition: none;
 }

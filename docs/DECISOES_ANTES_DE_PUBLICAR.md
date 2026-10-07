@@ -106,7 +106,8 @@ Pendências:
       extremismo, é só um demonstrativo"). A foto é espelhada (o carro dela tem volante à direita),
       e a página diz que a imagem é ilustrativa. Se a marca pedir, a foto sai, e o interior volta a
       ser entrega do projeto (fotos 360° na loja);
-- [ ] aprovar as capturas do interior em foto antes de publicar.
+- [x] aprovar as capturas do interior em foto antes de publicar — aprovadas pelo titular em
+      07/10/2026 ("pode").
 
 ## Revalio
 

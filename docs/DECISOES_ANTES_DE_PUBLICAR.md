@@ -91,11 +91,15 @@ titular:
 
 Pendências:
 
-- [ ] revisar o trecho novo da seção "Preferências guardadas no seu navegador" da Política de
-      Privacidade, que passa a citar o que a demonstração do Carrelio guarda no navegador;
-- [ ] aprovar as capturas da demonstração (computador e celular) antes da publicação;
-- [ ] trocar o carro provisório pelo Jaecoo 5 gerado no Tripo, e refazer os pôsteres e a imagem de
+- [x] revisar o trecho novo da seção "Preferências guardadas no seu navegador" da Política de
+      Privacidade, que passa a citar o que a demonstração do Carrelio guarda no navegador —
+      aprovado pelo titular em 07/10/2026, junto com a publicação;
+- [x] aprovar as capturas da demonstração (computador e celular) antes da publicação — aprovadas
+      pelo titular em 07/10/2026 ("pode publicar");
+- [x] trocar o carro provisório pelo Jaecoo 5 gerado no Tripo, e refazer os pôsteres e a imagem de
       compartilhamento;
+- [ ] testar num aparelho de verdade o "Na sua garagem" (Quick Look no iPhone, Scene Viewer no
+      Android), que o QA sem GPU não alcança;
 - [ ] conferir com a Comeri, quando ela topar, os preços, as condições e o estoque reais. Até lá,
       estoque, preço da loja e campanha são de demonstração, e a página diz isso.
 

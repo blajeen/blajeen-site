@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NavDrawer } from '@/components/navigation/NavDrawer';
+import { LanguageSwitcher } from '@/components/navigation/LanguageSwitcher';
 import { SiteNav } from '@/components/navigation/SiteNav';
 import { ROTAS } from '@/lib/routes';
 
@@ -64,6 +65,7 @@ export function SiteHeader() {
           </Link>
 
           <SiteNav />
+          <LanguageSwitcher />
           <div className="mobile-header-actions"><Link href="/crie-seu-projeto" className="mobile-project-link">Criar projeto ↗</Link><button ref={menuButton} type="button" aria-expanded={menuAberto} aria-controls="site-mobile-menu" className="mobile-menu-button" onClick={() => setMenuAberto(true)}>Menu <span aria-hidden="true"><i/><i/></span></button></div>
         </div>
       </header>

@@ -268,7 +268,7 @@ function Condicao({ estado, despachar, selecionada }: { estado: EstadoTorrelio; 
       }}
     >
       <h3 id="torrelio-condicao">Condição de pagamento</h3>
-      <table className={styles.tabelaDeCampos}>
+      <table className={styles.tabelaDeCampos} data-i18n-context="payment">
         <thead>
           <tr>
             <th scope="col">Grupo</th>

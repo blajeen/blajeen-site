@@ -167,7 +167,7 @@ export const CartaoDaUnidade = memo(function CartaoDaUnidade({
           <span>{centavos}</span>
         </p>
         <p className={styles.porM2}>{formatarPrecoPorM2(situacao.precoCentavos, tipologia.areaCentesimos)} privativo</p>
-        <table className={styles.fluxo}>
+        <table className={styles.fluxo} data-i18n-context="payment">
           <caption className="sr-only">Fluxo de pagamento da unidade {unidade.id}</caption>
           <tbody>
             {fluxo.linhas

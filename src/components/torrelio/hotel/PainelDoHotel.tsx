@@ -140,7 +140,7 @@ function Reservas({ hotel, dia, despachar, aoEscolherQuarto }: { hotel: EstadoHo
             <button type="button" className={styles.linkDeLista} onClick={() => aoEscolherQuarto(r.quarto)}>
               {r.quarto}
             </button>
-            <span>
+            <span data-i18n-context="hotel-date-range">
               {formatarDiaCurto(r.entrada)} a {formatarDiaCurto(r.saida)} · {r.hospedes} {r.hospedes === 1 ? 'hóspede' : 'hóspedes'}
               {r.origem === 'cliente' ? ' · pelo site' : r.origem === 'painel' ? ' · pelo painel' : ''}
             </span>
@@ -244,7 +244,7 @@ function Bloqueios({ hotel, dia, despachar }: { hotel: EstadoHotel; dia: Dia; de
           {hotel.bloqueios.map((b) => (
             <li key={b.id}>
               <strong>{b.quarto}</strong>
-              <span>
+              <span data-i18n-context="hotel-date-range">
                 {formatarDiaCurto(b.de)} a {formatarDiaCurto(b.ate)}
               </span>
               <button type="button" className={styles.botaoPequeno} onClick={() => despachar({ tipo: 'hotel/desbloquear', bloqueioId: b.id })}>

@@ -6,6 +6,7 @@ import { SkipLink } from '@/components/layout/SkipLink';
 import { BootSequence } from '@/components/motion/BootSequence';
 import { MotionProvider } from '@/components/motion/MotionProvider';
 import { SiteHeader } from '@/components/navigation/SiteHeader';
+import { EnglishTranslation } from '@/components/i18n/EnglishTranslation';
 import { metadados } from '@/content/home';
 import { SITE_INDEXAVEL, SITE_URL, site } from '@/content/site';
 import { BRASAO_ALT, OG, schemaOrganizacao } from '@/lib/metadata';
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Camada de ambiente: acompanha a rolagem, atrás de todo o conteúdo. */}
           <LabProps />
           <SiteHeader />
+          <EnglishTranslation />
           <main id="conteudo" className="pt-16 sm:pt-[4.5rem]">
             {children}
           </main>

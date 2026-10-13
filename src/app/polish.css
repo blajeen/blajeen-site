@@ -285,6 +285,41 @@ main :is(h1, h2) {
     font-size: 24px !important;
   }
 }
+
+@media (max-width: 380px) {
+  .site-header > div {
+    gap: 8px;
+  }
+  .header-wordmark {
+    margin-left: 6px;
+    font-size: 10px;
+  }
+  .header-wordmark span {
+    font-size: 8px;
+  }
+  .mobile-header-actions {
+    gap: 8px;
+  }
+  .mobile-menu-button {
+    gap: 8px;
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+  .language-switcher {
+    gap: 0;
+    padding: 2px;
+  }
+  .language-switcher > svg {
+    width: 14px;
+    height: 14px;
+    margin-left: 0;
+  }
+  .language-switcher button {
+    min-width: 28px;
+    padding-inline: 6px;
+    font-size: 10px;
+  }
+}
 @media (hover: none) {
   .screenshot-viewport img {
     filter: none;

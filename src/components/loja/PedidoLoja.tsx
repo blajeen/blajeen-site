@@ -317,7 +317,7 @@ export function PedidoLoja({ pagamentoOnline, freteOnline, prazoEncomenda }: Pro
                 {erro}{reserva ? <> <a href={reserva} className="underline">Enviar pelo seu e-mail</a> — a mensagem abre pronta para {EMAIL_RESERVA}.</> : null}
               </p>
             ) : null}
-            <p className="medida-texto mt-4 text-xs leading-relaxed text-mineral-dim">
+            <p data-i18n-context="commerce-privacy" className="medida-texto mt-4 text-xs leading-relaxed text-mineral-dim">
               Usamos estes dados para processar e entregar o seu pedido, conforme a <a href={ROTAS.privacidade} className="underline">Política
               de Privacidade</a> e os <a href={ROTAS.termos} className="underline">Termos</a>.
             </p>

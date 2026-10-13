@@ -133,39 +133,57 @@ export function LabHero() {
                 : "BANCADA DO LABORATÓRIO"}
           </span>
         </div>
-        <div className="hx-scene-wrap">
-          <Image
-            src="/brand/lab-3d-poster.webp"
-            alt="Bancada do laboratório Blajeen"
-            fill
-            priority
-            sizes="(max-width:900px) 90vw, 60vw"
-            className={ready ? "hx-fallback is-hidden" : "hx-fallback"}
-          />
-          <div ref={host} className="hx-scene" />
-          {!requested && !failed && <button className="hx-button hx-activate" onClick={() => setRequested(true)}>Explorar em 3D ↗</button>}
-          {requested && !ready && !failed && <span className="hx-loading" role="status">Abrindo a bancada 3D…</span>}
-          <span className="hx-scene-hint">Arraste para girar · escolha uma estação ↓</span>
-        </div>
-        <div
-          className="hx-stations"
-          role="group"
-          aria-label="Estações do laboratório"
-        >
-          {(Object.keys(stations) as Station[]).map((id, i) => (
-            <button
-              key={id}
-              aria-pressed={station === id}
-              onClick={() => { setStation(id); setRequested(true); }}
+        <div className="hx-lab-layout">
+          <div className="hx-lab-scene-column">
+            <div className="hx-scene-wrap">
+              <Image
+                src="/brand/lab-3d-poster.webp"
+                alt="Bancada do laboratório Blajeen"
+                fill
+                priority
+                sizes="(max-width:900px) 90vw, 60vw"
+                className={ready ? "hx-fallback is-hidden" : "hx-fallback"}
+              />
+              <div ref={host} className="hx-scene" />
+              {!requested && !failed && <button className="hx-button hx-activate" onClick={() => setRequested(true)}>Explorar em 3D ↗</button>}
+              {requested && !ready && !failed && <span className="hx-loading" role="status">Abrindo a bancada 3D…</span>}
+              <span className="hx-scene-hint">Arraste para girar · escolha uma estação ↓</span>
+            </div>
+            <div
+              className="hx-stations"
+              role="group"
+              aria-label="Estações do laboratório"
             >
-              <span>0{i + 1}</span>
-              {stations[id].name}
-            </button>
-          ))}
-        </div>
-        <div className="hx-station-copy" aria-live="polite">
-          <p>{stations[station].description}</p>
-          <a href={stations[station].link}>{stations[station].cta} ↗</a>
+              {(Object.keys(stations) as Station[]).map((id, i) => (
+                <button
+                  key={id}
+                  aria-pressed={station === id}
+                  onClick={() => { setStation(id); setRequested(true); }}
+                >
+                  <span>0{i + 1}</span>
+                  {stations[id].name}
+                </button>
+              ))}
+            </div>
+            <div className="hx-station-copy" aria-live="polite">
+              <p>{stations[station].description}</p>
+              <a href={stations[station].link}>{stations[station].cta} ↗</a>
+            </div>
+          </div>
+          <div className="hx-intro-video">
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster="/videos/blajeen-studio-poster.jpg"
+              aria-label="Vídeo de apresentação da Blajeen Labs"
+              width="720"
+              height="1280"
+            >
+              <source src="/videos/blajeen-studio-intro.mp4" type="video/mp4" />
+              Seu navegador não consegue reproduzir este vídeo.
+            </video>
+          </div>
         </div>
       </div>
     </section>

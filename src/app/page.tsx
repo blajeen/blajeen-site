@@ -11,31 +11,6 @@ export default function Home() {
   return (
     <div className="hx">
       <LabHero />
-      <section className="hx-film" aria-labelledby="home-film-title">
-        <div className="hx-film-copy">
-          <p className="hx-kicker">BLAJEEN LABS / EM MOVIMENTO</p>
-          <h2 id="home-film-title">
-            Do código
-            <br />
-            <em>ao mundo.</em>
-          </h2>
-          <p>Uma apresentação rápida do laboratório e dos projetos que criamos.</p>
-        </div>
-        <div className="hx-film-player">
-          <video
-            controls
-            playsInline
-            preload="none"
-            poster="/videos/blajeen-studio-poster.jpg"
-            aria-label="Vídeo institucional da Blajeen Labs"
-            width="720"
-            height="1280"
-          >
-            <source src="/videos/blajeen-studio-intro.mp4" type="video/mp4" />
-            Seu navegador não consegue reproduzir este vídeo.
-          </video>
-        </div>
-      </section>
       <noscript>
         <p className="px-6 py-4 text-sm">
           Ative o JavaScript para experimentar o laboratório, o configurador e o

@@ -39,6 +39,12 @@ function translate(value: string, context: Element | null = null): string | null
   if (key.toLocaleLowerCase('pt-BR') === 'e os' && context?.closest('[data-i18n-context="commerce-privacy"]')) return 'and the';
   if (key.toLocaleLowerCase('pt-BR') === 'entrada' && context?.closest('[data-i18n-context="payment"]')) return 'Down payment';
 
+  const sampleCart = /^SUA SACOLA \((\d+)\)$/i.exec(key);
+  if (sampleCart) return `YOUR BAG (${sampleCart[1]})`;
+
+  const addItemLabel = /^Adicionar (.+)$/i.exec(key);
+  if (addItemLabel) return `Add ${translate(addItemLabel[1]!) ?? addItemLabel[1]}`;
+
   const paymentField = /^(entrada|mensais|reforços anuais|chaves): (percentual|parcelas)$/i.exec(key);
   if (paymentField && context?.closest('[data-i18n-context="payment"]')) {
     const group = PAYMENT_GROUPS[paymentField[1]!.toLocaleLowerCase('pt-BR')] ?? paymentField[1]!;

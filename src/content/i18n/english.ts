@@ -79,6 +79,7 @@ export const englishCopy: Readonly<Record<string, string>> = {
   'viram': 'become',
   'jogos.': 'games.',
   'O portal está aberto.': 'The portal is open.',
+  'Demonstração de combate com movimento, ataque, fragmento e portal. Conheça também o jogo pelo link desta seção.': 'A combat demo featuring movement, attacks, a shard, and a portal. Learn more about the game using the link in this section.',
   'Você tem 15 segundos para voltar.': 'You have 15 seconds to get back.',
   'Derrote o dragão, recolha o fragmento e alcance o portal. Saia da faixa marcada antes da baforada verde.': 'Defeat the dragon, collect the shard, and reach the portal. Get out of the marked area before the green breath hits.',
   'Aproxime-se e ataque o dragão.': 'Get close and attack the dragon.',

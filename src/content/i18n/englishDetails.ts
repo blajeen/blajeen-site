@@ -7,6 +7,7 @@ export const englishDetailsCopy: Readonly<Record<string, string>> = {
   "O laboratório continua em movimento.": "The lab keeps moving.",
   "Página não encontrada — Blajeen Labs": "Page not found — Blajeen Labs",
   "E-COMMERCE / OPERAÇÃO DIGITAL": "E-COMMERCE / DIGITAL OPERATIONS",
+  "HOSPEDAGEM / SITE / GESTÃO": "HOSPITALITY / WEBSITE / MANAGEMENT",
   "Página inicial atual da loja Dom Guima, com vitrine, navegação e ofertas.": "Dom Guima’s current home page, with storefront, navigation, and offers.",
   "Página de produto da loja Dom Guima.": "Product page from the Dom Guima store.",
   "Página das acomodações da Pousada Dona Lia.": "Accommodations page for Pousada Dona Lia.",

@@ -70,7 +70,7 @@ function translate(value: string, context: Element | null = null): string | null
   if (photo) return `View photo ${photo[1]} of ${photo[2]}`;
 
   const screen = /^Ver tela (\d+):\s*(.+)$/i.exec(key);
-  if (screen) return `View screen ${screen[1]}: ${translate(screen[2]) ?? screen[2]}`;
+  if (screen) return `View screen ${screen[1]}: ${translate(screen[2]!) ?? screen[2]}`;
 
   const paymentAdjustment = /^A primeira parcela de (.+) leva (.+) a mais, para a soma fechar no centavo\.$/i.exec(key);
   if (paymentAdjustment) {
@@ -188,15 +188,15 @@ function translate(value: string, context: Element | null = null): string | null
 
   const roomCount = /^(\d+) quartos? livres? para (\d+) pessoas?(?: em (.+))?\.$/i.exec(key);
   if (roomCount) {
-    const category = roomCount[3] ? ` in ${translate(roomCount[3]) ?? roomCount[3]}` : '';
+    const category = roomCount[3] ? ` in ${translate(roomCount[3]!) ?? roomCount[3]}` : '';
     return `${roomCount[1]} ${roomCount[1] === '1' ? 'room' : 'rooms'} available for ${roomCount[2]} ${roomCount[2] === '1' ? 'guest' : 'guests'}${category}.`;
   }
 
   const unitPriceDetail = /^(Disponível|Reservada|Vendida|Indisponível) · (.+)$/i.exec(key);
-  if (unitPriceDetail) return `${translate(unitPriceDetail[1]) ?? unitPriceDetail[1]} · ${unitPriceDetail[2]}`;
+  if (unitPriceDetail) return `${translate(unitPriceDetail[1]!) ?? unitPriceDetail[1]} · ${unitPriceDetail[2]}`;
 
   const nightlyRateDetail = /^(.+) · (.+) a diária$/i.exec(key);
-  if (nightlyRateDetail) return `${translate(nightlyRateDetail[1]) ?? nightlyRateDetail[1]} · ${nightlyRateDetail[2]} per night`;
+  if (nightlyRateDetail) return `${translate(nightlyRateDetail[1]!) ?? nightlyRateDetail[1]} · ${nightlyRateDetail[2]} per night`;
 
   const floorView = /^Vista do (?:quarto )?(\d+)$/i.exec(key);
   if (floorView) return `View from ${key.toLowerCase().includes('quarto') ? 'room ' : 'unit '}${floorView[1]}`;
@@ -214,10 +214,10 @@ function translate(value: string, context: Element | null = null): string | null
   const priceListLabel = /^Tabela (\d+) · lançamento$/i.exec(key);
   if (priceListLabel) return `Price list ${priceListLabel[1]} · launch`;
   const adjustedPriceListLabel = /^Tabela (\d+) · ([+−-][\d,.]+%)$/i.exec(key);
-  if (adjustedPriceListLabel) return `Price list ${adjustedPriceListLabel[1]} · ${adjustedPriceListLabel[2].replace('−', '-')}`;
+  if (adjustedPriceListLabel) return `Price list ${adjustedPriceListLabel[1]} · ${adjustedPriceListLabel[2]!.replace('−', '-')}`;
 
   const apartmentLine = /^Unidade (\d+) · final (\d+) · (.+)$/i.exec(key);
-  if (apartmentLine) return `Unit ${apartmentLine[1]} · stack ${apartmentLine[2]} · ${translate(apartmentLine[3]) ?? apartmentLine[3]}`;
+  if (apartmentLine) return `Unit ${apartmentLine[1]} · stack ${apartmentLine[2]} · ${translate(apartmentLine[3]!) ?? apartmentLine[3]}`;
 
   const apartmentDescription = /^(Planta do final 03, espelhada da planta-base\. )?Dois dormitórios com suíte, ([\d,.]+ m²) privativos e ([\d,.]+ m²) úteis: (.+)\.$/i.exec(key);
   if (apartmentDescription) {
@@ -293,19 +293,19 @@ function translate(value: string, context: Element | null = null): string | null
   if (people) return `${people[1]} ${people[1] === '1' ? 'guest' : 'guests'}`;
 
   const floor = /^Andar (.+) inteiro$/i.exec(key);
-  if (floor) return `Entire floor ${translate(floor[1]) ?? floor[1]}`;
+  if (floor) return `Entire floor ${translate(floor[1]!) ?? floor[1]}`;
 
   const room = /^Quarto (\d+), (.+), (\d+)º andar, até (\d+) pessoas, (.+)$/i.exec(key);
-  if (room) return `Room ${room[1]}, ${translate(room[2]) ?? room[2]}, floor ${room[3]}, up to ${room[4]} guests, ${translate(room[5]) ?? room[5]}`;
+  if (room) return `Room ${room[1]}, ${translate(room[2]!) ?? room[2]}, floor ${room[3]}, up to ${room[4]} guests, ${translate(room[5]!) ?? room[5]}`;
 
   const apartment = /^Apartamento ([^,]+), final ([^,]+), (.+) pavimento, (.+), (.+)$/i.exec(key);
-  if (apartment) return `Apartment ${apartment[1]}, stack ${apartment[2]}, ${translate(apartment[3]) ?? apartment[3]} floor, ${translate(apartment[4]) ?? apartment[4]}, ${apartment[5]}`;
+  if (apartment) return `Apartment ${apartment[1]}, stack ${apartment[2]}, ${translate(apartment[3]!) ?? apartment[3]} floor, ${translate(apartment[4]!) ?? apartment[4]}, ${apartment[5]}`;
 
   const hotelOccupancy = /^Ocupação na noite de (.+) \(fictícia\)$/i.exec(key);
-  if (hotelOccupancy) return `Occupancy on the night of ${translate(hotelOccupancy[1]) ?? hotelOccupancy[1]} (fictional)`;
+  if (hotelOccupancy) return `Occupancy on the night of ${translate(hotelOccupancy[1]!) ?? hotelOccupancy[1]} (fictional)`;
 
   const inventory = /^(.+) (.+): carros na loja$/i.exec(key);
-  if (inventory) return `${inventory[1]} ${translate(inventory[2]) ?? inventory[2]}: cars in stock`;
+  if (inventory) return `${inventory[1]} ${translate(inventory[2]!) ?? inventory[2]}: cars in stock`;
 
   const noInventory = /^(.+): situação sem carro na loja$/i.exec(key);
   if (noInventory) return `${noInventory[1]}: no cars in stock`;
@@ -314,16 +314,16 @@ function translate(value: string, context: Element | null = null): string | null
   if (arrival) return `Days until ${arrival[1]} arrives`;
 
   const highlights = /^Destaques (.+)$/i.exec(key);
-  if (highlights) return `Highlights ${translate(highlights[1]) ?? highlights[1]}`;
+  if (highlights) return `Highlights ${translate(highlights[1]!) ?? highlights[1]}`;
 
   const closeLabel = /^Fechar: (.+)$/i.exec(key);
-  if (closeLabel) return `Close: ${translate(closeLabel[1]) ?? closeLabel[1]}`;
+  if (closeLabel) return `Close: ${translate(closeLabel[1]!) ?? closeLabel[1]}`;
 
   const photos = /^Fotos: (.+)$/i.exec(key);
-  if (photos) return `Photos: ${translate(photos[1]) ?? photos[1]}`;
+  if (photos) return `Photos: ${translate(photos[1]!) ?? photos[1]}`;
 
   const removeLabel = /^Remover (.+)$/i.exec(key);
-  if (removeLabel) return `Remove ${translate(removeLabel[1]) ?? removeLabel[1]}`;
+  if (removeLabel) return `Remove ${translate(removeLabel[1]!) ?? removeLabel[1]}`;
 
   const productName = /^(Boneco 3D de|Camiseta|Caneca|Copo) (.+)$/i.exec(key);
   if (productName) {
@@ -345,13 +345,13 @@ function translate(value: string, context: Element | null = null): string | null
   if (mugDescription) return `A mug featuring ${mugDescription[1]} artwork for your everyday coffee.`;
 
   const figureAlt = /^Boneco 3D de (.+): (.+), sobre a base com o nome do jogo\.$/i.exec(key);
-  if (figureAlt) return `${figureAlt[1]} 3D figure: ${translate(figureAlt[2]) ?? figureAlt[2]}, on a base bearing the game’s name.`;
+  if (figureAlt) return `${figureAlt[1]} 3D figure: ${translate(figureAlt[2]!) ?? figureAlt[2]}, on a base bearing the game’s name.`;
 
   const shirtAlt = /^Camiseta preta com a arte de (.+) no peito: (.+)\.$/i.exec(key);
-  if (shirtAlt) return `Black T-shirt with ${shirtAlt[1]} artwork on the chest: ${translate(shirtAlt[2]) ?? shirtAlt[2]}.`;
+  if (shirtAlt) return `Black T-shirt with ${shirtAlt[1]} artwork on the chest: ${translate(shirtAlt[2]!) ?? shirtAlt[2]}.`;
 
   const mugAlt = /^Caneca branca de cerâmica com a arte de (.+): (.+)\.$/i.exec(key);
-  if (mugAlt) return `White ceramic mug featuring ${mugAlt[1]} artwork: ${translate(mugAlt[2]) ?? mugAlt[2]}.`;
+  if (mugAlt) return `White ceramic mug featuring ${mugAlt[1]} artwork: ${translate(mugAlt[2]!) ?? mugAlt[2]}.`;
 
   const productSummary = /^(.+) em miniatura, impresso em 3D\.$/i.exec(key);
   if (productSummary) return `${productSummary[1]} as a 3D-printed miniature.`;

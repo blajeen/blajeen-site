@@ -389,6 +389,19 @@ const TEXT_ATTRIBUTES = ['alt', 'aria-label', 'aria-description', 'aria-valuetex
 
 function translateElement(element: Element) {
   if (element.closest('script, style, noscript, textarea, pre, code, [data-no-translate]')) return;
+  const href = element.getAttribute('href');
+  const mailto = href ? /^(mailto:[^?]+\?subject=)([^&]*)$/i.exec(href) : null;
+  if (mailto) {
+    try {
+      const subject = decodeURIComponent(mailto[2]!);
+      const translatedSubject = translate(subject, element);
+      if (translatedSubject && translatedSubject !== subject) {
+        element.setAttribute('href', `${mailto[1]}${encodeURIComponent(translatedSubject)}`);
+      }
+    } catch {
+      // Leave malformed mail links unchanged rather than breaking the contact action.
+    }
+  }
   for (const attribute of TEXT_ATTRIBUTES) {
     const original = element.getAttribute(attribute);
     if (!original) continue;
@@ -439,7 +452,7 @@ export function EnglishTranslation() {
       childList: true,
       characterData: true,
       attributes: true,
-      attributeFilter: [...TEXT_ATTRIBUTES],
+      attributeFilter: [...TEXT_ATTRIBUTES, 'href'],
     });
     return () => observer.disconnect();
   }, []);

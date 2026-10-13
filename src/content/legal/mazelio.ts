@@ -16,12 +16,21 @@ const contato = (rotulo: string, assunto: string) => ({ tipo: 'contato' as const
 export const privacidadeMazelio: LegalDocument = {
   rota: ROTAS.mazelioPrivacidade, kind: 'privacidade', produto: 'Mazelio', titulo: 'Política de Privacidade do Mazelio',
   resumo: 'Privacidade do Mazelio e canal de contato. Documento em revisão.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do inventário de dados ainda pendente.' },
+  atualizacao: { definido: true, valor: '29 de setembro de 2026', fonte: 'Disponibilidade conferida na App Store; revisão do inventário de dados ainda pendente.' },
   secoes: [
     { id: 'estado', titulo: '1. Estado atual', blocos: [{ tipo: 'destaque', texto: AVISO }] },
     { id: 'dados', titulo: '2. Versão distribuída', blocos: [{ tipo: 'paragrafo', texto: 'O inventário de dados, permissões e prestadores da versão publicada está em revisão. Para perguntas ou solicitações sobre seus dados, use o contato abaixo.' }, { tipo: 'paragrafo', texto: 'A navegação nesta página pertence ao site da Blajeen Labs e é coberta pela política geral do site.' }] },
-    { id: 'futuro', titulo: '3. Revisão', blocos: [{ tipo: 'paragrafo', texto: 'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.' }] },
-    { id: 'contato', titulo: '4. Dúvidas sobre dados', blocos: [contato('Privacidade do Mazelio', 'Privacidade Mazelio')] },
+    {
+      id: 'meta',
+      titulo: '3. Medição de anúncios (SDK da Meta)',
+      blocos: [
+        { tipo: 'paragrafo', texto: 'A partir da versão 1.2 para iPhone e iPad, o Mazelio inclui o SDK da Meta (Meta Platforms), usado só para medir se os anúncios do Mazelio no Facebook e no Instagram trazem instalações. Ele envia à Meta a instalação, as aberturas do app e a compra do jogo completo (valor e moeda), com dados técnicos do aparelho (modelo, versão do sistema, idioma, fuso horário e endereço IP) e um identificador anônimo criado pelo próprio SDK.' },
+        { tipo: 'paragrafo', texto: 'O app não pede permissão de rastreamento e não coleta o identificador de publicidade do aparelho, nome nem e-mail. A medição vem ligada e pode ser desligada em Configurações → Medição de anúncios; desligada, o SDK nem inicia. Fora do iPhone e do iPad o SDK não existe.' },
+        { tipo: 'paragrafo', texto: 'Política de privacidade da Meta: facebook.com/privacy/policy' },
+      ],
+    },
+    { id: 'futuro', titulo: '4. Revisão', blocos: [{ tipo: 'paragrafo', texto: 'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.' }] },
+    { id: 'contato', titulo: '5. Dúvidas sobre dados', blocos: [contato('Privacidade do Mazelio', 'Privacidade Mazelio')] },
   ], relacionados: [...relacionados], metaTitulo: 'Privacidade do Mazelio — Blajeen Labs', metaDescricao: 'Privacidade do Mazelio, disponível na App Store. Documento em revisão.',
 };
 

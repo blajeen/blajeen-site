@@ -36,7 +36,7 @@ export const privacidadeDocalio: LegalDocument = {
   titulo: 'Política de Privacidade do Docalio',
   resumo: 'Privacidade do Docalio e canal para solicitações. Documento em revisão.',
   estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
+  atualizacao: { definido: true, valor: '29 de setembro de 2026', fonte: FONTE_DATA },
   secoes: [
     {
       id: 'estado',
@@ -66,8 +66,17 @@ export const privacidadeDocalio: LegalDocument = {
       ],
     },
     {
+      id: 'meta',
+      titulo: '3. Medição de anúncios (SDK da Meta)',
+      blocos: [
+        { tipo: 'paragrafo', texto: 'A partir da versão 1.3 para iPhone e iPad, o Docalio inclui o SDK da Meta (Meta Platforms), usado só para medir se os anúncios do Docalio no Facebook e no Instagram trazem instalações. Ele envia à Meta a instalação, as aberturas do app e as compras feitas no app (valor e moeda), com dados técnicos do aparelho (modelo, versão do sistema, idioma, fuso horário e endereço IP) e um identificador anônimo criado pelo próprio SDK.' },
+        { tipo: 'paragrafo', texto: 'O app não pede permissão de rastreamento e não coleta o identificador de publicidade do aparelho, nome nem e-mail. A medição vem ligada e pode ser desligada em Ajustes → Privacidade → Medição de anúncios; desligada, o SDK nem inicia. Fora do iPhone e do iPad o SDK não existe.' },
+        { tipo: 'paragrafo', texto: 'Política de privacidade da Meta: facebook.com/privacy/policy' },
+      ],
+    },
+    {
       id: 'compromissos',
-      titulo: '3. Revisão da versão publicada',
+      titulo: '4. Revisão da versão publicada',
       blocos: [
         {
           tipo: 'paragrafo',
@@ -78,7 +87,7 @@ export const privacidadeDocalio: LegalDocument = {
     },
     {
       id: 'pacientes',
-      titulo: '4. Dados de pacientes reais',
+      titulo: '5. Dados de pacientes reais',
       blocos: [
         {
           tipo: 'destaque',
@@ -89,7 +98,7 @@ export const privacidadeDocalio: LegalDocument = {
     },
     {
       id: 'prestadores',
-      titulo: '5. Prestadores e compras',
+      titulo: '6. Prestadores e compras',
       blocos: [
         {
           tipo: 'paragrafo',
@@ -105,7 +114,7 @@ export const privacidadeDocalio: LegalDocument = {
     },
     {
       id: 'retencao',
-      titulo: '6. Retenção, direitos e exclusão',
+      titulo: '7. Retenção, direitos e exclusão',
       blocos: [
         {
           tipo: 'paragrafo',

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { MorvelioPage } from '@/components/morvelio/MorvelioPage';
+import { ProjectPage } from '@/components/projects/ProjectPage';
 import { morvelio } from '@/content/projects';
 import { metadadosDaRota, OG } from '@/lib/metadata';
 import { ROTAS } from '@/lib/routes';
@@ -15,5 +15,5 @@ export const metadata: Metadata = metadadosDaRota({
 });
 
 export default function Page() {
-  return <MorvelioPage />;
+  return <ProjectPage projeto={morvelio} />;
 }

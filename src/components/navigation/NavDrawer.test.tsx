@@ -50,7 +50,6 @@ describe('NavDrawer', () => {
     expect(jogos).toHaveAttribute('aria-expanded', 'true');
     const lista = document.getElementById(jogos.getAttribute('aria-controls')!)!;
     expect(within(lista).getByRole('link', { name: /^Revalio/ })).toBeVisible();
-    expect(within(lista).getByRole('link', { name: /^Morvelio Wiki/ })).toBeVisible();
 
     await usuario.click(produtos);
     expect(produtos).toHaveAttribute('aria-expanded', 'true');

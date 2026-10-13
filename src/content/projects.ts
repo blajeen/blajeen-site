@@ -312,7 +312,7 @@ export const morvelio: Project = {
   status: 'EM DESENVOLVIMENTO',
   frase: 'Em Velidor o mal já venceu, e só os aventureiros se recusam a aceitar.',
   descricao:
-    'Um RPG de ação solo em desenvolvimento: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro. Explore a wiki de missões, equipamentos, criaturas e mapas.',
+    'Um RPG de ação solo em desenvolvimento: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro.',
   cta: 'CONHECER MORVELIO',
   notaCurta:
     'Protótipo jogável em testes. Capturas reais do desenvolvimento; ainda sem lançamento público.',
@@ -367,10 +367,10 @@ export const morvelio: Project = {
     { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
     { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
   ],
-  ogDescricao: 'Morvelio: sete classes, Velidor sob as sombras e um mundo de histórias. Conheça o jogo e explore a wiki.',
+  ogDescricao: 'Morvelio: sete classes, Velidor sob as sombras e um mundo de histórias. Conheça o jogo.',
   metaTitulo: 'Morvelio — Blajeen Labs',
   metaDescricao:
-    'Morvelio é um RPG de ação solo em desenvolvimento. Conheça Velidor, as sete classes e a wiki oficial de itens, missões, criaturas e mapas de Erdávia.',
+    'Morvelio é um RPG de ação solo em desenvolvimento. Conheça Velidor, as sete classes e o universo de Erdávia.',
 };
 
 export const mazelio: Project = {

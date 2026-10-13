@@ -94,7 +94,6 @@ export default function Home() {
       <nav className="hx-directory" aria-label="Continue explorando">
         <Link href="/produtos">Produtos para usar</Link>
         <Link href="/loja">Loja e software</Link>
-        <Link href="/morvelio/wiki">Morvelio Wiki</Link>
         <Link href="/about">Conheça o estúdio</Link>
         <Link href="/contact">Contato</Link>
       </nav>

@@ -3113,7 +3113,7 @@ export const CASES = [
  {
   "nome": "Morvelio",
   "tipo": "Jogo autoral / RPG mobile",
-  "desc": "RPG da casa, com mundo, missões, itens e wiki próprios. É a prova de que construímos jogos de verdade, do universo ao código."
+  "desc": "RPG da casa, com mundo, missões e itens próprios. É a prova de que construímos jogos de verdade, do universo ao código."
  }
 ] as const;
 

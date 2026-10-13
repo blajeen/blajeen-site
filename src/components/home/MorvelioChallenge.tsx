@@ -194,7 +194,6 @@ export function MorvelioChallenge() {
         </ol>
         <div className="hx-links">
           <Link href="/projects/morvelio">Conheça Morvelio ↗</Link>
-          <Link href="/morvelio/wiki">Explore a wiki ↗</Link>
         </div>
         <small>
           Demonstração feita para este site, inspirada em Morvelio. Não é uma
@@ -256,7 +255,7 @@ export function MorvelioChallenge() {
           }}
         >
           Demonstração de combate com movimento, ataque, fragmento e portal.
-          Conheça também o jogo e a wiki pelos links desta seção.
+          Conheça também o jogo pelo link desta seção.
         </canvas>
         <div className="hx-game-status" role="status">
           {view.status === "won"

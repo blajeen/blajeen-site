@@ -28,9 +28,8 @@ describe('rotas públicas', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
     // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja, e com as
     // demonstrações do Torrelio e do Carrelio.
-    expect(TODAS_AS_ROTAS).toHaveLength(65);
+    expect(TODAS_AS_ROTAS).toHaveLength(64);
     expect(TODAS_AS_ROTAS).toContain('/loja');
-    expect(TODAS_AS_ROTAS).toContain('/morvelio/wiki');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/notalio');

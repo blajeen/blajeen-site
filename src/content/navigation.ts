@@ -143,7 +143,7 @@ export const submenus: Record<MenuId, Submenu> = {
   },
   jogos: {
     grupos: [{ titulo: null, todos: null, itens: atalhosDeJogo }],
-    extras: [{ rotulo: 'Morvelio Wiki', descricao: 'Atlas, classes e histórias', href: ROTAS.morvelioWiki }],
+    extras: [],
   },
 };
 
@@ -179,7 +179,6 @@ export const rodape = {
     { rotulo: 'Gramelio', href: ROTAS.projetoGramelio },
     { rotulo: 'Catelio', href: ROTAS.projetoCatelio },
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
-    { rotulo: 'Morvelio Wiki', href: ROTAS.morvelioWiki },
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],

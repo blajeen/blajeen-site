@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 import { englishContentCopy, englishCopy } from '@/content/i18n/english';
 import { englishDetailsCopy } from '@/content/i18n/englishDetails';
 import { englishLegalCopy } from '@/content/i18n/englishLegal';
+import { englishCatalogCopy } from '@/content/i18n/englishCatalog';
 
-const COPY = { ...englishCopy, ...englishContentCopy, ...englishDetailsCopy, ...englishLegalCopy };
+const COPY = { ...englishCopy, ...englishContentCopy, ...englishDetailsCopy, ...englishLegalCopy, ...englishCatalogCopy };
 const COPY_LOWERCASE = new Map(Object.entries(COPY).map(([source, target]) => [source.toLocaleLowerCase('pt-BR'), target]));
 
 const normalize = (value: string) => value.replace(/\s+/g, ' ').trim();
@@ -54,6 +55,15 @@ function translate(value: string, context: Element | null = null): string | null
 
   const direct = COPY[key] ?? COPY_LOWERCASE.get(key.toLocaleLowerCase('pt-BR'));
   if (direct) return direct;
+
+  const startingPrice = /^a partir de (.+)$/i.exec(key);
+  if (startingPrice) return `Starting at ${startingPrice[1]}`;
+
+  const travelPrice = /^(.+?)\s*\+\s*deslocamento$/i.exec(key);
+  if (travelPrice) return `${travelPrice[1]} + travel`;
+
+  const hourlyPrice = /^(.+?)\s*\/\s*hora$/i.exec(key);
+  if (hourlyPrice) return `${hourlyPrice[1]}/hour`;
 
   const solarHour = /^(\d{1,2})h(\d{2})?$/i.exec(key);
   if (solarHour) return `${solarHour[1]!.padStart(2, '0')}:${solarHour[2] ?? '00'}`;

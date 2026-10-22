@@ -374,7 +374,10 @@ describe('documentos legais', () => {
    * vai ao ar por acidente — e obriga quem publicar o próximo a dizer aqui que a revisão
    * aconteceu.
    */
-  const APROVADOS_PELO_TITULAR = new Set(['/notalio/privacy']);
+  // Socialio: atualização e publicação das páginas autorizadas pelo titular em 17/10/2026.
+  const APROVADOS_PELO_TITULAR = new Set([
+    '/notalio/privacy', '/catelio/privacy', '/socialio/privacy', '/socialio/delete-account',
+  ]);
 
   it('só publica documento que o titular aprovou', () => {
     for (const documento of documentosLegais) {

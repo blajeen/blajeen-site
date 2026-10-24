@@ -14,7 +14,8 @@ import {
   trabalhosHome,
 } from './home';
 import { documentosLegais } from './legal';
-import { atalhosDeJogo, rodape } from './navigation';
+import { atalhosDeJogo, atalhosDeProduto, rodape } from './navigation';
+import { produtos, vivelio } from './produtos';
 import { contato, sobre } from './pages';
 import { catelio, docalio, gramelio, mazelio, morvelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
@@ -432,6 +433,7 @@ describe('documentos legais', () => {
       Socialio: 'brg.ftw@gmail.com',
       Clearlio: 'brg.ftw@gmail.com',
       Notalio: 'brg.ftw@gmail.com',
+      Vivelio: 'blajeenlabs@outlook.com',
       'Blajeen Labs': 'brg.ftw@gmail.com',
     };
 
@@ -468,6 +470,7 @@ describe('identidade do estúdio', () => {
       { campo: site.emailRevalio, valor: 'contato.revalio@gmail.com' },
       { campo: site.emailDocalio, valor: 'contato.docalio@gmail.com' },
       { campo: site.emailGramelio, valor: 'contato.gramelio@gmail.com' },
+      { campo: site.emailVivelio, valor: 'blajeenlabs@outlook.com' },
     ];
 
     for (const canal of canais) {
@@ -489,5 +492,43 @@ describe('identidade do estúdio', () => {
     // O posicionamento nomeia o que o estúdio faz: software próprio, jogos à frente.
     expect(site.posicionamento).toMatch(/DESENVOLVIMENTO DE SOFTWARE/);
     expect(site.posicionamento).toMatch(/JOGOS/);
+  });
+});
+
+describe('Vivelio', () => {
+  it('entra em Produtos, no menu e no rodapé pela mesma lista', () => {
+    expect(produtos).toContain(vivelio);
+    expect(atalhosDeProduto.map((atalho) => atalho.href)).toContain('/produtos/vivelio');
+    expect(rodape.produtos.map((link) => link.href)).toContain('/produtos/vivelio');
+  });
+
+  it('não mostra botão de loja antes de a ficha ser publicada', () => {
+    // As fichas da Google Play e da App Store ainda não existem: um botão levaria a uma página
+    // de erro. Quando forem publicadas, a URL entra aqui e este teste precisa mudar junto.
+    expect(vivelio.lojas.map((loja) => loja.nome)).toEqual(['Google Play', 'App Store']);
+    for (const loja of vivelio.lojas) {
+      expect(loja.url, loja.nome).toBeNull();
+      expect(loja.nota).toMatch(/quando a ficha for publicada/);
+    }
+  });
+
+  it('diz que existe um plano pago, e que ele está desligado', () => {
+    // "Sem mensalidade" escondendo um plano que já está no app seria a letra miúda que o
+    // estúdio diz não ter.
+    expect(vivelio.plano.texto).toMatch(/Vivelio\+/);
+    expect(vivelio.plano.texto).toMatch(/desligado/);
+    expect(vivelio.plano.texto).toMatch(/o que é grátis continua grátis/);
+  });
+
+  it('tem suporte, privacidade e termos, e não tem página de exclusão de conta', () => {
+    // Sem conta no app, não há conta a excluir: os dados ficam no celular e saem com ele.
+    const paginas = documentosLegais.filter((documento) => documento.produto === 'Vivelio');
+    expect(paginas.map((documento) => documento.kind).sort()).toEqual(['privacidade', 'suporte', 'termos']);
+    expect(JSON.stringify(vivelio)).not.toMatch(/delete-account/);
+  });
+
+  it('não inventa número de usuário, avaliação nem data de lançamento', () => {
+    const texto = JSON.stringify(vivelio);
+    expect(texto).not.toMatch(/usuários|downloads|avaliaç|estrelas|lançamento/i);
   });
 });

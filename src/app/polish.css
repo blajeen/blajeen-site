@@ -101,6 +101,29 @@ a:focus-visible .screenshot-viewport img,
 .screenshot-mount:hover .screenshot-viewport img {
   filter: none;
 }
+/* Print de celular em pé (ScreenshotFrame com `retrato`). O palco é escuro, e não o cinza
+   claro da janela, porque os prints do app são escuros: no claro eles virariam buracos. */
+.phone-stage {
+  border-radius: 9px;
+  border: 1px solid #d7dfcd26;
+  background:
+    radial-gradient(ellipse at 50% 0, #34443255, transparent 70%), #0d110c;
+}
+.phone-frame {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #d7dfcd33;
+  background: #000;
+  box-shadow: 0 16px 38px -14px #000000aa;
+}
+.phone-frame img {
+  filter: saturate(0.92);
+  transition: filter 220ms ease;
+}
+a:hover .phone-frame img,
+a:focus-visible .phone-frame img {
+  filter: none;
+}
 .screenshot-original {
   display: flex;
   justify-content: space-between;

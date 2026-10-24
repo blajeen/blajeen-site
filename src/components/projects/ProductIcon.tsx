@@ -11,7 +11,8 @@ export type ProductIconId =
   | 'vistas'
   | 'editar'
   | 'torre'
-  | 'carro';
+  | 'carro'
+  | 'celular';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
   const comum = {
@@ -147,6 +148,16 @@ export function ProductIcon({ id, className }: { id: ProductIconId; className?: 
         <path d="M4.5 31H9M17 31h14M39 31h4.5M12 21.5h21.5M21.5 15v6.5" />
         <circle cx="13" cy="31" r="4" />
         <circle cx="35" cy="31" r="4" />
+      </svg>
+    );
+  }
+
+  if (id === 'celular') {
+    // Um celular com a pílula do Vivelio no alto e duas linhas de conversa: as redes, sem o feed.
+    return (
+      <svg {...comum}>
+        <rect x="13" y="5" width="22" height="38" rx="4" />
+        <path d="M20 11h8M18 21h9M21 27h9M22 38h4" />
       </svg>
     );
   }

@@ -39,6 +39,16 @@ export const ROTAS = {
   produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /**
+   * Vivelio: aplicativo de celular (Android e iPhone) que abre as redes sociais sem o feed de
+   * sugestões. É o primeiro produto que vai pra Google Play e App Store em vez de ser baixado
+   * daqui, e por isso as três páginas legais dele entram em `ROTAS_DE_LOJA`. Não tem
+   * `delete-account`: o app não tem conta, então não há conta a excluir.
+   */
+  produtoVivelio: '/produtos/vivelio',
+  vivelioPrivacidade: '/vivelio/privacy',
+  vivelioTermos: '/vivelio/terms',
+  vivelioSuporte: '/vivelio/support',
+  /**
    * Torrelio: demonstração do que o estúdio constrói sob medida para incorporadoras e hotéis (um
    * prédio fictício em 3D ligado à tabela). Não é programa para baixar; fica em Produtos, no grupo
    * "Sob medida", e tudo nela é fictício.
@@ -152,6 +162,10 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.notalioPrivacidade,
   ROTAS.notalioTermos,
   ROTAS.notalioSuporte,
+  // O Vivelio vai pra Google Play e App Store: estas três são as que entram nas fichas.
+  ROTAS.vivelioPrivacidade,
+  ROTAS.vivelioTermos,
+  ROTAS.vivelioSuporte,
 ];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
@@ -166,6 +180,7 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.produtoEditalio ||
     rota === ROTAS.produtoVistalio ||
     rota === ROTAS.produtoPlanilhaFinanceira ||
+    rota === ROTAS.produtoVivelio ||
     rota === ROTAS.produtoTorrelio
   )
     return 0.9;

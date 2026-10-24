@@ -28,7 +28,7 @@ describe('rotas públicas', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
     // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja, e com as
     // demonstrações do Torrelio e do Carrelio.
-    expect(TODAS_AS_ROTAS).toHaveLength(64);
+    expect(TODAS_AS_ROTAS).toHaveLength(68);
     expect(TODAS_AS_ROTAS).toContain('/loja');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
     expect(TODAS_AS_ROTAS).toContain('/produtos/clearlio');
@@ -37,6 +37,10 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/produtos/vistalio');
     expect(TODAS_AS_ROTAS).toContain('/clearlio/privacy');
     expect(TODAS_AS_ROTAS).toContain('/notalio/privacy');
+    expect(TODAS_AS_ROTAS).toContain('/produtos/vivelio');
+    expect(TODAS_AS_ROTAS).toContain('/vivelio/privacy');
+    expect(TODAS_AS_ROTAS).toContain('/vivelio/terms');
+    expect(TODAS_AS_ROTAS).toContain('/vivelio/support');
     expect(TODAS_AS_ROTAS).toContain('/produtos/planilha-financeira');
     expect(TODAS_AS_ROTAS).toContain('/produtos/torrelio');
     expect(TODAS_AS_ROTAS).toContain('/produtos/carrelio');
@@ -109,6 +113,11 @@ describe('rotas públicas', () => {
       '/notalio/privacy',
       '/notalio/terms',
       '/notalio/support',
+      // O aplicativo de celular: estas vão para a Google Play e a App Store. Sem
+      // delete-account, porque o Vivelio não tem conta.
+      '/vivelio/privacy',
+      '/vivelio/terms',
+      '/vivelio/support',
     ]);
   });
 
@@ -122,6 +131,7 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.projetoMorvelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMazelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoSocialio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.produtoVivelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.loja)).toBe(0.8);
     expect(prioridadeSitemap(ROTAS.revalioExclusao)).toBe(0.5);
   });

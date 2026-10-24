@@ -65,7 +65,16 @@ export function arquivoLocal<T>(nome: string, vazio: () => T) {
       await mkdir(dirname(caminho), { recursive: true });
       const temporario = `${caminho}.${randomUUID()}.tmp`;
       await writeFile(temporario, `${JSON.stringify(estado, null, 2)}\n`, 'utf8');
-      await rename(temporario, caminho);
+      // No Windows, antivírus/indexadores ou uma leitura recém-concluída podem manter o destino
+      // aberto por alguns milissegundos. A fila continua reservada durante a retentativa.
+      for (let tentativa = 0; ; tentativa++) {
+        try { await rename(temporario, caminho); break; }
+        catch (error) {
+          const code = (error as NodeJS.ErrnoException).code;
+          if (process.platform !== 'win32' || !['EPERM', 'EACCES', 'EBUSY'].includes(code || '') || tentativa >= 5) throw error;
+          await new Promise((resolve) => setTimeout(resolve, 40 * (tentativa + 1)));
+        }
+      }
     });
     fila = operacao.catch(() => undefined);
     await operacao;

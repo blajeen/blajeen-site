@@ -100,6 +100,13 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
         ],
       },
+      {
+        // Apenas o editor privado envia mídia diretamente ao armazenamento da hospedagem.
+        source: '/admin/redes-sociais',
+        headers: [{ key: 'Content-Security-Policy', value: contentSecurityPolicy
+          .replace("connect-src 'self' https://collector.guardelio.com.br", "connect-src 'self' https://collector.guardelio.com.br https://vercel.com https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com")
+          .concat("; media-src 'self' blob:") }],
+      },
     ];
   },
 };

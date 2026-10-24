@@ -12,6 +12,7 @@ const ABAS = [
   { href: '/admin/loja', rotulo: 'Loja' },
   { href: '/admin/relatorios', rotulo: 'Relatórios' },
   { href: '/admin/novidades', rotulo: 'Novidades' },
+  { href: '/admin/redes-sociais', rotulo: 'Redes sociais' },
 ] as const;
 
 /** Casca do painel: título da seção, abas e saída. Todas as telas do painel usam a mesma. */

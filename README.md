@@ -153,6 +153,13 @@ documentados em [`docs/PORTAL_ONBOARDING.md`](docs/PORTAL_ONBOARDING.md).
 As páginas jurídicas e de suporte funcionam sem JavaScript — `npm run qa:shots` verifica isso a
 cada execução.
 
+## Publicação nas redes sociais
+
+O painel tem uma seção privada em `/admin/redes-sociais` para uma imagem ou vídeo com a mesma
+legenda nas contas autorizadas. Conexões diretas a Instagram, Facebook, YouTube, X e TikTok,
+com as limitações de cada rede exibidas na tela. Credenciais, aprovação dos aplicativos,
+armazenamento e operação estão em [`docs/REDES_SOCIAIS.md`](docs/REDES_SOCIAIS.md).
+
 ## Fonte de verdade
 
 Leia nesta ordem antes de alterar qualquer coisa:

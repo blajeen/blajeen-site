@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 type Locale = 'pt-BR' | 'en';
+// A escolha recarrega o documento; basta sincronizar o cookie durante a hidratação.
+const subscribe = () => () => undefined;
+const serverLocale = (): Locale => 'pt-BR';
+const cookieLocale = (): Locale => document.cookie.split(';').some((cookie) => cookie.trim() === 'blajeen-locale=en') ? 'en' : 'pt-BR';
 
 export function LanguageSwitcher() {
-  const [locale, setLocale] = useState<Locale>('pt-BR');
-
-  useEffect(() => {
-    setLocale(document.cookie.split(';').some((cookie) => cookie.trim() === 'blajeen-locale=en') ? 'en' : 'pt-BR');
-  }, []);
+  const locale = useSyncExternalStore(subscribe, cookieLocale, serverLocale);
 
   function choose(next: Locale) {
     if (next === locale) return;

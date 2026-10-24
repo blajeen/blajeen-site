@@ -23,10 +23,10 @@ describe('Páginas autorizadas na Meta', () => {
     vi.stubGlobal('fetch', fetchMock);
     const paginas = await paginasMeta('tu', 'app', 'segredo');
     expect(paginas).toHaveLength(1);
-    expect(paginas[0].instagram_business_account?.username).toBe('blajeenlab');
+    expect(paginas[0]?.instagram_business_account?.username).toBe('blajeenlab');
     expect(fetchMock).toHaveBeenCalledTimes(3);
     for (const [url] of fetchMock.mock.calls) expect(String(url)).not.toContain('segredo');
-    expect(String(fetchMock.mock.calls[2][0])).toContain('/v26.0/1339357169265966?');
+    expect(String(fetchMock.mock.calls[2]?.[0])).toContain('/v26.0/1339357169265966?');
   });
 
   it('retorna vazio quando nenhuma Página foi autorizada', async () => {

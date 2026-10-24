@@ -6,6 +6,7 @@ import { botaoPrimario, botaoSecundario, campoAdmin, painelAdmin } from './estil
 import { ESTADO_ENVIO, NOME_REDE, REDES } from '@/lib/social/types';
 import type { PainelSocial, PublicacaoSocial, Rede, TipoMidia } from '@/lib/social/types';
 import { validarArquivo } from '@/lib/social/validation';
+import { mensagemConexao } from '@/lib/social/oauth-feedback';
 
 async function resposta<T>(r: Response): Promise<T> {
   const body = await r.json() as T & { error?: string };
@@ -36,7 +37,7 @@ function validarVideo(arquivo: File): Promise<void> {
 
 export function AdminRedesSociais({ inicial, erroInicial, conexao }: { inicial: PainelSocial | null; erroInicial: string; conexao: string }) {
   const [dados, setDados] = useState<PainelSocial | null>(inicial);
-  const [erro, setErro] = useState(erroInicial || (conexao === 'erro' ? 'A conexão não foi concluída. Confira as credenciais, as URLs de retorno e as permissões do aplicativo nas instruções abaixo.' : ''));
+  const [erro, setErro] = useState(erroInicial || mensagemConexao(conexao));
   const [aviso, setAviso] = useState(conexao === 'ok' ? 'Autorização recebida. Confira as contas abaixo.' : '');
   const [arquivo, setArquivo] = useState<File | null>(null); const [tipo, setTipo] = useState<TipoMidia>('video');
   const [previa, setPrevia] = useState(''); const [legenda, setLegenda] = useState('');

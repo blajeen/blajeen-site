@@ -2,7 +2,7 @@ import type { ProductIconId } from '@/components/projects/ProductIcon';
 import { ROTAS } from '@/lib/routes';
 
 /**
- * Produtos do estúdio: coisa que a pessoa leva pra máquina dela e usa.
+ * Produtos do estúdio: coisa que a pessoa leva pra máquina ou pro celular dela e usa.
  *
  * Categoria própria porque não é jogo nem SaaS. Isso muda o que a página precisa dizer:
  * em vez de prometer uma experiência abstrata, ela precisa explicar como o produto é entregue,
@@ -245,7 +245,52 @@ export type Site = Comum & {
   aindaNao: { titulo: string; texto: string };
 };
 
-export type Produto = Aplicativo | Planilha | Site;
+/**
+ * Um aplicativo de celular: não se baixa daqui, se instala pela loja do aparelho.
+ *
+ * Tipo próprio porque quase nada do `Aplicativo` vale aqui. Não tem arquivo pra baixar, nem
+ * hash, nem aviso do Windows — quem instala é a Google Play ou a App Store, e quem assina o
+ * pacote também. O que a página precisa dizer é outro: em que celular ele roda, em que loja
+ * ele está, e o que ele lê do aparelho pra funcionar.
+ */
+export type Movel = Comum & {
+  tipo: 'movel';
+  versao: string;
+  /** Sistema mínimo, escrito como a pessoa reconhece. */
+  requisitos: string;
+  /** As redes que ele abre, na ordem em que o app mostra. */
+  redes: readonly string[];
+  /** O que ele se recusa a fazer, como nos programas. */
+  naoFaz: readonly string[];
+  /**
+   * O que fica guardado no celular, e o que ele lê pra funcionar.
+   *
+   * Mesmo motivo da seção 3 da política do Clearlio: "não coleto nada" seria verdade e
+   * mentira ao mesmo tempo. Nada sai do aparelho, mas a acessibilidade do Android lê a tela
+   * de outros apps — e quem liga isso precisa saber exatamente o quê, antes de ligar.
+   */
+  noAparelho: { titulo: string; itens: readonly string[]; fecho: string };
+  /**
+   * O plano pago, dito antes de existir.
+   *
+   * Ele ainda está desligado, mas já está no app. Esconder agora e anunciar depois seria
+   * mudar a regra com gente já usando; dizer hoje o que vai continuar grátis é o que deixa a
+   * pessoa decidir com tudo na mesa.
+   */
+  plano: { titulo: string; texto: string };
+  /**
+   * Uma entrada por loja, com `url` em `null` enquanto a ficha não estiver publicada.
+   *
+   * Mesmo contrato da `loja` dos programas e da `Disponibilidade` dos jogos: sem endereço
+   * confirmado, a página diz que ainda não tem link em vez de mostrar um botão que leva a
+   * uma ficha que não existe.
+   */
+  lojas: readonly { nome: string; url: string | null; nota: string }[];
+  /** Outras telas, além da principal. Prints do app, não montagem. */
+  telas: readonly { src: string; alt: string; legenda: string }[];
+};
+
+export type Produto = Aplicativo | Movel | Planilha | Site;
 
 export const clearlio: Aplicativo = {
   tipo: 'aplicativo',
@@ -1170,10 +1215,152 @@ export const editalio: Aplicativo = {
 
 export { EDITALIO_DOWNLOAD };
 
+/**
+ * Vivelio: as redes sociais sem o feed de sugestões, num app de celular.
+ *
+ * Entra como ativo, por decisão do titular (24/10/2026), mas as fichas da Google Play e da
+ * App Store ainda não foram publicadas — então `lojas` está com `url: null` e a página diz
+ * isso. Tudo o que está aqui foi passado pelo titular como implementado; o que não está
+ * aqui (número de usuário, avaliação, data) não existe pra ser dito.
+ */
+export const vivelio: Movel = {
+  tipo: 'movel',
+  id: 'vivelio',
+  nome: 'Vivelio',
+  simbolo: 'celular',
+  versao: '0.1.0',
+  rota: ROTAS.produtoVivelio,
+  estado: 'ATIVO · GRATUITO',
+  requisitos: 'Android 10 ou mais novo e iPhone com iOS 17 ou mais novo',
+  lema: 'Suas redes, do jeito calmo.',
+  resumo:
+    'Um aplicativo de celular que abre as suas redes pelo site oficial de cada uma, sem Reels, sem Shorts, sem feed de sugestões e sem anúncios. A página inicial mostra só quem você segue. Conversas, busca, perfil, stories e publicar continuam. Sem conta, e nada passa por um servidor nosso.',
+  descricao: [
+    'O feed das redes não foi feito pra acabar. Ele mistura quem você segue com sugestão, vídeo curto e anúncio, e o tempo some no meio disso. Desinstalar o app resolve, mas leva junto as conversas, o perfil e as pessoas que você queria ver.',
+    'O Vivelio fica no meio. Ele abre cada rede pelo site oficial dela, dentro dele, e tira da frente o que não é de quem você segue: Reels, Shorts, sugestões e anúncios. O resto continua onde estava — mensagens, busca, stories, perfil e publicar.',
+    'Você entra em cada rede pelo site dela, como faria no navegador. A sessão fica guardada só no seu celular. O Vivelio não tem conta, não guarda senha nem mensagem, e nada do que você faz nas redes passa por um servidor dele.',
+    'É feito no Brasil, em português. E serve também pra pequeno negócio que atende cliente por mensagem: dá pra responder as conversas sem cair no feed.',
+  ],
+  imagem: {
+    src: '/produtos/vivelio/tela.webp',
+    alt: 'A aba Hoje do Vivelio. No alto, "Bom dia" e "Suas redes, do jeito calmo." sobre a ilustração de uma cidade ao entardecer. Abaixo, "8 min hoje" e "Proteção ativa"; o cartão "Pronto para se liberar?", dizendo que 5 apps oficiais ainda estão no celular, com o botão "Quero me liberar"; e a fileira "Suas redes". Na barra de baixo, as abas Hoje, Redes, Rotinas e Progresso.',
+    legenda:
+      'A aba Hoje: o tempo nas redes no dia, se a proteção está ligada e as suas redes. As outras abas são Redes, Rotinas e Progresso.',
+  },
+  redes: ['Instagram', 'YouTube', 'Facebook', 'X', 'Reddit', 'LinkedIn', 'Pinterest'],
+  faz: [
+    {
+      titulo: 'As redes dentro dele',
+      texto:
+        'Instagram, YouTube, Facebook, X, Reddit, LinkedIn e Pinterest, cada uma pelo site oficial. Cada rede tem o seu filtro, que diz o que fica de fora.',
+    },
+    {
+      titulo: 'Só uma pílula no alto',
+      texto:
+        'Dentro da rede, o topo mostra uma coisa só: há quanto tempo você está ali e quantos posts já viu.',
+    },
+    {
+      titulo: 'Tira Reels e Shorts dos apps oficiais',
+      texto:
+        'No Android, com o serviço de acessibilidade ligado por você: esconde o botão de Reels do Instagram e de Shorts do YouTube nos apps oficiais, e sai do Reel ou do Short que abrir. Também pode levar o app oficial pra versão calma dentro do Vivelio, e deixa o TikTok e o Snapchat só nas mensagens.',
+    },
+    {
+      titulo: 'Notificação abre nele',
+      texto:
+        'No Android, com o acesso a notificações, que é opcional: a notificação de uma rede abre dentro do Vivelio, e não no app oficial.',
+    },
+    {
+      titulo: 'Modo Postar',
+      texto: 'Libera o app oficial por alguns minutos, pra você publicar.',
+    },
+    {
+      titulo: 'Pausa, rotinas e limite',
+      texto:
+        'Pausar agora, rotinas como Sono e Foco, e um limite por dia em cada rede. Na tela de pausa, dá pra abrir por 5 minutos.',
+    },
+    {
+      titulo: 'Progresso',
+      texto:
+        'Quanto tempo você passou nas redes hoje e na semana, rede por rede, e o que foi tirado da sua frente.',
+    },
+    {
+      titulo: 'Atalhos na tela inicial',
+      texto:
+        'Cada rede pode ganhar atalho na tela inicial do celular. Segurando uma rede: abrir, pôr na tela inicial, publicar ou desinstalar o app oficial.',
+    },
+    {
+      titulo: 'Pronto para se liberar?',
+      texto:
+        'Um convite pra desinstalar os apps oficiais e ficar só com o Vivelio. No Android, ele abre a confirmação do sistema; no iPhone, mostra o passo a passo.',
+    },
+    {
+      titulo: 'Uma conversa curta pra começar',
+      texto:
+        'A introdução é uma conversa curta, com uma estimativa de quanto tempo volta pra você — e a conta vem escrita embaixo do número.',
+    },
+  ],
+  naoFaz: [
+    'Não tem conta nem cadastro.',
+    'Não guarda a sua senha nem as suas mensagens. Você entra pelo site oficial de cada rede, e a sessão fica só no seu celular.',
+    'Não passa nada por um servidor do Vivelio. Entre você e a rede não tem ninguém no meio.',
+    'Não tem anúncio, não usa ferramenta de análise de uso e não tem rastreador.',
+    'Não lê o conteúdo das suas conversas.',
+    'Não curte, não segue e não faz nada sozinho na sua conta.',
+  ],
+  noAparelho: {
+    titulo: 'O que fica no seu celular',
+    itens: [
+      'Quanto tempo você usou cada rede, por dia, nos últimos 35 dias.',
+      'As suas rotinas, os limites e as preferências.',
+      'Os cookies da sessão de cada rede, dentro do app. É isso que mantém você conectado.',
+      'No Android, se você ligar o serviço de acessibilidade: ele lê só os nomes técnicos e a posição dos elementos da tela do Instagram, do YouTube, do TikTok e do Snapchat, e qual app está aberto. É o que permite tirar Reels e Shorts e medir o tempo.',
+      'No Android, se você ligar o acesso a notificações: ele só repassa as notificações das redes, pra elas abrirem no Vivelio.',
+    ],
+    fecho: 'Nada disso sai do seu celular.',
+  },
+  plano: {
+    titulo: 'Grátis, e o plano que ainda está desligado',
+    texto:
+      'Hoje tudo é grátis. Existe um plano opcional, o Vivelio+, por assinatura mensal ou anual na Google Play e na App Store, que ainda está desligado. Quando ele ligar, o que é grátis continua grátis — todas as redes, com o bloqueio padrão — e o plano libera mais controle: escolher os filtros, rotinas e limites, travas e histórico.',
+  },
+  lojas: [
+    {
+      nome: 'Google Play',
+      url: null,
+      nota: 'O link da Google Play entra aqui quando a ficha for publicada.',
+    },
+    {
+      nome: 'App Store',
+      url: null,
+      nota: 'O link da App Store entra aqui quando a ficha for publicada.',
+    },
+  ],
+  telas: [
+    {
+      src: '/produtos/vivelio/instagram.webp',
+      alt: 'O Instagram aberto dentro do Vivelio. No alto, a pílula com o tempo da sessão e quantos posts foram vistos: "0:15 · 1 post". Abaixo, a fileira de stories, desfocada nesta imagem, e um post de uma conta seguida. Na barra de baixo ficam início, busca, mensagens e perfil.',
+      legenda:
+        'O Instagram dentro do Vivelio. No alto, só a pílula: o tempo da sessão e quantos posts você viu. Os stories estão desfocados nesta imagem porque são de pessoas reais.',
+    },
+    {
+      src: '/produtos/vivelio/intro.webp',
+      alt: 'Uma tela da introdução do Vivelio: "46 dias por ano", o que dá 3 horas por dia nas redes somado no ano, e "548 horas de volta" com o Vivelio, se metade desse tempo for Reels e feed. Abaixo, o mesmo tempo em 91 livros, 274 filmes ou 1096 caminhadas de 30 minutos.',
+      legenda:
+        'A estimativa da introdução vem com a conta escrita embaixo. Nesta imagem, 3 horas por dia nas redes, somadas no ano, e metade disso de volta se for Reels e feed.',
+    },
+    {
+      src: '/produtos/vivelio/abrindo.webp',
+      alt: 'O mascote do Vivelio, um bonequinho laranja de braços abertos, no centro de uma tela escura, com o texto "Abrindo o YouTube…" embaixo.',
+      legenda: 'Enquanto a rede carrega, aparece o mascote, animado.',
+    },
+  ],
+};
+
 export const produtos: readonly Produto[] = [
   clearlio,
   notalio,
   editalio,
+  vivelio,
   vistalio,
   planilhaFinanceira,
 ];
@@ -1181,7 +1368,7 @@ export const produtos: readonly Produto[] = [
 /**
  * Demonstração de projeto sob medida: não se baixa nem se compra pronta. Mostra, com dados de
  * demonstração, o que o estúdio constrói por encomenda. Fica fora de `produtos` de propósito: aquela
- * lista é a dos programas "sem conta e sem mensalidade, preço nenhum", e esta tem preço sob orçamento.
+ * lista é a dos programas "sem conta e de graça", e esta tem preço sob orçamento.
  */
 export type Demonstracao = {
   tipo: 'demonstracao';

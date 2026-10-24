@@ -253,9 +253,7 @@ export const englishCopy: Readonly<Record<string, string>> = {
   'CRIAR MEU PROJETO →': 'START MY PROJECT →',
   'NO AR': 'LIVE',
   'Conheça o projeto': 'Explore the project',
-  'PRA USAR HOJE / SEM CONTA E SEM MENSALIDADE': 'READY TO USE / NO ACCOUNT OR SUBSCRIPTION',
   'Coisas que ficam com você.': 'Tools that stay with you.',
-  'Três programas, um site e uma planilha. O que é seu fica com você — no seu computador ou no seu aparelho —, e nada do que você faz neles passa por um servidor nosso.': 'Three apps, one website, and one spreadsheet. Your work stays on your computer or device, and nothing you do in them goes through our servers.',
   '01 / PRODUTOS': '01 / PRODUCTS',
   'Produtos do laboratório': 'Products from the lab',
   'Versão': 'Version',
@@ -394,6 +392,12 @@ export const englishCopy: Readonly<Record<string, string>> = {
   'dezembro': 'December',
   'VER O SITE': 'VIEW THE WEBSITE',
   'Desenvolvimento de software / Jogos / Laboratório de ideias': 'Software development / Games / Idea lab',
+  // Produtos, com o Vivelio.
+  'PRA USAR HOJE / SEM CONTA E DE GRAÇA': 'READY TO USE / NO ACCOUNT, FREE',
+  'Três programas, um aplicativo de celular, um site e uma planilha. O que é seu fica com você — no seu computador ou no seu aparelho —, e nada do que você faz neles passa por um servidor nosso.': 'Three desktop apps, one phone app, one website, and one spreadsheet. What is yours stays with you—on your computer or on your phone—and nothing you do in them goes through our servers.',
+  'Grátis': 'Free',
+  'VER O APLICATIVO': 'VIEW THE APP',
+  'Programas, um aplicativo de celular e uma planilha que a gente fez e usa. Sem conta e sem anúncio.': 'Desktop apps, one phone app, and one spreadsheet that we built and use ourselves. No account and no ads.',
 };
 
 /** Product and service copy shown on the main public pages. */

@@ -81,6 +81,17 @@ export const site = {
     'Confirmado pelo titular em 20/08/2026.',
   ) satisfies Campo<string>,
 
+  /**
+   * Canal do Vivelio. Não segue o padrão `contato.<produto>@gmail.com` dos jogos, e não foi
+   * deduzido dele: é o endereço que o próprio aplicativo mostra em "Fale com a gente", informado
+   * pelo titular em 24/10/2026. Site e app precisam dizer o mesmo endereço, porque é ele que vai
+   * para as fichas da Google Play e da App Store.
+   */
+  emailVivelio: definido(
+    'blajeenlabs@outlook.com',
+    'Informado pelo titular em 24/10/2026; é o canal que o app Vivelio mostra em "Fale com a gente".',
+  ) satisfies Campo<string>,
+
 } as const;
 
 /**

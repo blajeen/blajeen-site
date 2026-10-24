@@ -70,7 +70,7 @@ export const produtosHome = {
   indice: '02 / PRODUTOS',
   titulo: 'Coisas prontas, de graça, pra você usar hoje.',
   texto:
-    'Programas e planilhas que a gente fez, publicou e usa. Sem conta, sem mensalidade e sem nada saindo da sua máquina.',
+    'Programas, um aplicativo de celular e uma planilha que a gente fez e usa. Sem conta e sem anúncio.',
   cta: { rotulo: 'VER TODOS OS PRODUTOS', href: ROTAS.produtos },
 } as const;
 

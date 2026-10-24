@@ -11,7 +11,7 @@ import { ROTAS } from '@/lib/routes';
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Produtos — Blajeen Labs',
   descricao:
-    'Produtos do laboratório pra baixar e usar: o Clearlio, que limpa o computador com desfazer, e a planilha de controle financeiro. Sem conta, sem anúncio e sem versão paga. E as demonstrações do que fazemos sob medida: o Torrelio, para incorporadoras e hotéis, e o Carrelio, para concessionárias.',
+    'Produtos do laboratório pra baixar e usar: o Clearlio, que limpa o computador com desfazer, o Vivelio, que abre as redes sociais no celular sem o feed de sugestões, e a planilha de controle financeiro. Sem conta e sem anúncio. E as demonstrações do que fazemos sob medida: o Torrelio, para incorporadoras e hotéis, e o Carrelio, para concessionárias.',
   rota: ROTAS.produtos,
 });
 
@@ -29,6 +29,14 @@ function ficha(produto: (typeof produtos)[number]) {
         { rotulo: 'Versão', valor: produto.versao },
         { rotulo: 'Roda em', valor: produto.requisitos },
         { rotulo: 'Preço', valor: 'Nenhum' },
+      ];
+    // "Grátis", e não "Nenhum" como nos programas: o Vivelio tem um plano pago no app,
+    // ainda desligado. "Nenhum" diria que nunca vai ter; "Grátis" diz o que vale hoje.
+    case 'movel':
+      return [
+        { rotulo: 'Versão', valor: produto.versao },
+        { rotulo: 'Roda em', valor: produto.requisitos },
+        { rotulo: 'Preço', valor: 'Grátis' },
       ];
     case 'site':
       return [
@@ -57,6 +65,8 @@ function chamada(produto: (typeof produtos)[number]) {
   switch (produto.tipo) {
     case 'aplicativo':
       return 'VER O PROGRAMA';
+    case 'movel':
+      return 'VER O APLICATIVO';
     // "VER O SITE" seria ambíguo: o botão leva pra página do projeto aqui, e é lá que
     // mora o link que abre o Vistalio de verdade.
     case 'site':
@@ -74,13 +84,16 @@ export default function ProdutosPage() {
       <header className="relative isolate overflow-hidden pt-[clamp(3rem,7vw,7rem)]">
         <LabBackdrop />
         <Container>
-          <p className="tecnica text-signal">PRA USAR HOJE / SEM CONTA E SEM MENSALIDADE</p>
+          {/* "Sem mensalidade" saiu quando o Vivelio entrou: ele tem um plano pago no app,
+              ainda desligado. Hoje tudo aqui é de graça, e é isso que a linha diz. */}
+          <p className="tecnica text-signal">PRA USAR HOJE / SEM CONTA E DE GRAÇA</p>
           <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end">
             <h1 className="max-w-[14ch] text-[clamp(3rem,7vw,7rem)] leading-[0.92] tracking-[-0.06em] lg:col-span-8">
               Coisas que ficam com você.
             </h1>
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">
-              Três programas, um site e uma planilha. O que é seu fica com você — no seu
+              Três programas, um aplicativo de celular, um site e uma planilha. O que é seu
+              fica com você — no seu
               computador ou no seu aparelho —, e nada do que você faz neles passa por um
               servidor nosso.
             </p>
@@ -109,7 +122,15 @@ export default function ProdutosPage() {
                   aria-hidden="true"
                   className="group block overflow-hidden rounded-[var(--radius-control)] border border-line lg:col-span-4"
                 >
-                  <ScreenshotFrame src={produto.imagem.src} alt="" label={produto.nome} priority={i === 0}/>
+                  {/* O print do celular é em pé; os outros são de janela. A segunda tela vai
+                      junto porque é a que mostra a rede por dentro, que é o produto. */}
+                  <ScreenshotFrame
+                    src={produto.imagem.src}
+                    alt=""
+                    label={produto.nome}
+                    priority={i === 0}
+                    retrato={produto.tipo === 'movel' ? { telas: produto.telas.map((tela) => tela.src) } : undefined}
+                  />
                 </Link>
 
                 <div className="lg:col-span-5">

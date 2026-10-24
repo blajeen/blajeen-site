@@ -94,6 +94,14 @@ export function AdminRedesSociais({ inicial, erroInicial, conexao }: { inicial: 
     setOcupado(true); setErro('');
     try { await executar(item, verificar); } catch { setErro('Não foi possível atualizar os resultados.'); } finally { setOcupado(false); }
   }
+  async function conectar(provedor: string) {
+    setOcupado(true); setErro('');
+    try {
+      const { url } = await enviar<{ url: string }>(`/api/admin/social/oauth/${provedor}`);
+      // Navegação explícita: não depende de redirecionamento externo de um formulário.
+      window.location.assign(url);
+    } catch (e) { setErro(e instanceof Error ? e.message : 'Não foi possível iniciar a conexão.'); setOcupado(false); }
+  }
   function nova() {
     setArquivo(null); setPrevia(''); setLegenda(''); setRegistrada(false); arquivoId.current = ''; identificador.current = crypto.randomUUID(); setErro(''); setAviso('');
     if (campoArquivo.current) campoArquivo.current.value = '';
@@ -157,7 +165,7 @@ export function AdminRedesSociais({ inicial, erroInicial, conexao }: { inicial: 
         <p className="mt-3 text-sm text-mineral">Conecte uma vez. Depois, publique por aqui. A autorização acontece na própria rede.</p>
         <ul className="mt-5 divide-y divide-line">{PROVEDORES.map((p) => <li key={p.id} className="py-4">
           <h3 className="text-base">{p.nome}</h3><p className="mt-1 text-sm text-mineral">{p.detalhe}</p>
-          <form action={`/api/admin/social/oauth/${p.id}`} method="POST" className="mt-3"><button className={botaoSecundario} disabled={ocupado || !dados?.provedores[p.id]}>Conectar / reconectar</button></form>
+          <div className="mt-3"><button type="button" className={botaoSecundario} disabled={ocupado || !dados?.provedores[p.id]} onClick={() => void conectar(p.id)}>Conectar / reconectar</button></div>
           {dados && !dados.provedores[p.id] ? <p className="mt-2 text-xs text-mineral">Aplicativo ainda não configurado.</p> : null}
         </li>)}</ul>
         {dados?.contas.length ? <ul className="mt-4 space-y-3 border-t border-line pt-4">{dados.contas.map((c) => <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 text-sm">

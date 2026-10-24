@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('next/headers', () => ({ cookies: vi.fn() }));
 vi.mock('./repository', () => ({ consumirOAuth: vi.fn(), contasPrivadas: vi.fn(), guardarOAuth: vi.fn(), salvarConta: vi.fn() }));
-import { paginasMeta } from './oauth';
+import { codigoErro, paginasMeta } from './oauth';
 
 const resposta = (corpo: unknown) => new Response(JSON.stringify(corpo), { status: 200, headers: { 'content-type': 'application/json' } });
 describe('Páginas autorizadas na Meta', () => {
@@ -32,5 +32,13 @@ describe('Páginas autorizadas na Meta', () => {
   it('retorna vazio quando nenhuma Página foi autorizada', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(resposta({ data: [] })).mockResolvedValueOnce(resposta({ data: { granular_scopes: [] } })));
     expect(await paginasMeta('tu', 'app', 'segredo')).toEqual([]);
+  });
+
+  it('registra só o código curto do erro da rede, sem descrições livres', () => {
+    expect(codigoErro({ error: 'invalid_grant', error_description: 'segredo' })).toBe('invalid_grant');
+    expect(codigoErro({ error: { code: 190, message: 'token expirado' } })).toBe('190');
+    expect(codigoErro({ error: { code: 'access_token_invalid' } })).toBe('access_token_invalid');
+    expect(codigoErro({ error: 'texto com espaços e <script>' })).toBe('');
+    expect(codigoErro(null)).toBe('');
   });
 });

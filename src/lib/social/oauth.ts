@@ -4,6 +4,7 @@ import { adminCookie, verifyAdminSession } from '@/lib/onboarding/security';
 import { cifrar, decifrar, hash } from './crypto';
 import { consumirOAuth, contasPrivadas, guardarOAuth, salvarConta } from './repository';
 import type { ContaPrivada, ContaSocial } from './types';
+import { ErroConexaoSocial } from './oauth-feedback';
 
 export const PROVEDORES = ['meta', 'youtube', 'twitter', 'tiktok'] as const;
 export type Provedor = typeof PROVEDORES[number];
@@ -69,10 +70,10 @@ async function conta(rede: ContaPrivada['rede'], id: string, nome: string, token
 
 export async function concluirOAuth(p: Provedor, code: string, state: string) {
   const jar = await cookies(); const cookie = `social_oauth_${p}`; const nonce = jar.get(cookie)?.value;
-  if (!nonce || !state || !code) throw new Error('Autorização incompleta ou expirada. Conecte novamente.');
+  if (!nonce || !state || !code) throw new ErroConexaoSocial('expirada');
   const pendente = await consumirOAuth(hash(state), hash(nonce));
   jar.delete({ name: cookie, path: `/api/admin/social/oauth/${p}/callback` });
-  if (!pendente || pendente.provedor !== p || !verifyAdminSession(decifrar(pendente.sessao))) throw new Error('Autorização inválida ou expirada. Conecte novamente.');
+  if (!pendente || pendente.provedor !== p || !verifyAdminSession(decifrar(pendente.sessao))) throw new ErroConexaoSocial('expirada');
   const { id, segredo } = credenciais(p);
   const params = { client_id: id, client_secret: segredo, redirect_uri: retorno(p), code, grant_type: 'authorization_code', code_verifier: decifrar(pendente.verificador) };
   if (p === 'meta') {
@@ -80,7 +81,7 @@ export async function concluirOAuth(p: Provedor, code: string, state: string) {
     const longo = await api<Token>(`${graph()}/oauth/access_token?${new URLSearchParams({ grant_type: 'fb_exchange_token', client_id: id, client_secret: segredo, fb_exchange_token: curto.access_token })}`);
     type Page = { id: string; name: string; access_token: string; instagram_business_account?: { id: string; username?: string } };
     const paginas = await api<{ data: Page[] }>(`${graph()}/me/accounts?fields=id,name,access_token,instagram_business_account{id,username}&limit=100`, { headers: bearer(longo.access_token) });
-    if (!paginas.data.length) throw new Error('Nenhuma Página autorizada. Autorize uma Página do Facebook vinculada ao seu Instagram profissional.');
+    if (!paginas.data.length) throw new ErroConexaoSocial('sem-pagina');
     for (const pagina of paginas.data) {
       await conta('facebook', pagina.id, pagina.name, { access_token: pagina.access_token });
       if (pagina.instagram_business_account) await conta('instagram', pagina.instagram_business_account.id, pagina.instagram_business_account.username || pagina.name, { access_token: pagina.access_token });

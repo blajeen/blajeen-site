@@ -33,12 +33,24 @@ export function graph(): string {
   return `https://graph.facebook.com/${version}`;
 }
 function retorno(p: Provedor) { return `${baseSocial()}/api/admin/social/oauth/${p}/callback`; }
+/** Host e caminho, nunca a query: trocas OAuth da Meta levam segredo e código na query. */
+function destino(url: string): string { try { const u = new URL(url); return `${u.hostname}${u.pathname}`; } catch { return 'endereço inválido'; } }
+/** Só o identificador curto do erro da rede (ex.: invalid_grant, 190), nunca descrições livres. */
+export function codigoErro(corpo: unknown): string {
+  const e = (corpo as { error?: unknown } | null)?.error;
+  const bruto = typeof e === 'string' ? e : typeof e === 'object' && e ? (e as { code?: unknown }).code : undefined;
+  const texto = typeof bruto === 'number' ? String(bruto) : typeof bruto === 'string' ? bruto : '';
+  return /^[\w.-]{1,40}$/.test(texto) ? texto : '';
+}
 export async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
   const r = await fetch(url, { ...init, cache: 'no-store', signal: init.signal ?? AbortSignal.timeout(60_000) });
-  if (!r.ok) throw new Error(`A rede recusou a solicitação (HTTP ${r.status}). Confira permissões, formato e conexão da conta.`);
+  if (!r.ok) {
+    const codigo = codigoErro(await r.json().catch(() => null));
+    throw new Error(`A rede recusou a solicitação (HTTP ${r.status}${codigo ? `, ${codigo}` : ''} em ${destino(url)}). Confira permissões, formato e conexão da conta.`);
+  }
   if (r.status === 204) return {} as T;
   const data = await r.json() as T & { error?: { code?: string } | string };
-  if (data.error && (typeof data.error === 'string' || data.error.code && data.error.code !== 'ok')) throw new Error('A rede recusou a operação. Confira a configuração e reconecte a conta.');
+  if (data.error && (typeof data.error === 'string' || data.error.code && data.error.code !== 'ok')) throw new Error(`A rede recusou a operação (${codigoErro(data) || 'sem código'} em ${destino(url)}). Confira a configuração e reconecte a conta.`);
   return data;
 }
 function form(p: Record<string, string>): RequestInit { return { method: 'POST', body: new URLSearchParams(p) }; }
@@ -117,7 +129,7 @@ export async function concluirOAuth(p: Provedor, code: string, state: string) {
     await conta('twitter', usuario.data.id, usuario.data.username, token);
   } else {
     const token = await api<Token>('https://open.tiktokapis.com/v2/oauth/token/', form({ client_key: id, client_secret: segredo, grant_type: 'authorization_code', code, redirect_uri: retorno(p) }));
-    if (!token.scope?.split(',').includes('video.upload')) throw new Error('O aplicativo precisa da permissão video.upload aprovada pelo TikTok.');
+    if (!token.scope?.split(/[,\s]+/).includes('video.upload')) throw new Error('O aplicativo precisa da permissão video.upload aprovada pelo TikTok.');
     const usuario = await api<{ data: { user: { open_id: string; display_name: string } } }>('https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name', { headers: bearer(token.access_token) });
     await conta('tiktok', usuario.data.user.open_id, usuario.data.user.display_name, token);
   }

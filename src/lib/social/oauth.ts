@@ -68,6 +68,27 @@ async function conta(rede: ContaPrivada['rede'], id: string, nome: string, token
     expiraEm: token.expires_in ? Date.now() + token.expires_in * 1000 : null });
 }
 
+type PaginaMeta = { id: string; name: string; access_token?: string; instagram_business_account?: { id: string; username?: string } };
+const CAMPOS_PAGINA = 'id,name,access_token,instagram_business_account{id,username}';
+/**
+ * Lista as Páginas autorizadas pelo usuário. `/me/accounts` não inclui Páginas acessadas somente pelo
+ * portfólio empresarial (Business Manager); nesse caso, os IDs autorizados vêm dos escopos granulares
+ * do próprio token (`debug_token`) e cada Página é consultada diretamente, sem permissões extras.
+ */
+export async function paginasMeta(userToken: string, appId: string, appSecret: string): Promise<(PaginaMeta & { access_token: string })[]> {
+  const comToken = (lista: PaginaMeta[]) => lista.filter((p): p is PaginaMeta & { access_token: string } => Boolean(p.id && p.access_token));
+  const diretas = await api<{ data: PaginaMeta[] }>(`${graph()}/me/accounts?fields=${CAMPOS_PAGINA}&limit=100`, { headers: bearer(userToken) });
+  if (diretas.data?.length) return comToken(diretas.data);
+  const debug = await api<{ data?: { granular_scopes?: { scope: string; target_ids?: string[] }[] } }>(
+    `${graph()}/debug_token?${new URLSearchParams({ input_token: userToken })}`, { headers: bearer(`${appId}|${appSecret}`) });
+  const escopos = debug.data?.granular_scopes ?? [];
+  const alvo = (nome: string) => escopos.find((e) => e.scope === nome)?.target_ids ?? [];
+  const ids = [...new Set([...alvo('pages_manage_posts'), ...alvo('pages_show_list')])].filter((v) => /^\d+$/.test(v)).slice(0, 25);
+  const paginas: PaginaMeta[] = [];
+  for (const pagina of ids) paginas.push(await api<PaginaMeta>(`${graph()}/${pagina}?fields=${CAMPOS_PAGINA}`, { headers: bearer(userToken) }));
+  return comToken(paginas);
+}
+
 export async function concluirOAuth(p: Provedor, code: string, state: string) {
   const jar = await cookies(); const cookie = `social_oauth_${p}`; const nonce = jar.get(cookie)?.value;
   if (!nonce || !state || !code) throw new ErroConexaoSocial('expirada');
@@ -79,10 +100,9 @@ export async function concluirOAuth(p: Provedor, code: string, state: string) {
   if (p === 'meta') {
     const curto = await api<Token>(`${graph()}/oauth/access_token?${new URLSearchParams({ client_id: id, client_secret: segredo, redirect_uri: retorno(p), code })}`);
     const longo = await api<Token>(`${graph()}/oauth/access_token?${new URLSearchParams({ grant_type: 'fb_exchange_token', client_id: id, client_secret: segredo, fb_exchange_token: curto.access_token })}`);
-    type Page = { id: string; name: string; access_token: string; instagram_business_account?: { id: string; username?: string } };
-    const paginas = await api<{ data: Page[] }>(`${graph()}/me/accounts?fields=id,name,access_token,instagram_business_account{id,username}&limit=100`, { headers: bearer(longo.access_token) });
-    if (!paginas.data.length) throw new ErroConexaoSocial('sem-pagina');
-    for (const pagina of paginas.data) {
+    const paginas = await paginasMeta(longo.access_token, id, segredo);
+    if (!paginas.length) throw new ErroConexaoSocial('sem-pagina');
+    for (const pagina of paginas) {
       await conta('facebook', pagina.id, pagina.name, { access_token: pagina.access_token });
       if (pagina.instagram_business_account) await conta('instagram', pagina.instagram_business_account.id, pagina.instagram_business_account.username || pagina.name, { access_token: pagina.access_token });
     }

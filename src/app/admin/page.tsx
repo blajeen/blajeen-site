@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AdminIcon, type AdminIconName } from '@/components/admin/AdminIcon';
 import { AdminShell } from '@/components/admin/AdminShell';
 import { GraficoMensal } from '@/components/admin/GraficoMensal';
 import { botaoPrimario, botaoSecundario, painelAdmin } from '@/components/admin/estilos';
@@ -7,15 +8,19 @@ import { exigirSessaoAdmin } from '@/lib/admin/sessao';
 import { listarContratos } from '@/lib/contracts/repository';
 import { reais } from '@/lib/contracts/valores';
 import { listarPedidos } from '@/lib/pedidos/repository';
+import styles from '@/components/admin/AdminOverview.module.css';
 
 export const dynamic = 'force-dynamic';
 
-function Numero({ rotulo, valor, detalhe, destaque = false }: { rotulo: string; valor: string; detalhe: string; destaque?: boolean }) {
+function Numero({ rotulo, valor, detalhe, icone, destaque = false }: { rotulo: string; valor: string; detalhe: string; icone: AdminIconName; destaque?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-5 ${destaque ? 'border-signal/60 bg-raised' : 'border-line-strong bg-surface'}`}>
-      <p className="tecnica text-mineral-dim">{rotulo}</p>
-      <p className="mt-3 text-[clamp(1.7rem,3vw,2.4rem)] leading-none tracking-[-0.03em] tabular-nums">{valor}</p>
-      <p className="mt-2 text-sm text-mineral">{detalhe}</p>
+    <div className={`${styles.metric} ${destaque ? styles.highlight : ''}`}>
+      <div className={styles.metricHeader}>
+        <p className={styles.label}>{rotulo}</p>
+        <span className={styles.icon}><AdminIcon name={icone} /></span>
+      </div>
+      <p className={styles.value}>{valor}</p>
+      <p className={styles.detail}>{detalhe}</p>
     </div>
   );
 }
@@ -40,15 +45,15 @@ export default async function AdminVisaoGeralPage() {
     const meses = resumoMensal(pedidos, contratos, ultimosMeses(6));
     conteudo = (
       <>
-        <section aria-label="Indicadores" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <Numero rotulo="PEDIDOS NOVOS" valor={String(n.pedidosNovos)} detalhe={`${n.pedidosTotal} pedidos no total`} destaque={n.pedidosNovos > 0} />
-          <Numero rotulo="CONTRATOS COM O CLIENTE" valor={String(n.contratosAguardando)} detalhe="aguardando o cliente preencher" />
-          <Numero rotulo="PRONTOS PARA ASSINAR" valor={String(n.contratosPreenchidos)} detalhe="envie pela plataforma de assinatura" destaque={n.contratosPreenchidos > 0} />
-          <Numero rotulo="CONTRATOS ASSINADOS" valor={String(n.contratosAssinados)} detalhe={`conversão de pedidos: ${Math.round(n.conversao * 100)}%`} />
-          <Numero rotulo={`VENDIDO EM ${ano}`} valor={reais(Math.round(n.vendidoAno))} detalhe="soma dos contratos assinados" />
-          <Numero rotulo={`RECEBIDO EM ${ano}`} valor={reais(Math.round(n.recebidoAno))} detalhe="entradas e saldos registrados" />
-          <Numero rotulo="A RECEBER" valor={reais(Math.round(n.aReceber))} detalhe="entradas e saldos em aberto" destaque={n.aReceber > 0} />
-          <Numero rotulo="TICKET MÉDIO" valor={reais(Math.round(n.ticketMedio))} detalhe={`por contrato assinado em ${ano}`} />
+        <section aria-label="Indicadores" className={styles.metrics}>
+          <Numero icone="orders" rotulo="Pedidos novos" valor={String(n.pedidosNovos)} detalhe={`${n.pedidosTotal} pedidos no total`} destaque={n.pedidosNovos > 0} />
+          <Numero icone="contracts" rotulo="Com o cliente" valor={String(n.contratosAguardando)} detalhe="contratos aguardando preenchimento" />
+          <Numero icone="contracts" rotulo="Prontos para assinar" valor={String(n.contratosPreenchidos)} detalhe="envie pela plataforma de assinatura" destaque={n.contratosPreenchidos > 0} />
+          <Numero icone="contracts" rotulo="Contratos assinados" valor={String(n.contratosAssinados)} detalhe={`conversão de pedidos: ${Math.round(n.conversao * 100)}%`} />
+          <Numero icone="reports" rotulo={`Vendido em ${ano}`} valor={reais(Math.round(n.vendidoAno))} detalhe="soma dos contratos assinados" />
+          <Numero icone="reports" rotulo={`Recebido em ${ano}`} valor={reais(Math.round(n.recebidoAno))} detalhe="entradas e saldos registrados" />
+          <Numero icone="reports" rotulo="A receber" valor={reais(Math.round(n.aReceber))} detalhe="entradas e saldos em aberto" destaque={n.aReceber > 0} />
+          <Numero icone="reports" rotulo="Ticket médio" valor={reais(Math.round(n.ticketMedio))} detalhe={`por contrato assinado em ${ano}`} />
         </section>
 
         <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
@@ -84,7 +89,8 @@ export default async function AdminVisaoGeralPage() {
   }
 
   return (
-    <AdminShell titulo="Visão geral." descricao="Pedidos, contratos e dinheiro entrando, em uma tela. Comece pelo que precisa de você.">
+    <AdminShell titulo="Visão geral." descricao="Pedidos, contratos e recebimentos. Comece pelo que precisa de você."
+      acoes={<><Link href="/admin/pedidos" className={botaoSecundario}><AdminIcon name="orders" className="h-4 w-4" />Ver pedidos</Link><Link href="/admin/contratos" className={botaoPrimario}><AdminIcon name="contracts" className="h-4 w-4" />Novo contrato</Link></>}>
       {conteudo}
     </AdminShell>
   );

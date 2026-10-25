@@ -11,6 +11,8 @@ export async function GET(request: Request, ctx: { params: Promise<{ provedor: s
   } catch (e) {
     // Só códigos controlados pelo site: nunca respostas externas, tokens ou códigos OAuth.
     if (e instanceof ErroConexaoSocial) resultado = e.motivo;
+    // Diagnóstico no servidor: mensagens do próprio site (rede, endpoint sem query, status e código curto).
+    else console.error('[social-oauth] falha ao concluir conexão', { rede: (await ctx.params).provedor.slice(0, 20), motivo: e instanceof Error ? e.message.slice(0, 300) : 'erro desconhecido' });
   }
   const destino = `/admin/redes-sociais?conexao=${resultado}`;
   const nonce = randomBytes(18).toString('base64');

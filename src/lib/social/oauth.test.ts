@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('next/headers', () => ({ cookies: vi.fn() }));
 vi.mock('./repository', () => ({ consumirOAuth: vi.fn(), contasPrivadas: vi.fn(), guardarOAuth: vi.fn(), salvarConta: vi.fn() }));
-import { codigoErro, paginasMeta } from './oauth';
+import { codigoErro, formTikTok, paginasMeta } from './oauth';
 
 const resposta = (corpo: unknown) => new Response(JSON.stringify(corpo), { status: 200, headers: { 'content-type': 'application/json' } });
 describe('Páginas autorizadas na Meta', () => {
@@ -40,5 +40,12 @@ describe('Páginas autorizadas na Meta', () => {
     expect(codigoErro({ error: { code: 'access_token_invalid' } })).toBe('access_token_invalid');
     expect(codigoErro({ error: 'texto com espaços e <script>' })).toBe('');
     expect(codigoErro(null)).toBe('');
+  });
+
+  it('envia ao TikTok o Content-Type exato, sem charset', () => {
+    const init = formTikTok({ code: 'a*b!c', redirect_uri: 'https://blajeen.com.br/x' });
+    expect(new Headers(init.headers).get('content-type')).toBe('application/x-www-form-urlencoded');
+    expect(typeof init.body).toBe('string');
+    expect(new URLSearchParams(init.body as string).get('code')).toBe('a*b!c');
   });
 });

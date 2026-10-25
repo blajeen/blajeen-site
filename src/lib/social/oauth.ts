@@ -54,6 +54,10 @@ export async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
   return data;
 }
 function form(p: Record<string, string>): RequestInit { return { method: 'POST', body: new URLSearchParams(p) }; }
+/** O TikTok recusa `;charset=UTF-8` (padrão do fetch com URLSearchParams) e responde invalid_request. */
+export function formTikTok(p: Record<string, string>): RequestInit {
+  return { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Cache-Control': 'no-cache' }, body: new URLSearchParams(p).toString() };
+}
 export function bearer(token: string): Record<string, string> { return { Authorization: `Bearer ${token}` }; }
 type Token = { access_token: string; refresh_token?: string; expires_in?: number; scope?: string; open_id?: string };
 
@@ -128,7 +132,7 @@ export async function concluirOAuth(p: Provedor, code: string, state: string) {
     const usuario = await api<{ data: { id: string; username: string } }>('https://api.x.com/2/users/me', { headers: bearer(token.access_token) });
     await conta('twitter', usuario.data.id, usuario.data.username, token);
   } else {
-    const token = await api<Token>('https://open.tiktokapis.com/v2/oauth/token/', form({ client_key: id, client_secret: segredo, grant_type: 'authorization_code', code, redirect_uri: retorno(p) }));
+    const token = await api<Token>('https://open.tiktokapis.com/v2/oauth/token/', formTikTok({ client_key: id, client_secret: segredo, grant_type: 'authorization_code', code, redirect_uri: retorno(p) }));
     if (!token.scope?.split(/[,\s]+/).includes('video.upload')) throw new Error('O aplicativo precisa da permissão video.upload aprovada pelo TikTok.');
     const usuario = await api<{ data: { user: { open_id: string; display_name: string } } }>('https://open.tiktokapis.com/v2/user/info/?fields=open_id,display_name', { headers: bearer(token.access_token) });
     await conta('tiktok', usuario.data.user.open_id, usuario.data.user.display_name, token);
@@ -149,7 +153,7 @@ export async function tokenDaConta(c: ContaPrivada): Promise<string> {
   const refresh = decifrar(c.refresh); let token: Token;
   if (p === 'youtube') token = await api<Token>('https://oauth2.googleapis.com/token', form({ client_id: id, client_secret: segredo, refresh_token: refresh, grant_type: 'refresh_token' }));
   else if (p === 'twitter') token = await api<Token>('https://api.x.com/2/oauth2/token', { ...form({ client_id: id, refresh_token: refresh, grant_type: 'refresh_token' }), headers: { Authorization: `Basic ${Buffer.from(`${id}:${segredo}`).toString('base64')}` } });
-  else if (p === 'tiktok') token = await api<Token>('https://open.tiktokapis.com/v2/oauth/token/', form({ client_key: id, client_secret: segredo, refresh_token: refresh, grant_type: 'refresh_token' }));
+  else if (p === 'tiktok') token = await api<Token>('https://open.tiktokapis.com/v2/oauth/token/', formTikTok({ client_key: id, client_secret: segredo, refresh_token: refresh, grant_type: 'refresh_token' }));
   else throw new Error('Reconecte a conta Meta.');
   await salvarConta({ ...c, token: cifrar(token.access_token), refresh: token.refresh_token ? cifrar(token.refresh_token) : c.refresh, expiraEm: Date.now() + (token.expires_in || 3600) * 1000 });
   return token.access_token;

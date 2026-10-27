@@ -68,7 +68,7 @@ export function AdminRedesSociais({ inicial, erroInicial, conexao }: { inicial: 
     finally { setOcupado(false); }
   }
   async function executar(item: PublicacaoSocial, verificar = false) {
-    const envios = item.envios.filter((e) => e.estado === (verificar ? 'aceito' : 'pendente'));
+    const envios = item.envios.filter((e) => verificar ? e.estado === 'aceito' || (e.rede === 'tiktok' && e.estado === 'acao') : e.estado === 'pendente');
     const resultados = await Promise.allSettled(envios.map((e) => enviar(`/api/admin/social/envios/${e.id}${verificar ? '?verificar=1' : ''}`)));
     await carregar();
     if (resultados.some((r) => r.status === 'rejected')) setErro('Uma ou mais redes não confirmaram o envio. Confira o histórico antes de reenviar.');
@@ -193,9 +193,10 @@ export function AdminRedesSociais({ inicial, erroInicial, conexao }: { inicial: 
         </li>)}</ul>
         <div className="mt-4 flex flex-wrap gap-3">
           {p.envios.some((e) => e.estado === 'pendente') ? <button className={botaoSecundario} disabled={ocupado} onClick={() => void atualizar(p, false)}>Continuar envios pendentes</button> : null}
-          {p.envios.some((e) => e.estado === 'aceito') ? <button className={botaoSecundario} disabled={ocupado} onClick={() => void atualizar(p, true)}>Atualizar resultados</button> : null}
+          {p.envios.some((e) => e.estado === 'aceito' || (e.rede === 'tiktok' && e.estado === 'acao')) ? <button className={botaoSecundario} disabled={ocupado} onClick={() => void atualizar(p, true)}>Atualizar resultados</button> : null}
         </div>
       </li>)}</ul>}
     </section>
   </>;
 }
+

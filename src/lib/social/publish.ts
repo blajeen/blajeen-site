@@ -107,7 +107,7 @@ async function tiktok(arquivo: ArquivoSocial, legenda: string, token: string, ch
     const r = await api<{ data: { publish_id: string } }>('https://open.tiktokapis.com/v2/post/publish/content/init/', json(token, {
       post_info: { title: titulo(legenda), description: legenda }, source_info: { source: 'PULL_FROM_URL', photo_cover_index: 0, photo_images: [urlDaMidia(arquivo.id)] }, post_mode: 'MEDIA_UPLOAD', media_type: 'PHOTO',
     }));
-    return sucesso(validarId(r.data.publish_id), 'acao', 'Abra a notificação na caixa de entrada do TikTok para revisar e publicar a imagem.');
+    return sucesso(validarId(r.data.publish_id), 'aceito', 'O TikTok está processando o envio. Atualize o resultado para verificar a notificação.');
   }
   const maxChunk = 32 * 1024 * 1024; const count = Math.max(1, Math.floor(arquivo.tamanho / maxChunk)); const chunk = count === 1 ? arquivo.tamanho : maxChunk;
   const r = await api<{ data: { publish_id: string; upload_url: string } }>('https://open.tiktokapis.com/v2/post/publish/inbox/video/init/', json(token, { source_info: { source: 'FILE_UPLOAD', video_size: arquivo.tamanho, chunk_size: chunk, total_chunk_count: count } }));
@@ -120,7 +120,7 @@ async function tiktok(arquivo: ArquivoSocial, legenda: string, token: string, ch
     const enviado = await fetch(u.href, { method: 'PUT', headers: { 'Content-Type': 'video/mp4', 'Content-Length': String(bytes.length), 'Content-Range': `bytes ${inicio}-${fim}/${arquivo.tamanho}` }, body: bytes, signal: AbortSignal.timeout(60_000) });
     if (!enviado.ok) throw new Error('O TikTok não confirmou o recebimento do vídeo.');
   }
-  return sucesso(id, 'acao', 'Abra a notificação no TikTok, cole a legenda do painel e finalize a publicação.');
+  return sucesso(id, 'aceito', 'O TikTok está processando o envio. Atualize o resultado para verificar a notificação.');
 }
 
 export async function publicarDireto(c: ContaPrivada, arquivo: ArquivoSocial, legenda: string, checkpoint: Checkpoint): Promise<Resultado> {
@@ -136,6 +136,16 @@ export async function publicarDireto(c: ContaPrivada, arquivo: ArquivoSocial, le
 export async function verificarEnvio(c: ContaPrivada, envio: EnvioSocial): Promise<Resultado | null> {
   const token = await tokenDaConta(c); const id = envio.remotoId;
   if (!id) return null;
+  if (c.rede === 'tiktok') {
+    const r = await api<{ data: { status: string; fail_reason?: string } }>('https://open.tiktokapis.com/v2/post/publish/status/fetch/', json(token, { publish_id: id }));
+    if (r.data.status === 'SEND_TO_USER_INBOX') return sucesso(id, 'acao', 'O TikTok enviou uma notificação para você revisar e publicar.');
+    if (r.data.status === 'PUBLISH_COMPLETE') return sucesso(id, 'publicado', 'O TikTok confirmou a publicação; confira a visibilidade no aplicativo.');
+    if (r.data.status === 'FAILED') {
+      const motivo = r.data.fail_reason && /^[a-z0-9_]{1,100}$/i.test(r.data.fail_reason) ? ` (${r.data.fail_reason})` : '';
+      return sucesso(id, 'falhou', `O TikTok informou uma falha no processamento${motivo}.`);
+    }
+    return sucesso(id, 'aceito', 'O TikTok ainda está processando o envio. Atualize o resultado mais tarde.');
+  }
   if (c.rede === 'instagram' && id.startsWith('container:')) {
     const containerId = id.slice(10);
     const r = await api<{ status_code: string }>(`${graph()}/${containerId}?fields=status_code`, { headers: bearer(token) });
@@ -158,3 +168,4 @@ export async function verificarEnvio(c: ContaPrivada, envio: EnvioSocial): Promi
   }
   return null;
 }
+

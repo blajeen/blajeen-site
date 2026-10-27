@@ -54,12 +54,14 @@ export function AdminShell({ titulo, descricao, acoes, children }: { titulo: str
           <div><span className={styles.identityLabel}>Blajeen Labs</span><span className={styles.identityDetail}>Painel administrativo</span></div>
         </div>
         <div ref={linksRef} className={styles.links}>
-          {ABAS.map((aba) => (
-            <Link key={aba.href} href={aba.href} aria-current={ativa(aba.href) ? 'page' : undefined} className={styles.link}>
-              <AdminIcon name={aba.icone} className={styles.icon} />
-              <span>{aba.rotulo}</span>
-            </Link>
-          ))}
+          {ABAS.map((aba) => {
+            const conteudo = <><AdminIcon name={aba.icone} className={styles.icon} /><span>{aba.rotulo}</span></>;
+            const props = { href: aba.href, 'aria-current': ativa(aba.href) ? 'page' as const : undefined, className: styles.link };
+            // A tela de redes precisa carregar sua própria política de segurança para ler e enviar mídia.
+            return aba.href === '/admin/redes-sociais'
+              ? <a key={aba.href} {...props}>{conteudo}</a>
+              : <Link key={aba.href} {...props}>{conteudo}</Link>;
+          })}
         </div>
         <button type="button" aria-label={saindo ? 'Saindo do painel' : 'Sair do painel'} onClick={() => void sair()} disabled={saindo} className={styles.logout}>
           <AdminIcon name="logout" className={styles.icon} /><span>{saindo ? 'Saindo…' : <>Sair<span className={styles.desktopLabel}> do painel</span></>}</span>
@@ -80,3 +82,4 @@ export function AdminShell({ titulo, descricao, acoes, children }: { titulo: str
     </div>
   );
 }
+

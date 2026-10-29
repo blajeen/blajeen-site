@@ -462,7 +462,7 @@ export const suporteEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O Docalio está disponível na App Store. Para dúvidas sobre instalação, uso, compras ou dados do jogo, consulte o suporte do Docalio ou escreva para o canal abaixo.',
+            'O Docalio está disponível na App Store e no Google Play. Para dúvidas sobre instalação, uso, compras ou dados do jogo, consulte o suporte do Docalio ou escreva para o canal abaixo.',
         },
         {
           tipo: 'contato',
@@ -479,7 +479,7 @@ export const suporteEstudio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O Gramelio está disponível na App Store. Para ajuda com instalação, progresso, compras ou dados do jogo, consulte a página de suporte do Gramelio ou entre em contato pelo canal informado abaixo.',
+            'O Gramelio está disponível na App Store e no Google Play. Para ajuda com instalação, progresso, compras ou dados do jogo, consulte a página de suporte do Gramelio ou entre em contato pelo canal informado abaixo.',
         },
         {
           tipo: 'contato',

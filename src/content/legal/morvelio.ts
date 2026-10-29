@@ -5,7 +5,7 @@ import type { LegalDocument } from '../types';
 const VERSAO = '11 de outubro de 2026';
 const FONTE_DATA = 'Comportamento auditado no build de teste do Morvelio para iPhone e Android (TestFlight) de 11 de outubro de 2026.';
 const AVISO =
-  'Morvelio está em teste fechado (TestFlight) e ainda não está à venda nas lojas. Este texto descreve o build de teste e será revisto antes do lançamento.';
+  'Morvelio está disponível na App Store e no Google Play. Este texto descreve o build de teste auditado em 11 de outubro de 2026 e está em revisão para refletir a versão publicada.';
 
 const relacionados = [
   { href: ROTAS.projetoMorvelio, rotulo: 'Sobre o Morvelio' },

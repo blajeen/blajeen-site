@@ -12,7 +12,9 @@ import type { Project, ProjectId } from './types';
  * por isso o produto tem `pilares` e continua com `recursos` vazio.
  *
  * As fichas da App Store de Docalio, Gramelio, Catelio e Mazelio foram verificadas
- * em 26/09/2026. A publicação não substitui a revisão dos documentos legais.
+ * em 26/09/2026. Em 29/10/2026 o titular informou que os quatro também estão no Google Play e
+ * que Morvelio e Socialio estão disponíveis nas duas lojas; os endereços dessas fichas ainda não
+ * foram passados (bloqueador `lojasJogos`). A publicação não substitui a revisão dos documentos legais.
  */
 
 export const revalio: Project = {
@@ -82,14 +84,10 @@ export const revalio: Project = {
   galeria: [],
   galeriaBloqueador: 'screenshotsRevalio',
   plataformas: [],
-  /*
-   * O titular informou em 18/08/2026 que o Revalio já está publicado nas duas lojas.
-   * As URLs das fichas ainda não foram passadas — ver o bloqueador `lojasRevalio`. Enquanto elas
-   * não existirem, o site anuncia a disponibilidade sem prometer um link que não abre.
-   */
+  // Endereços das fichas tirados do perfil do titular no GitHub (blajeen/blajeen), 29/10/2026.
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasRevalio' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasRevalio' },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/revalio/id6802770612' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.revalio' },
   ],
   ogDescricao: 'Microaprendizagem para quem estuda para o Revalida e a residência.',
   metaTitulo: 'Revalio — Blajeen Labs',
@@ -140,7 +138,7 @@ export const docalio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/docalio/id6806569271' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
   ogDescricao: 'Docalio já está disponível: estratégia e prioridade na emergência, com casos ficcionais.',
   metaTitulo: 'Docalio — Blajeen Labs',
@@ -226,7 +224,7 @@ export const gramelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/gramelio/id6805123148' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
   ogDescricao: 'Gramelio já está disponível: um toque, um pasto e um estômago para administrar.',
   metaTitulo: 'Gramelio — Blajeen Labs',
@@ -245,11 +243,11 @@ export const catelio: Project = {
   descricao:
     'Um jogo casual de exploração em que você guia um gato por regiões pequenas, encontra comida, conhece personagens e descobre novos caminhos.',
   cta: 'CONHECER CATELIO',
-  notaCurta: 'Disponível na App Store. Google Play em breve.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 04 / JOGO CASUAL',
   subtitulo: 'Um toque, um gato e um mundo para descobrir.',
   introducao:
-    'Uma aventura tranquila de exploração com um gato por uma cidade brasileira low-poly. Disponível para iPhone e iPad.',
+    'Uma aventura tranquila de exploração com um gato por uma cidade brasileira low-poly. Disponível para Android, iPhone e iPad.',
   manifesto: [
     'Catelio nasceu de uma ideia simples: transformar a curiosidade de um gato em uma jornada que cabe na tela e convida a explorar sem pressa.',
     'Cada região combina caminhos, comida, personagens e pequenos acontecimentos. O jogador decide para onde ir, o que descobrir e quando voltar.',
@@ -295,34 +293,33 @@ export const catelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/catelio/id6806569561' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
-  ogDescricao: 'Explore uma cidade brasileira low-poly com um gato. Disponível na App Store.',
+  ogDescricao: 'Explore uma cidade brasileira low-poly com um gato. Disponível na App Store e no Google Play.',
   metaTitulo: 'Catelio — Blajeen Labs',
   metaDescricao:
-    'Catelio é o jogo casual de exploração da Blajeen Labs: descubra uma cidade brasileira low-poly com um gato. Disponível na App Store.',
+    'Catelio é o jogo casual de exploração da Blajeen Labs: descubra uma cidade brasileira low-poly com um gato. Disponível na App Store e no Google Play.',
 };
 
 export const morvelio: Project = {
   id: 'morvelio',
   nome: 'Morvelio',
   indice: 'EXPERIMENTO 05',
-  estado: 'EM FORMAÇÃO',
+  estado: 'ATIVO',
   categoria: 'RPG DE AÇÃO SOLO',
-  status: 'EM DESENVOLVIMENTO',
+  status: 'DISPONÍVEL',
   frase: 'Em Velidor o mal já venceu, e só os aventureiros se recusam a aceitar.',
   descricao:
-    'Um RPG de ação solo em desenvolvimento: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro.',
+    'Um RPG de ação solo: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro.',
   cta: 'CONHECER MORVELIO',
-  notaCurta:
-    'Protótipo jogável em testes. Capturas reais do desenvolvimento; ainda sem lançamento público.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 05 / JOGO AUTORAL',
-  subtitulo: 'Uma campanha solo em um mundo fantástico que já ganhou forma jogável.',
+  subtitulo: 'Uma campanha solo em um mundo fantástico.',
   introducao:
-    'Morvelio combina exploração e combates em visão superior. O protótipo permite jogar encontros e percorrer mapas da campanha solo enquanto a experiência é refinada em testes.',
+    'Morvelio combina exploração e combates em visão superior, numa campanha solo por mapas, encontros e chefes.',
   manifesto: [
-    'Morvelio saiu do papel: há um protótipo jogável, com mapa, encontros, interface e combate em evolução. As imagens abaixo são capturas reais dessa versão de desenvolvimento.',
-    'A campanha é individual. Missões, personagens e sistemas seguem em produção e são testados antes de serem apresentados como conteúdo final.',
+    'Morvelio saiu do papel e chegou às lojas: mapa, encontros, interface e combate formam uma campanha solo para celular. As imagens abaixo são capturas reais do desenvolvimento.',
+    'A campanha é individual. Missões, personagens e sistemas continuam evoluindo em novas versões.',
   ],
   recursos: [],
   pilares: [
@@ -332,19 +329,19 @@ export const morvelio: Project = {
     },
     {
       titulo: 'Combate e chefes',
-      texto: 'O protótipo já apresenta encontros jogáveis e confrontos com chefes; equilíbrio e ritmo seguem em teste.',
+      texto: 'Encontros jogáveis e confrontos com chefes ao longo da campanha.',
     },
     {
       titulo: 'Mundo em produção',
       texto: 'Mapas, missões e personagens são construídos em etapas, com a direção de arte fantástica evoluindo junto com o jogo.',
     },
     {
-      titulo: 'Testes com o jogo real',
-      texto: 'A fase atual prioriza playtests e ajustes da campanha antes de prometer uma versão final ou data de lançamento.',
+      titulo: 'Evolução contínua',
+      texto: 'O jogo continua recebendo ajustes de equilíbrio, ritmo e conteúdo em novas versões.',
     },
   ],
   aviso:
-    'Morvelio é um jogo de entretenimento em desenvolvimento. Existe um protótipo jogável interno, mas não há lançamento público nem data anunciada. As capturas mostram essa versão de trabalho; interface, arte e mecânicas podem mudar.',
+    'Morvelio é um jogo de entretenimento disponível na App Store e no Google Play. As capturas desta página vêm do desenvolvimento; interface, arte e mecânicas podem mudar em novas versões.',
   banner: {
     src: '/projects/morvelio/morvelio-banner-2026.webp',
     alt: 'Arte promocional atual do Morvelio: um aventureiro diante de uma cidade fantástica, com a marca do jogo em destaque.',
@@ -364,13 +361,13 @@ export const morvelio: Project = {
   galeriaBloqueador: 'conceptArtMorvelio',
   plataformas: [],
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
   ogDescricao: 'Morvelio: sete classes, Velidor sob as sombras e um mundo de histórias. Conheça o jogo.',
   metaTitulo: 'Morvelio — Blajeen Labs',
   metaDescricao:
-    'Morvelio é um RPG de ação solo em desenvolvimento. Conheça Velidor, as sete classes e o universo de Erdávia.',
+    'Morvelio é o RPG de ação solo da Blajeen Labs, disponível na App Store e no Google Play. Conheça Velidor, as sete classes e o universo de Erdávia.',
 };
 
 export const mazelio: Project = {
@@ -383,13 +380,13 @@ export const mazelio: Project = {
   frase: 'Construa as torres. Desenhe o caminho. Defenda o Rei.',
   descricao: 'Um tower defense vertical para celular em que cada torre causa dano e também vira parede. Você não defende uma rota pronta: constrói um labirinto para fazer os inimigos passarem mais de uma vez pelas suas próprias defesas.',
   cta: 'CONHECER MAZELIO',
-  notaCurta: 'Disponível na App Store. Google Play em breve.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 06 / TOWER DEFENSE',
   subtitulo: 'Não defenda um caminho. Construa o caminho.',
   introducao: 'Mazelio é um tower defense 2D vertical para celular em que dano e parede são a mesma coisa. Cada torre muda a rota, e cada rota muda a partida.',
   manifesto: [
     'A promessa de Mazelio não é apenas posicionar torres: é descobrir um caminho melhor. Uma construção bem pensada faz o mesmo inimigo cruzar várias vezes pelas suas defesas, mas nunca pode fechar completamente a passagem.',
-    'Agora o jogo está publicado na App Store. O desafio continua sendo criar uma rota eficiente, resistir às ondas e aperfeiçoar sua estratégia a cada partida.',
+    'Agora o jogo está publicado na App Store e no Google Play. O desafio continua sendo criar uma rota eficiente, resistir às ondas e aperfeiçoar sua estratégia a cada partida.',
   ],
   recursos: [],
   pilares: [
@@ -399,7 +396,7 @@ export const mazelio: Project = {
     { titulo: 'Elementos que importam', texto: 'Fogo, água e gelo, terra e natureza criam vantagens entre torres e criaturas; a escolha certa depende do próximo inimigo.' },
     { titulo: 'Partidas verticais', texto: 'O primeiro formato usa um tabuleiro 10×14: portal no topo, Rei embaixo e preparação antes de cada onda.' },
   ],
-  aviso: 'Mazelio é um jogo de entretenimento disponível na App Store. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
+  aviso: 'Mazelio é um jogo de entretenimento disponível na App Store e no Google Play. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/mazelio/mazelio-banner-key-art.webp', alt: 'Arte promocional de Mazelio: torres elementais formam um labirinto aberto para proteger o Rei, com o símbolo oficial do jogo à esquerda.', largura: 1600, altura: 900 },
   icone: { src: '/projects/mazelio/mazelio-icon-rei-v2.webp', alt: '', tamanho: 512 },
   galeria: [
@@ -412,24 +409,24 @@ export const mazelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/mazelio/id6809216284' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
-  ogDescricao: 'Mazelio: tower defense em que cada torre muda o caminho. Disponível na App Store.',
+  ogDescricao: 'Mazelio: tower defense em que cada torre muda o caminho. Disponível na App Store e no Google Play.',
   metaTitulo: 'Mazelio — Blajeen Labs',
-  metaDescricao: 'Mazelio é o tower defense vertical da Blajeen Labs: construa torres, mude a rota e crie labirintos. Disponível na App Store.',
+  metaDescricao: 'Mazelio é o tower defense vertical da Blajeen Labs: construa torres, mude a rota e crie labirintos. Disponível na App Store e no Google Play.',
 };
 
 export const socialio: Project = {
   id: 'socialio',
   nome: 'Socialio',
   indice: 'EXPERIMENTO 07',
-  estado: 'EM FORMAÇÃO',
+  estado: 'ATIVO',
   categoria: 'MMO SOCIAL 2D',
-  status: 'EM DESENVOLVIMENTO',
+  status: 'DISPONÍVEL',
   frase: 'Um lugar para estar junto, no mesmo ritmo.',
   descricao: 'Um MMO social 2D top-down para celular, em que pessoas compartilham a cidade de Graystones e escutam a mesma programação musical no mesmo momento.',
   cta: 'CONHECER SOCIALIO',
-  notaCurta: 'Jogo em desenvolvimento. Ainda não há build público, lojas ou data de lançamento anunciada.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 07 / MMO SOCIAL',
   subtitulo: 'Uma cidade calma. A mesma música. Pessoas no mesmo momento.',
   introducao: 'Socialio é um MMO social 2D para celular sobre dividir um lugar, escutar a mesma música e deixar que as conversas revelem o que a cidade guarda.',
@@ -446,19 +443,19 @@ export const socialio: Project = {
     { titulo: 'Mistérios que pedem conversa', texto: 'A história está espalhada pelo mundo e alguns mistérios só avançam quando pessoas compartilham o que descobriram.' },
     { titulo: 'NPCs reconhecíveis', texto: 'Pessoas usam fones; NPCs não. Um detalhe visual simples ajuda a cidade a ser lida em segundos.' },
   ],
-  aviso: 'Socialio é um jogo social online em desenvolvimento. Não existe build público, conta, compra, plataforma ou data de lançamento anunciada. Recursos de servidores, música, atividades e interação entre jogadores estão em desenho e serão detalhados antes de qualquer distribuição.',
+  aviso: 'Socialio é um jogo de entretenimento disponível na App Store e no Google Play. A cidade, os personagens e as histórias são ficcionais, e o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/socialio/socialio-banner-cafe.webp', alt: 'Banner oficial de Socialio, com a identidade visual de um café em Graystones.', largura: 1672, altura: 941 },
   icone: { src: '/projects/socialio/socialio-icon-cafe.webp', alt: '', tamanho: 512 },
   galeria: [],
   galeriaBloqueador: 'conceptArtSocialio',
   plataformas: [],
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'em-breve', url: null },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
   ],
   ogDescricao: 'Um MMO social calmo, com música sincronizada e uma cidade para descobrir. Experimento 07 da Blajeen Labs.',
   metaTitulo: 'Socialio — Blajeen Labs',
-  metaDescricao: 'Socialio é o MMO social 2D em desenvolvimento na Blajeen Labs: Graystones, rádios sincronizadas e uma cidade feita para compartilhar momentos.',
+  metaDescricao: 'Socialio é o MMO social 2D da Blajeen Labs, disponível na App Store e no Google Play: Graystones, rádios sincronizadas e uma cidade feita para compartilhar momentos.',
 };
 
 export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, morvelio, mazelio, socialio];

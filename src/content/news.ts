@@ -26,6 +26,18 @@ export type Novidade = {
 
 export const novidades: readonly Novidade[] = [
   {
+    id: 'jogos-google-play-outubro-2026',
+    data: '2026-10-29',
+    rotulo: 'Jogos publicados',
+    titulo: 'Os jogos da Blajeen Labs chegaram ao Android',
+    texto: [
+      'Catelio, Docalio, Gramelio e Mazelio agora estão no Google Play, além da App Store. Os mesmos quatro mundos — cidade e descoberta, triagem sob pressão, planejamento no pasto e labirintos de defesa — podem ser jogados no Android, no iPhone e no iPad.',
+      'Morvelio e Socialio também chegaram às duas lojas. As páginas de cada jogo mostram onde baixar.',
+    ],
+    href: ROTAS.projetoCatelio,
+    cta: 'Explorar os jogos',
+  },
+  {
     id: 'jogos-app-store-setembro-2026',
     data: '2026-09-26',
     rotulo: 'Jogos publicados',

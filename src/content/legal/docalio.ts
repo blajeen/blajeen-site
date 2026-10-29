@@ -16,7 +16,7 @@ import type { LegalDocument } from '../types';
  */
 
 const VERSAO = '26 de setembro de 2026';
-const FONTE_DATA = 'Disponibilidade conferida na App Store; revisão do inventário de dados da versão distribuída ainda pendente.';
+const FONTE_DATA = 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026; revisão do inventário de dados da versão distribuída ainda pendente.';
 
 const relacionadosDocalio = [
   { href: ROTAS.projetoDocalio, rotulo: 'Sobre o Docalio' },
@@ -27,7 +27,7 @@ const relacionadosDocalio = [
 ] as const;
 
 const AVISO_SEM_BUILD =
-  'O Docalio está disponível na App Store. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição do aplicativo atual.';
+  'O Docalio está disponível na App Store e no Google Play. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição do aplicativo atual.';
 
 export const privacidadeDocalio: LegalDocument = {
   rota: ROTAS.docalioPrivacidade,
@@ -72,7 +72,7 @@ export const privacidadeDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.',
+            'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store e do Google Play antes de informar categorias de dados, retenção ou compartilhamento.',
         },
       ],
     },
@@ -99,7 +99,7 @@ export const privacidadeDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'A disponibilidade e as condições da compra são apresentadas na App Store e no próprio jogo.',
+            'A disponibilidade e as condições da compra são apresentadas na loja (App Store ou Google Play) e no próprio jogo.',
         },
       ],
     },
@@ -136,7 +136,7 @@ export const privacidadeDocalio: LegalDocument = {
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Privacidade do Docalio — Blajeen Labs',
   metaDescricao:
-    'Privacidade do Docalio, disponível na App Store. Documento em revisão e canal de contato.',
+    'Privacidade do Docalio, disponível na App Store e no Google Play. Documento em revisão e canal de contato.',
 };
 
 export const termosDocalio: LegalDocument = {
@@ -216,7 +216,7 @@ export const termosDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Docalio está disponível na App Store e oferece uma compra opcional no aplicativo. As condições da oferta aparecem na loja e no jogo; esta seção aguarda revisão editorial e jurídica da versão distribuída.',
+            'Docalio está disponível na App Store e no Google Play e oferece uma compra opcional no aplicativo. As condições da oferta aparecem na loja e no jogo; esta seção aguarda revisão editorial e jurídica da versão distribuída.',
         },
         {
           tipo: 'pendente',
@@ -245,7 +245,7 @@ export const termosDocalio: LegalDocument = {
   ],
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Termos do Docalio — Blajeen Labs',
-  metaDescricao: 'Termos de uso do Docalio, jogo de estratégia médica ficcional disponível na App Store.',
+  metaDescricao: 'Termos de uso do Docalio, jogo de estratégia médica ficcional disponível na App Store e no Google Play.',
 };
 
 export const suporteDocalio: LegalDocument = {
@@ -253,7 +253,7 @@ export const suporteDocalio: LegalDocument = {
   kind: 'suporte',
   produto: 'Docalio',
   titulo: 'Suporte do Docalio',
-  resumo: 'Suporte do Docalio publicado na App Store.',
+  resumo: 'Suporte do Docalio publicado na App Store e no Google Play.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
@@ -300,7 +300,7 @@ export const suporteDocalio: LegalDocument = {
   ],
   relacionados: [...relacionadosDocalio],
   metaTitulo: 'Suporte do Docalio — Blajeen Labs',
-  metaDescricao: 'Canal de suporte do Docalio, disponível na App Store.',
+  metaDescricao: 'Canal de suporte do Docalio, disponível na App Store e no Google Play.',
 };
 
 export const exclusaoDocalio: LegalDocument = {
@@ -354,7 +354,7 @@ export const exclusaoDocalio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'Compras no aplicativo são geridas pela loja. Para dúvidas sobre restauração ou reembolso, entre em contato com o suporte e consulte as regras da App Store.',
+            'Compras no aplicativo são geridas pela loja. Para dúvidas sobre restauração ou reembolso, entre em contato com o suporte e consulte as regras da App Store ou do Google Play.',
         },
       ],
     },

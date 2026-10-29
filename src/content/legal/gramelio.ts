@@ -16,7 +16,7 @@ import type { LegalDocument } from '../types';
  */
 
 const VERSAO = '26 de setembro de 2026';
-const FONTE_DATA = 'Disponibilidade conferida na App Store; privacidade e suporte seguem os documentos aprovados do jogo.';
+const FONTE_DATA = 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026; privacidade e suporte seguem os documentos aprovados do jogo.';
 
 const relacionadosGramelio = [
   { href: ROTAS.projetoGramelio, rotulo: 'Sobre o Gramelio' },
@@ -28,7 +28,7 @@ const relacionadosGramelio = [
 ] as const;
 
 const AVISO_SEM_BUILD =
-  'O Gramelio está disponível na App Store. As páginas de privacidade e suporte publicadas neste site reproduzem os documentos revisados do repositório do jogo. Estes termos e a página de exclusão ainda aguardam revisão jurídica final.';
+  'O Gramelio está disponível na App Store e no Google Play. As páginas de privacidade e suporte publicadas neste site reproduzem os documentos revisados do repositório do jogo. Estes termos e a página de exclusão ainda aguardam revisão jurídica final.';
 
 export const privacidadeGramelio: LegalDocument = {
   rota: ROTAS.gramelioPrivacidade,
@@ -209,12 +209,12 @@ export const termosGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O primeiro mundo pode ser jogado gratuitamente. Uma compra opcional no aplicativo libera o restante da campanha, conforme a apresentação na App Store e no próprio jogo.',
+            'O primeiro mundo pode ser jogado gratuitamente. Uma compra opcional no aplicativo libera o restante da campanha, conforme a apresentação na loja e no próprio jogo.',
         },
         {
           tipo: 'paragrafo',
           texto:
-            'A compra é processada pela App Store, com intermediação da RevenueCat. Para dúvidas sobre restauração, cobrança ou reembolso, consulte o suporte e as condições da loja.',
+            'A compra é processada pela App Store ou pelo Google Play, com intermediação da RevenueCat. Para dúvidas sobre restauração, cobrança ou reembolso, consulte o suporte e as condições da loja.',
         },
         {
           tipo: 'pendente',
@@ -243,7 +243,7 @@ export const termosGramelio: LegalDocument = {
   ],
   relacionados: [...relacionadosGramelio],
   metaTitulo: 'Termos do Gramelio — Blajeen Labs',
-  metaDescricao: 'Termos de uso do Gramelio, jogo casual de fazenda disponível na App Store.',
+  metaDescricao: 'Termos de uso do Gramelio, jogo casual de fazenda disponível na App Store e no Google Play.',
 };
 
 export const suporteGramelio: LegalDocument = {
@@ -263,7 +263,7 @@ export const suporteGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'O Gramelio está disponível na App Store. Para problemas de instalação, progresso ou compra, informe aparelho, versão do jogo e o que aconteceu.',
+            'O Gramelio está disponível na App Store e no Google Play. Para problemas de instalação, progresso ou compra, informe aparelho, versão do jogo e o que aconteceu.',
         },
       ],
     },
@@ -361,7 +361,7 @@ export const exclusaoGramelio: LegalDocument = {
         {
           tipo: 'paragrafo',
           texto:
-            'A compra opcional é administrada pela loja. Excluir a cópia do progresso não equivale a solicitar reembolso da compra; consulte o suporte e as regras da App Store.',
+            'A compra opcional é administrada pela loja. Excluir a cópia do progresso não equivale a solicitar reembolso da compra; consulte o suporte e as regras da App Store ou do Google Play.',
         },
       ],
     },

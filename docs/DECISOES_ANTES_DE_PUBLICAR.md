@@ -159,12 +159,17 @@ a mostrar o Google Play como disponível em Revalio, Docalio, Gramelio, Catelio 
 novidade “Os jogos da Blajeen Labs chegaram ao Android”. Pendências:
 
 - [ ] passar as URLs das fichas do Google Play de Docalio, Gramelio, Catelio e Mazelio (bloqueador
-      `lojasGooglePlayJogos`) — o ambiente da mudança não conseguiu abrir o Google Play para
+      `lojasJogos`) — o ambiente da mudança não conseguiu abrir o Google Play para
       conferir, então os selos ficaram sem link;
 - [ ] conferir se o build Android de cada jogo tem os mesmos SDKs, permissões, compras e dados do
       build iOS. As páginas jurídicas e de suporte (ex.: Gramelio — compra pela App Store; SDK da
       Meta só no iPhone e iPad) ainda descrevem o iOS e precisam de revisão antes de citar o Android;
-- [ ] confirmar se Morvelio e Socialio, ainda em teste no site, também saíram do teste fechado.
+- [x] Morvelio e Socialio passaram a “disponível” nas duas lojas, a pedido do titular (29/10/2026);
+- [ ] passar as URLs das fichas de Morvelio e Socialio na App Store e no Google Play (mesmo
+      bloqueador). No Google Play, os IDs vão seguir o padrão `br.com.<jogo>`, segundo o titular;
+- [ ] revisar as políticas, termos, suporte e exclusão de Morvelio e Socialio: eles descrevem o
+      build de teste (TestFlight de 11/10 e beta Android de 17/10, com público de 16+ no Socialio)
+      e só ganharam um aviso de que estão em revisão.
 
 ## Site
 
@@ -241,7 +246,7 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 | `contaDocalio` | se o Docalio terá conta, nuvem, compras ou telemetria | `/docalio/privacy`, `/docalio/terms`, `/docalio/delete-account` |
 | `screenshotsRevalio` | capturas reais aprovadas | a galeria de `/projects/revalio` não é renderizada |
 | `conceptArtDocalio` | concept art autorizada | a galeria de `/projects/docalio` não é renderizada |
-| `lojasGooglePlayJogos` | URLs das fichas de Docalio, Gramelio, Catelio e Mazelio no Google Play | os selos do Google Play nessas páginas aparecem como “disponível”, mas sem link |
+| `lojasJogos` | URLs das fichas no Google Play (Docalio, Gramelio, Catelio, Mazelio) e nas duas lojas (Morvelio, Socialio) | os selos aparecem como “disponível”, mas sem link |
 | `escopoGramelio` | se o Gramelio terá conta, nuvem, compras ou telemetria | `/gramelio/privacy`, `/gramelio/terms`, `/gramelio/delete-account` |
 | `arteGramelio` | capturas reais ou concept art autorizada | a galeria de `/projects/gramelio` não é renderizada |
 | `lojaRetencao` | prazo de guarda dos pedidos da loja | `/privacy` |

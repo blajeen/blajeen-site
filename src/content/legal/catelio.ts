@@ -3,9 +3,9 @@ import { site } from '../site';
 import type { LegalDocument } from '../types';
 
 const VERSAO = '26 de setembro de 2026';
-const FONTE_DATA = 'Disponibilidade conferida na ficha pública do Catelio na App Store; revisão de dados ainda pendente.';
+const FONTE_DATA = 'Disponibilidade conferida na ficha pública do Catelio na App Store, Google Play informado pelo titular em 29/10/2026; revisão de dados ainda pendente.';
 const AVISO =
-  'Catelio está disponível na App Store. Esta documentação está em revisão para refletir integralmente a versão distribuída; a publicação do jogo não confirma que os textos antigos sobre dados, compras ou conta permaneçam válidos.';
+  'Catelio está disponível na App Store e no Google Play. Esta documentação está em revisão para refletir integralmente a versão distribuída; a publicação do jogo não confirma que os textos antigos sobre dados, compras ou conta permaneçam válidos.';
 
 const relacionados = [
   { href: ROTAS.projetoCatelio, rotulo: 'Sobre o Catelio' },
@@ -132,18 +132,18 @@ export const termosCatelio: LegalDocument = {
   kind: 'termos',
   produto: 'Catelio',
   titulo: 'Termos de Uso do Catelio',
-  resumo: 'Finalidade e limites do jogo disponível na App Store. Documento em revisão.',
+  resumo: 'Finalidade e limites do jogo disponível na App Store e no Google Play. Documento em revisão.',
   estado: 'preparacao',
   atualizacao: { definido: true, valor: VERSAO, fonte: FONTE_DATA },
   secoes: [
     { id: 'estado', titulo: '1. Estado do projeto', blocos: [{ tipo: 'destaque', texto: AVISO }, { tipo: 'contato', rotulo: 'Contato', email: site.emailEstudio, assunto: 'Termos Catelio' }] },
     { id: 'finalidade', titulo: '2. Finalidade', blocos: [{ tipo: 'paragrafo', texto: 'Catelio é um jogo casual de exploração e entretenimento. Gatos, regiões, objetos e situações são ficcionais.' }, { tipo: 'destaque', texto: 'O jogo não oferece orientação sobre cuidados, alimentação ou saúde de animais reais.' }] },
     { id: 'uso', titulo: '3. Uso aceitável', blocos: [{ tipo: 'lista', itens: ['não tentar acessar recursos sem autorização;', 'não distribuir malware ou automatizar abuso;', 'não apresentar o jogo como canal oficial de terceiros.'] }] },
-    { id: 'futuro', titulo: '4. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Catelio está disponível na App Store. Condições de conta e compras devem ser verificadas na versão distribuída e na ficha da loja; esta seção aguarda revisão editorial e jurídica.' }] },
+    { id: 'futuro', titulo: '4. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Catelio está disponível na App Store e no Google Play. Condições de conta e compras devem ser verificadas na versão distribuída e na ficha da loja; esta seção aguarda revisão editorial e jurídica.' }] },
   ],
   relacionados: [...relacionados],
   metaTitulo: 'Termos do Catelio — Blajeen Labs',
-  metaDescricao: 'Termos de uso do Catelio, jogo casual disponível na App Store. Documento em revisão.',
+  metaDescricao: 'Termos de uso do Catelio, jogo casual disponível na App Store e no Google Play. Documento em revisão.',
 };
 
 export const suporteCatelio: LegalDocument = {

@@ -3,7 +3,7 @@ import { site } from '../site';
 import type { LegalDocument } from '../types';
 
 const VERSAO = '26 de setembro de 2026';
-const AVISO = 'Mazelio está disponível na App Store. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição da publicação atual.';
+const AVISO = 'Mazelio está disponível na App Store e no Google Play. Esta documentação está em revisão para refletir integralmente a versão distribuída; informações antigas do protótipo não devem ser tomadas como descrição da publicação atual.';
 const relacionados = [
   { href: ROTAS.projetoMazelio, rotulo: 'Sobre o Mazelio' },
   { href: ROTAS.mazelioSuporte, rotulo: 'Suporte do Mazelio' },
@@ -16,30 +16,30 @@ const contato = (rotulo: string, assunto: string) => ({ tipo: 'contato' as const
 export const privacidadeMazelio: LegalDocument = {
   rota: ROTAS.mazelioPrivacidade, kind: 'privacidade', produto: 'Mazelio', titulo: 'Política de Privacidade do Mazelio',
   resumo: 'Privacidade do Mazelio e canal de contato. Documento em revisão.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do inventário de dados ainda pendente.' },
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026; revisão do inventário de dados ainda pendente.' },
   secoes: [
     { id: 'estado', titulo: '1. Estado atual', blocos: [{ tipo: 'destaque', texto: AVISO }] },
     { id: 'dados', titulo: '2. Versão distribuída', blocos: [{ tipo: 'paragrafo', texto: 'O inventário de dados, permissões e prestadores da versão publicada está em revisão. Para perguntas ou solicitações sobre seus dados, use o contato abaixo.' }, { tipo: 'paragrafo', texto: 'A navegação nesta página pertence ao site da Blajeen Labs e é coberta pela política geral do site.' }] },
-    { id: 'futuro', titulo: '3. Revisão', blocos: [{ tipo: 'paragrafo', texto: 'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store antes de informar categorias de dados, retenção ou compartilhamento.' }] },
+    { id: 'futuro', titulo: '3. Revisão', blocos: [{ tipo: 'paragrafo', texto: 'Esta seção será confrontada com o aplicativo distribuído e as declarações da App Store e do Google Play antes de informar categorias de dados, retenção ou compartilhamento.' }] },
     { id: 'contato', titulo: '4. Dúvidas sobre dados', blocos: [contato('Privacidade do Mazelio', 'Privacidade Mazelio')] },
-  ], relacionados: [...relacionados], metaTitulo: 'Privacidade do Mazelio — Blajeen Labs', metaDescricao: 'Privacidade do Mazelio, disponível na App Store. Documento em revisão.',
+  ], relacionados: [...relacionados], metaTitulo: 'Privacidade do Mazelio — Blajeen Labs', metaDescricao: 'Privacidade do Mazelio, disponível na App Store e no Google Play. Documento em revisão.',
 };
 
 export const termosMazelio: LegalDocument = {
   rota: ROTAS.mazelioTermos, kind: 'termos', produto: 'Mazelio', titulo: 'Termos de Uso do Mazelio',
   resumo: 'Finalidade e estado do jogo publicado. Documento em revisão.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do documento ainda pendente.' },
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026; revisão do documento ainda pendente.' },
   secoes: [
     { id: 'estado', titulo: '1. Estado do projeto', blocos: [{ tipo: 'destaque', texto: AVISO }, contato('Contato', 'Termos Mazelio')] },
     { id: 'finalidade', titulo: '2. Finalidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio é um jogo de entretenimento. Torres, criaturas, elementos, fases e cenários são ficcionais.' }] },
-    { id: 'disponibilidade', titulo: '3. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio está disponível na App Store. Condições de conta e compras devem ser verificadas na versão distribuída e na ficha da loja; esta seção aguarda revisão editorial e jurídica.' }] },
-  ], relacionados: [...relacionados], metaTitulo: 'Termos do Mazelio — Blajeen Labs', metaDescricao: 'Termos de uso do Mazelio, disponível na App Store. Documento em revisão.',
+    { id: 'disponibilidade', titulo: '3. Conta, compras e disponibilidade', blocos: [{ tipo: 'paragrafo', texto: 'Mazelio está disponível na App Store e no Google Play. Condições de conta e compras devem ser verificadas na versão distribuída e na ficha da loja; esta seção aguarda revisão editorial e jurídica.' }] },
+  ], relacionados: [...relacionados], metaTitulo: 'Termos do Mazelio — Blajeen Labs', metaDescricao: 'Termos de uso do Mazelio, disponível na App Store e no Google Play. Documento em revisão.',
 };
 
 export const suporteMazelio: LegalDocument = {
   rota: ROTAS.mazelioSuporte, kind: 'suporte', produto: 'Mazelio', titulo: 'Suporte do Mazelio',
   resumo: 'Canal para dúvidas e relatos sobre o jogo publicado.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store.' },
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026.' },
   secoes: [
     { id: 'estado', titulo: 'Estado atual', blocos: [{ tipo: 'destaque', texto: AVISO }] },
     { id: 'canal', titulo: 'Canal de atendimento', blocos: [contato('E-mail de suporte do Mazelio', 'Suporte Mazelio')] },
@@ -49,7 +49,7 @@ export const suporteMazelio: LegalDocument = {
 export const exclusaoMazelio: LegalDocument = {
   rota: ROTAS.mazelioExclusao, kind: 'exclusao', produto: 'Mazelio', titulo: 'Excluir sua conta do Mazelio',
   resumo: 'Canal para pedidos relacionados à exclusão de dados do Mazelio.', estado: 'preparacao',
-  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store; revisão do procedimento ainda pendente.' },
+  atualizacao: { definido: true, valor: VERSAO, fonte: 'Disponibilidade conferida na App Store, Google Play informado pelo titular em 29/10/2026; revisão do procedimento ainda pendente.' },
   secoes: [
     { id: 'hoje', titulo: 'Versão publicada', blocos: [{ tipo: 'destaque', texto: AVISO }, { tipo: 'paragrafo', texto: 'Para solicitar informações ou exclusão de dados relacionados ao Mazelio, use o contato abaixo. O procedimento específico da versão distribuída está em revisão.' }] },
     { id: 'futuro', titulo: 'Solicitação', blocos: [contato('Dúvidas sobre dados do Mazelio', 'Exclusão Mazelio')] },

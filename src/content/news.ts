@@ -32,7 +32,7 @@ export const novidades: readonly Novidade[] = [
     titulo: 'Os jogos da Blajeen Labs chegaram ao Android',
     texto: [
       'Catelio, Docalio, Gramelio e Mazelio agora estão no Google Play, além da App Store. Os mesmos quatro mundos — cidade e descoberta, triagem sob pressão, planejamento no pasto e labirintos de defesa — podem ser jogados no Android, no iPhone e no iPad.',
-      'As páginas de cada jogo mostram onde baixar em cada loja.',
+      'Morvelio e Socialio também chegaram às duas lojas. As páginas de cada jogo mostram onde baixar.',
     ],
     href: ROTAS.projetoCatelio,
     cta: 'Explorar os jogos',

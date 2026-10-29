@@ -17,7 +17,7 @@ import { documentosLegais } from './legal';
 import { atalhosDeJogo, atalhosDeProduto, rodape } from './navigation';
 import { produtos, vivelio } from './produtos';
 import { contato, sobre } from './pages';
-import { catelio, docalio, gramelio, mazelio, morvelio, projetos, revalio, rotasDoProjeto } from './projects';
+import { catelio, docalio, gramelio, mazelio, morvelio, projetos, revalio, rotasDoProjeto, socialio } from './projects';
 import { site } from './site';
 import { ROTAS_DE_LOJA } from '@/lib/routes';
 
@@ -186,9 +186,12 @@ describe('projetos', () => {
       expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
       expect(projeto.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({ estado: 'disponivel', url: expect.stringContaining('apps.apple.com') });
       // Publicados no Google Play (titular, 29/10/2026); o selo só vira link com a URL confirmada.
-      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' });
+      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'disponivel', url: null, bloqueador: 'lojasJogos' });
     }
-    expect(morvelio.aviso).toMatch(/protótipo jogável interno/i);
+    // Morvelio e Socialio passaram a disponível nas duas lojas (titular, 29/10/2026), ainda sem URL.
+    for (const projeto of [morvelio, socialio]) {
+      expect(projeto.disponibilidade.every((loja) => loja.estado === 'disponivel' && loja.url === null && loja.bloqueador === 'lojasJogos')).toBe(true);
+    }
     expect(gramelio.aviso).toMatch(/ficcionais/i);
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });

@@ -181,11 +181,12 @@ describe('projetos', () => {
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });
 
-  it('liga os quatro jogos publicados às fichas confirmadas da App Store', () => {
+  it('liga os quatro jogos publicados às fichas da App Store e anuncia o Google Play', () => {
     for (const projeto of [gramelio, docalio, catelio, mazelio]) {
       expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
       expect(projeto.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({ estado: 'disponivel', url: expect.stringContaining('apps.apple.com') });
-      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'em-breve', url: null });
+      // Publicados no Google Play (titular, 29/10/2026); o selo só vira link com a URL confirmada.
+      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' });
     }
     expect(morvelio.aviso).toMatch(/protótipo jogável interno/i);
     expect(gramelio.aviso).toMatch(/ficcionais/i);

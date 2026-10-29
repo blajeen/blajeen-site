@@ -152,6 +152,20 @@ Entrou no site em 19 de agosto de 2026, a partir da descrição do titular e da 
 - [ ] implementar exclusão dentro do jogo antes de habilitar criação de conta;
 - [ ] fornecer capturas reais quando existir build, para a galeria de `/projects/gramelio`.
 
+## Jogos no Google Play
+
+Em 29/10/2026 o titular informou que os jogos já estão disponíveis no Android e no iOS. O site passou
+a mostrar o Google Play como disponível em Revalio, Docalio, Gramelio, Catelio e Mazelio, e ganhou a
+novidade “Os jogos da Blajeen Labs chegaram ao Android”. Pendências:
+
+- [ ] passar as URLs das fichas do Google Play de Docalio, Gramelio, Catelio e Mazelio (bloqueador
+      `lojasGooglePlayJogos`) — o ambiente da mudança não conseguiu abrir o Google Play para
+      conferir, então os selos ficaram sem link;
+- [ ] conferir se o build Android de cada jogo tem os mesmos SDKs, permissões, compras e dados do
+      build iOS. As páginas jurídicas e de suporte (ex.: Gramelio — compra pela App Store; SDK da
+      Meta só no iPhone e iPad) ainda descrevem o iOS e precisam de revisão antes de citar o Android;
+- [ ] confirmar se Morvelio e Socialio, ainda em teste no site, também saíram do teste fechado.
+
 ## Site
 
 - [ ] fornecer logos/arte final de Revalio e Docalio;
@@ -188,7 +202,7 @@ natureza: estas cinco pendências deixaram de ser preparação e viraram dívida
 2. `prazoExclusao` — a página de exclusão de conta está pública sem prazo declarado;
 3. `canalLgpd` — canal de titulares;
 4. `revisaoJuridica` — enquanto aberta, os documentos permanecem rotulados como versão de trabalho;
-5. `lojasRevalio` — as URLs das fichas, para o site poder apontar para as lojas.
+5. ~~`lojasRevalio`~~ — resolvido em 29/10/2026 com as URLs do perfil do titular no GitHub.
 
 Também confirmar, agora que há build publicado: se o pacote enviado corresponde ao comportamento
 descrito na política (conta opcional por link mágico, sincronização limitada, compras desativadas)
@@ -227,7 +241,7 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 | `contaDocalio` | se o Docalio terá conta, nuvem, compras ou telemetria | `/docalio/privacy`, `/docalio/terms`, `/docalio/delete-account` |
 | `screenshotsRevalio` | capturas reais aprovadas | a galeria de `/projects/revalio` não é renderizada |
 | `conceptArtDocalio` | concept art autorizada | a galeria de `/projects/docalio` não é renderizada |
-| `lojasRevalio` | URLs das fichas na App Store e no Google Play | os selos de loja de `/projects/revalio` ficam sem link |
+| `lojasGooglePlayJogos` | URLs das fichas de Docalio, Gramelio, Catelio e Mazelio no Google Play | os selos do Google Play nessas páginas aparecem como “disponível”, mas sem link |
 | `escopoGramelio` | se o Gramelio terá conta, nuvem, compras ou telemetria | `/gramelio/privacy`, `/gramelio/terms`, `/gramelio/delete-account` |
 | `arteGramelio` | capturas reais ou concept art autorizada | a galeria de `/projects/gramelio` não é renderizada |
 | `lojaRetencao` | prazo de guarda dos pedidos da loja | `/privacy` |

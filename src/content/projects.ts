@@ -12,7 +12,8 @@ import type { Project, ProjectId } from './types';
  * por isso o produto tem `pilares` e continua com `recursos` vazio.
  *
  * As fichas da App Store de Docalio, Gramelio, Catelio e Mazelio foram verificadas
- * em 26/09/2026. A publicação não substitui a revisão dos documentos legais.
+ * em 26/09/2026. Em 29/10/2026 o titular informou que os quatro também estão no Google Play;
+ * os endereços dessas fichas ainda não foram passados (bloqueador `lojasGooglePlayJogos`). A publicação não substitui a revisão dos documentos legais.
  */
 
 export const revalio: Project = {
@@ -82,14 +83,10 @@ export const revalio: Project = {
   galeria: [],
   galeriaBloqueador: 'screenshotsRevalio',
   plataformas: [],
-  /*
-   * O titular informou em 18/08/2026 que o Revalio já está publicado nas duas lojas.
-   * As URLs das fichas ainda não foram passadas — ver o bloqueador `lojasRevalio`. Enquanto elas
-   * não existirem, o site anuncia a disponibilidade sem prometer um link que não abre.
-   */
+  // Endereços das fichas tirados do perfil do titular no GitHub (blajeen/blajeen), 29/10/2026.
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasRevalio' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasRevalio' },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/revalio/id6802770612' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.revalio' },
   ],
   ogDescricao: 'Microaprendizagem para quem estuda para o Revalida e a residência.',
   metaTitulo: 'Revalio — Blajeen Labs',
@@ -140,7 +137,7 @@ export const docalio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/docalio/id6806569271' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' },
   ],
   ogDescricao: 'Docalio já está disponível: estratégia e prioridade na emergência, com casos ficcionais.',
   metaTitulo: 'Docalio — Blajeen Labs',
@@ -226,7 +223,7 @@ export const gramelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/gramelio/id6805123148' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' },
   ],
   ogDescricao: 'Gramelio já está disponível: um toque, um pasto e um estômago para administrar.',
   metaTitulo: 'Gramelio — Blajeen Labs',
@@ -245,11 +242,11 @@ export const catelio: Project = {
   descricao:
     'Um jogo casual de exploração em que você guia um gato por regiões pequenas, encontra comida, conhece personagens e descobre novos caminhos.',
   cta: 'CONHECER CATELIO',
-  notaCurta: 'Disponível na App Store. Google Play em breve.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 04 / JOGO CASUAL',
   subtitulo: 'Um toque, um gato e um mundo para descobrir.',
   introducao:
-    'Uma aventura tranquila de exploração com um gato por uma cidade brasileira low-poly. Disponível para iPhone e iPad.',
+    'Uma aventura tranquila de exploração com um gato por uma cidade brasileira low-poly. Disponível para Android, iPhone e iPad.',
   manifesto: [
     'Catelio nasceu de uma ideia simples: transformar a curiosidade de um gato em uma jornada que cabe na tela e convida a explorar sem pressa.',
     'Cada região combina caminhos, comida, personagens e pequenos acontecimentos. O jogador decide para onde ir, o que descobrir e quando voltar.',
@@ -295,12 +292,12 @@ export const catelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/catelio/id6806569561' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' },
   ],
-  ogDescricao: 'Explore uma cidade brasileira low-poly com um gato. Disponível na App Store.',
+  ogDescricao: 'Explore uma cidade brasileira low-poly com um gato. Disponível na App Store e no Google Play.',
   metaTitulo: 'Catelio — Blajeen Labs',
   metaDescricao:
-    'Catelio é o jogo casual de exploração da Blajeen Labs: descubra uma cidade brasileira low-poly com um gato. Disponível na App Store.',
+    'Catelio é o jogo casual de exploração da Blajeen Labs: descubra uma cidade brasileira low-poly com um gato. Disponível na App Store e no Google Play.',
 };
 
 export const morvelio: Project = {
@@ -383,13 +380,13 @@ export const mazelio: Project = {
   frase: 'Construa as torres. Desenhe o caminho. Defenda o Rei.',
   descricao: 'Um tower defense vertical para celular em que cada torre causa dano e também vira parede. Você não defende uma rota pronta: constrói um labirinto para fazer os inimigos passarem mais de uma vez pelas suas próprias defesas.',
   cta: 'CONHECER MAZELIO',
-  notaCurta: 'Disponível na App Store. Google Play em breve.',
+  notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 06 / TOWER DEFENSE',
   subtitulo: 'Não defenda um caminho. Construa o caminho.',
   introducao: 'Mazelio é um tower defense 2D vertical para celular em que dano e parede são a mesma coisa. Cada torre muda a rota, e cada rota muda a partida.',
   manifesto: [
     'A promessa de Mazelio não é apenas posicionar torres: é descobrir um caminho melhor. Uma construção bem pensada faz o mesmo inimigo cruzar várias vezes pelas suas defesas, mas nunca pode fechar completamente a passagem.',
-    'Agora o jogo está publicado na App Store. O desafio continua sendo criar uma rota eficiente, resistir às ondas e aperfeiçoar sua estratégia a cada partida.',
+    'Agora o jogo está publicado na App Store e no Google Play. O desafio continua sendo criar uma rota eficiente, resistir às ondas e aperfeiçoar sua estratégia a cada partida.',
   ],
   recursos: [],
   pilares: [
@@ -399,7 +396,7 @@ export const mazelio: Project = {
     { titulo: 'Elementos que importam', texto: 'Fogo, água e gelo, terra e natureza criam vantagens entre torres e criaturas; a escolha certa depende do próximo inimigo.' },
     { titulo: 'Partidas verticais', texto: 'O primeiro formato usa um tabuleiro 10×14: portal no topo, Rei embaixo e preparação antes de cada onda.' },
   ],
-  aviso: 'Mazelio é um jogo de entretenimento disponível na App Store. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
+  aviso: 'Mazelio é um jogo de entretenimento disponível na App Store e no Google Play. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/mazelio/mazelio-banner-key-art.webp', alt: 'Arte promocional de Mazelio: torres elementais formam um labirinto aberto para proteger o Rei, com o símbolo oficial do jogo à esquerda.', largura: 1600, altura: 900 },
   icone: { src: '/projects/mazelio/mazelio-icon-rei-v2.webp', alt: '', tamanho: 512 },
   galeria: [
@@ -412,11 +409,11 @@ export const mazelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/mazelio/id6809216284' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'em-breve', url: null },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasGooglePlayJogos' },
   ],
-  ogDescricao: 'Mazelio: tower defense em que cada torre muda o caminho. Disponível na App Store.',
+  ogDescricao: 'Mazelio: tower defense em que cada torre muda o caminho. Disponível na App Store e no Google Play.',
   metaTitulo: 'Mazelio — Blajeen Labs',
-  metaDescricao: 'Mazelio é o tower defense vertical da Blajeen Labs: construa torres, mude a rota e crie labirintos. Disponível na App Store.',
+  metaDescricao: 'Mazelio é o tower defense vertical da Blajeen Labs: construa torres, mude a rota e crie labirintos. Disponível na App Store e no Google Play.',
 };
 
 export const socialio: Project = {

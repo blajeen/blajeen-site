@@ -83,12 +83,12 @@ export const BLOQUEADORES = {
     // marca, de preferência num contrato de cessão) e o endereço do fornecedor exigido pelo
     // Decreto 7.962/2013.
   },
-  lojasRevalio: {
-    titulo: 'URLs das fichas do Revalio na App Store e no Google Play',
-    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Revalio',
-    // TODO(bloqueador): o titular informou em 18/08/2026 que o app já está publicado nas duas
-    // lojas, mas os endereços das fichas ainda não foram passados. Sem eles os botões de loja não
-    // podem virar link — um botão que não abre a loja é pior do que a ausência dele.
+  lojasGooglePlayJogos: {
+    titulo: 'URLs das fichas de Docalio, Gramelio, Catelio e Mazelio no Google Play',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Jogos no Google Play',
+    // TODO(bloqueador): o titular informou em 29/10/2026 que os quatro jogos já estão no Google
+    // Play, mas os endereços das fichas ainda não foram passados. Sem eles os selos do Google Play
+    // não podem virar link — um botão que não abre a loja é pior do que a ausência dele.
   },
   screenshotsRevalio: {
     titulo: 'Capturas reais do Revalio aprovadas para o site',

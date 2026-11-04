@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ScreenshotFrame } from '@/components/projects/ScreenshotFrame';
+import { ProductTabs } from '@/components/projects/ProductTabs';
 import Link from 'next/link';
 import { LabBackdrop } from '@/components/brand/LabBackdrop';
 import { Container, Section } from '@/components/layout/Section';
@@ -98,6 +99,7 @@ export default function ProdutosPage() {
               servidor nosso.
             </p>
           </div>
+          <ProductTabs atual="programas" />
         </Container>
       </header>
 

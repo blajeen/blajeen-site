@@ -4,11 +4,25 @@
  * The source Portuguese copy remains the default. Matching complete phrases keeps the English
  * version faithful to the approved wording and avoids translating names, code, or customer input.
  */
+import { englishExtensions } from './englishExtensions';
+
 export const englishCopy: Readonly<Record<string, string>> = {
+  ...englishExtensions,
   'Início': 'Home',
   'Crie seu projeto': 'Start a project',
   'Projetos feitos': 'Projects',
   'Produtos': 'Products',
+  'Extensões': 'Extensions',
+  'Extensões open source': 'Open-source extensions',
+  'Programas e projetos': 'Software and projects',
+  'Categorias de produtos': 'Product categories',
+  'Ver todas as extensões': 'Explore all extensions',
+  'PRODUTOS / EXTENSÕES OPEN SOURCE': 'PRODUCTS / OPEN-SOURCE EXTENSIONS',
+  'Pequenas ferramentas. Mais possibilidades.': 'Small tools. More possibilities.',
+  'Extensões do laboratório': 'Extensions from the lab',
+  'Em análise na Chrome Web Store': 'Under review in the Chrome Web Store',
+  'Instalação manual disponível': 'Manual installation available',
+  'CÓDIGO E INSTALAÇÃO ↗': 'SOURCE CODE AND INSTALLATION ↗',
   'Jogos': 'Games',
   'Loja': 'Shop',
   'Estúdio': 'Studio',

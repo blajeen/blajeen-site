@@ -21,6 +21,7 @@ export const ROTAS = {
    * plano, ela precisa dizer o que o programa faz com os arquivos de quem instalou.
    */
   produtos: '/produtos',
+  extensoes: '/produtos/extensoes',
   produtoClearlio: '/produtos/clearlio',
   produtoNotalio: '/produtos/notalio',
   /**
@@ -175,6 +176,7 @@ export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.trabalhos) return 0.9;
   if (
     rota === ROTAS.produtos ||
+    rota === ROTAS.extensoes ||
     rota === ROTAS.produtoClearlio ||
     rota === ROTAS.produtoNotalio ||
     rota === ROTAS.produtoEditalio ||

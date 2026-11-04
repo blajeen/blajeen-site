@@ -3,6 +3,7 @@ import { statusVisivel } from './estado-do-projeto';
 import { projetos, rotasDoProjeto } from './projects';
 import type { MenuId, NavLink } from './types';
 import { demonstracoes, produtos } from './produtos';
+import { extensoes } from './extensoes';
 
 /**
  * Barra de navegação do desktop.
@@ -126,6 +127,13 @@ export const atalhosDeDemonstracao = demonstracoes.map((demonstracao) => ({
   href: demonstracao.rota,
 }));
 
+export const atalhosDeExtensao = extensoes.map((extensao) => ({
+  rotulo: extensao.nome,
+  estado: 'Open source · MIT',
+  icone: { src: `/produtos/extensoes/icons/${extensao.id}.png`, alt: '', tamanho: 128 },
+  href: `${ROTAS.extensoes}#${extensao.id}`,
+}));
+
 /**
  * O que cada item com lista desdobra, no menu do desktop e na gaveta do celular.
  *
@@ -137,6 +145,7 @@ export const submenus: Record<MenuId, Submenu> = {
   produtos: {
     grupos: [
       { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
+      { titulo: 'Extensões', todos: { rotulo: 'Ver todas as extensões', href: ROTAS.extensoes }, itens: atalhosDeExtensao },
       { titulo: 'Sob medida', todos: null, itens: atalhosDeDemonstracao },
     ],
     extras: [{ rotulo: 'Software à venda', descricao: 'Sistemas completos, com código, site e marca', href: `${ROTAS.loja}#software` }],
@@ -150,6 +159,7 @@ export const submenus: Record<MenuId, Submenu> = {
 export type AtalhoDeMenu =
   | (typeof atalhosDeJogo)[number]
   | (typeof atalhosDeProduto)[number]
+  | (typeof atalhosDeExtensao)[number]
   | (typeof atalhosDeDemonstracao)[number];
 
 type Submenu = {
@@ -187,6 +197,7 @@ export const rodape = {
     { rotulo: 'Sobre', href: ROTAS.sobre },
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },
     { rotulo: 'Projetos feitos', href: ROTAS.trabalhos },
+    { rotulo: 'Extensões open source', href: ROTAS.extensoes },
     { rotulo: 'Novidades', href: ROTAS.novidades },
     { rotulo: 'Loja', href: ROTAS.loja },
     { rotulo: 'Contato', href: ROTAS.contato },

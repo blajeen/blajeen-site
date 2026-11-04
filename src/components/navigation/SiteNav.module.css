@@ -157,6 +157,8 @@
 
 /* Produtos: programas e SaaS lado a lado. Centrado no item, para caber em 1280 px. */
 .submenu[data-colunas] {
+  max-height: calc(100dvh - 7rem);
+  overflow-y: auto;
   inset-inline-start: 50%;
   width: min(44rem, calc(100vw - 2rem));
   display: grid;

@@ -318,3 +318,8 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 8. rodar `npm run verify` e o QA visual;
 9. só então preencher App Store Connect e Google Play Console com as URLs publicadas.
 
+
+
+## Ofertonauta — autorização de publicação em 10/11/2026
+
+O titular pediu o Ofertonauta em Produtos e suas páginas de privacidade, suporte, termos e exclusão. Confirmou o contato ofertonauta.admin@gmail.com e autorizou expressamente “pode publicar sim” e “e pode publicar os textos juridicos”, após receber os documentos e a prévia. Publicar esta entrega como versão de trabalho, com as definições pendentes explícitas. Esta autorização não resolve os bloqueadores gerais dos demais produtos nem declara os documentos finais para submissão às lojas. Detalhes em docs/ofertonauta/IMPLEMENTACAO.md.

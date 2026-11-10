@@ -250,6 +250,7 @@ export const privacidadeEstudio: LegalDocument = {
   ],
   relacionados: [
     { href: ROTAS.termos, rotulo: 'Termos do site' },
+    { href: ROTAS.ofertonautaPrivacidade, rotulo: 'Privacidade do Ofertonauta' },
     { href: ROTAS.revalioPrivacidade, rotulo: 'Privacidade do Revalio' },
     { href: ROTAS.docalioPrivacidade, rotulo: 'Privacidade do Docalio' },
     { href: ROTAS.gramelioPrivacidade, rotulo: 'Privacidade do Gramelio' },
@@ -558,6 +559,7 @@ export const suporteEstudio: LegalDocument = {
     },
   ],
   relacionados: [
+    { href: ROTAS.ofertonautaSuporte, rotulo: 'Suporte do Ofertonauta' },
     { href: ROTAS.revalioSuporte, rotulo: 'Suporte do Revalio' },
     { href: ROTAS.docalioSuporte, rotulo: 'Suporte do Docalio' },
       { href: ROTAS.gramelioSuporte, rotulo: 'Suporte do Gramelio' },

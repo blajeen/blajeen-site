@@ -350,7 +350,7 @@ describe('documentos legais', () => {
   it('mantém a palavra "excluir" explícita no título de cada página de exclusão', () => {
     const exclusoes = documentosLegais.filter((documento) => documento.kind === 'exclusao');
     // Uma por produto: as lojas cobram a página de exclusão de cada aplicativo.
-    expect(exclusoes).toHaveLength(projetos.length);
+    expect(exclusoes).toHaveLength(projetos.length + 1); // Ofertonauta também cria contas.
     for (const documento of exclusoes) {
       expect(documento.titulo.toLowerCase()).toContain('excluir');
     }
@@ -438,6 +438,7 @@ describe('documentos legais', () => {
       Clearlio: 'brg.ftw@gmail.com',
       Notalio: 'brg.ftw@gmail.com',
       Vivelio: 'blajeenlabs@outlook.com',
+      Ofertonauta: 'ofertonauta.admin@gmail.com',
       'Blajeen Labs': 'brg.ftw@gmail.com',
     };
 

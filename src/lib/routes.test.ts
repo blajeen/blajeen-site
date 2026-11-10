@@ -28,7 +28,7 @@ describe('rotas públicas', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
     // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja, e com as
     // demonstrações do Torrelio e do Carrelio.
-    expect(TODAS_AS_ROTAS).toHaveLength(69);
+    expect(TODAS_AS_ROTAS).toHaveLength(74);
     expect(TODAS_AS_ROTAS).toContain('/produtos/extensoes');
     expect(TODAS_AS_ROTAS).toContain('/loja');
     expect(TODAS_AS_ROTAS).toContain('/produtos');
@@ -119,6 +119,7 @@ describe('rotas públicas', () => {
       '/vivelio/privacy',
       '/vivelio/terms',
       '/vivelio/support',
+      '/ofertonauta/privacy', '/ofertonauta/terms', '/ofertonauta/support', '/ofertonauta/delete-account',
     ]);
   });
 

@@ -125,7 +125,7 @@ export type LegalDocumentKind = 'privacidade' | 'termos' | 'suporte' | 'exclusao
 export type LegalDocument = {
   readonly rota: string;
   readonly kind: LegalDocumentKind;
-  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Morvelio' | 'Mazelio' | 'Socialio' | 'Clearlio' | 'Notalio' | 'Vivelio';
+  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Morvelio' | 'Mazelio' | 'Socialio' | 'Clearlio' | 'Notalio' | 'Vivelio' | 'Ofertonauta';
   readonly titulo: string;
   readonly resumo: string;
   /**

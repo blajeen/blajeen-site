@@ -21,6 +21,11 @@ export const ROTAS = {
    * plano, ela precisa dizer o que o programa faz com os arquivos de quem instalou.
    */
   produtos: '/produtos',
+  produtoOfertonauta: '/produtos/ofertonauta',
+  ofertonautaPrivacidade: '/ofertonauta/privacy',
+  ofertonautaTermos: '/ofertonauta/terms',
+  ofertonautaSuporte: '/ofertonauta/support',
+  ofertonautaExclusao: '/ofertonauta/delete-account',
   extensoes: '/produtos/extensoes',
   produtoClearlio: '/produtos/clearlio',
   produtoNotalio: '/produtos/notalio',
@@ -167,6 +172,7 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.vivelioPrivacidade,
   ROTAS.vivelioTermos,
   ROTAS.vivelioSuporte,
+  ROTAS.ofertonautaPrivacidade, ROTAS.ofertonautaTermos, ROTAS.ofertonautaSuporte, ROTAS.ofertonautaExclusao,
 ];
 
 /** Prioridade de sitemap por rota. Home e produtos primeiro; jurídico estável e indexável. */
@@ -175,6 +181,7 @@ export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.crieSeuProjeto) return 0.95;
   if (rota === ROTAS.trabalhos) return 0.9;
   if (
+    rota === ROTAS.produtoOfertonauta ||
     rota === ROTAS.produtos ||
     rota === ROTAS.extensoes ||
     rota === ROTAS.produtoClearlio ||

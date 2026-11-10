@@ -4,6 +4,8 @@ import { projetos, rotasDoProjeto } from './projects';
 import type { MenuId, NavLink } from './types';
 import { demonstracoes, produtos } from './produtos';
 import { extensoes } from './extensoes';
+import { ofertonauta } from './ofertonauta';
+export const atalhosDeAplicativo = [{ rotulo: ofertonauta.nome, estado: ofertonauta.estado, icone: ofertonauta.icone, href: ofertonauta.rota }];
 
 /**
  * Barra de navegação do desktop.
@@ -49,7 +51,7 @@ export const navegacaoPrincipal: readonly NavLink[] = [
   {
     indice: '03',
     rotulo: 'Produtos',
-    descricao: 'Programas pra baixar e usar sem conta, e o software à venda na loja.',
+    descricao: 'Aplicativos, programas, extensões e software do laboratório.',
     href: ROTAS.produtos,
     icone: 'produtos',
     menu: 'produtos',
@@ -144,6 +146,7 @@ export const atalhosDeExtensao = extensoes.map((extensao) => ({
 export const submenus: Record<MenuId, Submenu> = {
   produtos: {
     grupos: [
+      { titulo: 'Aplicativos e comunidades', todos: null, itens: atalhosDeAplicativo },
       { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
       { titulo: 'Extensões', todos: { rotulo: 'Ver todas as extensões', href: ROTAS.extensoes }, itens: atalhosDeExtensao },
       { titulo: 'Sob medida', todos: null, itens: atalhosDeDemonstracao },
@@ -157,6 +160,7 @@ export const submenus: Record<MenuId, Submenu> = {
 };
 
 export type AtalhoDeMenu =
+  | (typeof atalhosDeAplicativo)[number]
   | (typeof atalhosDeJogo)[number]
   | (typeof atalhosDeProduto)[number]
   | (typeof atalhosDeExtensao)[number]
@@ -192,7 +196,7 @@ export const rodape = {
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
   ],
-  produtos: [...atalhosDeProduto, ...atalhosDeDemonstracao].map(({ rotulo, href }) => ({ rotulo, href })),
+  produtos: [...atalhosDeAplicativo, ...atalhosDeProduto, ...atalhosDeDemonstracao].map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
     { rotulo: 'Sobre', href: ROTAS.sobre },
     { rotulo: 'Crie seu projeto', href: ROTAS.crieSeuProjeto },
@@ -221,6 +225,7 @@ export const rodape = {
   dados: {
     titulo: 'Excluir dados',
     links: [
+      { rotulo: 'Ofertonauta', href: ROTAS.ofertonautaExclusao },
       { rotulo: 'Revalio', href: ROTAS.revalioExclusao },
       { rotulo: 'Docalio', href: ROTAS.docalioExclusao },
       { rotulo: 'Gramelio', href: ROTAS.gramelioExclusao },

@@ -46,6 +46,11 @@ export const site = {
    * Substitui o `hello@blajeenlabs.com` fictício do protótipo. Vale para assuntos do estúdio;
    * cada jogo tem canal próprio.
    */
+  emailOfertonauta: definido(
+    'ofertonauta.admin@gmail.com',
+    'Canal de suporte confirmado pelo titular em 10/11/2026 nesta tarefa.',
+  ) satisfies Campo<string>,
+
   emailEstudio: definido(
     'brg.ftw@gmail.com',
     'Confirmado pelo titular em 17/08/2026, com a grafia verificada.',

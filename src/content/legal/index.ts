@@ -1,4 +1,6 @@
 import type { LegalDocument } from '../types';
+import { privacidadeOfertonauta, suporteOfertonauta, termosOfertonauta, exclusaoOfertonauta } from './ofertonauta';
+export { privacidadeOfertonauta, suporteOfertonauta, termosOfertonauta, exclusaoOfertonauta };
 import { privacidadeClearlio, suporteClearlio, termosClearlio } from './clearlio';
 import { privacidadeNotalio, suporteNotalio, termosNotalio } from './notalio';
 import { privacidadeVivelio, suporteVivelio, termosVivelio } from './vivelio';
@@ -84,6 +86,7 @@ export {
 
 /** Todos os documentos públicos, na ordem em que aparecem no site. */
 export const documentosLegais: readonly LegalDocument[] = [
+  privacidadeOfertonauta, suporteOfertonauta, termosOfertonauta, exclusaoOfertonauta,
   privacidadeEstudio,
   termosEstudio,
   suporteEstudio,

@@ -83,14 +83,6 @@ export const BLOQUEADORES = {
     // marca, de preferência num contrato de cessão) e o endereço do fornecedor exigido pelo
     // Decreto 7.962/2013.
   },
-  lojasJogos: {
-    titulo: 'URLs das fichas dos jogos que ainda não têm link nas lojas',
-    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Jogos no Google Play',
-    // TODO(bloqueador): em 29/10/2026 o titular informou que Docalio, Gramelio, Catelio e Mazelio
-    // estão no Google Play e que Morvelio e Socialio estão nas duas lojas, mas sem os endereços.
-    // No Google Play os IDs vão seguir o padrão do Revalio (`br.com.docalio`, `br.com.gramelio`…),
-    // segundo o titular; os selos só viram link quando cada ficha for confirmada no ar.
-  },
   screenshotsRevalio: {
     titulo: 'Capturas reais do Revalio aprovadas para o site',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Site',

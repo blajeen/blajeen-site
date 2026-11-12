@@ -4,17 +4,8 @@ import type { Project, ProjectId } from './types';
 /**
  * Copy aprovada em `docs/COPY_FINAL_DO_SITE.md`.
  *
- * Recursos só aparecem quando existem no build auditado. Para o Revalio, a evidência está em
- * `C:\dev\revalio\docs\FICHA_GOOGLE_PLAY.md`, `docs\publicacao\INVENTARIO_RELEASE.md` e
- * `docs\publicacao\RASCUNHO_TERMOS_DE_USO.md` §2. Para o Docalio, nada além do conceito foi
- * aprovado para comunicação — ver `docs/COPY_FINAL_DO_SITE.md`, "Limite editorial". Para o
- * Gramelio, a fonte é a descrição do titular em 19/08/2026, e ela descreve o desenho do jogo:
- * por isso o produto tem `pilares` e continua com `recursos` vazio.
- *
- * As fichas da App Store de Docalio, Gramelio, Catelio e Mazelio foram verificadas
- * em 26/09/2026. Em 29/10/2026 o titular informou que os quatro também estão no Google Play e
- * que Morvelio e Socialio estão disponíveis nas duas lojas; os endereços dessas fichas ainda não
- * foram passados (bloqueador `lojasJogos`). A publicação não substitui a revisão dos documentos legais.
+ * As fichas públicas na App Store brasileira e no Google Play foram conferidas em 11/11/2026.
+ * Os textos das páginas descrevem a experiência publicada ou identificam as prévias do jogo.
  */
 
 export const revalio: Project = {
@@ -39,25 +30,19 @@ export const revalio: Project = {
     'Estudar medicina exige constância. O Revalio foi criado para que essa constância tenha ritmo, feedback e significado.',
     'Você avança por trilhas, enfrenta atividades curtas, aprende com os erros e constrói uma jornada própria — sem promessas de atalhos.',
   ],
-  /*
-   * Os cinco itens autorizados pela copy aprovada, cada um confirmado em
-   * `C:\dev\revalio\docs\FICHA_GOOGLE_PLAY.md` e `docs\publicacao\RASCUNHO_TERMOS_DE_USO.md` §2.
-   * Sala Vermelha, Sprint e Revalio TV existem no build, mas ficam fora até serem aprovados
-   * para comunicação no site.
-   */
   recursos: [
     {
       titulo: 'Trilhas',
-      texto: 'Trilha Objetiva e Trilha Prática, com progresso acompanhado por especialidade.',
+      texto: 'Três trilhas de estudo: Revalida Objetiva, Habilidades Clínicas e Residência Médica, com questões do ENARE e do ENAMED.',
     },
     {
       titulo: 'Atividades',
       texto:
-        'Questões e estações organizadas a partir de provas e gabaritos de anos anteriores, além de flashcards para revisão rápida.',
+        'Resolva questões comentadas e estações de provas anteriores, treine com simulados completos e revise com flashcards.',
     },
     {
       titulo: 'Revisão',
-      texto: 'Correção com explicação curta e uma fila para rever o que você errou.',
+      texto: 'O Sprint monta uma fila de revisão a partir das questões que você errou.',
     },
     {
       titulo: 'Progressão',
@@ -65,7 +50,7 @@ export const revalio: Project = {
     },
     {
       titulo: 'Ritmo',
-      texto: 'Sessões curtas, pensadas para caber na rotina sem virar maratona.',
+      texto: 'Sessões curtas funcionam offline. Você pode estudar sem cadastro e usar uma conta para recuperar o progresso em outro aparelho.',
     },
   ],
   aviso:
@@ -115,11 +100,12 @@ export const docalio: Project = {
     'Docalio começou como uma ideia de aplicativo médico e cresceu até pedir um mundo próprio.',
     'Cada nível é um plantão com pacientes que se agravam em ritmos diferentes. Não dá para atender todos ao mesmo tempo, e é aí que está o jogo: priorizar sob pressão, sabendo que quem espera tem consequência.',
   ],
-  /*
-   * Vazio de propósito. `docs/COPY_FINAL_DO_SITE.md` proíbe listar sistemas, plataformas ou
-   * escopo do Docalio antes de existirem no produto E estarem aprovados para comunicação.
-   */
   recursos: [],
+  pilares: [
+    { titulo: 'Triagem sob pressão', texto: 'Escolha quem atender enquanto cada paciente tem seu próprio tempo. A distância até a maca e a duração do atendimento também contam.' },
+    { titulo: 'Ferramentas do plantão', texto: 'Use Passo para encurtar a viagem, Choque para acelerar o atendimento ou Seringa para ganhar tempo. As três ferramentas recarregam durante a fase.' },
+    { titulo: 'Acampamento em mudança', texto: 'Reponha suprimentos e adapte a ordem de atendimento quando chegam novas ondas, o clima muda ou uma rota fica bloqueada.' },
+  ],
   aviso:
     'Docalio é uma experiência de entretenimento e aprendizagem. Casos e personagens são ficcionais. O produto não oferece diagnóstico, prescrição ou orientação para pacientes reais e não substitui formação, supervisão profissional ou protocolos oficiais.',
   banner: {
@@ -138,7 +124,7 @@ export const docalio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/docalio/id6806569271' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.docalio' },
   ],
   ogDescricao: 'Docalio já está disponível: estratégia e prioridade na emergência, com casos ficcionais.',
   metaTitulo: 'Docalio — Blajeen Labs',
@@ -162,17 +148,12 @@ export const gramelio: Project = {
   eyebrow: 'EXPERIMENTO 03 / JOGO CASUAL',
   subtitulo: 'Coma a grama, encha o estômago, volte ao curral.',
   introducao:
-    'Um toque por vez, mapas pequenos e um estômago que decide o próximo passo. Gramelio é o terceiro experimento do laboratório — e o primeiro que não fala de medicina.',
+    'Um quebra-cabeça de rotas na fazenda. Planeje o caminho da vaca, escolha o que comer e volte ao curral antes que o tempo acabe.',
   manifesto: [
     'Gramelio nasceu de uma vontade simples: um jogo que você entende no primeiro toque e continua jogando porque quer acertar melhor.',
     'O mapa cabe na tela e o comando é um só — tocar. A dificuldade não vem de reflexo nem de pressa: vem da ordem em que você decide comer, do espaço que sobra no estômago e do caminho de volta até o curral.',
-    'A vaca é a primeira campanha. O laboratório desenha outras, com outros animais e outras regras de fazenda.',
+    'O primeiro mundo tem 20 fases incluídas. Uma compra opcional libera os outros 11 mundos de uma vez.',
   ],
-  /*
-   * Os pilares apresentam a experiência, sem prometer contagens ou preços.
-   * Ciclo, progressão e cosméticos: `C:\dev\gramelio\docs\00-estado-do-projeto.md`.
-   * Disponibilidade confirmada pelo titular em 03/09/2026.
-   */
   recursos: [],
   pilares: [
     {
@@ -193,7 +174,7 @@ export const gramelio: Project = {
     {
       titulo: 'Mapas e mundos',
       texto:
-        'Mapas pequenos, que cabem inteiros na tela, distribuídos por mundos com cenários e obstáculos diferentes.',
+        'São 240 fases em 12 mundos, com pontes, obstáculos e mudanças de clima como neve e tempestades de areia.',
     },
     {
       titulo: 'Missões e progresso',
@@ -224,7 +205,7 @@ export const gramelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/gramelio/id6805123148' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.gramelio' },
   ],
   ogDescricao: 'Gramelio já está disponível: um toque, um pasto e um estômago para administrar.',
   metaTitulo: 'Gramelio — Blajeen Labs',
@@ -247,7 +228,7 @@ export const catelio: Project = {
   eyebrow: 'EXPERIMENTO 04 / JOGO CASUAL',
   subtitulo: 'Um toque, um gato e um mundo para descobrir.',
   introducao:
-    'Uma aventura tranquila de exploração com um gato por uma cidade brasileira low-poly. Disponível para Android, iPhone e iPad.',
+    'Explore uma cidade brasileira low-poly no ritmo de um gato. Passeie pela feira, atravesse a ponte, entre no metrô e descubra onde tirar uma soneca.',
   manifesto: [
     'Catelio nasceu de uma ideia simples: transformar a curiosidade de um gato em uma jornada que cabe na tela e convida a explorar sem pressa.',
     'Cada região combina caminhos, comida, personagens e pequenos acontecimentos. O jogador decide para onde ir, o que descobrir e quando voltar.',
@@ -271,8 +252,8 @@ export const catelio: Project = {
       texto: 'Interações opcionais com personagens e objetos dão personalidade ao caminho sem interromper o controle.',
     },
     {
-      titulo: 'Novos mundos',
-      texto: 'A estrutura foi pensada para receber regiões, animais, objetos e desafios novos ao longo do tempo.',
+      titulo: 'Dez gatos e dezoito capítulos',
+      texto: 'Escolha a raça, a pelagem e o nome do seu gato. A história se revela pelos lugares da cidade, e o jogo salva onde você parou.',
     },
   ],
   aviso:
@@ -293,7 +274,7 @@ export const catelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/catelio/id6806569561' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.catelio' },
   ],
   ogDescricao: 'Explore uma cidade brasileira low-poly com um gato. Disponível na App Store e no Google Play.',
   metaTitulo: 'Catelio — Blajeen Labs',
@@ -364,7 +345,7 @@ export const mazelio: Project = {
   nome: 'Mazelio',
   indice: 'EXPERIMENTO 06',
   estado: 'ATIVO',
-  categoria: 'TOWER DEFENSE DE MAZES',
+  categoria: 'TOWER DEFENSE DE LABIRINTO',
   status: 'DISPONÍVEL',
   frase: 'Construa as torres. Desenhe o caminho. Defenda o Rei.',
   descricao: 'Um tower defense vertical para celular em que cada torre causa dano e também vira parede. Você não defende uma rota pronta: constrói um labirinto para fazer os inimigos passarem mais de uma vez pelas suas próprias defesas.',
@@ -382,8 +363,8 @@ export const mazelio: Project = {
     { titulo: 'Torres que mudam a rota', texto: 'Cada torre ataca e bloqueia espaço ao mesmo tempo. Posicionar uma defesa é também redesenhar o caminho dos inimigos.' },
     { titulo: 'Mazing sem fechar a passagem', texto: 'O tabuleiro aceita labirintos, mas sempre preserva uma rota possível entre o portal e o Rei.' },
     { titulo: 'Repetir o percurso', texto: 'A estratégia está em dobrar a rota através das próprias torres para criar mais oportunidades de dano.' },
-    { titulo: 'Elementos que importam', texto: 'Fogo, água e gelo, terra e natureza criam vantagens entre torres e criaturas; a escolha certa depende do próximo inimigo.' },
-    { titulo: 'Partidas verticais', texto: 'O primeiro formato usa um tabuleiro 10×14: portal no topo, Rei embaixo e preparação antes de cada onda.' },
+    { titulo: 'Quatro torres elementais', texto: 'Chamas queimam, Gelo desacelera, Pedra atordoa e Espinhos envenena. Cada torre tem três níveis de melhoria.' },
+    { titulo: 'Ondas sem fase final', texto: 'Inspecione os próximos inimigos, ajuste a defesa entre as ondas e tente bater seu recorde. Você pode pausar ou acelerar a partida.' },
   ],
   aviso: 'Mazelio é um jogo de entretenimento disponível na App Store e no Google Play. Criaturas, torres e cenários são ficcionais; o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/mazelio/mazelio-banner-key-art.webp', alt: 'Arte promocional de Mazelio: torres elementais formam um labirinto aberto para proteger o Rei, com o símbolo oficial do jogo à esquerda.', largura: 1600, altura: 900 },
@@ -398,7 +379,7 @@ export const mazelio: Project = {
   plataformas: [],
   disponibilidade: [
     { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/mazelio/id6809216284' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.mazelio' },
   ],
   ogDescricao: 'Mazelio: tower defense em que cada torre muda o caminho. Disponível na App Store e no Google Play.',
   metaTitulo: 'Mazelio — Blajeen Labs',
@@ -418,7 +399,7 @@ export const socialio: Project = {
   notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 07 / MMO SOCIAL',
   subtitulo: 'Uma cidade calma. A mesma música. Pessoas no mesmo momento.',
-  introducao: 'Socialio é um MMO social 2D para celular sobre dividir um lugar, escutar a mesma música e deixar que as conversas revelem o que a cidade guarda.',
+  introducao: 'Explore uma cidade em pixel art com 20 rádios, chat e minigames. Jogue online com amigos ou explore no modo local sem internet.',
   manifesto: [
     'Socialio não nasce como uma corrida por níveis ou uma disputa por poder. A ideia é criar um lugar calmo para estar junto: visitar cafés, explorar a cidade, fazer pequenas atividades e encontrar outras pessoas sem pressa.',
     'Em Graystones, a programação das rádios acompanha o relógio do servidor. Duas pessoas no mesmo lugar ouvem o mesmo trecho da mesma faixa, mesmo que uma tenha chegado depois. A cidade compartilha ritmo antes de compartilhar conversa.',
@@ -428,9 +409,9 @@ export const socialio: Project = {
     { titulo: 'Graystones e The Vale', texto: 'Uma cidade costeira inspirada em Greystones, na Irlanda, conectada ao interior mais afastado de The Vale.' },
     { titulo: 'Rádios sincronizadas', texto: 'Cada rádio tem uma identidade musical. A programação acompanha o relógio do servidor para que quem está junto escute o mesmo momento.' },
     { titulo: 'Um lugar social, sem corrida', texto: 'A experiência prioriza convivência, exploração e encontros em vez de uma progressão obrigatória.' },
-    { titulo: 'Atividades leves', texto: 'Pescar, cortar lenha, minerar, nadar e cuidar de bichos fazem parte do ritmo cotidiano da cidade.' },
+    { titulo: 'Atividades pela cidade', texto: 'Pesque no rio ou no mar, corte lenha, minere, cuide da horta comunitária e explore a cidade com um pet.' },
     { titulo: 'Mistérios que pedem conversa', texto: 'A história está espalhada pelo mundo e alguns mistérios só avançam quando pessoas compartilham o que descobriram.' },
-    { titulo: 'NPCs reconhecíveis', texto: 'Pessoas usam fones; NPCs não. Um detalhe visual simples ajuda a cidade a ser lida em segundos.' },
+    { titulo: 'Minigames e encontros', texto: 'Combine um jogo de futebol ou basquete com amigos, dispute uma partida de sinuca ou xadrez e visite o fliperama.' },
   ],
   aviso: 'Socialio é um jogo de entretenimento disponível na App Store e no Google Play. A cidade, os personagens e as histórias são ficcionais, e o jogo pode evoluir com novas versões.',
   banner: { src: '/projects/socialio/socialio-banner-cafe.webp', alt: 'Banner oficial de Socialio, com a identidade visual de um café em Graystones.', largura: 1672, altura: 941 },
@@ -439,8 +420,8 @@ export const socialio: Project = {
   galeriaBloqueador: 'conceptArtSocialio',
   plataformas: [],
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/socialio/id6809216453' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.socialio' },
   ],
   ogDescricao: 'Um MMO social calmo, com música sincronizada e uma cidade para descobrir. Experimento 07 da Blajeen Labs.',
   metaTitulo: 'Socialio — Blajeen Labs',

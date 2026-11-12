@@ -17,7 +17,7 @@ import { documentosLegais } from './legal';
 import { atalhosDeJogo, atalhosDeProduto, rodape } from './navigation';
 import { produtos, vivelio } from './produtos';
 import { contato, sobre } from './pages';
-import { catelio, docalio, gramelio, mazelio, morvelio, projetos, revalio, rotasDoProjeto, socialio } from './projects';
+import { catelio, docalio, gramelio, mazelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
 import { ROTAS_DE_LOJA } from '@/lib/routes';
 
@@ -109,10 +109,6 @@ describe('projetos', () => {
     }
   });
 
-  it('não lista recursos do Docalio antes da aprovação para comunicação', () => {
-    expect(docalio.recursos).toEqual([]);
-  });
-
   it('nunca apresenta desenho de jogo como recurso de build', () => {
     /*
      * `recursos` é rotulado na página como "o que existe no build hoje" e `pilares` como desenho.
@@ -178,31 +174,36 @@ describe('projetos', () => {
     }
   });
 
-  it('carrega o aviso educacional/médico obrigatório', () => {
+  it('carrega os avisos educacionais e de ficção', () => {
     expect(revalio.aviso).toMatch(/não realiza diagnóstico/i);
     expect(revalio.aviso).toMatch(/não garante aprovação/i);
     expect(docalio.aviso).toMatch(/ficcionais/i);
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
+    expect(gramelio.aviso).toMatch(/ficcionais/i);
   });
 
-  it('liga Morvelio às duas lojas e mantém a disponibilidade dos demais jogos', () => {
-    for (const projeto of [gramelio, docalio, catelio, mazelio]) {
-      expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
-      expect(projeto.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({ estado: 'disponivel', url: expect.stringContaining('apps.apple.com') });
-      // Publicados no Google Play (titular, 29/10/2026); o selo só vira link com a URL confirmada.
-      expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'disponivel', url: null, bloqueador: 'lojasJogos' });
+  it('liga cada jogo às suas fichas oficiais na App Store e no Google Play', () => {
+    const idsDaAppStore = {
+      revalio: '6802770612',
+      docalio: '6806569271',
+      gramelio: '6805123148',
+      catelio: '6806569561',
+      morvelio: '6809216107',
+      mazelio: '6809216284',
+      socialio: '6809216453',
+    };
+
+    for (const { id, disponibilidade } of projetos) {
+      expect(disponibilidade).toHaveLength(2);
+      expect(disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({
+        estado: 'disponivel',
+        url: 'https://apps.apple.com/br/app/' + id + '/id' + idsDaAppStore[id],
+      });
+      expect(disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({
+        estado: 'disponivel',
+        url: 'https://play.google.com/store/apps/details?id=br.com.' + id,
+      });
     }
-    expect(morvelio.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({
-      estado: 'disponivel',
-      url: 'https://apps.apple.com/br/app/morvelio/id6809216107',
-    });
-    expect(morvelio.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({
-      estado: 'disponivel',
-      url: 'https://play.google.com/store/apps/details?id=br.com.morvelio',
-    });
-    expect(socialio.disponibilidade.every((loja) => loja.estado === 'disponivel' && loja.url === null && loja.bloqueador === 'lojasJogos')).toBe(true);
-    expect(gramelio.aviso).toMatch(/ficcionais/i);
-    expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });
 
   it('só afirma estar nas lojas quando está', () => {

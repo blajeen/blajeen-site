@@ -306,45 +306,32 @@ export const morvelio: Project = {
   nome: 'Morvelio',
   indice: 'EXPERIMENTO 05',
   estado: 'ATIVO',
-  categoria: 'RPG DE AÇÃO SOLO',
+  categoria: 'RPG DE AÇÃO',
   status: 'DISPONÍVEL',
   frase: 'Em Velidor o mal já venceu, e só os aventureiros se recusam a aceitar.',
-  descricao:
-    'Um RPG de ação solo: sete classes, uma jornada por Velidor e um universo de cinco reinos nas páginas do livro.',
+  descricao: 'Campanha dublada, masmorras e PvE competitivo com rankings. Veja também a prévia do Cerco da Névoa, um battle royale em arena para seis participantes.',
   cta: 'CONHECER MORVELIO',
   notaCurta: 'Disponível na App Store e no Google Play.',
   eyebrow: 'EXPERIMENTO 05 / JOGO AUTORAL',
-  subtitulo: 'Uma campanha solo em um mundo fantástico.',
-  introducao:
-    'Morvelio combina exploração e combates em visão superior, numa campanha solo por mapas, encontros e chefes.',
+  subtitulo: 'Desafie as sombras de Velidor.',
+  introducao: 'RPG de ação em visão de cima, feito para jogar com o celular em pé. Explore Velidor na campanha dublada, enfrente masmorras e dispute posições na Provação das Sombras, o modo PvE competitivo.',
   manifesto: [
-    'Morvelio saiu do papel e chegou às lojas: mapa, encontros, interface e combate formam uma campanha solo para celular. As imagens abaixo são capturas reais do desenvolvimento.',
-    'A campanha é individual. Missões, personagens e sistemas continuam evoluindo em novas versões.',
+    'Morvelio era o conselheiro do rei. Quando encontrou o Orbe no rio, Velidor caiu nas sombras. Agora os aventureiros atravessam o reino para descobrir o que aconteceu e enfrentar a ameaça que tomou o castelo.',
   ],
   recursos: [],
   pilares: [
-    {
-      titulo: 'Campanha solo',
-      texto: 'Uma jornada individual por mapas, encontros e objetivos conectados ao mundo de Morvelio.',
-    },
-    {
-      titulo: 'Combate e chefes',
-      texto: 'Encontros jogáveis e confrontos com chefes ao longo da campanha.',
-    },
-    {
-      titulo: 'Mundo em produção',
-      texto: 'Mapas, missões e personagens são construídos em etapas, com a direção de arte fantástica evoluindo junto com o jogo.',
-    },
-    {
-      titulo: 'Evolução contínua',
-      texto: 'O jogo continua recebendo ajustes de equilíbrio, ritmo e conteúdo em novas versões.',
-    },
+    { titulo: 'Campanha de Velidor', texto: 'Viaje por vilas, minas e pela costa até o Castelo de Velidor. Enfrente os chefes das regiões e descubra o que o Orbe fez com o reino, em uma história com cenas narradas e diálogos dublados em português.' },
+    { titulo: 'Provação das Sombras', texto: 'Entre nas masmorras pós-campanha, aumente a dificuldade e compare sua pontuação nos rankings semanais e de temporada. Os melhores colocados disputam insígnias.' },
+    { titulo: 'Cerco da Névoa · prévia da versão 1.3', texto: 'Battle royale em uma arena para seis participantes. Na primeira versão, você enfrenta cinco bots. Dispute relicários, recolha Brasas e sobreviva enquanto a névoa fecha o mapa.' },
+    { titulo: 'Classes, talentos e equipamentos', texto: 'Escolha entre sete classes iniciais ou desbloqueie a Assassina pelo passe. Combine habilidades, talentos, armas, broches e conjuntos de equipamento para montar seu aventureiro.' },
+    { titulo: 'Masmorras e forja', texto: 'Supere dez masmorras, use chaves mais altas para buscar peças melhores e visite Bento para forjar armas sagradas.' },
+    { titulo: 'Refúgio e temporadas', texto: 'Decore seu refúgio, prepare refeições que fortalecem o aventureiro e avance na trilha de recompensas da temporada. Entre com Apple ou Google para guardar seu progresso na nuvem.' },
+    { titulo: 'Provação em dupla e duelo entre amigos', texto: 'Em teste, a Provação em dupla permite avançar nas chaves e pontuar no ranking. No duelo 1 contra 1, dois amigos se enfrentam em uma melhor de três.' },
   ],
-  aviso:
-    'Morvelio é um jogo de entretenimento disponível na App Store e no Google Play. As capturas desta página vêm do desenvolvimento; interface, arte e mecânicas podem mudar em novas versões.',
+  aviso: 'Morvelio é gratuito para jogar e oferece compras opcionais. As capturas do Cerco da Névoa são da versão 1.3 em teste. A disponibilidade do modo depende da versão publicada em cada loja.',
   banner: {
-    src: '/projects/morvelio/morvelio-banner-2026.webp',
-    alt: 'Arte promocional atual do Morvelio: um aventureiro diante de uma cidade fantástica, com a marca do jogo em destaque.',
+    src: '/projects/morvelio/morvelio-capa-velidor.webp',
+    alt: 'Brann, Vesper e Rauk diante do Castelo de Velidor, entre tochas e névoa violeta.',
     largura: 1600,
     altura: 900,
   },
@@ -354,20 +341,22 @@ export const morvelio: Project = {
     tamanho: 512,
   },
   galeria: [
-    { src: '/projects/morvelio/morvelio-combate-prototipo.webp', alt: 'Captura do protótipo Morvelio com personagem em arena de combate.', largura: 720, altura: 1280, legenda: 'Encontro jogável · captura do protótipo' },
-    { src: '/projects/morvelio/morvelio-chefe-prototipo.webp', alt: 'Captura do protótipo Morvelio durante um encontro com chefe.', largura: 720, altura: 1280, legenda: 'Chefe em teste · captura do protótipo' },
-    { src: '/projects/morvelio/morvelio-acampamento-prototipo.webp', alt: 'Captura do protótipo Morvelio na área de treino do acampamento.', largura: 720, altura: 1280, legenda: 'Área de treino · captura do protótipo' },
+    { src: '/projects/morvelio/morvelio-campanha-atual.webp', alt: 'Aventureiro em Vilarim, com o objetivo da missão e os controles na tela.', largura: 720, altura: 1280, legenda: 'Campanha · missão em Vilarim' },
+    { src: '/projects/morvelio/morvelio-mapa-atual.webp', alt: 'Mapa de Velidor com regiões, rotas e o progresso da jornada.', largura: 720, altura: 1280, legenda: 'Campanha · mapa de Velidor' },
+    { src: '/projects/morvelio/morvelio-equipamentos-atual.webp', alt: 'Tela de equipamentos com o aventureiro, suas peças equipadas e seus atributos.', largura: 720, altura: 1280, legenda: 'Coleção · equipamentos do aventureiro' },
+    { src: '/projects/morvelio/morvelio-provacao-atual.webp', alt: 'Lobby da Provação das Sombras com os botões de jogar e abrir o ranking semanal.', largura: 720, altura: 1280, legenda: 'Provação das Sombras · PvE competitivo' },
+    { src: '/projects/morvelio/morvelio-cerco-atual.webp', alt: 'Partida do Cerco da Névoa com o círculo seguro encolhendo e o contador de sobreviventes.', largura: 720, altura: 1280, legenda: 'Cerco da Névoa · prévia da versão 1.3' },
+    { src: '/projects/morvelio/morvelio-vitoria-atual.webp', alt: 'Tela de vitória do Cerco da Névoa com a primeira colocação e os troféus da temporada.', largura: 720, altura: 1280, legenda: 'Cerco da Névoa · resultado da partida em teste' },
   ],
   galeriaBloqueador: 'conceptArtMorvelio',
   plataformas: [],
   disponibilidade: [
-    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
-    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: null, bloqueador: 'lojasJogos' },
+    { loja: 'appStore', nome: 'App Store', estado: 'disponivel', url: 'https://apps.apple.com/br/app/morvelio/id6809216107' },
+    { loja: 'googlePlay', nome: 'Google Play', estado: 'disponivel', url: 'https://play.google.com/store/apps/details?id=br.com.morvelio' },
   ],
-  ogDescricao: 'Morvelio: sete classes, Velidor sob as sombras e um mundo de histórias. Conheça o jogo.',
-  metaTitulo: 'Morvelio — Blajeen Labs',
-  metaDescricao:
-    'Morvelio é o RPG de ação solo da Blajeen Labs, disponível na App Store e no Google Play. Conheça Velidor, as sete classes e o universo de Erdávia.',
+  ogDescricao: 'Explore Velidor em uma campanha dublada, dispute rankings no PvE e veja a prévia do Cerco da Névoa, um battle royale em arena para seis participantes.',
+  metaTitulo: 'Morvelio — RPG de ação | Blajeen Labs',
+  metaDescricao: 'RPG de ação para Android e iOS com campanha dublada, masmorras e rankings de PvE. Veja a prévia do Cerco da Névoa, battle royale em arena para seis participantes.',
 };
 
 export const mazelio: Project = {

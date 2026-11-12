@@ -44,7 +44,7 @@ describe('projetos', () => {
       docalio: { src: '/projects/docalio/docalio-banner-final.png', largura: 1672, altura: 941 },
       gramelio: { src: '/projects/gramelio/gramelio-banner-final.png', largura: 1536, altura: 1024 },
       catelio: { src: '/projects/catelio/catelio-banner-city.png', largura: 1672, altura: 941 },
-      morvelio: { src: '/projects/morvelio/morvelio-banner-2026.webp', largura: 1600, altura: 900 },
+      morvelio: { src: '/projects/morvelio/morvelio-capa-velidor.webp', largura: 1600, altura: 900 },
       mazelio: { src: '/projects/mazelio/mazelio-banner-key-art.webp', largura: 1600, altura: 900 },
       socialio: { src: '/projects/socialio/socialio-banner-cafe.webp', largura: 1672, altura: 941 },
     };
@@ -164,8 +164,12 @@ describe('projetos', () => {
   it('mostra capturas atuais no Morvelio e Mazelio e mantém vazias as galerias sem seleção', () => {
     for (const projeto of projetos) {
       if (projeto.id === 'morvelio') {
-        expect(projeto.galeria).toHaveLength(3);
-        expect(projeto.galeria.every((captura) => captura.legenda.includes('protótipo'))).toBe(true);
+        expect(projeto.galeria).toHaveLength(6);
+        expect(projeto.galeria.map((captura) => captura.legenda)).toEqual(expect.arrayContaining([
+          'Campanha · missão em Vilarim',
+          'Provação das Sombras · PvE competitivo',
+          'Cerco da Névoa · prévia da versão 1.3',
+        ]));
       } else if (projeto.id === 'mazelio') {
         expect(projeto.galeria).toHaveLength(4);
         expect(projeto.galeria.every((captura) => captura.legenda.includes('captura atual'))).toBe(true);
@@ -181,17 +185,22 @@ describe('projetos', () => {
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });
 
-  it('liga os quatro jogos publicados às fichas da App Store e anuncia o Google Play', () => {
+  it('liga Morvelio às duas lojas e mantém a disponibilidade dos demais jogos', () => {
     for (const projeto of [gramelio, docalio, catelio, mazelio]) {
       expect(projeto.aviso).not.toMatch(/em desenvolvimento|não existe build público/i);
       expect(projeto.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({ estado: 'disponivel', url: expect.stringContaining('apps.apple.com') });
       // Publicados no Google Play (titular, 29/10/2026); o selo só vira link com a URL confirmada.
       expect(projeto.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({ estado: 'disponivel', url: null, bloqueador: 'lojasJogos' });
     }
-    // Morvelio e Socialio passaram a disponível nas duas lojas (titular, 29/10/2026), ainda sem URL.
-    for (const projeto of [morvelio, socialio]) {
-      expect(projeto.disponibilidade.every((loja) => loja.estado === 'disponivel' && loja.url === null && loja.bloqueador === 'lojasJogos')).toBe(true);
-    }
+    expect(morvelio.disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({
+      estado: 'disponivel',
+      url: 'https://apps.apple.com/br/app/morvelio/id6809216107',
+    });
+    expect(morvelio.disponibilidade.find((loja) => loja.loja === 'googlePlay')).toMatchObject({
+      estado: 'disponivel',
+      url: 'https://play.google.com/store/apps/details?id=br.com.morvelio',
+    });
+    expect(socialio.disponibilidade.every((loja) => loja.estado === 'disponivel' && loja.url === null && loja.bloqueador === 'lojasJogos')).toBe(true);
     expect(gramelio.aviso).toMatch(/ficcionais/i);
     expect(docalio.aviso).toMatch(/não oferece diagnóstico/i);
   });

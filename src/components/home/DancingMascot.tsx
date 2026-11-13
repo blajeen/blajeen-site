@@ -92,7 +92,7 @@ export function DancingMascot() {
       >
         <span ref={host} className={styles.canvas} aria-hidden="true" />
         <span id="mascot-instructions" className={styles.hint}>
-          {status === "loading" ? "Chegando do laboratório…" : "Segure e arraste"}
+          {status === "loading" ? "Chegando do laboratório…" : "Mascote"}
         </span>
       </button>
     </div>

@@ -5,18 +5,21 @@ const MODEL = "/models/tripo_convert_76d53895-e49c-4125-b6fe-e16c1ccb5b93.glb";
 
 export function createMascot(host: HTMLElement, ready: () => void, failed: () => void) {
   const renderer = new T.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  // A textura original é 4K: preserve os detalhes do rosto mesmo no canvas pequeno.
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = T.SRGBColorSpace;
-  renderer.toneMapping = T.ACESFilmicToneMapping;
+  // O mapeamento neutro preserva o roxo do casaco e os tons da pele da referência.
+  renderer.toneMapping = T.NeutralToneMapping;
   host.appendChild(renderer.domElement);
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(32, 1, 0.01, 100);
-  scene.add(new T.HemisphereLight(0xffffff, 0x67735a, 2.4));
-  const key = new T.DirectionalLight(0xffffff, 3);
+  // A foto já traz luz gravada na textura. Luz suave, sem tingir pele e roupa de verde.
+  scene.add(new T.HemisphereLight(0xffffff, 0x888888, 1.8));
+  const key = new T.DirectionalLight(0xffffff, 1.6);
   key.position.set(3, 4, 5);
   scene.add(key);
-  const rim = new T.DirectionalLight(0xe6ff9a, 1.5);
+  const rim = new T.DirectionalLight(0xffffff, 0.5);
   rim.position.set(-3, 2, -2);
   scene.add(rim);
   let disposed = false;
@@ -85,6 +88,22 @@ export function createMascot(host: HTMLElement, ready: () => void, failed: () =>
   loader.load(MODEL, (gltf) => {
     if (disposed) { disposeModel(gltf.scene); return; }
     model = gltf.scene;
+    model.traverse((node) => {
+      if (!(node instanceof T.Mesh)) return;
+      for (const material of Array.isArray(node.material) ? node.material : [node.material]) {
+        if (!(material instanceof T.MeshStandardMaterial)) continue;
+        // Tecido, pele e cabelo não devem ganhar reflexo plástico de metal.
+        material.metalness = 0;
+        material.roughness = 0.95;
+        if (material.map) {
+          material.map.colorSpace = T.SRGBColorSpace;
+          material.map.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+          material.map.minFilter = T.LinearMipmapLinearFilter;
+          material.map.magFilter = T.LinearFilter;
+          material.map.needsUpdate = true;
+        }
+      }
+    });
     scene.add(model);
     mixer = new T.AnimationMixer(model);
     const clip = gltf.animations.find((animation) => /dance_02/i.test(animation.name))

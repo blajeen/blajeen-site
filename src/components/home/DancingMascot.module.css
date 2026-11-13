@@ -2,8 +2,8 @@
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
   bottom: max(16px, env(safe-area-inset-bottom));
-  width: 200px;
-  height: 250px;
+  width: min(260px, calc(100vw - 32px));
+  height: min(318px, calc(100dvh - 32px));
   z-index: 30;
 }
 
@@ -42,5 +42,5 @@
 }
 
 @media (max-width: 600px) {
-  .mascot { width: 132px; height: 176px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
+  .mascot { width: 171.6px; height: 221.6px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
 }

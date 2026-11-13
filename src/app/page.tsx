@@ -1,6 +1,7 @@
 import { ScreenshotFrame } from "@/components/projects/ScreenshotFrame";
 import Link from "next/link";
 import { LabHero } from "@/components/home/LabHero";
+import { DancingMascot } from "@/components/home/DancingMascot";
 import { ProductConfigurator } from "@/components/home/ProductConfigurator";
 import { MorvelioChallenge } from "@/components/home/MorvelioChallenge";
 import { trabalhos } from "@/content/portfolio";
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <div className="hx">
       <LabHero />
+      <DancingMascot />
       <noscript>
         <p className="px-6 py-4 text-sm">
           Ative o JavaScript para experimentar o laboratório, o configurador e o

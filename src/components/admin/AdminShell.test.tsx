@@ -21,6 +21,12 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('navegação do painel', () => {
+  it('marca Analytics na página do Morvelio', () => {
+    navigation.pathname = '/admin/analytics/morvelio';
+    renderShell();
+    expect(screen.getByRole('link', { name: 'Analytics' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Relatórios' })).not.toHaveAttribute('aria-current');
+  });
   it('marca a seção da subrota e mantém a visão geral inativa', () => {
     navigation.pathname = '/admin/loja/produtos';
     renderShell();

@@ -16,6 +16,7 @@ next-env.d.ts
 .data/
 
 # QA local
+.codex-qa/morvelio/
 .qa-shots/
 .qa-banner/
 .chrome-logo-render/

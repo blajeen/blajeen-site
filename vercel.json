@@ -1,0 +1,3 @@
+{
+  "crons": [{ "path": "/api/cron/morvelio", "schedule": "0 11 * * *" }]
+}

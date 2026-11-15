@@ -13,6 +13,7 @@ const ABAS = [
   { href: '/admin/catalogo', rotulo: 'Catálogo', icone: 'catalog' },
   { href: '/admin/loja', rotulo: 'Loja', icone: 'store' },
   { href: '/admin/relatorios', rotulo: 'Relatórios', icone: 'reports' },
+  { href: '/admin/analytics', rotulo: 'Analytics', icone: 'reports' },
   { href: '/admin/novidades', rotulo: 'Novidades', icone: 'news' },
   { href: '/admin/redes-sociais', rotulo: 'Redes sociais', icone: 'social' },
 ] as const;

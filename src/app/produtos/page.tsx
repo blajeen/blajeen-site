@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ofertonauta } from '@/content/ofertonauta';
+import { guardelio } from '@/content/guardelio';
 import { ScreenshotFrame } from '@/components/projects/ScreenshotFrame';
 import { ProductTabs } from '@/components/projects/ProductTabs';
 import Link from 'next/link';
@@ -14,7 +15,7 @@ import { ROTAS } from '@/lib/routes';
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Produtos — Blajeen Labs',
   descricao:
-    'Aplicativos, programas e comunidades da Blajeen Labs: conheça o Ofertonauta, os programas para computador, as ferramentas e as demonstrações sob medida.',
+    'Aplicativos, programas e comunidades da Blajeen Labs: conheça o Ofertonauta, o Guardelio, os programas para computador, as ferramentas e as demonstrações sob medida.',
   rota: ROTAS.produtos,
 });
 
@@ -104,17 +105,24 @@ export default function ProdutosPage() {
         </Container>
       </header>
 
-      <Section indice="00 / COMUNIDADE" rotulo="Ofertonauta">
-        <article className="grid items-center gap-8 rounded-[var(--radius-panel)] border border-line bg-raised/60 p-7 sm:p-10 lg:grid-cols-12">
-          <Image src={ofertonauta.icone.src} alt="" width={512} height={512} sizes="160px" className="w-32 rounded-3xl lg:col-span-3 lg:w-40" />
-          <div className="min-w-0 lg:col-span-9">
-            <p className="tecnica text-signal">{ofertonauta.estado}</p>
-            <h2 className="mt-4 break-words text-[clamp(2rem,4vw,3.4rem)]">{ofertonauta.nome}</h2>
-            <p className="mt-3 text-lg">{ofertonauta.lema}</p>
-            <p className="medida-texto mt-4 leading-relaxed text-mineral">{ofertonauta.resumo}</p>
-            <Link href={ofertonauta.rota} className="alvo-toque tecnica mt-6 inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow">CONHECER O OFERTONAUTA →</Link>
-          </div>
-        </article>
+      <Section indice="00 / APLICATIVOS E SERVIÇOS" rotulo="Ofertonauta e Guardelio">
+        <div className="grid gap-6">
+          {[
+            { produto: ofertonauta, cta: 'CONHECER O OFERTONAUTA →' },
+            { produto: guardelio, cta: 'CONHECER O GUARDELIO →' },
+          ].map(({ produto, cta }) => (
+            <article key={produto.nome} className="grid items-center gap-8 rounded-[var(--radius-panel)] border border-line bg-raised/60 p-7 sm:p-10 lg:grid-cols-12">
+              <Image src={produto.icone.src} alt="" width={512} height={512} sizes="160px" className="w-32 rounded-3xl lg:col-span-3 lg:w-40" />
+              <div className="min-w-0 lg:col-span-9">
+                <p className="tecnica text-signal">{produto.estado}</p>
+                <h2 className="mt-4 break-words text-[clamp(2rem,4vw,3.4rem)]">{produto.nome}</h2>
+                <p className="mt-3 text-lg">{produto.lema}</p>
+                <p className="medida-texto mt-4 leading-relaxed text-mineral">{produto.resumo}</p>
+                <Link href={produto.rota} className="alvo-toque tecnica mt-6 inline-flex items-center rounded-full bg-signal px-5 text-ink hover:bg-glow">{cta}</Link>
+              </div>
+            </article>
+          ))}
+        </div>
       </Section>
 
       <Section

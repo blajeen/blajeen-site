@@ -22,6 +22,7 @@ export const ROTAS = {
    */
   produtos: '/produtos',
   produtoOfertonauta: '/produtos/ofertonauta',
+  produtoGuardelio: '/produtos/guardelio',
   ofertonautaPrivacidade: '/ofertonauta/privacy',
   ofertonautaTermos: '/ofertonauta/terms',
   ofertonautaSuporte: '/ofertonauta/support',
@@ -182,6 +183,7 @@ export function prioridadeSitemap(rota: Rota): number {
   if (rota === ROTAS.trabalhos) return 0.9;
   if (
     rota === ROTAS.produtoOfertonauta ||
+    rota === ROTAS.produtoGuardelio ||
     rota === ROTAS.produtos ||
     rota === ROTAS.extensoes ||
     rota === ROTAS.produtoClearlio ||

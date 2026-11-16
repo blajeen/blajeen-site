@@ -5,7 +5,8 @@ import type { MenuId, NavLink } from './types';
 import { demonstracoes, produtos } from './produtos';
 import { extensoes } from './extensoes';
 import { ofertonauta } from './ofertonauta';
-export const atalhosDeAplicativo = [{ rotulo: ofertonauta.nome, estado: ofertonauta.estado, icone: ofertonauta.icone, href: ofertonauta.rota }];
+import { guardelio } from './guardelio';
+export const atalhosDeAplicativo = [ofertonauta, guardelio].map(({ nome, estado, icone, rota }) => ({ rotulo: nome, estado, icone, href: rota }));
 
 /**
  * Barra de navegação do desktop.
@@ -146,7 +147,7 @@ export const atalhosDeExtensao = extensoes.map((extensao) => ({
 export const submenus: Record<MenuId, Submenu> = {
   produtos: {
     grupos: [
-      { titulo: 'Aplicativos e comunidades', todos: null, itens: atalhosDeAplicativo },
+      { titulo: 'Aplicativos e serviços', todos: null, itens: atalhosDeAplicativo },
       { titulo: 'Programas', todos: { rotulo: 'Ver todos os programas', href: ROTAS.produtos }, itens: atalhosDeProduto },
       { titulo: 'Extensões', todos: { rotulo: 'Ver todas as extensões', href: ROTAS.extensoes }, itens: atalhosDeExtensao },
       { titulo: 'Sob medida', todos: null, itens: atalhosDeDemonstracao },

@@ -1,5 +1,6 @@
 import type { ProductIconId } from '@/components/projects/ProductIcon';
 import { ROTAS } from '@/lib/routes';
+import { recraw } from './recraw';
 
 /**
  * Produtos do estúdio: coisa que a pessoa leva pra máquina ou pro celular dela e usa.
@@ -1357,6 +1358,7 @@ export const vivelio: Movel = {
 };
 
 export const produtos: readonly Produto[] = [
+  recraw,
   clearlio,
   notalio,
   editalio,

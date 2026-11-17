@@ -159,6 +159,20 @@ Uso no site, via `src/components/brand/LabMascot.tsx`:
 - Os títulos dos jogos e a assinatura são compostos por `tools/compose_project_banner.py`; não
   pedir ao gerador de imagens para recriar nenhum desses textos.
 
+## Recraw — programa de áudio, tela e quadro
+
+Identidade solicitada pelo titular: símbolo de play sendo desenhado por um lápis. O ícone
+do aplicativo é reutilizado em `public/produtos/recraw/recraw-icon.png` no catálogo, no menu
+e na página do produto.
+
+- `recraw-audio.webp`: captura real da interface 0.1.1 em tema escuro, área de áudio.
+- `recraw-quadro.webp`: captura real do quadro, com uma imagem de exemplo selecionada.
+- Ambas preservam a proporção original de 1160 × 790; não são maquetes de funções futuras.
+- `recraw-social.jpg`: composição de compartilhamento 1200 × 630, com nome, ícone e resumo.
+
+Os arquivos ficam em `public/produtos/recraw/`. Não publicar gravações de teste ou código-fonte
+do aplicativo junto das imagens e downloads públicos.
+
 ## Material de referência que NÃO vai para o site
 
 Junto com a arte do Gramelio vieram folhas de referência visual em `C:\dev\gramelio\art`:

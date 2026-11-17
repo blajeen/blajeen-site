@@ -43,6 +43,7 @@ export const ROTAS = {
   notalioTermos: '/notalio/terms',
   notalioSuporte: '/notalio/support',
   produtoEditalio: '/produtos/editalio',
+  produtoRecraw: '/produtos/recraw',
   produtoVistalio: '/produtos/vistalio',
   produtoPlanilhaFinanceira: '/produtos/planilha-financeira',
   /**
@@ -189,6 +190,7 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.produtoClearlio ||
     rota === ROTAS.produtoNotalio ||
     rota === ROTAS.produtoEditalio ||
+    rota === ROTAS.produtoRecraw ||
     rota === ROTAS.produtoVistalio ||
     rota === ROTAS.produtoPlanilhaFinanceira ||
     rota === ROTAS.produtoVivelio ||

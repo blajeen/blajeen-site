@@ -1,4 +1,7 @@
+import Image from 'next/image';
+
 export type ProductIconId =
+  | 'recraw'
   | 'barbearia'
   | 'personal'
   | 'salao'
@@ -15,6 +18,10 @@ export type ProductIconId =
   | 'celular';
 
 export function ProductIcon({ id, className }: { id: ProductIconId; className?: string }) {
+  if (id === 'recraw') {
+    return <Image src="/produtos/recraw/recraw-icon.png" width={48} height={48} alt="" aria-hidden="true" className={className} />;
+  }
+
   const comum = {
     viewBox: '0 0 48 48',
     fill: 'none',

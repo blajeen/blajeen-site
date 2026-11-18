@@ -1,4 +1,33 @@
-# Recraw 0.1.1
+# Recraw 0.2.0
+
+Atualização de 18/11/2026: aba Transcrição com Whisper local e modelo Base incluídos no
+instalador e no portátil. A interface lista arquivos da pasta de gravações e subpastas,
+com busca, progresso, cancelamento, editor com salvamento automático, copiar e exportar TXT.
+O texto fica ao lado do original como `<arquivo>.transcricao.txt`.
+
+- Release: `https://github.com/blajeen/recraw-download/releases/tag/v0.2.0`.
+- Instalador completo: 147.043.347 bytes (147,0 MB).
+- Portátil completo: 153.145.797 bytes (153,1 MB).
+- O modelo incluído tem 147.951.465 bytes; não há download de modelo, Python ou serviço remoto
+  no uso. WebView2 continua necessário; seu preparo inicial pode precisar de internet.
+- Os motores são estáticos: genérico sem AVX2 obrigatório e otimizado para CPUs compatíveis.
+  O motor genérico importa apenas KERNEL32 e ADVAPI32 do Windows.
+- Pacotes conferidos por SHA-256; o modelo foi conferido dentro do ZIP e a transcrição foi
+  repetida com o portátil extraído em uma nova pasta com espaços e acentos.
+- Validação do aplicativo: seis testes nativos, integração real com M4A/MP4 de fala sintetizada
+  em português, ambos os motores, caminhos com acentos, cancelamento e preservação do original;
+  cinco fluxos de interface, incluindo edição e troca de abas/temas.
+- Sem ensaio de várias horas ou teste numa segunda máquina física. A página não promete
+  precisão perfeita, resumo automático ou separação de participantes.
+- A captura da nova aba usa arquivos/texto de exemplo, identificados na legenda.
+- O código-fonte do aplicativo continua fora do repositório público de downloads.
+
+Lint, TypeScript, testes de conteúdo/rotas e build de produção do site conferidos nesta atualização,
+com QA da página e seus downloads em 1440, 390 e 360 pixels.
+
+As pendências globais anteriores descritas abaixo continuam registradas, sem novas políticas jurídicas.
+
+## Histórico — Recraw 0.1.1
 
 - Página: `https://www.blajeen.com.br/produtos/recraw`.
 - Distribuição: `https://github.com/blajeen/recraw-download/releases/tag/v0.1.1`.

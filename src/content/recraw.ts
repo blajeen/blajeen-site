@@ -2,7 +2,7 @@ import type { Aplicativo } from './produtos';
 import { ROTAS } from '@/lib/routes';
 
 export const RECRAW_RELEASES = 'https://github.com/blajeen/recraw-download/releases';
-export const RECRAW_DOWNLOAD = `${RECRAW_RELEASES}/download/v0.1.1`;
+export const RECRAW_DOWNLOAD = `${RECRAW_RELEASES}/download/v0.2.0`;
 
 export const recraw: Aplicativo = {
   tipo: 'aplicativo',
@@ -11,19 +11,19 @@ export const recraw: Aplicativo = {
   simbolo: 'recraw',
   rota: ROTAS.produtoRecraw,
   estado: 'VERSÃO INICIAL · GRATUITO',
-  versao: '0.1.1',
+  versao: '0.2.0',
   requisitos: 'Windows 10 ou 11, 64 bits, com WebView2',
   lema: 'A conversa fica. A ideia também.',
   resumo:
-    'Sua voz, o som do computador e a tela inteira. Um quadro para desenhar, colar imagens e explicar. Tudo salvo no seu computador.',
+    'Grave sua voz e o som do computador, capture a tela e transcreva em português, sem internet. Um quadro para desenhar, colar imagens e explicar. Tudo no seu computador.',
   descricao: [
-    'Grave uma reunião para ouvir e transcrever depois, guarde uma referência da tela ou abra o quadro para organizar uma explicação.',
+    'Grave uma reunião e transcreva depois no próprio Recraw, guarde uma referência da tela ou abra o quadro para organizar uma explicação.',
     'Áudio, tela e anotações no mesmo programa, com temas claro e escuro e arquivos locais. Sem conta e sem mensalidade.',
   ],
   imagem: {
     src: '/produtos/recraw/recraw-audio.webp',
     alt: 'Interface real do Recraw em tema escuro, com cronômetro e controles de microfone e som do computador.',
-    legenda: 'Área de áudio do Recraw 0.1.1, em tema escuro.',
+    legenda: 'Área de áudio do Recraw 0.2.0, em tema escuro.',
   },
   faz: [
     {
@@ -38,9 +38,13 @@ export const recraw: Aplicativo = {
       titulo: 'Desenhar uma explicação',
       texto: 'Um quadro com Excalidraw para escrever, criar formas e setas, colar imagens e recortar o enquadramento. Exporte em PNG, SVG ou no formato editável.',
     },
+    {
+      titulo: 'Transformar a fala em texto',
+      texto: 'Na aba Transcrição, escolha um áudio ou vídeo da pasta de gravações. O Whisper incluído gera texto em português, que você pode revisar, copiar e exportar em TXT. Sem conta ou envio do áudio.',
+    },
   ],
   naoFaz: [
-    'A transcrição e o resumo são feitos depois, na ferramenta que você escolher. O Recraw entrega os arquivos de áudio e vídeo.',
+    'A transcrição em português acontece depois da gravação, no próprio computador. Revise nomes, números e falas sobrepostas. O resumo pode ser feito em outra ferramenta.',
     'A captura de tela inclui todo o monitor selecionado, com cursor e avisos que aparecerem. A captura de áudio inclui os sons da saída selecionada.',
     'Esta versão passou por capturas reais curtas e uma gravação de 65 segundos com união de trechos. Ainda não passou por ensaios de várias horas em diferentes computadores.',
   ],
@@ -48,19 +52,19 @@ export const recraw: Aplicativo = {
     {
       id: 'instalador',
       nome: 'Instalador',
-      arquivo: 'Recraw-0.1.1-instalador.exe',
-      tamanho: '17,3 MB',
-      paraQuem: 'Para deixar no seu computador. Instala para o seu usuário e prepara o WebView2, caso ele esteja ausente.',
+      arquivo: 'Recraw-0.2.0-instalador.exe',
+      tamanho: '147,0 MB',
+      paraQuem: 'Pacote completo com Whisper e modelo incluídos. Instala para o seu usuário e prepara o WebView2, caso ele esteja ausente.',
       recomendado: true,
-      hash: 'ace0b137ab200b19d3fb66304c547739a01f2f2b9e56d0e07fefcad838d9ee76',
+      hash: 'b1695dc46861f40c469c546c00635fecafc9adb559d50474d5ecb0e237507003',
     },
     {
       id: 'portatil',
       nome: 'Versão portátil',
-      arquivo: 'Recraw-0.1.1-portatil.zip',
-      tamanho: '17,9 MB',
-      paraQuem: 'Para usar sem instalar o Recraw. Extraia o ZIP e abra Recraw.exe. Precisa do WebView2 já instalado no Windows.',
-      hash: '801441a60b552058db9fb05a9143bdc12ebe2000eaeb1351cd105b6ba2de34c7',
+      arquivo: 'Recraw-0.2.0-portatil.zip',
+      tamanho: '153,1 MB',
+      paraQuem: 'Whisper e modelo já incluídos para levar a outro PC. Extraia todo o ZIP, mantenha a pasta whisper e abra Recraw.exe. Precisa do WebView2 no Windows.',
+      hash: 'dce746df0141ce40bde64cf2c4f0893efa0b72eeb2215ab28a7f6a1f10ac89f2',
     },
   ],
   avisoDoWindows: {

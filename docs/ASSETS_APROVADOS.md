@@ -165,8 +165,10 @@ Identidade solicitada pelo titular: símbolo de play sendo desenhado por um láp
 do aplicativo é reutilizado em `public/produtos/recraw/recraw-icon.png` no catálogo, no menu
 e na página do produto.
 
-- `recraw-audio.webp`: captura real da interface 0.1.1 em tema escuro, área de áudio.
+- `recraw-audio.webp`: captura real da interface 0.2.0 em tema escuro, área de áudio.
 - `recraw-quadro.webp`: captura real do quadro, com uma imagem de exemplo selecionada.
+- `recraw-transcricao.webp`: interface 0.2.0 de transcrição com arquivos e texto de exemplo,
+  identificados como exemplo na legenda da página; não é uma reunião real publicada.
 - Ambas preservam a proporção original de 1160 × 790; não são maquetes de funções futuras.
 - `recraw-social.jpg`: composição de compartilhamento 1200 × 630, com nome, ícone e resumo.
 

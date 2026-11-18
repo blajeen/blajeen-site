@@ -11,7 +11,7 @@ import { ROTAS } from '@/lib/routes';
 
 export const metadata: Metadata = metadadosDaRota({
   titulo: 'Recraw — grave áudio, tela e ideias | Blajeen Labs',
-  descricao: 'Grave sua voz e o som do computador, capture a tela inteira e anote em um quadro com imagens e recorte. Recraw para Windows, gratuito e com arquivos locais.',
+  descricao: 'Grave áudio e tela, transcreva em português offline com Whisper incluído e anote em um quadro com imagens e recorte. Recraw gratuito para Windows.',
   rota: ROTAS.produtoRecraw,
   imagem: '/produtos/recraw/recraw-social.jpg',
   imagemAlt: 'Recraw — áudio, tela e ideias. Programa para Windows da Blajeen Labs.',
@@ -35,7 +35,7 @@ export default function RecrawPage() {
             <p className="medida-texto text-[1.05rem] leading-relaxed text-mineral lg:col-span-3 lg:col-start-10 lg:pb-2">{recraw.resumo}</p>
           </div>
           <div className="tecnica mt-8 flex flex-wrap gap-x-6 gap-y-3 text-mineral">
-            <span>ÁUDIO + TELA + QUADRO</span><span>SEM CONTA</span><span>ARQUIVOS LOCAIS</span>
+            <span>GRAVAR / ANOTAR / TRANSCREVER</span><span>SEM CONTA</span><span>ARQUIVOS LOCAIS</span>
           </div>
         </Container>
       </header>
@@ -55,9 +55,9 @@ export default function RecrawPage() {
             </article>
           ))}
         </div>
-        <p className="mt-5 text-xs leading-relaxed text-mineral-dim">Versão {recraw.versao} · {recraw.requisitos}. Uso diário offline. A preparação inicial do WebView2 pode precisar de internet.</p>
+        <p className="mt-5 text-xs leading-relaxed text-mineral-dim">Versão {recraw.versao} · {recraw.requisitos}. Os dois pacotes incluem o Whisper e o modelo: não é preciso instalar Python ou baixar modelos para transcrever. A preparação inicial do WebView2 pode precisar de internet.</p>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm text-mineral">
-          <a href={`${RECRAW_DOWNLOAD}/Recraw-0.1.1-leia-me.txt`} className="underline decoration-line-strong underline-offset-4 hover:text-paper">Guia de uso</a>
+          <a href={`${RECRAW_DOWNLOAD}/Recraw-${recraw.versao}-leia-me.txt`} className="underline decoration-line-strong underline-offset-4 hover:text-paper">Guia de uso</a>
           <a href={RECRAW_RELEASES} className="underline decoration-line-strong underline-offset-4 hover:text-paper">Histórico de versões</a>
           <Link href={ROTAS.suporte} className="underline decoration-line-strong underline-offset-4 hover:text-paper">Precisa de ajuda?</Link>
         </div>
@@ -65,12 +65,12 @@ export default function RecrawPage() {
         <ConferirArquivo arquivos={recraw.arquivos} produto={recraw.nome} versao={recraw.versao} />
       </Section>
 
-      <Section indice="02 / TRÊS JEITOS DE GUARDAR" rotulo="Áudio, tela e quadro">
+      <Section indice="02 / GRAVAR, ANOTAR E TRANSCREVER" rotulo="Áudio, tela, quadro e transcrição">
         <figure>
           <SystemScreenshot src={recraw.imagem.src} alt={recraw.imagem.alt} sizes="(max-width: 1280px) 92vw, 1180px" largura={1160} altura={790} label="RECRAW / ÁUDIO" />
           <figcaption className="mt-3 text-xs leading-relaxed text-mineral-dim">{recraw.imagem.legenda}</figcaption>
         </figure>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
+        <div className="mt-10 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
           {recraw.faz.map((item, indice) => (
             <article key={item.titulo} className="border-t border-line pt-6">
               <p aria-hidden="true" className="tecnica text-signal">0{indice + 1}</p>
@@ -81,7 +81,19 @@ export default function RecrawPage() {
         </div>
       </Section>
 
-      <Section indice="03 / ESPAÇO PARA EXPLICAR" rotulo="Quadro de anotações com imagens">
+      <Section indice="03 / A CONVERSA EM TEXTO" rotulo="Transcrição local com Whisper">
+        <div className="mb-9 grid gap-6 lg:grid-cols-2 lg:items-end">
+          <h2 className="max-w-[18ch] text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.045em]">Escolha o arquivo.<br />O texto fica com você.</h2>
+          <p className="medida-texto text-mineral leading-relaxed">A aba Transcrição lista os áudios e vídeos da sua pasta de gravações. Clique em Transcrever; depois revise, copie ou exporte o texto. O processamento acontece no computador, com o Whisper e o modelo que já acompanham o programa.</p>
+        </div>
+        <figure>
+          <SystemScreenshot src="/produtos/recraw/recraw-transcricao.webp" alt="Interface da aba Transcrição do Recraw 0.2.0, com gravações e texto de exemplo no editor." sizes="(max-width: 1280px) 92vw, 1180px" largura={1160} altura={790} label="RECRAW / TRANSCRIÇÃO · CONTEÚDO DE EXEMPLO" />
+          <figcaption className="mt-3 text-xs leading-relaxed text-mineral-dim">Interface 0.2.0 com arquivos e texto de exemplo. O texto é salvo ao lado da gravação, com salvamento automático das edições.</figcaption>
+        </figure>
+        <p className="medida-texto mt-6 text-sm leading-relaxed text-mineral">A transcrição começa depois de a gravação terminar. Você pode cancelar e continuar usando o quadro enquanto aguarda. A velocidade varia conforme o processador e a duração do arquivo. Revise o resultado antes de usá-lo.</p>
+      </Section>
+
+      <Section indice="04 / ESPAÇO PARA EXPLICAR" rotulo="Quadro de anotações com imagens">
         <div className="mb-9 grid gap-6 lg:grid-cols-2 lg:items-end">
           <h2 className="max-w-[18ch] text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.045em]">Cole uma referência.<br />Desenhe por cima.</h2>
           <p className="medida-texto text-mineral leading-relaxed">Cole com Ctrl+V ou arraste uma imagem. Recorte, gire, duplique e organize no quadro. O salvamento é automático e você pode continuar anotando enquanto grava.</p>
@@ -92,7 +104,7 @@ export default function RecrawPage() {
         </figure>
       </Section>
 
-      <Section indice="04 / PARA COMEÇAR" rotulo="Como usar o Recraw">
+      <Section indice="05 / PARA COMEÇAR" rotulo="Como usar o Recraw">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <h2 className="text-[clamp(1.8rem,3vw,2.7rem)] leading-[1.08] tracking-[-0.04em]">Uma sessão,<br />seus arquivos.</h2>

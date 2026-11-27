@@ -28,7 +28,7 @@ describe('rotas públicas', () => {
     // Inclui clientes e novos produtos, sem as cinco rotas públicas do Dogolio e sem as três do
     // SaaS (catálogo, Espacelio e Doutelio), que viraram software à venda na loja, e com as
     // demonstrações do Torrelio e do Carrelio.
-    expect(TODAS_AS_ROTAS).toHaveLength(76);
+    expect(TODAS_AS_ROTAS).toHaveLength(81);
     expect(TODAS_AS_ROTAS).toContain('/produtos/extensoes');
     expect(TODAS_AS_ROTAS).toContain('/produtos/guardelio');
     expect(TODAS_AS_ROTAS).toContain('/loja');
@@ -64,6 +64,7 @@ describe('rotas públicas', () => {
     expect(TODAS_AS_ROTAS).toContain('/projects/morvelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/mazelio');
     expect(TODAS_AS_ROTAS).toContain('/projects/socialio');
+    expect(TODAS_AS_ROTAS).toContain('/projects/erdavia-wars');
   });
 
   it('tem um arquivo de página para cada rota', () => {
@@ -108,6 +109,10 @@ describe('rotas públicas', () => {
       '/socialio/terms',
       '/socialio/support',
       '/socialio/delete-account',
+      '/erdavia-wars/privacy',
+      '/erdavia-wars/terms',
+      '/erdavia-wars/support',
+      '/erdavia-wars/delete-account',
       // Os programas de Windows: estas vão para o Partner Center da Microsoft.
       '/clearlio/privacy',
       '/clearlio/terms',
@@ -134,6 +139,7 @@ describe('rotas públicas', () => {
     expect(prioridadeSitemap(ROTAS.projetoMorvelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoMazelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.projetoSocialio)).toBe(0.9);
+    expect(prioridadeSitemap(ROTAS.projetoErdaviaWars)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.produtoVivelio)).toBe(0.9);
     expect(prioridadeSitemap(ROTAS.loja)).toBe(0.8);
     expect(prioridadeSitemap(ROTAS.revalioExclusao)).toBe(0.5);

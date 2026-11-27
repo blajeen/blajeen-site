@@ -17,7 +17,7 @@ import { documentosLegais } from './legal';
 import { atalhosDeJogo, atalhosDeProduto, rodape } from './navigation';
 import { produtos, vivelio } from './produtos';
 import { contato, sobre } from './pages';
-import { catelio, docalio, gramelio, mazelio, projetos, revalio, rotasDoProjeto } from './projects';
+import { catelio, docalio, erdaviaWars, gramelio, mazelio, projetos, revalio, rotasDoProjeto } from './projects';
 import { site } from './site';
 import { ROTAS_DE_LOJA } from '@/lib/routes';
 
@@ -30,7 +30,7 @@ import { ROTAS_DE_LOJA } from '@/lib/routes';
 
 describe('projetos', () => {
   it('apresenta apenas os produtos reais do estúdio', () => {
-    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Morvelio', 'Mazelio', 'Socialio']);
+    expect(projetos.map((projeto) => projeto.nome)).toEqual(['Revalio', 'Docalio', 'Gramelio', 'Catelio', 'Morvelio', 'Mazelio', 'Socialio', 'Erdavia Wars']);
   });
 
   it('usa os banners finais aprovados, sem versão numerada', () => {
@@ -47,6 +47,7 @@ describe('projetos', () => {
       morvelio: { src: '/projects/morvelio/morvelio-capa-velidor.webp', largura: 1600, altura: 900 },
       mazelio: { src: '/projects/mazelio/mazelio-banner-key-art.webp', largura: 1600, altura: 900 },
       socialio: { src: '/projects/socialio/socialio-banner-cafe.webp', largura: 1672, altura: 941 },
+      'erdavia-wars': { src: '/projects/erdavia-wars/erdavia-wars-banner.webp', largura: 1600, altura: 900 },
     };
 
     for (const projeto of projetos) {
@@ -149,6 +150,7 @@ describe('projetos', () => {
       'Morvelio',
       'Mazelio',
       'Socialio',
+      'Erdavia Wars',
     ]);
     for (const atalho of atalhosDeJogo) {
       const projeto = projetos.find((item) => item.nome === atalho.rotulo);
@@ -182,7 +184,7 @@ describe('projetos', () => {
     expect(gramelio.aviso).toMatch(/ficcionais/i);
   });
 
-  it('liga cada jogo às suas fichas oficiais na App Store e no Google Play', () => {
+  it('liga cada jogo disponível às suas fichas oficiais na App Store e no Google Play', () => {
     const idsDaAppStore = {
       revalio: '6802770612',
       docalio: '6806569271',
@@ -193,7 +195,14 @@ describe('projetos', () => {
       socialio: '6809216453',
     };
 
-    for (const { id, disponibilidade } of projetos) {
+    for (const projeto of projetos) {
+      const { id, disponibilidade } = projeto;
+      if (id === 'erdavia-wars') {
+        expect(statusVisivel(projeto)).toBe('EM BREVE');
+        expect(projeto.lancamento).toBeUndefined();
+        expect(disponibilidadeVisivel(erdaviaWars)).toEqual([]);
+        continue;
+      }
       expect(disponibilidade).toHaveLength(2);
       expect(disponibilidade.find((loja) => loja.loja === 'appStore')).toMatchObject({
         estado: 'disponivel',
@@ -445,6 +454,7 @@ describe('documentos legais', () => {
       Morvelio: 'brg.ftw@gmail.com',
       Mazelio: 'brg.ftw@gmail.com',
       Socialio: 'brg.ftw@gmail.com',
+      'Erdavia Wars': 'brg.ftw@gmail.com',
       Clearlio: 'brg.ftw@gmail.com',
       Notalio: 'brg.ftw@gmail.com',
       Vivelio: 'blajeenlabs@outlook.com',

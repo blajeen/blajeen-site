@@ -319,3 +319,9 @@ $env:SITE_PUBLICACAO="1"; npm run check:content   # falha enquanto houver bloque
 ## Ofertonauta — autorização de publicação em 10/11/2026
 
 O titular pediu o Ofertonauta em Produtos e suas páginas de privacidade, suporte, termos e exclusão. Confirmou o contato ofertonauta.admin@gmail.com e autorizou expressamente “pode publicar sim” e “e pode publicar os textos juridicos”, após receber os documentos e a prévia. Publicar esta entrega como versão de trabalho, com as definições pendentes explícitas. Esta autorização não resolve os bloqueadores gerais dos demais produtos nem declara os documentos finais para submissão às lojas. Detalhes em docs/ofertonauta/IMPLEMENTACAO.md.
+
+
+## Erdavia Wars
+
+- Selecionar capturas do jogo para a galeria pública. Por enquanto, a página usa o ícone e o banner derivados da arte do jogo.
+- Antes de enviar às lojas, revisar a versão de distribuição, os fluxos de conta e exclusão e a política de privacidade. As páginas atuais descrevem a versão local de teste.

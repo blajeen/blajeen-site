@@ -11,7 +11,7 @@ export default async function MorvelioAnalyticsPage({ searchParams }: { searchPa
   await exigirSessaoAdmin();
   const demo = (await searchParams).exemplo === '1';
   const data = demo ? demoDashboard() : await getDashboard();
-  return <AdminShell titulo="Morvelio." descricao="Analytics / Morvelio · Estabilidade, avaliações e instalações."
+  return <AdminShell titulo="Morvelio." descricao="Analytics / Morvelio · Jogadores, jornada, Cerco, estabilidade e lojas."
     acoes={<Link href={demo ? '/admin/analytics/morvelio' : '/admin/analytics/morvelio?exemplo=1'} className={botaoSecundario}>{demo ? 'Ver dados reais' : 'Ver dados de exemplo'}</Link>}>
     <MorvelioAnalytics data={data} />
   </AdminShell>;

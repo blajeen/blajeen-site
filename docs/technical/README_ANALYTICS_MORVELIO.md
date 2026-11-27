@@ -5,6 +5,12 @@ e `GET /api/admin/analytics/morvelio`. Todas exigem a sessão existente do paine
 `?exemplo=1` na página ou API retorna somente números fictícios, sem chamar provedores,
 gravar histórico ou enviar e-mail. Faça a revisão nesse modo antes de publicar.
 
+Organização da página: no topo, sempre visível, o **resumo do que importa** (contas novas em 7 dias com a comparação
+com os 7 anteriores, volta depois de 1 dia, ativos em 3 dias, maior parada da jornada, jogadores no Cerco, travamentos
+e ANR com alerta acima de 1% e 0,4%). Abaixo, abas: **Jogadores**, **Jornada**, **Cerco**, **Estabilidade**, **Lojas**
+e **Conexões**. A aba aberta fica no link (`#jornada`, `#estabilidade`...); a faixa de abas gruda no topo ao rolar.
+Sem referência confiável, volta, ativos e Cerco aparecem sem cor de bom/ruim: não inventamos meta.
+
 ## Google
 
 1. No [Google Cloud](https://console.cloud.google.com/), selecione/crie um projeto e ative

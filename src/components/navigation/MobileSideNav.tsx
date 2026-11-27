@@ -22,6 +22,7 @@ const rotasDeJogos = [
   ROTAS.projetoGramelio,
   ROTAS.projetoCatelio,
   ROTAS.projetoMorvelio,
+  ROTAS.projetoErdaviaWars,
 ];
 
 /**

@@ -1,4 +1,5 @@
 import type { LegalDocument } from '../types';
+import { exclusaoErdaviaWars, privacidadeErdaviaWars, suporteErdaviaWars, termosErdaviaWars } from './erdavia-wars';
 import { privacidadeOfertonauta, suporteOfertonauta, termosOfertonauta, exclusaoOfertonauta } from './ofertonauta';
 export { privacidadeOfertonauta, suporteOfertonauta, termosOfertonauta, exclusaoOfertonauta };
 import { privacidadeClearlio, suporteClearlio, termosClearlio } from './clearlio';
@@ -82,6 +83,10 @@ export {
   termosSocialio,
   suporteSocialio,
   exclusaoSocialio,
+  privacidadeErdaviaWars,
+  termosErdaviaWars,
+  suporteErdaviaWars,
+  exclusaoErdaviaWars,
 };
 
 /** Todos os documentos públicos, na ordem em que aparecem no site. */
@@ -118,6 +123,10 @@ export const documentosLegais: readonly LegalDocument[] = [
   termosSocialio,
   suporteSocialio,
   exclusaoSocialio,
+  privacidadeErdaviaWars,
+  termosErdaviaWars,
+  suporteErdaviaWars,
+  exclusaoErdaviaWars,
   privacidadeClearlio,
   termosClearlio,
   suporteClearlio,

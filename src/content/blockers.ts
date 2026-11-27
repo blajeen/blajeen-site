@@ -10,6 +10,10 @@
  */
 
 export const BLOQUEADORES = {
+  capturasErdaviaWars: {
+    titulo: 'Capturas do Erdavia Wars para o site',
+    docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Erdavia Wars',
+  },
   titularNome: {
     titulo: 'Nome civil ou razão social do controlador',
     docs: 'docs/DECISOES_ANTES_DE_PUBLICAR.md — Identidade e infraestrutura',

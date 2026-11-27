@@ -428,7 +428,49 @@ export const socialio: Project = {
   metaDescricao: 'Socialio é o MMO social 2D da Blajeen Labs, disponível na App Store e no Google Play: Graystones, rádios sincronizadas e uma cidade feita para compartilhar momentos.',
 };
 
-export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, morvelio, mazelio, socialio];
+export const erdaviaWars: Project = {
+  id: 'erdavia-wars',
+  nome: 'Erdavia Wars',
+  indice: 'EXPERIMENTO 08',
+  estado: 'EM FORMAÇÃO',
+  categoria: 'JOGO DE ESTRATÉGIA EM TEMPO REAL',
+  status: 'EM BREVE',
+  frase: 'Monte seu baralho e defenda as torres de Velidor.',
+  descricao:
+    'Um jogo de cartas e torres para celular, ambientado em Erdávia. Em duelos de três minutos, escolha quando enviar suas tropas, lançar feitiços e atacar a torre do Rei.',
+  cta: 'CONHECER ERDAVIA WARS',
+  notaCurta: 'Em breve. O jogo está em desenvolvimento.',
+  eyebrow: 'EXPERIMENTO 08 / ESTRATÉGIA EM TEMPO REAL',
+  subtitulo: 'Monte seu baralho e defenda as torres de Velidor.',
+  introducao:
+    'Em Erdavia Wars, você comanda o Rei de Velidor. Monte um baralho de oito cartas e dispute duelos em tempo real no universo de Morvelio.',
+  manifesto: [
+    'Duas pontes ligam as margens da arena. Divida suas tropas entre elas ou concentre o ataque em uma rota, de acordo com as cartas que o rival revela.',
+  ],
+  recursos: [],
+  pilares: [
+    { titulo: 'Duelos de três minutos', texto: 'Ataque pelas pontes, proteja suas atalaias e escolha o momento de avançar contra a torre do Rei rival.' },
+    { titulo: 'Baralho de oito cartas', texto: 'Combine aventureiros, criaturas, construções e feitiços. Quatro cartas ficam na mão durante a partida.' },
+    { titulo: 'Estrada Real', texto: 'Ganhe troféus e avance por lugares de Erdávia, de O Pouso ao Vale do Sorne e às Escoras.' },
+  ],
+  aviso: 'Erdavia Wars está em desenvolvimento. As artes apresentam o jogo em produção, e a data de lançamento será anunciada mais adiante.',
+  banner: {
+    src: '/projects/erdavia-wars/erdavia-wars-banner.webp',
+    alt: 'O título Erdavia Wars em ouro diante de um vale noturno com um rio, pontes e um castelo.',
+    largura: 1600,
+    altura: 900,
+  },
+  icone: { src: '/projects/erdavia-wars/erdavia-wars-icon-512.webp', alt: '', tamanho: 512 },
+  galeria: [],
+  galeriaBloqueador: 'capturasErdaviaWars',
+  plataformas: [],
+  disponibilidade: [],
+  ogDescricao: 'Cartas, torres e duelos de três minutos no universo de Erdávia. Em breve.',
+  metaTitulo: 'Erdavia Wars — Em breve | Blajeen Labs',
+  metaDescricao: 'Conheça Erdavia Wars, o jogo de estratégia em tempo real da Blajeen Labs com cartas, torres e a Estrada Real. Em breve.',
+};
+
+export const projetos: readonly Project[] = [revalio, docalio, gramelio, catelio, morvelio, mazelio, socialio, erdaviaWars];
 
 export const projetoPorId: Record<ProjectId, Project> = {
   revalio,
@@ -438,6 +480,7 @@ export const projetoPorId: Record<ProjectId, Project> = {
   morvelio,
   mazelio,
   socialio,
+  'erdavia-wars': erdaviaWars,
 };
 
 /**
@@ -495,6 +538,13 @@ export const rotasDoProjeto = {
     privacidade: ROTAS.socialioPrivacidade,
     termos: ROTAS.socialioTermos,
     exclusao: ROTAS.socialioExclusao,
+  },
+  'erdavia-wars': {
+    pagina: ROTAS.projetoErdaviaWars,
+    suporte: ROTAS.erdaviaWarsSuporte,
+    privacidade: ROTAS.erdaviaWarsPrivacidade,
+    termos: ROTAS.erdaviaWarsTermos,
+    exclusao: ROTAS.erdaviaWarsExclusao,
   },
 } as const satisfies Record<
   ProjectId,

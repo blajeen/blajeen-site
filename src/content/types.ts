@@ -1,8 +1,8 @@
 import type { BloqueadorId, Campo } from './blockers';
 
-export type ProjectId = 'revalio' | 'docalio' | 'gramelio' | 'catelio' | 'morvelio' | 'mazelio' | 'socialio';
+export type ProjectId = 'revalio' | 'docalio' | 'gramelio' | 'catelio' | 'morvelio' | 'mazelio' | 'socialio' | 'erdavia-wars';
 
-export type ProjectStatus = 'EM DESENVOLVIMENTO' | 'DISPONÍVEL';
+export type ProjectStatus = 'EM DESENVOLVIMENTO' | 'EM BREVE' | 'DISPONÍVEL';
 
 export type ExperimentState = 'ATIVO' | 'EM FORMAÇÃO';
 
@@ -125,7 +125,7 @@ export type LegalDocumentKind = 'privacidade' | 'termos' | 'suporte' | 'exclusao
 export type LegalDocument = {
   readonly rota: string;
   readonly kind: LegalDocumentKind;
-  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Morvelio' | 'Mazelio' | 'Socialio' | 'Clearlio' | 'Notalio' | 'Vivelio' | 'Ofertonauta';
+  readonly produto: 'Blajeen Labs' | 'Revalio' | 'Docalio' | 'Gramelio' | 'Catelio' | 'Morvelio' | 'Mazelio' | 'Socialio' | 'Clearlio' | 'Notalio' | 'Vivelio' | 'Ofertonauta' | 'Erdavia Wars';
   readonly titulo: string;
   readonly resumo: string;
   /**

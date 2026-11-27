@@ -81,6 +81,7 @@ export const ROTAS = {
   projetoMorvelio: '/projects/morvelio',
   projetoMazelio: '/projects/mazelio',
   projetoSocialio: '/projects/socialio',
+  projetoErdaviaWars: '/projects/erdavia-wars',
   novidades: '/novidades',
   /**
    * Loja: software vendido inteiro e os exclusivos dos jogos (camisetas, copo, boneco, livro). Não
@@ -122,6 +123,10 @@ export const ROTAS = {
   socialioTermos: '/socialio/terms',
   socialioSuporte: '/socialio/support',
   socialioExclusao: '/socialio/delete-account',
+  erdaviaWarsPrivacidade: '/erdavia-wars/privacy',
+  erdaviaWarsTermos: '/erdavia-wars/terms',
+  erdaviaWarsSuporte: '/erdavia-wars/support',
+  erdaviaWarsExclusao: '/erdavia-wars/delete-account',
 } as const;
 
 export type RotaId = keyof typeof ROTAS;
@@ -162,6 +167,10 @@ export const ROTAS_DE_LOJA: readonly Rota[] = [
   ROTAS.socialioTermos,
   ROTAS.socialioSuporte,
   ROTAS.socialioExclusao,
+  ROTAS.erdaviaWarsPrivacidade,
+  ROTAS.erdaviaWarsTermos,
+  ROTAS.erdaviaWarsSuporte,
+  ROTAS.erdaviaWarsExclusao,
   // Os programas de Windows entram por último: as de cima já foram para as lojas
   // de aplicativo e mudar a ordem delas não traz benefício nenhum.
   ROTAS.clearlioPrivacidade,
@@ -211,7 +220,8 @@ export function prioridadeSitemap(rota: Rota): number {
     rota === ROTAS.projetoCatelio ||
     rota === ROTAS.projetoMorvelio ||
     rota === ROTAS.projetoMazelio ||
-    rota === ROTAS.projetoSocialio
+    rota === ROTAS.projetoSocialio ||
+    rota === ROTAS.projetoErdaviaWars
   )
     return 0.9;
   if (rota === ROTAS.novidades || rota === ROTAS.loja) return 0.8;

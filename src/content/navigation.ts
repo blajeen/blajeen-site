@@ -196,6 +196,7 @@ export const rodape = {
     { rotulo: 'Morvelio', href: ROTAS.projetoMorvelio },
     { rotulo: 'Mazelio', href: ROTAS.projetoMazelio },
     { rotulo: 'Socialio', href: ROTAS.projetoSocialio },
+    { rotulo: 'Erdavia Wars', href: ROTAS.projetoErdaviaWars },
   ],
   produtos: [...atalhosDeAplicativo, ...atalhosDeProduto, ...atalhosDeDemonstracao].map(({ rotulo, href }) => ({ rotulo, href })),
   estudio: [
@@ -234,6 +235,7 @@ export const rodape = {
       { rotulo: 'Morvelio', href: ROTAS.morvelioExclusao },
       { rotulo: 'Mazelio', href: ROTAS.mazelioExclusao },
       { rotulo: 'Socialio', href: ROTAS.socialioExclusao },
+      { rotulo: 'Erdavia Wars', href: ROTAS.erdaviaWarsExclusao },
     ],
   },
 } as const;

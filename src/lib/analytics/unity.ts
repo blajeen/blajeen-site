@@ -43,17 +43,25 @@ export function decode(value: unknown): Json | null {
   try { return JSON.parse(gunzipSync(Buffer.from(String((value as Json).data), 'base64')).toString('utf8')) as Json; }
   catch { return null; }
 }
-function journey(slot: Json): [number, string | null] {
-  const quests = ((slot.campaignQuests as Json | undefined)?.quests as Json[] | undefined) ?? [];
-  const claimed = quests.filter((q) => q.status === STATUS_CLAIMED).length;
-  const current = quests.find((q) => q.status !== STATUS_CLAIMED);
-  return [claimed, current ? String(current.questId ?? '') || null : null];
+const MAIN = /^J\d+$/;
+const LAST_MAIN = Math.max(...Object.keys(titles).filter((k) => MAIN.test(k)).map((k) => Number(k.slice(1))));
+/**
+ * (quests principais concluídas, onde a jornada principal está). Só quests J contam: as opcionais (O01, O17...) ficam abertas
+ * enquanto o jogador segue. A lista guarda só as quests já liberadas: com todas as J concluídas, ele está na próxima J
+ * (ou FIM depois da última J com título).
+ */
+export function journey(slot: Json): [number, string] {
+  const quests = (((slot.campaignQuests as Json | undefined)?.quests as Json[] | undefined) ?? []).filter((q) => MAIN.test(String(q.questId ?? '')));
+  const claimed = quests.filter((q) => q.status === STATUS_CLAIMED).map((q) => Number(String(q.questId).slice(1)));
+  const open = quests.filter((q) => q.status !== STATUS_CLAIMED).map((q) => Number(String(q.questId).slice(1))).sort((a, b) => a - b);
+  const at = open.length ? open[0]! : Math.max(0, ...claimed) + 1;
+  return [claimed.length, !open.length && at > LAST_MAIN ? 'FIM' : `J${String(at).padStart(2, '0')}`];
 }
 const int = (v: unknown) => Math.trunc(Number(v) || 0);
 export function summarize(stored: Record<string, unknown>): AccountSummary {
   const account = stored[SAVE_KEYS[0]!] !== undefined ? decode(stored[SAVE_KEYS[0]!]) : null;
   const slots = SAVE_KEYS.slice(1).filter((k) => k in stored).map((k) => decode(stored[k])).filter((s): s is Json => !!s && s.occupied !== false);
-  let best: [number, string | null] | null = null;
+  let best: [number, string] | null = null;
   for (const slot of slots) { const j = journey(slot); if (!best || j[0] > best[0]) best = j; } // o primeiro mais adiantado, como max() do Python
   const royale = (stored[ROYALE_KEY] as Json | undefined) ?? {};
   const gems = (account?.gems as Json | undefined)?.balance;
@@ -61,7 +69,7 @@ export function summarize(stored: Record<string, unknown>): AccountSummary {
     cloudSave: account !== null || slots.length > 0,
     adventurers: slots.length,
     claimed: best ? best[0] : 0,
-    stoppedAt: best ? best[1] ?? 'FIM' : null,
+    stoppedAt: best ? best[1] : null,
     cercoMatches: Math.max(int(account?.royaleMatches), int(royale.matches)),
     gold: account && account.gold !== undefined ? int(account.gold) : null,
     gems: account && gems !== undefined ? int(gems) : null,
@@ -169,6 +177,8 @@ export async function syncUnity(nowMs = Date.now()) {
       catch (error) { failed++; if (error instanceof RateLimited) stopped = true; } // uma conta com falha nunca derruba a coleta
     }
   }));
+  // Nada lido de um lote inteiro é configuração (papel, ambiente ou rota), não dado: não grava retrato vazio.
+  if (batch.length && !summaries.size && !stopped) throw new MissingConfiguration('Nenhum save lido do Cloud Save. Confira o papel Cloud Save Viewer da service account e o id em UGS_ENVIRONMENT_ID.');
   const payload = listed.map((a) => ({ hash: a.hash, created: a.created, last: a.last, linked: a.linked, summary: summaries.get(a.hash) ?? null, read: summaries.has(a.hash) ? now : null, readLogin: summaries.has(a.hash) ? a.last : null }));
   await consultar(`INSERT INTO morvelio_unity_accounts (hash, created_at, last_login_at, linked, summary, read_at, read_login_at)
     SELECT x->>'hash', (x->>'created')::bigint, (x->>'last')::bigint, (x->>'linked')::boolean, NULLIF(x->'summary', 'null'::jsonb), (x->>'read')::bigint, (x->>'readLogin')::bigint

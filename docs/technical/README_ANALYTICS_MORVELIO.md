@@ -99,8 +99,9 @@ Leitura autorizada pelo PO para métricas agregadas. **A tela mostra só agregad
 O que aparece, para “Todas as contas” e “Criadas nos últimos 7 dias”:
 contas, vinculadas × convidados (convidado não sobe save), volta depois de 1/3/7 dias (**aproximada**: último acesso
 menos criação, não é DAU), ativos nos últimos 3 dias, Cerco (% que jogou, mediana de partidas, % só Cerco = zero quest
-concluída), economia (medianas de `gold` e `gems.balance` do save da conta) e **onde a campanha parou** (primeira quest com
-status ≠ 4 do aventureiro mais adiantado, com o título PT). Mais contas novas por dia (Brasília, 30 dias).
+principal concluída), economia (medianas de `gold` e `gems.balance` do save da conta) e **onde a campanha parou** (primeira quest
+não concluída do aventureiro mais adiantado, contando **só quests J**: opcionais (O01…) não prendem; com todas as J
+liberadas concluídas, o jogador está na próxima J, ou em FIM depois da última J com título; com o título PT). Mais contas novas por dia (Brasília, 30 dias).
 Continuam **Em breve**: *Escolha inicial* (o jogo grava `firstMode` só em PlayerPrefs do aparelho, não no save) e *Vendas*
 (o saldo de gemas não separa compra de prêmio). Não inventar número para elas.
 
@@ -121,22 +122,44 @@ Continuam **Em breve**: *Escolha inicial* (o jogo grava `firstMode` só em Playe
   `src/lib/analytics/quest-titles.json`. Quando o jogo ganhar ou renomear quests, rode
   `npm run titulos:quests` (ou `node tools/copiar-titulos-quests.mjs C:\caminho\do\morvelio`) e commite o JSON.
 
-### O que o PO configura (credenciais são suas; o Claude não cria nem digita)
+### Ligar com dados reais (o que só o PO faz)
 
-1. No [Unity Cloud Dashboard](https://cloud.unity.com/), menu da organização → **Administration → Service Accounts →
-   New**. Nome sugerido: `blajeen-site-leitura`. Só Owner ou Manager da organização cria service account.
-2. Em **Project roles**, adicione no projeto do Morvelio apenas papéis de leitura:
-   - **Cloud Save Viewer** (lê dados de jogador; não escreve);
-   - o papel de leitura do **Player Authentication** que dá o escopo `player_auth.users.list` (o nome exato do papel não
-     foi confirmado na documentação; escolha o de visualização/viewer, nunca admin/editor).
-   Não dê papel de organização nem Editor/Owner.
-3. Em **Keys → Add key**, copie o **Key ID** e o **Secret key** (o secret aparece uma vez).
-4. Na Vercel → Settings → Environment Variables (Production, **não** `NEXT_PUBLIC_`):
-   `UGS_PROJECT_ID` (Project ID do Morvelio), `UGS_ENVIRONMENT_ID` (o **id** do ambiente `production`, em Projects →
-   Environments), `UGS_SERVICE_ACCOUNT_KEY_ID`, `UGS_SERVICE_ACCOUNT_SECRET`.
-5. Aplique a migration `010_morvelio_unity.sql` (`npm run db:migrate`, ou o prebuild do deploy faz isso com `DATABASE_URL`).
-6. Faça o deploy. A tela mostra “Aguardando a primeira coleta” até o cron das 07:30. Para não esperar, chame uma vez
-   `GET /api/cron/morvelio-saves` com `Authorization: Bearer <CRON_SECRET>`.
+1. **Unity Cloud Dashboard** (cloud.unity.com) → menu da organização → Administration → **Service Accounts → New**.
+   Nome: `blajeen-site-leitura`. Em **Project roles**, no projeto do Morvelio, adicione só leitura:
+   **Cloud Save Viewer** e o papel de visualização do **Player Authentication** (precisa do escopo
+   `player_auth.users.list`; o nome exato do papel não foi confirmado na documentação). Nada de Owner, Editor ou papel
+   de organização. Depois **Keys → Add key** e copie Key ID e Secret key (o secret aparece uma vez).
+2. Anote no dashboard o **Project ID** do Morvelio e, em Projects → Environments, o **id** (não o nome) do `production`.
+3. **Vercel** → projeto do site → Settings → Environment Variables → Production. Cole exatamente:
+
+   | Variável | Valor |
+   |---|---|
+   | `UGS_PROJECT_ID` | Project ID do Morvelio |
+   | `UGS_ENVIRONMENT_ID` | id do ambiente `production` |
+   | `UGS_SERVICE_ACCOUNT_KEY_ID` | Key ID da service account |
+   | `UGS_SERVICE_ACCOUNT_SECRET` | Secret key da service account |
+
+   `DATABASE_URL` e `CRON_SECRET` já existem se o resumo das 08h funciona; senão, configure-os também.
+4. O deploy aplica a migration 010 sozinho (prebuild com `DATABASE_URL`). A primeira coleta roda às **07:30**. Para ver
+   na hora, depois do deploy, rode uma vez (PowerShell; troque o segredo, não cole a saída em lugar público):
+   `Invoke-RestMethod https://<domínio>/api/cron/morvelio-saves -Headers @{ Authorization = "Bearer <CRON_SECRET>" }`
+   A resposta traz só contagens: `total` (contas), `read` (saves lidos), `failed`, `pending`.
+   Se vier “Nenhum save lido do Cloud Save”, confira o papel Cloud Save Viewer e o `UGS_ENVIRONMENT_ID`.
+
+### Testar o caminho real no computador, antes do deploy
+
+1. Crie `.env.local` na raiz do site (já ignorado pelo git) com as quatro `UGS_*` acima, `DATABASE_URL` (Neon),
+   `CRON_SECRET` (qualquer valor longo), `ONBOARDING_ADMIN_PASSWORD` e `ONBOARDING_SESSION_SECRET` (para entrar no painel).
+   O `DATABASE_URL` de produção funciona: as tabelas são as mesmas que o cron vai usar. Para isolar, use um branch do Neon.
+2. `node --env-file=.env.local tools/migrate-onboarding.mjs` (aplica a migration 010).
+3. `npm run dev` e, em outro terminal:
+   `Invoke-RestMethod http://127.0.0.1:3000/api/cron/morvelio-saves -Headers @{ Authorization = "Bearer <CRON_SECRET do .env.local>" }`
+   A primeira vez lê todas as contas (cerca de 1 minuto).
+4. Entre em `http://127.0.0.1:3000/admin/analytics/morvelio` (sem `?exemplo=1`). Os números devem bater com o
+   `relatorio.md` do `funil_saves.py` do mesmo dia (mesma regra; pequenas diferenças vêm de contas que jogaram no meio).
+Não confirmado só pela documentação, e por isso conferido neste primeiro teste: a rota dos itens Protected do Cloud Save
+(`.../players/{id}/protected/items?keys=...`) e a unidade de `createdAt`/`lastLoginAt` (o código aceita segundos,
+milissegundos ou ISO).
 
 Sem as variáveis ou sem banco, a tela diz o que falta e o cron responde 503; nada é inventado.
 Fontes consultadas em 27/11/2026: [Player Authentication Admin API](https://services.docs.unity.com/player-auth-admin/v1/),

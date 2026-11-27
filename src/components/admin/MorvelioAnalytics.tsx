@@ -59,7 +59,7 @@ function CohortView({ title, c }: { title: string; c: Cohort }) {
   return <Panel title={title} detail={`${number(c.accounts, 0)} contas · ${number(c.withSave, 0)} com save na nuvem${c.unread ? ` · ${number(c.unread, 0)} ainda sem leitura do save` : ''}`}>
     <div className={`${styles.unity} ${styles.cohort}`}>{tiles.map((m) => <section key={m.label}><h3>{m.label}</h3><strong>{m.value}</strong><small>{m.detail}</small></section>)}</div>
     <h3 className={styles.subhead}>Onde a campanha parou</h3>
-    <p className={styles.muted}>Primeira quest não concluída do aventureiro mais adiantado, só contas com save na nuvem.</p>
+    <p className={styles.muted}>Primeira quest principal (J) não concluída do aventureiro mais adiantado; opcionais não contam. Só contas com save na nuvem.</p>
     {c.stops.length ? <div className={styles.tableWrap}><table><thead><tr><th>Parou em</th><th>Contas</th><th>Acumulado</th></tr></thead><tbody>{c.stops.map((s) => <tr key={s.quest ?? 'none'}><td>{s.quest && s.quest !== 'FIM' ? `${s.quest} · ` : ''}{s.title || 'sem título'}</td><td>{number(s.accounts, 0)}</td><td>{number(100 * s.cumulative, 0)}%</td></tr>)}</tbody></table></div> : <p className={styles.empty}>Nenhuma conta com save na nuvem neste recorte.</p>}
   </Panel>;
 }

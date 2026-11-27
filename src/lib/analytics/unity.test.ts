@@ -2,7 +2,7 @@ import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 const db = vi.hoisted(() => ({ query: vi.fn(), configured: true }));
 vi.mock('@/lib/admin/banco', () => ({ bancoConfigurado: () => db.configured, consultar: db.query }));
-import { aggregate, cohort, listPlayers, QUEST_TITLES, readUnity, summarize, syncUnity, type AccountRow } from './unity';
+import { aggregate, cohort, journey, listPlayers, QUEST_TITLES, readUnity, summarize, syncUnity, type AccountRow } from './unity';
 import { MissingConfiguration } from './providers';
 import { demoDashboard } from './demo';
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.clearAllMocks(); db.configured = true; });
@@ -24,8 +24,15 @@ describe('resumo por conta (porte do funil_saves.py)', () => {
     });
     expect(s).toEqual({ cloudSave: true, adventurers: 2, claimed: 3, stoppedAt: 'J04', cercoMatches: 7, gold: 350, gems: 40 });
   });
-  it('campanha completa vira FIM; conta sem save fica sem aventureiro', () => {
-    expect(summarize({ morvelio_save_v1_slot0: packed(quests(4, 4)) }).stoppedAt).toBe('FIM');
+  it('só quests J contam: opcional aberta não prende; tudo concluído vai para a próxima J ou FIM', () => {
+    const q = (questId: string, status: number) => ({ questId, status });
+    expect(journey({ campaignQuests: { quests: [q('J01', 4), q('O01', 2), q('J02', 4)] } })).toEqual([2, 'J03']);
+    expect(journey({ campaignQuests: { quests: [q('O01', 2), q('J10', 4), q('J09', 2)] } })).toEqual([1, 'J09']);
+    expect(journey({ campaignQuests: { quests: [q('J66', 4), q('J67', 4), q('O17', 1)] } })).toEqual([2, 'FIM']);
+    expect(journey({})).toEqual([0, 'J01']);
+  });
+  it('conta sem save fica sem aventureiro', () => {
+    expect(summarize({ morvelio_save_v1_slot0: packed(quests(4, 4)) }).stoppedAt).toBe('J03');
     expect(summarize({})).toEqual({ cloudSave: false, adventurers: 0, claimed: 0, stoppedAt: null, cercoMatches: 0, gold: null, gems: null });
   });
 });
@@ -97,6 +104,12 @@ describe('API Admin do Unity simulada', () => {
     expect(snapshot[1]).not.toMatch(/player-/);
     for (const [, params] of calls) expect(params).not.toMatch(/player-/); // nenhum id chega ao banco
     expect(JSON.parse(JSON.parse(snapshot[1])[1])).toMatchObject({ pending: 1, all: { accounts: 2 } });
+  });
+  it('se nenhum save do lote for lido, não grava nada e diz o que conferir', async () => {
+    ugs(); db.query.mockResolvedValue([]);
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => url.includes('/player-identity/') ? Response.json({ results: [{ id: 'player-a', createdAt: '1800000000' }] }) : new Response('', { status: 404 })));
+    await expect(syncUnity(1_800_000_000_000)).rejects.toThrow(/Cloud Save Viewer/);
+    expect(db.query.mock.calls.some((c) => String(c[0]).startsWith('INSERT'))).toBe(false);
   });
   it('a página lê o último snapshot ou explica o que falta', async () => {
     db.configured = false;

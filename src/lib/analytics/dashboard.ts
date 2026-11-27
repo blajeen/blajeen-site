@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { unstable_cache } from 'next/cache';
 import { bancoConfigurado, consultar } from '@/lib/admin/banco';
 import { MissingConfiguration, readAppleReviews, readDevices, readInstalls, readPlayReviews, readRate } from './providers';
+import { readUnity } from './unity';
 import type { Dashboard, Review, Source } from './types';
 
 export async function source<T>(read: () => Promise<T>): Promise<Source<T>> {
@@ -30,10 +31,10 @@ async function archive(play: Source<Review[]>, apple: Source<Review[]>): Promise
   } catch { return 'Histórico indisponível: confira DATABASE_URL e aplique a migration 009. As coletas atuais continuam visíveis.'; }
 }
 export async function getDashboard(): Promise<Dashboard> {
-  const [crash, anr, devices, play, apple, installs] = await Promise.all([
+  const [crash, anr, devices, play, apple, installs, unity] = await Promise.all([
     cached('crash', () => readRate('crash')), cached('anr', () => readRate('anr')), cached('devices', readDevices),
-    cached('play', readPlayReviews), cached('apple', readAppleReviews), cached('installs', readInstalls),
+    cached('play', readPlayReviews), cached('apple', readAppleReviews), cached('installs', readInstalls), source(readUnity),
   ]);
   const history = await archive(play, apple);
-  return { demo: false, crash, anr, devices, play, apple, installs, history };
+  return { demo: false, crash, anr, devices, play, apple, installs, unity, history };
 }

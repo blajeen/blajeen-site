@@ -86,8 +86,85 @@ Quando o dia anterior ainda não foi publicado, diz **sem dados**; nunca usa o �
 - Cache compartilhado do Next por fonte: revalidação de 3.600 segundos, incluindo falhas, sem botão
   de bypass que permita esgotar cotas. A revalidação pode servir uma resposta anterior enquanto atualiza.
   “Conexões e configuração” mostra a data de cada coleta. Troca das credenciais muda a chave do cache.
-- Unity permanece desligado em `readUnity()`. Os seis espaços estão identificados como **Em breve**;
-  integrar somente quando o contrato de telemetria da versão 1.3.7 estiver disponível.
+- A seção **Dentro do jogo** vem dos saves de produção do Unity; detalhes abaixo.
+
+## Unity: telemetria pelos saves de produção
+
+O jogo não manda eventos de analytics. A seção **Dentro do jogo** usa os saves que o próprio jogo sobe para o
+Cloud Save, a mesma fonte de `C:\dev\morvelio\Tools\telemetria\funil_saves.py` (porte em `src/lib/analytics/unity.ts`):
+lista de contas do Unity Authentication (`createdAt`, `lastLoginAt`, `externalIds`) e os itens Protected
+`morvelio_save_v1_account`, `morvelio_save_v1_slot0..10` (`value.data` = base64 de gzip de JSON) e `morvelio_royale_v1`.
+Leitura autorizada pelo PO para métricas agregadas. **A tela mostra só agregados, nunca id nem nome de jogador.**
+
+O que aparece, para “Todas as contas” e “Criadas nos últimos 7 dias”:
+contas, vinculadas × convidados (convidado não sobe save), volta depois de 1/3/7 dias (**aproximada**: último acesso
+menos criação, não é DAU), ativos nos últimos 3 dias, Cerco (% que jogou, mediana de partidas, % só Cerco = zero quest
+principal concluída), economia (medianas de `gold` e `gems.balance` do save da conta) e **onde a campanha parou** (primeira quest
+não concluída do aventureiro mais adiantado, contando **só quests J**: opcionais (O01…) não prendem; com todas as J
+liberadas concluídas, o jogador está na próxima J, ou em FIM depois da última J com título; com o título PT). Mais contas novas por dia (Brasília, 30 dias).
+Continuam **Em breve**: *Escolha inicial* (o jogo grava `firstMode` só em PlayerPrefs do aparelho, não no save) e *Vendas*
+(o saldo de gemas não separa compra de prêmio). Não inventar número para elas.
+
+### Como funciona
+
+- `GET /api/cron/morvelio-saves`, diário às `30 10 * * *` UTC = **07:30 Brasília** (`vercel.json`), só com `CRON_SECRET`.
+- Lista todas as contas (1 requisição por 1000 contas) e relê o save só de quem pode ter mudado: conta nova, login novo
+  desde a última leitura, ou ativa nas 24 h antes da última leitura. Guarda por conta um **resumo anônimo** em
+  `morvelio_unity_accounts` (hash sha256 do id, datas, vinculada, quest onde parou, partidas, ouro e gemas; sem id, nome
+  nem save bruto) e grava o agregado em `morvelio_unity_snapshots`. A página lê só o último snapshot.
+- Conta que sumiu do Unity Authentication (excluída) é apagada de `morvelio_unity_accounts` na coleta seguinte.
+- Limites: Cloud Save Admin aceita 1000 requisições por 30 min por projeto. Cada coleta lê no máximo **900** saves, com
+  8 em paralelo e corte aos 200 s (a função tem 300 s). Ao receber 429 a coleta para e grava o que leu. O que faltar
+  aparece em vermelho na tela e é lido na próxima coleta. A primeira coleta lê todo mundo (~840 contas hoje); as
+  seguintes leem só quem jogou. Não rode o `funil_saves.py` na mesma meia hora do cron: dividem o mesmo limite.
+- Pode chamar a rota de novo com o segredo para completar uma coleta parcial: ela só lê o que falta e **não envia e-mail**.
+- Títulos das quests: o deploy não enxerga o repositório do jogo, então os títulos PT vivem em
+  `src/lib/analytics/quest-titles.json`. Quando o jogo ganhar ou renomear quests, rode
+  `npm run titulos:quests` (ou `node tools/copiar-titulos-quests.mjs C:\caminho\do\morvelio`) e commite o JSON.
+
+### Ligar com dados reais (o que só o PO faz)
+
+1. **Unity Cloud Dashboard** (cloud.unity.com) → menu da organização → Administration → **Service Accounts → New**.
+   Nome: `blajeen-site-leitura`. Em **Project roles**, no projeto do Morvelio, adicione só leitura:
+   **Cloud Save Viewer** e o papel de visualização do **Player Authentication** (precisa do escopo
+   `player_auth.users.list`; o nome exato do papel não foi confirmado na documentação). Nada de Owner, Editor ou papel
+   de organização. Depois **Keys → Add key** e copie Key ID e Secret key (o secret aparece uma vez).
+2. Anote no dashboard o **Project ID** do Morvelio e, em Projects → Environments, o **id** (não o nome) do `production`.
+3. **Vercel** → projeto do site → Settings → Environment Variables → Production. Cole exatamente:
+
+   | Variável | Valor |
+   |---|---|
+   | `UGS_PROJECT_ID` | Project ID do Morvelio |
+   | `UGS_ENVIRONMENT_ID` | id do ambiente `production` |
+   | `UGS_SERVICE_ACCOUNT_KEY_ID` | Key ID da service account |
+   | `UGS_SERVICE_ACCOUNT_SECRET` | Secret key da service account |
+
+   `DATABASE_URL` e `CRON_SECRET` já existem se o resumo das 08h funciona; senão, configure-os também.
+4. O deploy aplica a migration 010 sozinho (prebuild com `DATABASE_URL`). A primeira coleta roda às **07:30**. Para ver
+   na hora, depois do deploy, rode uma vez (PowerShell; troque o segredo, não cole a saída em lugar público):
+   `Invoke-RestMethod https://<domínio>/api/cron/morvelio-saves -Headers @{ Authorization = "Bearer <CRON_SECRET>" }`
+   A resposta traz só contagens: `total` (contas), `read` (saves lidos), `failed`, `pending`.
+   Se vier “Nenhum save lido do Cloud Save”, confira o papel Cloud Save Viewer e o `UGS_ENVIRONMENT_ID`.
+
+### Testar o caminho real no computador, antes do deploy
+
+1. Crie `.env.local` na raiz do site (já ignorado pelo git) com as quatro `UGS_*` acima, `DATABASE_URL` (Neon),
+   `CRON_SECRET` (qualquer valor longo), `ONBOARDING_ADMIN_PASSWORD` e `ONBOARDING_SESSION_SECRET` (para entrar no painel).
+   O `DATABASE_URL` de produção funciona: as tabelas são as mesmas que o cron vai usar. Para isolar, use um branch do Neon.
+2. `node --env-file=.env.local tools/migrate-onboarding.mjs` (aplica a migration 010).
+3. `npm run dev` e, em outro terminal:
+   `Invoke-RestMethod http://127.0.0.1:3000/api/cron/morvelio-saves -Headers @{ Authorization = "Bearer <CRON_SECRET do .env.local>" }`
+   A primeira vez lê todas as contas (cerca de 1 minuto).
+4. Entre em `http://127.0.0.1:3000/admin/analytics/morvelio` (sem `?exemplo=1`). Os números devem bater com o
+   `relatorio.md` do `funil_saves.py` do mesmo dia (mesma regra; pequenas diferenças vêm de contas que jogaram no meio).
+Não confirmado só pela documentação, e por isso conferido neste primeiro teste: a rota dos itens Protected do Cloud Save
+(`.../players/{id}/protected/items?keys=...`) e a unidade de `createdAt`/`lastLoginAt` (o código aceita segundos,
+milissegundos ou ISO).
+
+Sem as variáveis ou sem banco, a tela diz o que falta e o cron responde 503; nada é inventado.
+Fontes consultadas em 27/11/2026: [Player Authentication Admin API](https://services.docs.unity.com/player-auth-admin/v1/),
+[Cloud Save Admin API](https://services.docs.unity.com/cloud-save-admin/v1/),
+[autenticação por service account](https://services.docs.unity.com/docs/service-account-auth/).
 
 ## Validar
 
@@ -95,7 +172,7 @@ Quando o dia anterior ainda não foi publicado, diz **sem dados**; nunca usa o �
 Depois de `npm run dev`, entre pelo login existente e abra
 `http://127.0.0.1:3000/admin/analytics/morvelio?exemplo=1`.
 Alterne “Ver dados reais” para conferir estados sem credenciais.
-Os testes simulam APIs, paginação, CSV UTF-16, isolamento de falhas, limites e autenticação do cron;
+Os testes simulam APIs (incluindo Unity Authentication e Cloud Save), paginação, CSV UTF-16, isolamento de falhas, limites e autenticação do cron;
 não exigem nem usam credenciais reais.
 
 Fontes oficiais consultadas em 14/11/2026:

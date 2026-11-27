@@ -165,7 +165,8 @@ armazenamento e operação estão em [`docs/REDES_SOCIAIS.md`](docs/REDES_SOCIAI
 O painel privado tem **Analytics → Morvelio** em `/admin/analytics/morvelio`.
 Use `?exemplo=1` para revisar números fictícios com o mesmo login administrativo.
 `/admin/morvelio` redireciona para essa seção. Configuração das APIs, cache, histórico,
-resumo às 8h de Brasília para `blajeenlabs@outlook.com` e limites das métricas:
+resumo às 8h de Brasília para `blajeenlabs@outlook.com`, telemetria pelos saves do Unity (coleta às 7h30)
+e limites das métricas:
 [`docs/technical/README_ANALYTICS_MORVELIO.md`](docs/technical/README_ANALYTICS_MORVELIO.md).
 
 ## Fonte de verdade

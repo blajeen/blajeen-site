@@ -1,17 +1,14 @@
-import { timingSafeEqual } from 'node:crypto';
 import { bancoConfigurado, consultar } from '@/lib/admin/banco';
 import { getDashboard } from '@/lib/analytics/dashboard';
 import { dateInZone } from '@/lib/analytics/dates';
 import { buildDailyEmail } from '@/lib/analytics/email';
+import { cronAutorizado } from '@/lib/analytics/cron';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 export async function GET(request: Request) {
-  const secret = process.env.CRON_SECRET;
-  const received = Buffer.from(request.headers.get('authorization') ?? '');
-  const expected = Buffer.from(`Bearer ${secret ?? ''}`);
-  if (!secret || expected.length !== received.length || !timingSafeEqual(expected, received)) return Response.json({ error: 'Não autorizado.' }, { status: 401 });
+  if (!cronAutorizado(request)) return Response.json({ error: 'Não autorizado.' }, { status: 401 });
   const key = process.env.RESEND_API_KEY;
   const from = process.env.ONBOARDING_EMAIL_FROM;
   if (!key || !from || !bancoConfigurado()) return Response.json({ error: 'Configure Resend, remetente e DATABASE_URL; aplique a migration 009.' }, { status: 503 });

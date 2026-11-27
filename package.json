@@ -18,6 +18,7 @@
     "db:migrate": "node tools/migrate-onboarding.mjs",
     "check:content": "node tools/check-content.mjs",
     "build:assets": "node tools/build-assets.mjs",
+    "titulos:quests": "node tools/copiar-titulos-quests.mjs",
     "qa:shots": "node tools/qa-shots.mjs",
     "qa:interacao": "node tools/check-interacao.mjs",
     "qa:contraste": "node tools/check-contraste.mjs",

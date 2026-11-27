@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { dailySummary, number, weekly } from '@/lib/analytics/summary';
 import { dateInZone, shiftDate } from '@/lib/analytics/dates';
-import { LIMITS, UNITY_METRICS, type Dashboard, type Daily, type Review, type Source } from '@/lib/analytics/types';
+import { LIMITS, UNITY_PENDING, type Dashboard, type Daily, type Review, type Source } from '@/lib/analytics/types';
+import type { Cohort } from '@/lib/analytics/unity';
 import styles from './MorvelioAnalytics.module.css';
 
 function date(value: string) { return new Date(`${value.slice(0, 10)}T12:00:00Z`).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' }); }
@@ -29,7 +30,7 @@ function Trend({ source, title, limit, unit = '%' }: { source: Source<Daily[]>; 
     {[0, max / 2, max].map((value) => <g key={value}><line x1="44" y1={y(value)} x2="656" y2={y(value)} stroke="currentColor" opacity=".12" /><text x="36" y={y(value) + 4} textAnchor="end">{number(value, unit ? 2 : 0)}{unit}</text></g>)}
     {limit !== undefined && <g className={styles.limit}><line x1="44" x2="656" y1={y(limit)} y2={y(limit)} stroke="currentColor" strokeDasharray="6 5" /><text x="650" y={y(limit) - 7} textAnchor="end">Google · {number(limit)}%</text></g>}
     {segments.map((segment, i) => <polyline key={i} points={segment.map((p) => `${x(p.date)},${y(p.value)}`).join(' ')} fill="none" stroke="var(--color-signal, #c9f36b)" strokeWidth="2.5" />)}
-    {data.map((p) => <circle key={p.date} cx={x(p.date)} cy={y(p.value)} r="3" fill={limit !== undefined && p.value >= limit ? '#f99a91' : '#c9f36b'}><title>{date(p.date)}: {number(p.value)}{unit}</title></circle>)}
+    {data.map((p) => <circle key={p.date} cx={x(p.date)} cy={y(p.value)} r="3" fill={limit !== undefined && p.value >= limit ? '#f99a91' : '#c9f36b'}><title>{`${date(p.date)}: ${number(p.value)}${unit}`}</title></circle>)}
     <text x="44" y="190">{date(start)}</text><text x="656" y="190" textAnchor="end">{date(shiftDate(end, -1))}</text>
   </svg><details className={styles.details}><summary>Ver valores por dia</summary><div className={styles.tableWrap}><table><thead><tr><th>Data</th><th>{title}</th></tr></thead><tbody>{[...data].reverse().map((p) => <tr key={p.date}><td>{date(p.date)}</td><td>{number(p.value, unit ? 2 : 0)}{unit}</td></tr>)}</tbody></table></div></details></>;
 }
@@ -45,6 +46,37 @@ function Reviews({ source, title }: { source: Source<Review[]>; title: string })
       </article>)}</div>
     </>}
   </Panel>;
+}
+function pct(part: number, whole: number) { return whole ? `${number(100 * part / whole, 0)}%` : '—'; }
+function CohortView({ title, c }: { title: string; c: Cohort }) {
+  const tiles = [
+    { label: 'Contas', value: number(c.accounts, 0), detail: `${c.linked} vinculadas (${pct(c.linked, c.accounts)}) · ${c.guests} convidados (${pct(c.guests, c.accounts)}). Convidado não sobe save para a nuvem.` },
+    { label: 'Voltaram depois de 1 · 3 · 7 dias', value: `${pct(c.returned.d1, c.accounts)} · ${pct(c.returned.d3, c.accounts)} · ${pct(c.returned.d7, c.accounts)}`, detail: 'Aproximado: último acesso menos criação da conta. Não é DAU nem retenção diária de verdade.' },
+    { label: 'Ativos nos últimos 3 dias', value: pct(c.active3, c.accounts), detail: `${number(c.active3, 0)} contas com acesso nos últimos 3 dias` },
+    { label: 'Jogaram o Cerco', value: pct(c.cerco, c.accounts), detail: `Mediana de ${number(c.cercoMedian, 0)} partidas de quem jogou · só Cerco, sem quest da campanha: ${pct(c.onlyCerco, c.accounts)}` },
+    { label: 'Economia: ouro · gemas', value: c.economyAccounts ? `${number(c.goldMedian, 0)} · ${number(c.gemsMedian, 0)}` : '—', detail: `Medianas do saldo no save da conta · ${number(c.economyAccounts, 0)} contas com save` },
+  ];
+  return <Panel title={title} detail={`${number(c.accounts, 0)} contas · ${number(c.withSave, 0)} com save na nuvem${c.unread ? ` · ${number(c.unread, 0)} ainda sem leitura do save` : ''}`}>
+    <div className={`${styles.unity} ${styles.cohort}`}>{tiles.map((m) => <section key={m.label}><h3>{m.label}</h3><strong>{m.value}</strong><small>{m.detail}</small></section>)}</div>
+    <h3 className={styles.subhead}>Onde a campanha parou</h3>
+    <p className={styles.muted}>Primeira quest não concluída do aventureiro mais adiantado, só contas com save na nuvem.</p>
+    {c.stops.length ? <div className={styles.tableWrap}><table><thead><tr><th>Parou em</th><th>Contas</th><th>Acumulado</th></tr></thead><tbody>{c.stops.map((s) => <tr key={s.quest ?? 'none'}><td>{s.quest && s.quest !== 'FIM' ? `${s.quest} · ` : ''}{s.title || 'sem título'}</td><td>{number(s.accounts, 0)}</td><td>{number(100 * s.cumulative, 0)}%</td></tr>)}</tbody></table></div> : <p className={styles.empty}>Nenhuma conta com save na nuvem neste recorte.</p>}
+  </Panel>;
+}
+function InGame({ source }: { source: Dashboard['unity'] }) {
+  const u = source.data;
+  return <>
+    <Panel title="Dentro do jogo" detail={u ? `Saves de produção do Unity · coleta de ${new Date(u.takenAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })} · ${number(u.read, 0)} saves relidos nesta coleta` : 'Saves de produção do Unity · coleta diária às 07:30'}>
+      {u ? <>
+        {u.pending > 0 && <p className={styles.bad}>{number(u.pending, 0)} contas ficaram para a próxima coleta (limite do Unity por execução). Os números abaixo usam a última leitura de cada conta.</p>}
+        <Trend source={{ ...source, data: u.newPerDay }} title="Contas novas" unit="" />
+        <p className={styles.muted}>Contas novas por dia (Brasília), últimos 30 dias. Total de contas: {number(u.total, 0)}.</p>
+      </> : <State source={source} />}
+      <div className={styles.unity}>{UNITY_PENDING.map((m) => <div key={m.label} className={styles.pending}><span className={styles.badge}>Em breve</span><h3>{m.label}</h3><small>{m.reason}</small></div>)}</div>
+    </Panel>
+    {u && <div className={styles.two}><CohortView title="Todas as contas" c={u.all} /><CohortView title="Criadas nos últimos 7 dias" c={u.recent} /></div>}
+    {u && <p className={styles.note}>Leitura só dos saves que o jogo sobe para o Cloud Save (itens morvelio_save_v1_* e morvelio_royale_v1). O painel guarda e mostra apenas agregados, sem ids nem nomes de jogadores.</p>}
+  </>;
 }
 export function MorvelioAnalytics({ data }: { data: Dashboard }) {
   const summary = dailySummary(data);
@@ -73,7 +105,7 @@ export function MorvelioAnalytics({ data }: { data: Dashboard }) {
     <Panel title="Instalações por dia" detail="Android · novas instalações em dispositivos. Downloads do iOS ainda não integrados."><Trend source={{ ...data.installs, data: data.installs.data?.daily ?? null }} title="Instalações" unit="" /></Panel>
     <div className={styles.two}><Reviews source={data.play} title="Avaliações · Google Play" /><Reviews source={data.apple} title="Avaliações · App Store" /></div>
     <p className={styles.note}>A média usa apenas as avaliações com texto coletadas, não a nota geral da loja. Google Play retorna avaliações recentes criadas ou alteradas; Apple não informa versão nem idioma neste endpoint. {data.history}</p>
-    <Panel title="Dentro do jogo" detail="Unity Analytics · aguardando telemetria da versão 1.3.7"><div className={styles.unity}>{UNITY_METRICS.map((label) => <div key={label}><span className={styles.badge}>Em breve</span><h3>{label}</h3><strong>—</strong></div>)}</div></Panel>
-    <details className={styles.config}><summary>Conexões e configuração</summary><p>Credenciais ficam somente no servidor. Cada fonte é independente.</p><ul>{[['Travamentos', data.crash], ['ANR', data.anr], ['Aparelhos', data.devices], ['Avaliações Play', data.play], ['Avaliações Apple', data.apple], ['Instalações', data.installs]].map(([label, raw]) => { const s = raw as Source<unknown>; return <li key={String(label)}><strong>{String(label)}</strong>: {s.status === 'ok' ? 'Consulta concluída' : s.message} · consulta {new Date(s.checkedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</li>; })}</ul><p>Resumo destinado a blajeenlabs@outlook.com (padrão). A ativação depende das variáveis de ambiente, banco e agendamento da hospedagem. Instruções em docs/technical/README_ANALYTICS_MORVELIO.md.</p></details>
+    <InGame source={data.unity} />
+    <details className={styles.config}><summary>Conexões e configuração</summary><p>Credenciais ficam somente no servidor. Cada fonte é independente.</p><ul>{[['Travamentos', data.crash], ['ANR', data.anr], ['Aparelhos', data.devices], ['Avaliações Play', data.play], ['Avaliações Apple', data.apple], ['Instalações', data.installs], ['Saves do Unity', data.unity]].map(([label, raw]) => { const s = raw as Source<unknown>; return <li key={String(label)}><strong>{String(label)}</strong>: {s.status === 'ok' ? 'Consulta concluída' : s.message} · consulta {new Date(s.checkedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</li>; })}</ul><p>Resumo destinado a blajeenlabs@outlook.com (padrão). A ativação depende das variáveis de ambiente, banco e agendamento da hospedagem. Instruções em docs/technical/README_ANALYTICS_MORVELIO.md.</p></details>
   </div>;
 }

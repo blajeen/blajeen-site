@@ -1,3 +1,4 @@
+import type { UnitySnapshot } from './unity';
 export type Source<T> = { status: 'ok' | 'missing' | 'error'; data: T | null; message: string; checkedAt: string };
 export type Daily = { date: string; value: number };
 export type Review = { id: string; store: 'play' | 'apple'; rating: number; text: string; date: string; version: string | null; language: string | null };
@@ -10,9 +11,12 @@ export type Dashboard = {
   play: Source<Review[]>;
   apple: Source<Review[]>;
   installs: Source<Installs>;
+  unity: Source<UnitySnapshot>;
   history: string;
 };
 export const LIMITS = { crash: 1.09, anr: 0.47, alertCrash: 1, alertAnr: 0.4 };
-export const UNITY_METRICS = ['Jogadores ativos por dia', 'Retenção D1 / D7', 'Escolha inicial: Cerco ou Campanha', 'Partidas do Cerco', 'Economia: gemas e ouro', 'Vendas'] as const;
-/** Integração intencionalmente desligada até a telemetria da versão 1.3.7. */
-export async function readUnity(): Promise<null> { return null; }
+/** Espaços sem fonte confiável nos saves: continuam "Em breve" em vez de inventar número. */
+export const UNITY_PENDING = [
+  { label: 'Escolha inicial: Cerco ou Campanha', reason: 'A escolha fica só no aparelho (PlayerPrefs), não no save da nuvem.' },
+  { label: 'Vendas', reason: 'Sem fonte confiável integrada: o saldo de gemas não separa compra de prêmio.' },
+] as const;

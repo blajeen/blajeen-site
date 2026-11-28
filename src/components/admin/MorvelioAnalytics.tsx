@@ -120,7 +120,7 @@ export function MorvelioAnalytics({ data }: { data: Dashboard }) {
       <div className={styles.unity}>{UNITY_PENDING.map((m) => <div key={m.label} className={styles.pending}><span className={styles.badge}>Em breve</span><h3>{m.label}</h3><small>{m.reason}</small></div>)}</div>
     </>} /> },
     { id: 'jornada', label: 'Jornada', content: <InGame source={data.unity} render={(u) => <>
-      <p className={styles.note}>Onde a campanha parou: primeira quest principal (J) não concluída do aventureiro mais adiantado; opcionais não contam. Acumulado = parou ali ou antes.</p>
+      <p className={styles.note}>Onde a campanha parou: primeira quest principal, na ordem da jornada, que o aventureiro mais adiantado não concluiu; opcionais não contam. Acumulado = parou ali ou antes.</p>
       <div className={styles.two}><Journey title="Todas as contas" c={u.all} /><Journey title="Criadas nos últimos 7 dias" c={u.recent} /></div>
     </>} /> },
     { id: 'cerco', label: 'Cerco', content: <InGame source={data.unity} render={(u) => <div className={styles.two}><Cerco title="Todas as contas" c={u.all} /><Cerco title="Criadas nos últimos 7 dias" c={u.recent} /></div>} /> },

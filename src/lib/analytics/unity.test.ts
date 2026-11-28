@@ -2,7 +2,7 @@ import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 const db = vi.hoisted(() => ({ query: vi.fn(), configured: true }));
 vi.mock('@/lib/admin/banco', () => ({ bancoConfigurado: () => db.configured, consultar: db.query }));
-import { aggregate, cohort, journey, listPlayers, QUEST_TITLES, readUnity, summarize, syncUnity, type AccountRow } from './unity';
+import { aggregate, cohort, journey, listPlayers, MAIN_QUESTS, SUMMARY_RULE, QUEST_TITLES, readUnity, summarize, syncUnity, type AccountRow } from './unity';
 import { MissingConfiguration } from './providers';
 import { demoDashboard } from './demo';
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.clearAllMocks(); db.configured = true; });
@@ -24,12 +24,25 @@ describe('resumo por conta (porte do funil_saves.py)', () => {
     });
     expect(s).toEqual({ cloudSave: true, adventurers: 2, claimed: 3, stoppedAt: 'J04', cercoMatches: 7, gold: 350, gems: 40 });
   });
-  it('só quests J contam: opcional aberta não prende; tudo concluído vai para a próxima J ou FIM', () => {
+  it('segue a ordem do catálogo: opcionais (O01, J68, J69) não prendem e quest fora do save conta como não concluída', () => {
     const q = (questId: string, status: number) => ({ questId, status });
+    const all = (status: number, except: string[] = []) => MAIN_QUESTS.filter((id) => !except.includes(id)).map((id) => q(id, status));
+    expect(MAIN_QUESTS.slice(0, 2)).toEqual(['J01', 'J02']);
+    expect(MAIN_QUESTS).not.toContain('J68'); expect(MAIN_QUESTS).not.toContain('J69');
+    expect(MAIN_QUESTS.at(-1)).toBe('J70');
+    expect(MAIN_QUESTS.indexOf('J67')).toBeLessThan(MAIN_QUESTS.indexOf('J60')); // o número não é a ordem
     expect(journey({ campaignQuests: { quests: [q('J01', 4), q('O01', 2), q('J02', 4)] } })).toEqual([2, 'J03']);
-    expect(journey({ campaignQuests: { quests: [q('O01', 2), q('J10', 4), q('J09', 2)] } })).toEqual([1, 'J09']);
-    expect(journey({ campaignQuests: { quests: [q('J66', 4), q('J67', 4), q('O17', 1)] } })).toEqual([2, 'FIM']);
+    expect(journey({ campaignQuests: { quests: [q('O01', 2), q('J10', 4), q('J09', 2)] } })).toEqual([1, 'J01']);
+    expect(journey({ campaignQuests: { quests: [...all(4, ['J28']), q('J68', 2), q('J69', 1)] } })).toEqual([MAIN_QUESTS.length - 1, 'J28']);
+    expect(journey({ campaignQuests: { quests: all(4, ['J60']) } })).toEqual([MAIN_QUESTS.length - 1, 'J60']);
+    expect(journey({ campaignQuests: { quests: [...all(4), q('O17', 1)] } })).toEqual([MAIN_QUESTS.length, 'FIM']);
+    expect(journey({ campaignQuests: { quests: all(4, ['J70']) } })[1]).toBe('J70');
     expect(journey({})).toEqual([0, 'J01']);
+  });
+  it('a tabela de paradas segue a ordem da jornada, não o número', () => {
+    const now = 1_800_000_000;
+    const at = (stoppedAt: string) => ({ createdAt: now, lastLoginAt: now, linked: true, summary: { cloudSave: true, adventurers: 1, claimed: 1, stoppedAt, cercoMatches: 0, gold: 0, gems: 0 } });
+    expect(cohort(['FIM', 'J70', 'J60', 'J67', 'J02'].map(at), now).stops.map((s) => s.quest)).toEqual(['J02', 'J67', 'J60', 'J70', 'FIM']);
   });
   it('conta sem save fica sem aventureiro', () => {
     expect(summarize({ morvelio_save_v1_slot0: packed(quests(4, 4)) }).stoppedAt).toBe('J03');
@@ -83,7 +96,7 @@ describe('API Admin do Unity simulada', () => {
     const { createHash } = await import('node:crypto');
     const h = (id: string) => createHash('sha256').update(`morvelio:${id}`).digest('hex');
     db.query.mockImplementation(async (sql: string) => {
-      if (sql.startsWith('SELECT hash')) return [{ hash: h('player-parado'), read_login_at: String(now - 10 * DAY), read_at: String(now - 9 * DAY) }];
+      if (sql.startsWith('SELECT hash')) return [{ hash: h('player-parado'), read_login_at: String(now - 10 * DAY), read_at: String(now - 9 * DAY), rule: String(SUMMARY_RULE) }];
       if (sql.startsWith('SELECT created_at')) return [{ created_at: now - 2 * DAY, last_login_at: now - DAY, linked: true, summary: summarize({ morvelio_save_v1_slot0: packed(quests(4, 1)) }) }, { created_at: now - 20 * DAY, last_login_at: now - 10 * DAY, linked: false, summary: null }];
       return [];
     });
@@ -104,6 +117,21 @@ describe('API Admin do Unity simulada', () => {
     expect(snapshot[1]).not.toMatch(/player-/);
     for (const [, params] of calls) expect(params).not.toMatch(/player-/); // nenhum id chega ao banco
     expect(JSON.parse(JSON.parse(snapshot[1])[1])).toMatchObject({ pending: 1, all: { accounts: 2 } });
+  });
+  it('regra do resumo nova relê até quem não jogou, e grava a versão da regra', async () => {
+    ugs();
+    const now = 1_800_000_000;
+    const { createHash } = await import('node:crypto');
+    db.query.mockImplementation(async (sql: string) => sql.startsWith('SELECT hash') ? [{ hash: createHash('sha256').update('morvelio:player-parado').digest('hex'), read_login_at: String(now - 10 * DAY), read_at: String(now - 9 * DAY), rule: '1' }] : []);
+    const read: string[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+      if (url.includes('/player-identity/')) return Response.json({ results: [{ id: 'player-parado', createdAt: String(now - 20 * DAY), lastLoginAt: String(now - 10 * DAY) }] });
+      read.push(url); return Response.json({ results: [] });
+    }));
+    await syncUnity(now * 1000);
+    expect(read).toHaveLength(1);
+    const insert = db.query.mock.calls.find((c) => String(c[0]).startsWith('INSERT INTO morvelio_unity_accounts'))!;
+    expect(JSON.parse((insert[1] as string[])[0]!)[0].summary.rule).toBe(SUMMARY_RULE);
   });
   it('se nenhum save do lote for lido, não grava nada e diz o que conferir', async () => {
     ugs(); db.query.mockResolvedValue([]);

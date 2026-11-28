@@ -105,9 +105,10 @@ Leitura autorizada pelo PO para métricas agregadas. **A tela mostra só agregad
 O que aparece, para “Todas as contas” e “Criadas nos últimos 7 dias”:
 contas, vinculadas × convidados (convidado não sobe save), volta depois de 1/3/7 dias (**aproximada**: último acesso
 menos criação, não é DAU), ativos nos últimos 3 dias, Cerco (% que jogou, mediana de partidas, % só Cerco = zero quest
-principal concluída), economia (medianas de `gold` e `gems.balance` do save da conta) e **onde a campanha parou** (primeira quest
-não concluída do aventureiro mais adiantado, contando **só quests J**: opcionais (O01…) não prendem; com todas as J
-liberadas concluídas, o jogador está na próxima J, ou em FIM depois da última J com título; com o título PT). Mais contas novas por dia (Brasília, 30 dias).
+principal concluída), economia (medianas de `gold` e `gems.balance` do save da conta) e **onde a campanha parou** (a primeira quest
+**principal**, na ordem do catálogo do jogo, que o aventureiro mais adiantado não concluiu; quest ainda fora da lista
+do save conta como não concluída; nenhuma faltando = FIM; com o título PT). O número da quest não é a ordem: J68 e J69
+são opcionais (entre J27 e J28), a J67 e as J64–J66 vêm antes da J60 no catálogo e a J70 é a última principal. Mais contas novas por dia (Brasília, 30 dias).
 Continuam **Em breve**: *Escolha inicial* (o jogo grava `firstMode` só em PlayerPrefs do aparelho, não no save) e *Vendas*
 (o saldo de gemas não separa compra de prêmio). Não inventar número para elas.
 
@@ -118,15 +119,19 @@ Continuam **Em breve**: *Escolha inicial* (o jogo grava `firstMode` só em Playe
   desde a última leitura, ou ativa nas 24 h antes da última leitura. Guarda por conta um **resumo anônimo** em
   `morvelio_unity_accounts` (hash sha256 do id, datas, vinculada, quest onde parou, partidas, ouro e gemas; sem id, nome
   nem save bruto) e grava o agregado em `morvelio_unity_snapshots`. A página lê só o último snapshot.
+- Cada resumo grava a versão da regra (`SUMMARY_RULE` em `unity.ts`). Ao mudar a regra do resumo, suba esse número:
+  a coleta seguinte relê todos os saves, inclusive de quem não jogou (cabe no limite de 900 enquanto houver menos contas).
 - Conta que sumiu do Unity Authentication (excluída) é apagada de `morvelio_unity_accounts` na coleta seguinte.
 - Limites: Cloud Save Admin aceita 1000 requisições por 30 min por projeto. Cada coleta lê no máximo **900** saves, com
   8 em paralelo e corte aos 200 s (a função tem 300 s). Ao receber 429 a coleta para e grava o que leu. O que faltar
   aparece em vermelho na tela e é lido na próxima coleta. A primeira coleta lê todo mundo (~840 contas hoje); as
   seguintes leem só quem jogou. Não rode o `funil_saves.py` na mesma meia hora do cron: dividem o mesmo limite.
 - Pode chamar a rota de novo com o segredo para completar uma coleta parcial: ela só lê o que falta e **não envia e-mail**.
-- Títulos das quests: o deploy não enxerga o repositório do jogo, então os títulos PT vivem em
-  `src/lib/analytics/quest-titles.json`. Quando o jogo ganhar ou renomear quests, rode
-  `npm run titulos:quests` (ou `node tools/copiar-titulos-quests.mjs C:\caminho\do\morvelio`) e commite o JSON.
+- Títulos e ordem das quests: o deploy não enxerga o repositório do jogo, então os títulos PT vivem em
+  `src/lib/analytics/quest-titles.json` e a lista ordenada das principais (do `MvlCampaignQuestCatalogData.cs`, só
+  `optional == false`, com constantes como `MvlSeaCove.Quest` resolvidas) em `src/lib/analytics/main-quests.json`.
+  Mesma regra de `main_journey()` do `funil_saves.py`. Quando o jogo ganhar, renomear ou reordenar quests, rode
+  `npm run titulos:quests` (ou `node tools/copiar-titulos-quests.mjs C:\caminho\do\morvelio`) e commite os dois JSON.
 
 ### Ligar com dados reais (o que só o PO faz)
 

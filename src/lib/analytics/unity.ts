@@ -3,6 +3,7 @@ import { gunzipSync } from 'node:zlib';
 import { bancoConfigurado, consultar } from '@/lib/admin/banco';
 import { dateInZone, shiftDate } from './dates';
 import { MissingConfiguration } from './providers';
+import mainQuests from './main-quests.json';
 import titles from './quest-titles.json';
 import type { Daily } from './types';
 
@@ -14,6 +15,8 @@ const API = 'https://services.api.unity.com';
 const DAY = 86400;
 /** Cloud Save Admin aceita 1000 requisições por 30 minutos; sobra margem para o funil_saves.py e novas tentativas. */
 export const MAX_READS = 900;
+/** Suba quando mudar a regra do resumo por conta (ex.: onde a jornada parou): força a releitura de todos os saves. */
+export const SUMMARY_RULE = 2;
 const WORKERS = 8;
 const DEADLINE_MS = 200_000; // a rota tem 300 s; o resto fica para gravar no banco
 export const QUEST_TITLES: Record<string, string> = titles;
@@ -43,19 +46,16 @@ export function decode(value: unknown): Json | null {
   try { return JSON.parse(gunzipSync(Buffer.from(String((value as Json).data), 'base64')).toString('utf8')) as Json; }
   catch { return null; }
 }
-const MAIN = /^J\d+$/;
-const LAST_MAIN = Math.max(...Object.keys(titles).filter((k) => MAIN.test(k)).map((k) => Number(k.slice(1))));
+/** Quests principais na ordem do catálogo do jogo (tools/copiar-titulos-quests.mjs); o número da quest não é a ordem. */
+export const MAIN_QUESTS: string[] = mainQuests;
 /**
- * (quests principais concluídas, onde a jornada principal está). Só quests J contam: as opcionais (O01, O17...) ficam abertas
- * enquanto o jogador segue. A lista guarda só as quests já liberadas: com todas as J concluídas, ele está na próxima J
- * (ou FIM depois da última J com título).
+ * (quests principais concluídas, onde a jornada principal está): a primeira principal, na ordem do catálogo, que não está
+ * concluída (status 4). Quest ainda fora da lista do save conta como não concluída; opcionais nunca prendem. Nenhuma: FIM.
  */
 export function journey(slot: Json): [number, string] {
-  const quests = (((slot.campaignQuests as Json | undefined)?.quests as Json[] | undefined) ?? []).filter((q) => MAIN.test(String(q.questId ?? '')));
-  const claimed = quests.filter((q) => q.status === STATUS_CLAIMED).map((q) => Number(String(q.questId).slice(1)));
-  const open = quests.filter((q) => q.status !== STATUS_CLAIMED).map((q) => Number(String(q.questId).slice(1))).sort((a, b) => a - b);
-  const at = open.length ? open[0]! : Math.max(0, ...claimed) + 1;
-  return [claimed.length, !open.length && at > LAST_MAIN ? 'FIM' : `J${String(at).padStart(2, '0')}`];
+  const status = new Map((((slot.campaignQuests as Json | undefined)?.quests as Json[] | undefined) ?? []).map((q) => [String(q.questId ?? ''), q.status]));
+  const claimed = MAIN_QUESTS.filter((q) => status.get(q) === STATUS_CLAIMED).length;
+  return [claimed, MAIN_QUESTS.find((q) => status.get(q) !== STATUS_CLAIMED) ?? 'FIM'];
 }
 const int = (v: unknown) => Math.trunc(Number(v) || 0);
 export function summarize(stored: Record<string, unknown>): AccountSummary {
@@ -77,7 +77,7 @@ export function summarize(stored: Record<string, unknown>): AccountSummary {
 }
 
 const median = (values: number[]) => { const s = [...values].sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)]! : null; }; // mediana superior, igual ao script
-const order = (q: string | null) => (q === null ? 2e9 : q === 'FIM' ? 1e9 : /^\D\d+$/.test(q) ? Number(q.slice(1)) : 999);
+const order = (q: string | null) => (q === null ? 2e9 : q === 'FIM' ? 1e9 : MAIN_QUESTS.includes(q) ? MAIN_QUESTS.indexOf(q) : 999); // ordem da jornada, como o script
 export function cohort(rows: AccountRow[], now: number): Cohort {
   const read = rows.filter((r) => r.summary).map((r) => ({ ...r, s: r.summary! }));
   const saved = read.filter((r) => r.s.cloudSave);
@@ -162,9 +162,9 @@ export async function syncUnity(nowMs = Date.now()) {
   if (!bancoConfigurado()) throw new MissingConfiguration('Configure DATABASE_URL e aplique a migration 010.');
   const now = Math.floor(nowMs / 1000);
   const players = await listPlayers();
-  const known = new Map((await consultar<{ hash: string; read_login_at: unknown; read_at: unknown }>('SELECT hash, read_login_at, read_at FROM morvelio_unity_accounts')).map((r) => [r.hash, { last: Number(r.read_login_at), read: r.read_at === null ? null : Number(r.read_at) }]));
+  const known = new Map((await consultar<{ hash: string; read_login_at: unknown; read_at: unknown; rule: unknown }>("SELECT hash, read_login_at, read_at, summary->>'rule' AS rule FROM morvelio_unity_accounts")).map((r) => [r.hash, { last: Number(r.read_login_at), read: r.read_at === null ? null : Number(r.read_at), rule: r.rule === null || r.rule === undefined ? null : Number(r.rule) }]));
   const listed = players.map((p) => ({ p, hash: hash(p.id), created: seconds(p.createdAt), last: seconds(p.lastLoginAt) || seconds(p.createdAt), linked: !!p.externalIds?.length }));
-  const due = listed.filter((a) => { const k = known.get(a.hash); return !k || k.read === null || k.last !== a.last || a.last > k.read - DAY; })
+  const due = listed.filter((a) => { const k = known.get(a.hash); return !k || k.read === null || k.rule !== SUMMARY_RULE || k.last !== a.last || a.last > k.read - DAY; })
     .sort((a, b) => Number(known.get(a.hash)?.read != null) - Number(known.get(b.hash)?.read != null));
   const batch = due.slice(0, MAX_READS);
   const summaries = new Map<string, AccountSummary>();
@@ -179,7 +179,7 @@ export async function syncUnity(nowMs = Date.now()) {
   }));
   // Nada lido de um lote inteiro é configuração (papel, ambiente ou rota), não dado: não grava retrato vazio.
   if (batch.length && !summaries.size && !stopped) throw new MissingConfiguration('Nenhum save lido do Cloud Save. Confira o papel Cloud Save Viewer da service account e o id em UGS_ENVIRONMENT_ID.');
-  const payload = listed.map((a) => ({ hash: a.hash, created: a.created, last: a.last, linked: a.linked, summary: summaries.get(a.hash) ?? null, read: summaries.has(a.hash) ? now : null, readLogin: summaries.has(a.hash) ? a.last : null }));
+  const payload = listed.map((a) => ({ hash: a.hash, created: a.created, last: a.last, linked: a.linked, summary: summaries.has(a.hash) ? { ...summaries.get(a.hash), rule: SUMMARY_RULE } : null, read: summaries.has(a.hash) ? now : null, readLogin: summaries.has(a.hash) ? a.last : null }));
   await consultar(`INSERT INTO morvelio_unity_accounts (hash, created_at, last_login_at, linked, summary, read_at, read_login_at)
     SELECT x->>'hash', (x->>'created')::bigint, (x->>'last')::bigint, (x->>'linked')::boolean, NULLIF(x->'summary', 'null'::jsonb), (x->>'read')::bigint, (x->>'readLogin')::bigint
     FROM jsonb_array_elements($1::jsonb) x
